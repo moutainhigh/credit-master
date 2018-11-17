@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanRepaymentDetailMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.loan.domain.LoanRepaymentDetail">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="CURRENT_ACCRUAL" property="currentAccrual"
+			jdbcType="DECIMAL" />
+		<result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+		<result column="GIVE_BACK_RATE" property="giveBackRate"
+			jdbcType="DECIMAL" />
+		<result column="PRINCIPAL_BALANCE" property="principalBalance"
+			jdbcType="DECIMAL" />
+		<result column="REPAYMENT_ALL" property="repaymentAll"
+			jdbcType="DECIMAL" />
+		<result column="RETURN_DATE" property="returnDate" jdbcType="TIMESTAMP" />
+		<result column="DEFICIT" property="deficit" jdbcType="DECIMAL" />
+		<result column="REPAYMENT_STATE" property="repaymentState"
+			jdbcType="VARCHAR" />
+		<result column="FACT_RETURN_DATE" property="factReturnDate"
+			jdbcType="TIMESTAMP" />
+		<result column="PENALTY_DATE" property="penaltyDate" jdbcType="TIMESTAMP" />
+		<result column="RETURNETERM" property="returneterm" jdbcType="DECIMAL" />
+		<result column="PENALTY" property="penalty" jdbcType="DECIMAL" />
+		<result column="ACCRUAL_REVISE" property="accrualRevise"
+			jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="BACK_TIME" property="backTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, CURRENT_ACCRUAL, CURRENT_TERM, GIVE_BACK_RATE,
+		PRINCIPAL_BALANCE, REPAYMENT_ALL,
+		RETURN_DATE, DEFICIT, REPAYMENT_STATE, FACT_RETURN_DATE, PENALTY_DATE,
+		RETURNETERM,
+		PENALTY, ACCRUAL_REVISE, CREATE_TIME, UPDATE_TIME,BACK_TIME
+	</sql>
+	<select id="get" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<sql id="loanRepaymentDetailSelective">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL
+	</sql>
+	<sql id="loanRepaymentDetailConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null">
+				AND LOAN_ID = #{loanId, jdbcType=DECIMAL}
+			</if>
+			<if test="CurrTermReturnDate != null">
+				AND return_date &lt;= #{CurrTermReturnDate,
+				jdbcType=TIMESTAMP}
+			</if>
+			<if test="state1 != null and state2 != null and state3 != null">
+				AND REPAYMENT_STATE in (#{state1},#{state2},#{state3})
+			</if>
+
+			<if test="repaymentStates != null">
+				AND REPAYMENT_STATE in
+				<foreach collection="repaymentStates" item="repaymentState" open="(" close=")" separator=",">
+					#{repaymentState}
+				</foreach>
+			</if>
+
+			<if test="currentTerm != null">
+				AND CURRENT_TERM = #{currentTerm, jdbcType=DECIMAL}
+			</if>
+			<if test="loanIds != null">
+				AND LOAN_ID in
+				<foreach collection="loanIds" item="loanIdd" open="(" close=")" separator=",">
+					#{loanIdd}
+				</foreach>
+			</if>
+			<if test="currentDate != null" >
+				 AND RETURN_DATE &lt; LAST_DAY(TO_DATE('${currentDate}', 'YYYYMM'))
+     		</if>
+		</trim>
+	</sql>
+	<sql id="loanRepaymentDetailInSumDeficit">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null">
+				AND LOAN_ID = #{loanId}
+			</if>
+			<if test="state1 != null">
+				AND REPAYMENT_STATE &lt;&gt; #{state1}
+			</if>
+		</trim>
+	</sql>
+	<sql id = "loanRepaymentDetailOrderByConditions">
+		ORDER BY CURRENT_TERM
+	</sql>
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="loanRepaymentDetailSelective" />
+		<include refid="loanRepaymentDetailConditions" />
+		<include refid="loanRepaymentDetailOrderByConditions" />
+	</select>
+
+	<select id="findByLoanIdAndRepaymentState" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL
+		<include refid="loanRepaymentDetailConditions" />
+		ORDER BY CURRENT_TERM ASC
+	</select>
+
+	<select id="findByLoanIdAndRepaymentStateInSum" resultType="java.math.BigDecimal"
+		parameterType="java.util.Map">
+		select
+		sum(DEFICIT) as DEFICIT
+		from LOAN_REPAYMENT_DETAIL
+		<include refid="loanRepaymentDetailInSumDeficit" />
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from LOAN_REPAYMENT_DETAIL
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetail">
+		insert into LOAN_REPAYMENT_DETAIL (ID, LOAN_ID, CURRENT_ACCRUAL,
+		CURRENT_TERM, GIVE_BACK_RATE, PRINCIPAL_BALANCE,
+		REPAYMENT_ALL, RETURN_DATE, DEFICIT,
+		REPAYMENT_STATE, FACT_RETURN_DATE, PENALTY_DATE,
+		RETURNETERM, PENALTY, ACCRUAL_REVISE,
+		CREATE_TIME, UPDATE_TIME,BACK_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{currentAccrual,jdbcType=DECIMAL},
+		#{currentTerm,jdbcType=DECIMAL}, #{giveBackRate,jdbcType=DECIMAL},
+		#{principalBalance,jdbcType=DECIMAL},
+		#{repaymentAll,jdbcType=DECIMAL}, #{returnDate,jdbcType=TIMESTAMP},
+		#{deficit,jdbcType=DECIMAL},
+		#{repaymentState,jdbcType=VARCHAR}, #{factReturnDate,jdbcType=TIMESTAMP},
+		#{penaltyDate,jdbcType=TIMESTAMP},
+		#{returneterm,jdbcType=DECIMAL}, #{penalty,jdbcType=DECIMAL}, #{accrualRevise,jdbcType=DECIMAL},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{backTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetail">
+		insert into LOAN_REPAYMENT_DETAIL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="currentAccrual != null">
+				CURRENT_ACCRUAL,
+			</if>
+			<if test="currentTerm != null">
+				CURRENT_TERM,
+			</if>
+			<if test="giveBackRate != null">
+				GIVE_BACK_RATE,
+			</if>
+			<if test="principalBalance != null">
+				PRINCIPAL_BALANCE,
+			</if>
+			<if test="repaymentAll != null">
+				REPAYMENT_ALL,
+			</if>
+			<if test="returnDate != null">
+				RETURN_DATE,
+			</if>
+			<if test="deficit != null">
+				DEFICIT,
+			</if>
+			<if test="repaymentState != null">
+				REPAYMENT_STATE,
+			</if>
+			<if test="factReturnDate != null">
+				FACT_RETURN_DATE,
+			</if>
+			<if test="penaltyDate != null">
+				PENALTY_DATE,
+			</if>
+			<if test="returneterm != null">
+				RETURNETERM,
+			</if>
+			<if test="penalty != null">
+				PENALTY,
+			</if>
+			<if test="accrualRevise != null">
+				ACCRUAL_REVISE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="backTime != null">
+				BACK_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="currentAccrual != null">
+				#{currentAccrual,jdbcType=DECIMAL},
+			</if>
+			<if test="currentTerm != null">
+				#{currentTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="giveBackRate != null">
+				#{giveBackRate,jdbcType=DECIMAL},
+			</if>
+			<if test="principalBalance != null">
+				#{principalBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentAll != null">
+				#{repaymentAll,jdbcType=DECIMAL},
+			</if>
+			<if test="returnDate != null">
+				#{returnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deficit != null">
+				#{deficit,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentState != null">
+				#{repaymentState,jdbcType=VARCHAR},
+			</if>
+			<if test="factReturnDate != null">
+				#{factReturnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="penaltyDate != null">
+				#{penaltyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returneterm != null">
+				#{returneterm,jdbcType=DECIMAL},
+			</if>
+			<if test="penalty != null">
+				#{penalty,jdbcType=DECIMAL},
+			</if>
+			<if test="accrualRevise != null">
+				#{accrualRevise,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="backTime != null">
+				#{backTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetail">
+		update LOAN_REPAYMENT_DETAIL
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="currentAccrual != null">
+				CURRENT_ACCRUAL = #{currentAccrual,jdbcType=DECIMAL},
+			</if>
+			<if test="currentTerm != null">
+				CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="giveBackRate != null">
+				GIVE_BACK_RATE = #{giveBackRate,jdbcType=DECIMAL},
+			</if>
+			<if test="principalBalance != null">
+				PRINCIPAL_BALANCE = #{principalBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentAll != null">
+				REPAYMENT_ALL = #{repaymentAll,jdbcType=DECIMAL},
+			</if>
+			<if test="returnDate != null">
+				RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deficit != null">
+				DEFICIT = #{deficit,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentState != null">
+				REPAYMENT_STATE = #{repaymentState,jdbcType=VARCHAR},
+			</if>
+			<if test="factReturnDate != null">
+				FACT_RETURN_DATE = #{factReturnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="penaltyDate != null">
+				PENALTY_DATE = #{penaltyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returneterm != null">
+				RETURNETERM = #{returneterm,jdbcType=DECIMAL},
+			</if>
+			<if test="penalty != null">
+				PENALTY = #{penalty,jdbcType=DECIMAL},
+			</if>
+			<if test="accrualRevise != null">
+				ACCRUAL_REVISE = #{accrualRevise,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="backTime != null">
+				BACK_TIME = #{backTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetail">
+		update LOAN_REPAYMENT_DETAIL
+		set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		CURRENT_ACCRUAL = #{currentAccrual,jdbcType=DECIMAL},
+		CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+		GIVE_BACK_RATE = #{giveBackRate,jdbcType=DECIMAL},
+		PRINCIPAL_BALANCE = #{principalBalance,jdbcType=DECIMAL},
+		REPAYMENT_ALL = #{repaymentAll,jdbcType=DECIMAL},
+		RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP},
+		DEFICIT = #{deficit,jdbcType=DECIMAL},
+		REPAYMENT_STATE = #{repaymentState,jdbcType=VARCHAR},
+		FACT_RETURN_DATE = #{factReturnDate,jdbcType=TIMESTAMP},
+		PENALTY_DATE = #{penaltyDate,jdbcType=TIMESTAMP},
+		RETURNETERM = #{returneterm,jdbcType=DECIMAL},
+		PENALTY = #{penalty,jdbcType=DECIMAL},
+		ACCRUAL_REVISE = #{accrualRevise,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_REPAYMENT_DETAIL
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND LOAN_REPAYMENT_DETAIL.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_REPAYMENT_DETAIL.LOAN_ID = #{loanId}
+			</if>
+			<if test="returnDate != null ">
+				AND LOAN_REPAYMENT_DETAIL.RETURN_DATE = #{returnDate}
+			</if>
+			<if test="currentTerm != null and currentTerm != '' ">
+				AND LOAN_REPAYMENT_DETAIL.CURRENT_TERM = #{currentTerm}
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetail"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+		ORDER BY ID DESC
+	</select>
+
+	<select id="getDrawRiskSumDeficit" parameterType="java.util.Map"
+		resultType="java.math.BigDecimal">
+		select sum(deficit) as sumdeficit
+		from loan_repayment_detail r
+		where r.loan_id = #{loanId, jdbcType=DECIMAL}
+		and r.return_date <![CDATA[<=]]>
+		#{currDate, jdbcType=TIMESTAMP}
+		and r.return_date <![CDATA[>]]>
+		#{minDate, jdbcType=TIMESTAMP}
+		and repayment_state <![CDATA[<>]]>
+		#{state, jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateYCXJQAllStateToSettlementByLoanId"
+		parameterType="java.util.Map">
+		UPDATE loan_repayment_detail a
+		SET a.REPAYMENT_STATE = '结清', a.FACT_RETURN_DATE = #{tradeDate},
+		a.BACK_TIME= trunc(sysdate),
+		a.UPDATE_TIME=sysdate
+		WHERE a.LOAN_ID = #{loanId}
+		AND a.REPAYMENT_STATE IN
+		('未还款', '不足额还款', '不足罚息 ')
+	</update>
+
+	<update id="updateYCXJQAllDeficitToZeroByLoanId" parameterType="java.util.Map">
+		UPDATE loan_repayment_detail a
+		SET a.DEFICIT = 0, a.UPDATE_TIME=sysdate
+		WHERE a.LOAN_ID = #{loanId} AND a.REPAYMENT_STATE = '结清'
+	</update>
+
+
+	<delete id="deleteByLoanId" parameterType="java.lang.Long">
+		DELETE FROM LOAN_REPAYMENT_DETAIL
+		WHERE LOAN_ID = #{lonId,jdbcType=DECIMAL}
+	</delete>
+
+	<sql id="findListByConditions">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+	</sql>
+
+	<!-- 通过Map参数集合分页查询 -->
+	<select id="findListWithPGByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="findListByConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<!-- 查询总件数 -->
+	<select id="findCountByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM (
+		<include refid="findListByConditions" />
+		)
+	</select>
+
+	<!-- 查询当前利息 -->
+	<select id="findCurrentAccrual" parameterType="java.util.Map"
+		resultType="java.math.BigDecimal">
+		SELECT ( (SELECT SUM(RETURNETERM) FROM LOAN_REPAYMENT_DETAIL WHERE
+		LOAN_ID = #{lonId,jdbcType=DECIMAL}) -
+		(SELECT SUM(CURRENT_ACCRUAL) FROM LOAN_REPAYMENT_DETAIL WHERE LOAN_ID =
+		#{lonId,jdbcType=DECIMAL} AND CURRENT_TERM <![CDATA[<]]>
+		#{TIME,jdbcType=DECIMAL}) -
+		(SELECT PACT_MONEY FROM LOAN_PRODUCT WHERE LOAN_ID =
+		#{lonId,jdbcType=DECIMAL}))
+		FROM LOAN_REPAYMENT_DETAIL WHERE LOAN_ID = #{lonId,jdbcType=DECIMAL} AND
+		CURRENT_TERM = #{time,jdbcType=DECIMAL}
+	</select>
+
+   <select id="findRepaymentDetailByLoanAndReturnDate" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_REPAYMENT_DETAIL WHERE LOAN_ID = #{loanId,jdbcType=DECIMAL} 
+    <if test="returnDate != null" >
+     AND  to_char(return_date,'YYYY-MM-DD') = #{returnDate}
+      </if>
+  </select>
+  
+  <!--计算还款等级-->
+	  <select id="findRepaymentLevel" resultType="java.lang.String"
+			parameterType="java.util.Map">
+			
+		<!-- SELECT NVL(CASE
+         WHEN R.MAXOVERDUEDATE <![CDATA[<=]]> 0 THEN
+          'A'
+         WHEN R.MAXOVERDUEDATE <![CDATA[>]]> 0 AND R.MAXOVERDUEDATE <![CDATA[<=]]> 10 THEN
+          'B'
+         WHEN R.MAXOVERDUEDATE <![CDATA[>]]> 10 AND R.MAXOVERDUEDATE <![CDATA[<=]]> 20 THEN
+          'C'
+         WHEN R.MAXOVERDUEDATE <![CDATA[>]]> 20 THEN
+          'D'
+       END,'A') REPAYMENTLEVEL
+  	   FROM (SELECT MAX(NVL(FACT_RETURN_DATE, TRUNC(SYSDATE)) - RETURN_DATE) MAXOVERDUEDATE
+          FROM (SELECT * FROM LOAN_REPAYMENT_DETAIL WHERE LOAN_ID = #{loanId,jdbcType=DECIMAL} AND RETURN_DATE <![CDATA[<=]]> SYSDATE  ORDER BY  RETURN_DATE DESC)
+         WHERE  ROWNUM <![CDATA[<=]]> 6 ) R -->
+         
+         SELECT REPAY_LEVEL FROM (SELECT * FROM LOAN_REPAYMENT_LEVEL_HIS WHERE LOAN_ID = #{loanId,jdbcType=DECIMAL} ORDER BY CURRENT_TERM desc) WHERE rownum=1
+
+	</select>
+
+	<select id="findEqualCurrentTerm" resultMap="BaseResultMap"
+			parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL
+		WHERE 1=1
+		<if test="loanId != null">
+			AND LOAN_ID = #{loanId, jdbcType=DECIMAL}
+		</if>
+		<if test="currentTerms != null">
+			AND CURRENT_TERM IN
+			<foreach collection="currentTerms" item="currentTerm" open="(" close=")" separator=",">
+				#{currentTerm}
+			</foreach>
+		</if>
+		ORDER BY CURRENT_TERM ASC
+	</select>
+
+	<select id="findTrustRepaymentState" resultMap="BaseResultMap"
+			parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL
+		WHERE 1=1
+		<if test="loanId != null">
+			AND LOAN_ID = #{loanId}
+		</if>
+		<if test="CurrTermReturnDate != null">
+			AND return_date &gt;= #{CurrTermReturnDate}
+		</if>
+		<if test="repaymentStates != null">
+			AND REPAYMENT_STATE in
+			<foreach collection="repaymentStates" item="repaymentState" open="(" close=")" separator=",">
+				#{repaymentState}
+			</foreach>
+		</if>
+		ORDER BY CURRENT_TERM ASC
+	</select>
+
+	<select id="findBigCurrentTerm" resultMap="BaseResultMap"
+			parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL
+		WHERE 1=1
+		<if test="loanId != null">
+			AND LOAN_ID = #{loanId, jdbcType=DECIMAL}
+		</if>
+		<if test="currentTerm != null">
+			AND CURRENT_TERM  &gt;  #{currentTerm}
+		</if>
+		ORDER BY CURRENT_TERM ASC
+	</select>
+	
+	<select id="findByLoanBelongAndReturnDate" resultMap="BaseResultMap"
+			parameterType="java.util.Map">
+		select 
+		<include refid="Base_Column_List"></include>
+		  from loan_base lb, loan_repayment_detail lr
+		 where lb.id = lr.loan_id
+		   and lb.loan_belong = #{loanBelong}
+		   and lr.return_date = #{returnDate}
+		   and lb.loan_state = '正常'
+		   and lr.repayment_state = '结清'
+	</select>
+	
+	<!--陆金所  还款日当天查询当期逾期的借款信息 -->
+    <select id="findOverdueCompensatoryToLufax" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        	R.RETURNETERM,L.ID,L.LOAN_STATE,L.LOAN_BELONG
+		FROM V_LOAN_INFO L , LOAN_REPAYMENT_DETAIL R WHERE  R.LOAN_ID = L.ID AND  R.CURRENT_TERM = L.CURRENT_TERM
+		<if test="promiseReturnDate != null and promiseReturnDate != ''">
+	   			AND L.PROMISE_RETURN_DATE  = #{promiseReturnDate}
+	   	</if>
+	   	<if test="loanState != null and loanState != ''">
+	   			AND L.LOAN_STATE  = #{loanState}
+	   	</if>
+	   	<if test="loanBelong != null and loanBelong != ''">
+	   			AND L.LOAN_BELONG  = #{loanBelong}
+	   	</if>
+    </select>
+    
+    <select id="findByLoanIdAndFactReturnDate" resultMap="BaseResultMap"
+			parameterType="java.util.Map">
+		select 
+		<include refid="Base_Column_List"></include>
+		  from loan_repayment_detail 
+		 where loan_id = #{loanId}
+		<if test="factReturnDate == null">
+	   			AND fact_return_date  is null
+	   	</if>
+	 	<if test="factReturnDate != null">
+	   			AND fact_return_date  = #{factReturnDate}
+	   	</if>
+	</select>
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.app.domain.AppEmployeeManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.app.domain.AppEmployeeManager" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="DECIMAL" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="BaseResultMap_Employee" type="com.zdmoney.credit.app.domain.AppEmployeeManagerResult" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USERCODE" property="userCode" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updateTimeStr" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="EMPLOYEE_TYPE" property="employeeType" jdbcType="VARCHAR" />
+    <result column="ORGNAME" property="orgName" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, EMPLOYEE_ID, OPERATOR, UPDATETIME, STATE
+  </sql>
+   <sql id="Base_Column_List_APP_EMPLOYEE_MANAGER" >
+    t.id id, t.state state, a.name name, a.usercode usercode, a.employee_type employee_type,a.org_id org_id,c.full_name orgname,to_char(t.updatetime,'yyyy-mm-dd hh24:mi:ss') updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from APP_EMPLOYEE_MANAGER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from APP_EMPLOYEE_MANAGER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.app.domain.AppEmployeeManager" >
+  	<selectKey keyProperty="id" order="BEFORE" resultType="long">
+         select <include refid="TABLE_SEQUENCE" /> from dual
+    </selectKey>
+    insert into APP_EMPLOYEE_MANAGER (ID, EMPLOYEE_ID, OPERATOR, 
+      UPDATETIME, STATE)
+    values (#{id,jdbcType=DECIMAL}, #{employeeId,jdbcType=DECIMAL}, #{operator,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.app.domain.AppEmployeeManager" >
+    insert into APP_EMPLOYEE_MANAGER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.app.domain.AppEmployeeManager" >
+    update APP_EMPLOYEE_MANAGER
+    <set >
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.app.domain.AppEmployeeManager" >
+    update APP_EMPLOYEE_MANAGER
+    set EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="findListWithPGByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap_Employee">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="findListByConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+ </select>
+ 
+  <sql id="findListByConditions">
+		<include refid="appEmployeeManagerSelective" />
+		<include refid="appEmployeeManagerConditions" />
+ </sql>
+  <sql id="appEmployeeManagerSelective">
+		SELECT
+		<include refid="Base_Column_List_APP_EMPLOYEE_MANAGER" />
+		FROM app_employee_manager t left join com_employee a on t.employee_id = a.id left join com_organization c on a.org_id = c.id 
+ </sql>
+ <sql id="appEmployeeManagerConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="name != null">
+				AND a.name= #{name,jdbcType=VARCHAR}	
+			</if>
+			<if test="userCode != null">
+				AND a.usercode= #{userCode,jdbcType=VARCHAR}	
+			</if>
+			<if test="orgId != null">
+				AND a.org_id = #{orgId,jdbcType=DECIMAL}	
+			</if>
+		</trim>
+ </sql>
+ 
+ <select id="findCountByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM (
+		<include refid="findListByConditions" />
+		)
+ </select>
+ 
+ <select id="selectAppEmployeeManagerByEmployeeId" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from App_Employee_Manager t where t.EMPLOYEE_ID=#{employeeId} 
+ </select>
+ <sql id="TABLE_SEQUENCE">seq_app_employee_manager.nextval</sql>
+</mapper>

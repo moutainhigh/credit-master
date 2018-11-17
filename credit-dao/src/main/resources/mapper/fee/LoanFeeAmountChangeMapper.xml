@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.fee.domain.LoanFeeAmountChangeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.fee.domain.LoanFeeAmountChange">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="REPAY_ID" property="repayId" jdbcType="DECIMAL" />
+		<result column="RECEIVE_AMOUNT" property="receiveAmount"
+			jdbcType="DECIMAL" />
+		<result column="UNPAID_AMOUNT" property="unpaidAmount"
+			jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, REPAY_ID, RECEIVE_AMOUNT, UNPAID_AMOUNT
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_FEE_AMOUNT_CHANGE
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from
+		LOAN_FEE_AMOUNT_CHANGE
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.fee.domain.LoanFeeAmountChange">
+		insert into LOAN_FEE_AMOUNT_CHANGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="repayId != null">
+				REPAY_ID,
+			</if>
+			<if test="receiveAmount != null">
+				RECEIVE_AMOUNT,
+			</if>
+			<if test="unpaidAmount != null">
+				UNPAID_AMOUNT,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="repayId != null">
+				#{repayId,jdbcType=DECIMAL},
+			</if>
+			<if test="receiveAmount != null">
+				#{receiveAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="unpaidAmount != null">
+				#{unpaidAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.fee.domain.LoanFeeAmountChange">
+		update LOAN_FEE_AMOUNT_CHANGE
+		<set>
+			<if test="repayId != null">
+				REPAY_ID = #{repayId,jdbcType=DECIMAL},
+			</if>
+			<if test="receiveAmount != null">
+				RECEIVE_AMOUNT = #{receiveAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="unpaidAmount != null">
+				UNPAID_AMOUNT = #{unpaidAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

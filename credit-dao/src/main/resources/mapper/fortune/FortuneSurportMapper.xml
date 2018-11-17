@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.fortune.domain.FortuneSurportMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.fortune.domain.FortuneSurport">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="CUR_RETURN_DATE" property="curReturnDate"
+			jdbcType="TIMESTAMP" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, LOAN_TYPE, SEND_TIME, CUR_RETURN_DATE, CREATE_TIME,
+		UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from FORTUNE_SURPORT
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from FORTUNE_SURPORT
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.fortune.domain.FortuneSurport">
+		insert into FORTUNE_SURPORT (ID, LOAN_ID, LOAN_TYPE,
+		SEND_TIME, CUR_RETURN_DATE, CREATE_TIME,
+		UPDATE_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{loanType,jdbcType=VARCHAR},
+		#{sendTime,jdbcType=TIMESTAMP}, #{curReturnDate,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.fortune.domain.FortuneSurport">
+		insert into FORTUNE_SURPORT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE,
+			</if>
+			<if test="sendTime != null">
+				SEND_TIME,
+			</if>
+			<if test="curReturnDate != null">
+				CUR_RETURN_DATE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				#{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="sendTime != null">
+				#{sendTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="curReturnDate != null">
+				#{curReturnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.fortune.domain.FortuneSurport">
+		update FORTUNE_SURPORT
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="sendTime != null">
+				SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="curReturnDate != null">
+				CUR_RETURN_DATE = #{curReturnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.fortune.domain.FortuneSurport">
+		update FORTUNE_SURPORT
+		set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+		SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+		CUR_RETURN_DATE = #{curReturnDate,jdbcType=TIMESTAMP},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

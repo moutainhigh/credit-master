@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanTransferInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanTransferInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="MANAGE_DEPARTMENT" property="manageDepartment" jdbcType="VARCHAR" />
+    <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR" />
+    <result column="ID_NUM" property="idNum" jdbcType="VARCHAR" />
+    <result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP" />
+    <result column="PROMISE_RETURN_DATE" property="promiseReturnDate" jdbcType="VARCHAR" />
+    <result column="PACT_MONEY" property="pactMoney" jdbcType="DECIMAL" />
+    <result column="OVERDUE_START_DATE" property="overdueStartDate" jdbcType="TIMESTAMP" />
+    <result column="OVERDUE_TERM" property="overdueTerm" jdbcType="DECIMAL" />
+    <result column="OVERDUE_DAY" property="overdueDay" jdbcType="DECIMAL" />
+    <result column="SURPLUS_CAPITAL" property="surplusCapital" jdbcType="DECIMAL" />
+    <result column="OVERDUE_CAPITAL" property="overdueCapital" jdbcType="DECIMAL" />
+    <result column="OVERDUE_AINT" property="overdueAint" jdbcType="DECIMAL" />
+    <result column="FINE_START_DATE" property="fineStartDate" jdbcType="TIMESTAMP" />
+    <result column="FINE_AMOUNT" property="fineAmount" jdbcType="DECIMAL" />
+    <result column="RETURN_TOTAL_AMOUNT" property="returnTotalAmount" jdbcType="DECIMAL" />
+    <result column="LAST_RETURN_DATE" property="lastReturnDate" jdbcType="TIMESTAMP" />
+    <result column="FUNDS_SOURCES" property="fundsSources" jdbcType="VARCHAR" />
+    <result column="LOAN_BELONG" property="loanBelong" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+    <result column="TRANSFER_BATCH" property="transferBatch" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,LOAN_ID, MANAGE_DEPARTMENT, LOAN_TYPE, CUSTOMER_NAME, ID_NUM, SIGN_DATE, PROMISE_RETURN_DATE, 
+    PACT_MONEY, OVERDUE_START_DATE, OVERDUE_TERM, OVERDUE_DAY, SURPLUS_CAPITAL, OVERDUE_CAPITAL, 
+    OVERDUE_AINT, FINE_START_DATE, FINE_AMOUNT, RETURN_TOTAL_AMOUNT, LAST_RETURN_DATE, 
+    FUNDS_SOURCES, LOAN_BELONG, CONTRACT_NUM, TRANSFER_BATCH,CREATOR,CREATE_TIME, UPDATOR, UPDATE_TIME
+  </sql>
+  
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_TRANSFER_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from LOAN_TRANSFER_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanTransferInfo" >
+    insert into LOAN_TRANSFER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="manageDepartment != null" >
+        MANAGE_DEPARTMENT,
+      </if>
+      <if test="loanType != null" >
+        LOAN_TYPE,
+      </if>
+      <if test="customerName != null" >
+        CUSTOMER_NAME,
+      </if>
+      <if test="idNum != null" >
+        ID_NUM,
+      </if>
+      <if test="signDate != null" >
+        SIGN_DATE,
+      </if>
+      <if test="promiseReturnDate != null" >
+        PROMISE_RETURN_DATE,
+      </if>
+      <if test="pactMoney != null" >
+        PACT_MONEY,
+      </if>
+      <if test="overdueStartDate != null" >
+        OVERDUE_START_DATE,
+      </if>
+      <if test="overdueTerm != null" >
+        OVERDUE_TERM,
+      </if>
+      <if test="overdueDay != null" >
+        OVERDUE_DAY,
+      </if>
+      <if test="surplusCapital != null" >
+        SURPLUS_CAPITAL,
+      </if>
+      <if test="overdueCapital != null" >
+        OVERDUE_CAPITAL,
+      </if>
+      <if test="overdueAint != null" >
+        OVERDUE_AINT,
+      </if>
+      <if test="fineStartDate != null" >
+        FINE_START_DATE,
+      </if>
+      <if test="fineAmount != null" >
+        FINE_AMOUNT,
+      </if>
+      <if test="returnTotalAmount != null" >
+        RETURN_TOTAL_AMOUNT,
+      </if>
+      <if test="lastReturnDate != null" >
+        LAST_RETURN_DATE,
+      </if>
+      <if test="fundsSources != null" >
+        FUNDS_SOURCES,
+      </if>
+      <if test="loanBelong != null" >
+        LOAN_BELONG,
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM,
+      </if>
+      <if test="transferBatch != null" >
+        TRANSFER_BATCH,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="manageDepartment != null" >
+        #{manageDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="loanType != null" >
+        #{loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="promiseReturnDate != null" >
+        #{promiseReturnDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pactMoney != null" >
+        #{pactMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueStartDate != null" >
+        #{overdueStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdueTerm != null" >
+        #{overdueTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueDay != null" >
+        #{overdueDay,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusCapital != null" >
+        #{surplusCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueCapital != null" >
+        #{overdueCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueAint != null" >
+        #{overdueAint,jdbcType=DECIMAL},
+      </if>
+      <if test="fineStartDate != null" >
+        #{fineStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fineAmount != null" >
+        #{fineAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="returnTotalAmount != null" >
+        #{returnTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastReturnDate != null" >
+        #{lastReturnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fundsSources != null" >
+        #{fundsSources,jdbcType=VARCHAR},
+      </if>
+      <if test="loanBelong != null" >
+        #{loanBelong,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transferBatch != null" >
+        #{transferBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanTransferInfo" >
+    update LOAN_TRANSFER_INFO
+    <set >
+      <if test="loanId != null" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="manageDepartment != null" >
+        MANAGE_DEPARTMENT = #{manageDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="loanType != null" >
+        LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        ID_NUM = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        SIGN_DATE = #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="promiseReturnDate != null" >
+        PROMISE_RETURN_DATE = #{promiseReturnDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pactMoney != null" >
+        PACT_MONEY = #{pactMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueStartDate != null" >
+        OVERDUE_START_DATE = #{overdueStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdueTerm != null" >
+        OVERDUE_TERM = #{overdueTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueDay != null" >
+        OVERDUE_DAY = #{overdueDay,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusCapital != null" >
+        SURPLUS_CAPITAL = #{surplusCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueCapital != null" >
+        OVERDUE_CAPITAL = #{overdueCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueAint != null" >
+        OVERDUE_AINT = #{overdueAint,jdbcType=DECIMAL},
+      </if>
+      <if test="fineStartDate != null" >
+        FINE_START_DATE = #{fineStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fineAmount != null" >
+        FINE_AMOUNT = #{fineAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="returnTotalAmount != null" >
+        RETURN_TOTAL_AMOUNT = #{returnTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastReturnDate != null" >
+        LAST_RETURN_DATE = #{lastReturnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fundsSources != null" >
+        FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+      </if>
+      <if test="loanBelong != null" >
+        LOAN_BELONG = #{loanBelong,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transferBatch != null" >
+        TRANSFER_BATCH = #{transferBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="findLoanTransferBatchList" parameterType="map" resultType="map">
+  	 select  transfer_batch "batchs" , max(create_time) me from loan_transfer_info where transfer_batch is not null  group by transfer_batch order by me desc
+  </select>
+  
+  	<sql id="loanTransferInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_TRANSFER_INFO L
+	</sql>
+  
+    <sql id="loanTransferInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="contractNum != null">
+				AND L.CONTRACT_NUM = #{contractNum}
+			</if>
+			<if test="transferBatch != null ">
+				AND L.TRANSFER_BATCH = #{transferBatch}
+			</if>
+			<if test="noTransfer != null ">
+				AND L.TRANSFER_BATCH <![CDATA[<>]]> #{noTransfer}
+			</if>
+			<if test="loanIds != null ">
+				AND L.LOAN_ID IN  
+				<foreach collection="loanIds" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="loanId != null ">
+				AND L.LOAN_ID = #{loanId}
+			</if>
+		</trim>
+	</sql>
+  
+   <select id="findLoanTransferInfoList" parameterType="java.util.Map" resultType="map">
+  	 <include refid="loanTransferInfoSelective" />
+  	 <include refid="loanTransferInfoConditions" />
+  </select>
+  
+  
+  <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="loanTransferInfoSelective" />
+		<include refid="loanTransferInfoConditions" />
+	</select>
+	
+	<select id="findLoanTransferInfoByLoanId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	 <include refid="loanTransferInfoSelective" />
+  	 <include refid="loanTransferInfoConditions" />
+  </select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.common.domain.WorkDayInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.common.domain.WorkDayInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CURR_DATE" property="currDate" jdbcType="TIMESTAMP" />
+		<result column="IS_WORKDAY" property="isWorkDay" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Column_List">
+		ID,CURR_DATE,IS_WORKDAY
+	</sql>
+	
+	<select id="getWorkDayInfoByParamsMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from workday_info
+		<trim prefix="where" prefixOverrides="and">
+			<if test="currDate != null and currDate != ''">
+				and trunc(curr_date) = trunc(to_date(#{currDate}, 'yyyy-MM-dd'))
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getPreviousWorkDayInfoByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select  
+		<include refid="Base_Column_List" />
+		from 
+		(select
+		<include refid="Base_Column_List" />
+		from workday_info
+		<trim prefix="where" prefixOverrides="and">
+			<if test="currDate != null and currDate != ''">
+				curr_date &lt; to_date(#{currDate}, 'yyyy-mm-dd')
+			</if>
+			and IS_WORKDAY = '1'
+		</trim>
+		order by curr_date desc)
+		where rownum = 1
+	</select>
+	<select id="getAfterWorkDayInfoByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		(select
+		<include refid="Base_Column_List" />
+		from workday_info
+		<trim prefix="where" prefixOverrides="and">
+			<if test="currDate != null and currDate != ''">
+				curr_date &gt; to_date(#{currDate}, 'yyyy-mm-dd')
+			</if>
+			and IS_WORKDAY = '1'
+		</trim>
+		order by curr_date asc)
+		where rownum = 1
+	</select>
+	
+	<!-- 获取两个时间之间的工作日天数  -->
+	<select id="getWorkDaysInRegion" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) AS CUNT
+		  FROM WORKDAY_INFO T
+		 WHERE T.CURR_DATE > TRUNC(#{beginDate})  /** 开始时间**/
+		   AND T.CURR_DATE &lt;= TRUNC(#{endDate})  /** 截止时间**/
+		   AND T.IS_WORKDAY = '1'  /** 必须是工作日**/
+	</select>
+</mapper>

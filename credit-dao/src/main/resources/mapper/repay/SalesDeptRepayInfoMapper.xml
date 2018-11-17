@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.repay.domain.SalesDeptRepayInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.repay.domain.SalesDeptRepayInfo" >
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+    <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+    <result column="SIGN_DATE" property="signDate" jdbcType="VARCHAR" />
+    <result column="LOAN_STATE" property="loanStatus" jdbcType="VARCHAR" />
+    <result column="SIGN_SALES_DEP_ID" property="signSalesDeptId" jdbcType="VARCHAR" />
+    <result column="SIGN_SALES_DEPT_NAME" property="signSalesDeptName" jdbcType="VARCHAR" />
+    <result column="SALES_DEPARTMENT_ID" property="salesDepartmentId" jdbcType="VARCHAR" />
+    <result column="SALES_DEPARTMENT_NAME" property="salesDepartmentName" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="SalesDeptInfoMap" type="java.util.Map" >
+    <result property="id"   column="ID"    jdbcType="VARCHAR" />
+    <result property="name" column="NAME"  jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    T2.NAME, 
+    T2.IDNUM, 
+    T1.LOAN_TYPE, 
+    TO_CHAR(T1.SIGN_DATE,'YYYY-MM-DD') AS SIGN_DATE,
+    T1.LOAN_STATE,
+    T1.SIGN_SALES_DEP_ID,
+    (SELECT ORG.NAME FROM COM_ORGANIZATION ORG WHERE ORG.ID = T1.SIGN_SALES_DEP_ID) AS SIGN_SALES_DEPT_NAME,
+    T1.SALES_DEPARTMENT_ID,
+    T3.NAME AS SALES_DEPARTMENT_NAME,
+    T1.CONTRACT_NUM
+  </sql>
+  
+  <!-- 查询当前用户所属机构下的所有管理营业部信息 -->
+  <select id="getSalesDeptInfo" parameterType="java.util.Map" resultMap="SalesDeptInfoMap">
+    SELECT T.ID, T.NAME
+      FROM COM_ORGANIZATION T
+     WHERE T.ORG_CODE LIKE #{empNum} || '%'
+       <if test="vLevel != null and vLevel !=''">
+            AND T.V_LEVEL = #{vLevel}
+       </if>
+       <!-- AND T.DEPARTMENT_TYPE IN ('渠道', '个贷', '互联网', '电销', '渠道2') -->
+     ORDER BY NLSSORT(T.NAME, 'NLS_SORT=SCHINESE_PINYIN_M')
+  </select>
+  
+  <!-- 查询各门店还款信息 -->
+  <sql id="getSalesDeptRepayInfo">
+    SELECT <include refid="Base_Column_List" />
+          FROM V_LOAN_INFO T1, 
+               PERSON_INFO T2, 
+               COM_ORGANIZATION T3
+      WHERE T1.BORROWER_ID = T2.ID
+           AND T1.SALES_DEPARTMENT_ID = T3.ID
+           <if test="name != null and name !=''">
+            AND T2.NAME LIKE #{name} || '%'
+        </if>
+        <if test="idNum != null and idNum !=''">
+            AND T2.IDNUM = #{idNum}
+        </if>
+        <if test="loanType != null and loanType !=''">
+            AND T1.LOAN_TYPE = #{loanType}
+        </if>
+        <if test="salesDepartmentId != null and salesDepartmentId !=''">
+            AND T1.SALES_DEPARTMENT_ID = #{salesDepartmentId}
+        </if>
+        <if test="contractNum != null and contractNum != ''">
+            AND T1.CONTRACT_NUM = #{contractNum}
+        </if>
+        AND T1.LOAN_STATE IN 
+        <foreach collection="loanStates" item="loanStatus" index="index" open="(" close=")" separator=",">
+                #{loanStatus}
+        </foreach>
+        AND T3.ORG_CODE LIKE #{empNum} || '%'
+        <!-- AND T3.DEPARTMENT_TYPE IN ('渠道', '个贷', '互联网', '电销', '渠道2') -->
+      ORDER BY T1.SIGN_DATE DESC
+    </sql>
+  
+      <select id="findWithPG" parameterType="com.zdmoney.credit.repay.domain.SalesDeptRepayInfo" resultMap="BaseResultMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="getSalesDeptRepayInfo" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+    
+    <select id="count" parameterType="com.zdmoney.credit.repay.domain.SalesDeptRepayInfo" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+            <include refid="getSalesDeptRepayInfo" />
+        )
+    </select>
+</mapper>

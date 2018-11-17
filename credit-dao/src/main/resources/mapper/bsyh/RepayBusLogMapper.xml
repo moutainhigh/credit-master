@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zdmoney.credit.bsyh.domain.RepayBusLogMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.bsyh.domain.RepayBusLog">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+		<result column="APPLY_STATE" property="applyState"
+			jdbcType="VARCHAR" />
+		<result column="DEDUCT_STATE" property="deductState"
+			jdbcType="VARCHAR" />
+		<result column="RETERN_MSG" property="reternMsg" jdbcType="VARCHAR" />
+		<result column="RESP_CD" property="respCd" jdbcType="VARCHAR" />		
+		<result column="REPAY_BUS_NUMBER" property="repayBusNumber" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="APPLY_TYPE" property="applyType" jdbcType="DECIMAL" />		
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, CURRENT_TERM, APPLY_STATE,
+		DEDUCT_STATE,RETERN_MSG,RESP_CD,REPAY_BUS_NUMBER,CREATE_TIME,UPDATE_TIME,APPLY_TYPE
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from REPAY_BUS_LOG
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		delete from REPAY_BUS_LOG
+		where ID
+		= #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.bsyh.domain.RepayBusLog">
+		insert into REPAY_BUS_LOG (ID, LOAN_ID, CURRENT_TERM, APPLY_STATE,
+		DEDUCT_STATE,RETERN_MSG,RESP_CD,REPAY_BUS_NUMBER,CREATE_TIME,UPDATE_TIME,APPLY_TYPE)
+		values
+		(#{id,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{currentTerm,jdbcType=DECIMAL},
+		#{applyState,jdbcType=VARCHAR},
+		#{deductState,jdbcType=VARCHAR}, #{reternMsg,jdbcType=VARCHAR},
+		#{respCd,jdbcType=VARCHAR},#{repayBusNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},#{applyType,jdbcType=DECIMAL})
+	</insert>	
+	<update id="update" parameterType="com.zdmoney.credit.bsyh.domain.RepayBusLog">
+		update REPAY_BUS_LOG
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="currentTerm != null">
+				CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="applyState != null">
+				APPLY_STATE = #{applyState,jdbcType=VARCHAR},
+			</if>
+			<if test="deductState != null">
+				DEDUCT_STATE = #{deductState,jdbcType=VARCHAR},
+			</if>
+			<if test="reternMsg != null">
+				RETERN_MSG = #{reternMsg,jdbcType=VARCHAR},
+			</if>
+			<if test="respCd != null">
+				RESP_CD = #{respCd,jdbcType=VARCHAR},
+			</if>	
+			<if test="repayBusNumber != null">
+				REPAY_BUS_NUMBER = #{repayBusNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="applyType != null">
+				APPLY_TYPE = #{applyType,jdbcType=DECIMAL},
+			</if>		
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>	
+	
+	<select id="findListByMap" resultMap="BaseResultMap"	parameterType="java.util.Map">		
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM REPAY_BUS_LOG A
+		WHERE 1=1
+		<if test="loanId != null">
+			AND A.LOAN_ID = #{loanId,jdbcType=VARCHAR} 
+		</if>
+		<if test="applyState != null">
+			AND A.APPLY_STATE = #{applyState,jdbcType=VARCHAR}
+		</if>
+		<if test="deductState != null and  deductState != 'Y'.toString()">
+			AND A.DEDUCT_STATE = #{deductState,jdbcType=VARCHAR}
+		</if>
+		<if test=" deductState == 'Y'.toString()">
+			AND A.DEDUCT_STATE IS NULL
+		</if>
+		<if test="applyType != null">
+			AND A.APPLY_TYPE=#{applyType,jdbcType=DECIMAL}
+		</if>
+		<if test="repayBusNumber != null">
+			AND	A.REPAY_BUS_NUMBER = #{repayBusNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="currentTerm != null">
+			AND A.CURRENT_TERM = #{currentTerm,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezendai.credit2.mapper.BaseMapper">
+	<sql id="pagerStart">
+		<if test="pager != null">
+			SELECT * FROM (
+			SELECT row_.*, rownum rn
+			FROM (
+		</if>
+	</sql>
+
+	<sql id="pagerEnd">
+		<if test="pager != null">
+			) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			#{pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			#{pager.start}
+		</if>
+	</sql>
+
+	<sql id="OrderBy">
+		<if test="pager != null">
+			<if test="pager.sidx != null and pager.sort != null ">
+				ORDER BY ${pager.sidx} ${pager.sort}
+			</if>
+		</if>
+	</sql>
+
+	<select id="selectOne" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT ${value} FROM DUAL
+	</select>
+
+</mapper>

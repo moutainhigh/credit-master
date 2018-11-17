@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.common.domain.LogMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.common.domain.Log">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="DATE_CREATED" property="dateCreated" jdbcType="TIMESTAMP" />
+		<result column="ERROR_MESSAGE" property="dateFinished"
+			jdbcType="VARCHAR" />
+		<result column="LOG_LEVEL" property="logLevel" jdbcType="VARCHAR" />
+		<result column="LOG_TYPE" property="logType" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="SOURCE" property="source" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 查询字段 -->
+	<sql id="Base_Column_List">
+		ID,
+		CLASS_NAME,
+		CONTENT,
+		DATE_CREATED,
+		ERROR_MESSAGE,
+		LOG_LEVEL,
+		LOG_TYPE,
+		MEMO,
+		OBJECT_ID,
+		OPERATOR,
+		SOURCE
+	</sql>
+
+	<!-- 查询主体 -->
+	<sql id="logSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOG
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="logConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="className != null and className !=''">
+				AND CLASS_NAME= #{className}
+			</if>
+			<if test="content != null and content  != ''">
+				AND CONTENT = #{content}
+			</if>
+			<if test="objectId != null or objectId  != ''">
+				AND OBJECT_ID = #{objectId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="get" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOG
+		WHERE ID = #{id, jdbcType = DECIMAL}
+	</select>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.common.domain.Log"
+		resultMap="BaseResultMap">
+		<include refid="logSelective" />
+		<include refid="logConditions" />
+	</select>
+
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		DELETE FROM LOG WHERE ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.common.domain.Log">
+		INSERT INTO LOG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id !=''">
+				ID,
+			</if>
+			<if test="className != null and className !=''">
+				CLASS_NAME,
+			</if>
+			<if test="content != null and content !=''">
+				CONTENT,
+			</if>
+			<if test="dateCreated != null and dateCreated !=''">
+				DATE_CREATED,
+			</if>
+			<if test="errorMessage != null and errorMessage !=''">
+				ERROR_MESSAGE,
+			</if>
+			<if test="logLevel != null and logLevel !=''">
+				LOG_LEVEL,
+			</if>
+			<if test="logType != null and logType !=''">
+				LOG_TYPE,
+			</if>
+			<if test="memo != null and memo !=''">
+				MEMO,
+			</if>
+			<if test="objectId != null and objectId !=''">
+				OBJECT_ID,
+			</if>
+			<if test="operator != null and operator !=''">
+				OPERATOR,
+			</if>
+			<if test="source != null and source !=''">
+				SOURCE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id !=''">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="className != null and className !=''">
+				#{className,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null and content !=''">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="dateCreated != null and dateCreated !=''">
+				#{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="errorMessage != null and errorMessage !=''">
+				#{errorMessage,jdbcType=VARCHAR},
+			</if>
+			<if test="logLevel != null and logLevel !=''">
+				#{logLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="logType != null and logType !=''">
+				#{logType,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null and memo !=''">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null and objectId !=''">
+				#{objectId,jdbcType=DECIMAL},
+			</if>
+			<if test="operator != null and operator !=''">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null and source !=''">
+				#{source,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.zdmoney.credit.common.domain.Log">
+		UPDATE LOG
+		<set>
+			<if test="className != null and className !=''">
+				CLASS_NAME = #{className,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null and content !=''">
+				CONTENT = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="dateCreated != null and dateCreated !=''">
+				DATE_CREATED = #{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="errorMessage != null and errorMessage !=''">
+				ERROR_MESSAGE = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="logLevel != null and logLevel !=''">
+				LOG_LEVEL = #{logLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="logType != null and logType !=''">
+				LOG_TYPE = #{logType,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null and memo !=''">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null and objectId !=''">
+				OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+			</if>
+			<if test="operator != null and operator !=''">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null and source !=''">
+				SOURCE = #{source,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+</mapper>

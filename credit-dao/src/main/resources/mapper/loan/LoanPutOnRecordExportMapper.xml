@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanPutOnRecordExportMapper" >
+    <resultMap id="baseResultMap" type="com.zdmoney.credit.loan.domain.LoanPutOnRecordExport">
+        <result column="ENTERPRISECODE" property="enterpriseCode" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="EXPENDITURE" property="expenditure" jdbcType="VARCHAR" />
+        <result column="BANK_TYPE" property="bankType" jdbcType="VARCHAR" />
+        <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+        <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+        <result column="ACCOUNTNAME" property="accountName" jdbcType="VARCHAR" />
+        <result column="REMAK" property="remak" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="loanPutOnRecordExportInfosMap" type="java.util.Map">
+        <result column="ENTERPRISECODE" property="enterpriseCode" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="EXPENDITURE" property="expenditure" jdbcType="VARCHAR" />
+        <result column="BANK_TYPE" property="bankType" jdbcType="VARCHAR" />
+        <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+        <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+        <result column="ACCOUNTNAME" property="accountName" jdbcType="VARCHAR" />
+        <result column="REMAK" property="remak" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="queryLoanPutOnRecordExportInfos">
+        SELECT 'C00000000M31' AS ENTERPRISECODE,
+       T1.CONTRACT_NUM AS CONTRACT_NUM,
+       '04903' AS EXPENDITURE,
+		<if test="regionType==99">
+       '00'
+       </if>
+       <if test="regionType==01">
+       T5.BANK_TYPE
+       </if>
+       AS BANK_TYPE,
+       T5.BANK_NO AS BANK_NO,
+       T2.ACCOUNT AS ACCOUNT,
+       T3.NAME AS ACCOUNTNAME,
+       T2.BANK_NAME || T2.FULL_NAME AS REMAK
+    FROM V_LOAN_INFO T1
+    INNER JOIN LOAN_BANK T2
+    ON T1.GIVE_BACK_BANK_ID = T2.ID
+    INNER JOIN PERSON_INFO T3
+    ON T1.BORROWER_ID = T3.ID
+    LEFT JOIN LOAN_BANK_EXT T4
+    ON T2.ID = T4.LOAN_BANK_ID
+    LEFT JOIN OFF_LINE_OFFER_BANK_DIC T5
+    ON T4.OFFER_BANK_ID = T5.ID
+    <where>
+        T1.LOAN_FLOW_STATE IN ('合同确认','财务审核','财务放款')
+        <if test="fundsSources != '' and fundsSources != null ">
+            AND  T1.FUNDS_SOURCES IN (#{fundsSources})
+        </if>
+        <if test="contractNum != '' and contractNum != null">
+            AND  T1.CONTRACT_NUM = #{contractNum}
+        </if>
+        <if test="beginSignDate != '' and beginSignDate != null">
+            AND T1.SIGN_DATE &gt;= TO_DATE(#{beginSignDate},'yyyy/MM/dd')
+        </if>
+        <if test="endSignDate != '' and endSignDate != null">
+            AND T1.SIGN_DATE  &lt;= TO_DATE(#{endSignDate},'yyyy/MM/dd')
+        </if>
+      	<if test="regionType != '' and regionType != null">
+            AND   T5.REGION_TYPE = #{regionType}
+        </if>
+
+    </where>
+    </sql>
+
+    <sql id="exportLoanPutOnRecordCondition">
+        <if test="fundsSources != '' and fundsSources != null ">
+            AND  T1.FUNDS_SOURCES IN (#{fundsSources})
+        </if>
+        <if test="contractNum != '' and contractNum != null">
+            AND  T1.CONTRACT_NUM = #{contractNum}
+        </if>
+        <if test="beginSignDate != '' and beginSignDate != null">
+            AND T1.SIGN_DATE &gt;= TO_DATE(#{beginSignDate},'yyyy/MM/dd')
+        </if>
+        <if test="endSignDate != '' and endSignDate != null">
+            AND T1.SIGN_DATE  &lt;= TO_DATE(#{endSignDate},'yyyy/MM/dd')
+        </if>
+        <if test="regionType != '' and regionType != null">
+            AND   T5.REGION_TYPE = #{regionType}
+        </if>
+    </sql>
+
+    <select id="queryLoanPutOnRecordExportInfosDetail" parameterType="java.util.Map" resultMap="loanPutOnRecordExportInfosMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="queryLoanPutOnRecordExportInfos"/>
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <select id="queryLoanPutOnRecordExportInfosCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+        <include refid="queryLoanPutOnRecordExportInfos"/>
+        )
+    </select>
+
+    <select id="exportLoanPutOnRecordInfos" parameterType="com.zdmoney.credit.loan.vo.LoanPutOnRecordExportVo" resultMap="baseResultMap">
+       SELECT 'C00000000M31' AS ENTERPRISECODE,
+       T1.CONTRACT_NUM AS CONTRACT_NUM,
+       '04903' AS EXPENDITURE,
+       <if test="regionType==99">
+       '00'
+       </if>
+       <if test="regionType==01">
+       T5.BANK_TYPE
+       </if>
+       AS BANK_TYPE,
+       T5.BANK_NO AS BANK_NO,
+       T2.ACCOUNT AS ACCOUNT,
+       T3.NAME AS ACCOUNTNAME,
+       T2.BANK_NAME || T2.FULL_NAME AS REMAK
+    FROM V_LOAN_INFO T1
+    INNER JOIN LOAN_BANK T2
+    ON T1.GIVE_BACK_BANK_ID = T2.ID
+    INNER JOIN PERSON_INFO T3
+    ON T1.BORROWER_ID = T3.ID
+    LEFT JOIN LOAN_BANK_EXT T4
+    ON T2.ID = T4.LOAN_BANK_ID
+    LEFT JOIN OFF_LINE_OFFER_BANK_DIC T5
+    ON T4.OFFER_BANK_ID = T5.ID
+    WHERE  T1.LOAN_FLOW_STATE IN ('合同确认','财务审核','财务放款')
+    <include refid="exportLoanPutOnRecordCondition"/>
+    ORDER  by T1.ID
+    </select>
+</mapper>

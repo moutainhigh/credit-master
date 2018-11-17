@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.credit.system.domain.ComPermissionMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.ComPermission">
+		<result column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="PERM_NAME" jdbcType="VARCHAR" property="permName" />
+		<result column="PERM_URL" jdbcType="VARCHAR" property="permUrl" />
+		<result column="PERM_TYPE" jdbcType="VARCHAR" property="permType" />
+		<result column="POSITION" jdbcType="VARCHAR" property="position" />
+		<result column="SORT" jdbcType="VARCHAR" property="sort" />
+		<result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" />
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+		<result column="UPDATOR" jdbcType="VARCHAR" property="updator" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="SP1" jdbcType="VARCHAR" property="sp1" />
+		<result column="SP2" jdbcType="VARCHAR" property="sp2" />
+		<result column="SP3" jdbcType="VARCHAR" property="sp3" />
+		<result column="ICON" jdbcType="VARCHAR" property="icon" />
+		<result column="SYSTEM_FLAG" jdbcType="VARCHAR" property="systemFlag" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.ComPermission">
+		insert into COM_PERMISSION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="permName != null">
+				PERM_NAME,
+			</if>
+			<if test="permUrl != null">
+				PERM_URL,
+			</if>
+			<if test="permType != null">
+				PERM_TYPE,
+			</if>
+			<if test="position != null">
+				POSITION,
+			</if>
+			<if test="sort != null">
+				SORT,
+			</if>
+			<if test="parentId != null">
+				PARENT_ID,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="updator != null">
+				UPDATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="sp1 != null">
+				SP1,
+			</if>
+			<if test="sp2 != null">
+				SP2,
+			</if>
+			<if test="sp3 != null">
+				SP3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="permName != null">
+				#{permName,jdbcType=VARCHAR},
+			</if>
+			<if test="permUrl != null">
+				#{permUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="permType != null">
+				#{permType,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				#{position,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				#{updator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sp1 != null">
+				#{sp1,jdbcType=VARCHAR},
+			</if>
+			<if test="sp2 != null">
+				#{sp2,jdbcType=VARCHAR},
+			</if>
+			<if test="sp3 != null">
+				#{sp3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<sql id="Base_Column_List">
+		ID, PERM_NAME, PERM_URL, PERM_TYPE, POSITION, SORT,
+		PARENT_ID,
+		CREATOR, UPDATOR,CREATE_TIME,UPDATE_TIME,SP1,SP2,SP3,ICON,SYSTEM_FLAG
+	</sql>
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_PERMISSION
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND COM_PERMISSION.ID= #{id}
+			</if>
+			<if test="permName != null and permName  != ''">
+				AND COM_PERMISSION.PERM_NAME = #{permName}
+			</if>
+			<if test="parentId != null">
+				AND COM_PERMISSION.PARENT_ID = #{parentId}
+			</if>
+			<if test="permType != null and permType  != ''">
+				AND COM_PERMISSION.PERM_TYPE = #{permType}
+			</if>
+			<if test="systemFlag != null and systemFlag  != ''">
+				AND COM_PERMISSION.SYSTEM_FLAG = #{systemFlag}
+			</if>
+			<if test="isDisplay != null">
+				AND COM_PERMISSION.IS_DISPLAY = #{isDisplay}
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.ComPermission"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+		ORDER BY TO_NUMBER(SORT)
+	</select>
+
+	<!-- 根据父权限查询子权限列表 -->
+	<select id="getChildrenPermission" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from COM_PERMISSION where PARENT_ID = #{parentId,jdbcType=DECIMAL}
+		order by SORT,ID
+	</select>
+
+	<!-- 查询当前角色分配的所有权限 -->
+	<select id="getPermissionByRole" resultMap="BaseResultMap">
+		select ID, PERM_NAME, PERM_URL, PERM_TYPE, POSITION, SORT,
+		PARENT_ID,CREATOR, UPDATOR,CREATE_TIME,UPDATE_TIME,SP1,SP2,SP3,SYSTEM_FLAG
+		from com_permission
+		where id in(select perm_id from com_role_permission where
+		role_id=#{roleId,jdbcType=DECIMAL}) order by SORT ,id
+	</select>
+
+
+	<!-- 查询顶级权限(顶级菜单) -->
+	<select id="getTopPermissionList" resultMap="BaseResultMap">
+		select
+		ID, PERM_NAME, PERM_URL, PERM_TYPE, POSITION, SORT, PARENT_ID,CREATOR,
+		UPDATOR,CREATE_TIME,UPDATE_TIME,SP1,SP2,SP3,SYSTEM_FLAG
+		from com_permission where PARENT_ID = '0'
+		order by SORT,ID
+	</select>
+
+
+	<!-- 查询当前用户的所有权限 -->
+	<select id="getPermissionByComEmployee" resultMap="BaseResultMap">
+		select ID, PERM_NAME, PERM_URL, PERM_TYPE, POSITION, SORT,
+		PARENT_ID,CREATOR, UPDATOR,CREATE_TIME,UPDATE_TIME,SP1,SP2,SP3,SYSTEM_FLAG
+		from com_permission
+		where id in(select perm_id from com_employee_permission where
+		emp_id=#{comEmployeeId,jdbcType=DECIMAL}) order by SORT ,id
+	</select>
+</mapper>

@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.offer.domain.OfferFlowMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.offer.domain.OfferFlow">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+		<result column="ACCT_TITLE" property="acctTitle" jdbcType="VARCHAR" />
+		<result column="APPO_ACCT" property="appoAcct" jdbcType="VARCHAR" />
+		<result column="APPO_ACCT_TITLE" property="appoAcctTitle"
+			jdbcType="VARCHAR" />
+		<result column="APPO_DORC" property="appoDorc" jdbcType="VARCHAR" />
+		<result column="DELEGATION_TELLER" property="delegationTeller"
+			jdbcType="VARCHAR" />
+		<result column="DORC" property="dorc" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="MEMO2" property="memo2" jdbcType="VARCHAR" />
+		<result column="MEMO3" property="memo3" jdbcType="VARCHAR" />
+		<result column="ORGAN" property="organ" jdbcType="VARCHAR" />
+		<result column="REVERSED_NO" property="reversedNo" jdbcType="VARCHAR" />
+		<result column="TELLER" property="teller" jdbcType="VARCHAR" />
+		<result column="TRADE_AMOUNT" property="tradeAmount" jdbcType="DECIMAL" />
+		<result column="TRADE_CODE" property="tradeCode" jdbcType="VARCHAR" />
+		<result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+		<result column="TRADE_KIND" property="tradeKind" jdbcType="VARCHAR" />
+		<result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+		<result column="VOUCHER_CODE" property="voucherCode" jdbcType="VARCHAR" />
+		<result column="VOUCHER_KIND" property="voucherKind" jdbcType="VARCHAR" />
+		<result column="END_AMOUNT" property="endAmount" jdbcType="DECIMAL" />
+		<result column="REPAY_INFO_ID" property="repayInfoId" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID, ACCOUNT, ACCT_TITLE, APPO_ACCT, APPO_ACCT_TITLE, APPO_DORC,
+		DELEGATION_TELLER,
+		DORC, MEMO, MEMO2, MEMO3, ORGAN, REVERSED_NO, TELLER, TRADE_AMOUNT,
+		TRADE_CODE, TRADE_DATE,
+		TRADE_KIND, TRADE_NO, TRADE_TYPE, VOUCHER_CODE, VOUCHER_KIND, END_AMOUNT,
+		REPAY_INFO_ID,
+		LOAN_ID, CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_FLOW
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from OFFER_FLOW
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.offer.domain.OfferFlow">
+		insert into OFFER_FLOW (ID, ACCOUNT, ACCT_TITLE,
+		APPO_ACCT, APPO_ACCT_TITLE, APPO_DORC,
+		DELEGATION_TELLER, DORC, MEMO,
+		MEMO2, MEMO3, ORGAN,
+		REVERSED_NO, TELLER, TRADE_AMOUNT,
+		TRADE_CODE, TRADE_DATE, TRADE_KIND,
+		TRADE_NO, TRADE_TYPE, VOUCHER_CODE,
+		VOUCHER_KIND, END_AMOUNT, REPAY_INFO_ID,
+		LOAN_ID, CREATE_TIME, UPDATE_TIME
+		)
+		values (#{id,jdbcType=DECIMAL}, #{account,jdbcType=VARCHAR},
+		#{acctTitle,jdbcType=VARCHAR},
+		#{appoAcct,jdbcType=VARCHAR}, #{appoAcctTitle,jdbcType=VARCHAR}, #{appoDorc,jdbcType=VARCHAR},
+		#{delegationTeller,jdbcType=VARCHAR}, #{dorc,jdbcType=VARCHAR},
+		#{memo,jdbcType=VARCHAR},
+		#{memo2,jdbcType=VARCHAR}, #{memo3,jdbcType=VARCHAR}, #{organ,jdbcType=VARCHAR},
+		#{reversedNo,jdbcType=VARCHAR}, #{teller,jdbcType=VARCHAR},
+		#{tradeAmount,jdbcType=DECIMAL},
+		#{tradeCode,jdbcType=VARCHAR}, #{tradeDate,jdbcType=TIMESTAMP}, #{tradeKind,jdbcType=VARCHAR},
+		#{tradeNo,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR},
+		#{voucherCode,jdbcType=VARCHAR},
+		#{voucherKind,jdbcType=VARCHAR}, #{endAmount,jdbcType=DECIMAL}, #{repayInfoId,jdbcType=DECIMAL},
+		#{loanId,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.offer.domain.OfferFlow">
+		insert into OFFER_FLOW
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="account != null">
+				ACCOUNT,
+			</if>
+			<if test="acctTitle != null">
+				ACCT_TITLE,
+			</if>
+			<if test="appoAcct != null">
+				APPO_ACCT,
+			</if>
+			<if test="appoAcctTitle != null">
+				APPO_ACCT_TITLE,
+			</if>
+			<if test="appoDorc != null">
+				APPO_DORC,
+			</if>
+			<if test="delegationTeller != null">
+				DELEGATION_TELLER,
+			</if>
+			<if test="dorc != null">
+				DORC,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="memo2 != null">
+				MEMO2,
+			</if>
+			<if test="memo3 != null">
+				MEMO3,
+			</if>
+			<if test="organ != null">
+				ORGAN,
+			</if>
+			<if test="reversedNo != null">
+				REVERSED_NO,
+			</if>
+			<if test="teller != null">
+				TELLER,
+			</if>
+			<if test="tradeAmount != null">
+				TRADE_AMOUNT,
+			</if>
+			<if test="tradeCode != null">
+				TRADE_CODE,
+			</if>
+			<if test="tradeDate != null">
+				TRADE_DATE,
+			</if>
+			<if test="tradeKind != null">
+				TRADE_KIND,
+			</if>
+			<if test="tradeNo != null">
+				TRADE_NO,
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE,
+			</if>
+			<if test="voucherCode != null">
+				VOUCHER_CODE,
+			</if>
+			<if test="voucherKind != null">
+				VOUCHER_KIND,
+			</if>
+			<if test="endAmount != null">
+				END_AMOUNT,
+			</if>
+			<if test="repayInfoId != null">
+				REPAY_INFO_ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="acctTitle != null">
+				#{acctTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="appoAcct != null">
+				#{appoAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="appoAcctTitle != null">
+				#{appoAcctTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="appoDorc != null">
+				#{appoDorc,jdbcType=VARCHAR},
+			</if>
+			<if test="delegationTeller != null">
+				#{delegationTeller,jdbcType=VARCHAR},
+			</if>
+			<if test="dorc != null">
+				#{dorc,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="memo2 != null">
+				#{memo2,jdbcType=VARCHAR},
+			</if>
+			<if test="memo3 != null">
+				#{memo3,jdbcType=VARCHAR},
+			</if>
+			<if test="organ != null">
+				#{organ,jdbcType=VARCHAR},
+			</if>
+			<if test="reversedNo != null">
+				#{reversedNo,jdbcType=VARCHAR},
+			</if>
+			<if test="teller != null">
+				#{teller,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeAmount != null">
+				#{tradeAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeCode != null">
+				#{tradeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeDate != null">
+				#{tradeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tradeKind != null">
+				#{tradeKind,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeNo != null">
+				#{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeType != null">
+				#{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherCode != null">
+				#{voucherCode,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherKind != null">
+				#{voucherKind,jdbcType=VARCHAR},
+			</if>
+			<if test="endAmount != null">
+				#{endAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="repayInfoId != null">
+				#{repayInfoId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.offer.domain.OfferFlow">
+		update OFFER_FLOW
+		<set>
+			<if test="account != null">
+				ACCOUNT = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="acctTitle != null">
+				ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="appoAcct != null">
+				APPO_ACCT = #{appoAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="appoAcctTitle != null">
+				APPO_ACCT_TITLE = #{appoAcctTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="appoDorc != null">
+				APPO_DORC = #{appoDorc,jdbcType=VARCHAR},
+			</if>
+			<if test="delegationTeller != null">
+				DELEGATION_TELLER = #{delegationTeller,jdbcType=VARCHAR},
+			</if>
+			<if test="dorc != null">
+				DORC = #{dorc,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="memo2 != null">
+				MEMO2 = #{memo2,jdbcType=VARCHAR},
+			</if>
+			<if test="memo3 != null">
+				MEMO3 = #{memo3,jdbcType=VARCHAR},
+			</if>
+			<if test="organ != null">
+				ORGAN = #{organ,jdbcType=VARCHAR},
+			</if>
+			<if test="reversedNo != null">
+				REVERSED_NO = #{reversedNo,jdbcType=VARCHAR},
+			</if>
+			<if test="teller != null">
+				TELLER = #{teller,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeAmount != null">
+				TRADE_AMOUNT = #{tradeAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeCode != null">
+				TRADE_CODE = #{tradeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeDate != null">
+				TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tradeKind != null">
+				TRADE_KIND = #{tradeKind,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeNo != null">
+				TRADE_NO = #{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherCode != null">
+				VOUCHER_CODE = #{voucherCode,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherKind != null">
+				VOUCHER_KIND = #{voucherKind,jdbcType=VARCHAR},
+			</if>
+			<if test="endAmount != null">
+				END_AMOUNT = #{endAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="repayInfoId != null">
+				REPAY_INFO_ID = #{repayInfoId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.offer.domain.OfferFlow">
+		update OFFER_FLOW
+		set ACCOUNT = #{account,jdbcType=VARCHAR},
+		ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR},
+		APPO_ACCT = #{appoAcct,jdbcType=VARCHAR},
+		APPO_ACCT_TITLE = #{appoAcctTitle,jdbcType=VARCHAR},
+		APPO_DORC = #{appoDorc,jdbcType=VARCHAR},
+		DELEGATION_TELLER = #{delegationTeller,jdbcType=VARCHAR},
+		DORC = #{dorc,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		MEMO2 = #{memo2,jdbcType=VARCHAR},
+		MEMO3 = #{memo3,jdbcType=VARCHAR},
+		ORGAN = #{organ,jdbcType=VARCHAR},
+		REVERSED_NO = #{reversedNo,jdbcType=VARCHAR},
+		TELLER = #{teller,jdbcType=VARCHAR},
+		TRADE_AMOUNT = #{tradeAmount,jdbcType=DECIMAL},
+		TRADE_CODE = #{tradeCode,jdbcType=VARCHAR},
+		TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+		TRADE_KIND = #{tradeKind,jdbcType=VARCHAR},
+		TRADE_NO = #{tradeNo,jdbcType=VARCHAR},
+		TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+		VOUCHER_CODE = #{voucherCode,jdbcType=VARCHAR},
+		VOUCHER_KIND = #{voucherKind,jdbcType=VARCHAR},
+		END_AMOUNT = #{endAmount,jdbcType=DECIMAL},
+		REPAY_INFO_ID = #{repayInfoId,jdbcType=DECIMAL},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="getPaidAmountOnRepayDay" parameterType="java.util.Map"
+		resultType="java.math.BigDecimal">
+		select sum(f.trade_amount) as amount
+		from offer_flow f
+		where f.loan_id = #{loan_id, jdbcType=DECIMAL}
+		and f.appo_acct = #{appoAccount, jdbcType=VARCHAR}
+		and f.trade_date <![CDATA[>=]]>
+		#{startDate, jdbcType=TIMESTAMP}
+		and f.trade_date <![CDATA[<=]]>
+		#{endDate, jdbcType=TIMESTAMP}
+		and f.memo2 = #{curTerm, jdbcType=VARCHAR}
+		and (f.acct_title = #{title1, jdbcType=VARCHAR} or f.acct_title =
+		#{title2, jdbcType=VARCHAR})
+	</select>
+
+	<select id="getPaidAmountBeforeEndDay" parameterType="java.util.Map"
+		resultType="java.math.BigDecimal">
+		select sum(f.trade_amount) as amount
+		from offer_flow f
+		where f.loan_id = #{loan_id, jdbcType=DECIMAL}
+		and f.appo_acct = #{appoAccount, jdbcType=VARCHAR}
+		and f.trade_date <![CDATA[>]]>
+		#{startDate, jdbcType=TIMESTAMP}
+		and f.trade_date <![CDATA[<=]]>
+		#{endDate, jdbcType=TIMESTAMP}
+		and f.memo2 = #{curTerm, jdbcType=VARCHAR}
+		and (f.acct_title = #{title1, jdbcType=VARCHAR} or f.acct_title =
+		#{title2, jdbcType=VARCHAR})
+	</select>
+
+	<sql id="offerFlowSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_FLOW
+	</sql>
+	<sql id="offerFlowConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND ID= #{id, jdbcType=DECIMAL}
+			</if>
+			<if test="tradeNo != null and tradeNo != ''">
+				AND TRADE_NO = #{tradeNo, jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="offerFlowSelective" />
+		<include refid="offerFlowConditions" />
+	</select>
+
+	<select id="findQimoBalance" parameterType="java.util.Map"
+		resultType="java.math.BigDecimal">
+		SELECT SUM(CASE WHEN APPO_DORC='D' THEN TRADE_AMOUNT ELSE 0 END) -
+		SUM(CASE WHEN APPO_DORC='C' THEN TRADE_AMOUNT ELSE 0 END) FROM
+		OFFER_FLOW
+		WHERE LOAN_ID=#{loanId}
+		AND TRADE_NO <![CDATA[<=]]> #{tradeNo}
+		AND ACCT_TITLE=#{acctTitle}
+	</select>
+  
+  <select id="findTradeAmountByAppoAcct" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+      SELECT COALESCE(SUM(TRADE_AMOUNT), 0) FROM OFFER_FLOW WHERE TRADE_CODE = #{tradeCode} AND ACCT_TITLE = #{acctTitle} AND APPO_ACCT = #{appoacct}
+  </select>
+  
+  <select id="findZhuxueOrganizationTotalIncome" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+      SELECT COALESCE(SUM(TRADE_AMOUNT), 0) FROM OFFER_FLOW WHERE (TRADE_CODE = #{tradeCode1} AND ACCT_TITLE = #{acctTitle} AND APPO_ACCT = #{appoacct})
+      OR (TRADE_CODE = #{tradeCode2} AND ACCOUNT = #{appoacct}) OR (TRADE_CODE = #{tradeCode3} AND APPO_ACCT = #{appoacct})
+  </select>
+  
+  <select id="findZhuxueOrganizationTotalPay" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+      SELECT COALESCE(SUM(TRADE_AMOUNT), 0) FROM OFFER_FLOW WHERE (ACCT_TITLE = #{acctTitle} AND DORC = #{dorc} AND ACCOUNT = #{account})
+      OR (TRADE_CODE = #{tradeCode1} AND ACCOUNT = #{account}) OR (TRADE_CODE = #{tradeCode2} AND ACCOUNT = #{account})
+  </select>
+  
+  	<sql id="flowSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_FLOW
+	</sql>
+	<sql id="flowConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+			    and id = #{id, jdbcType=DECIMAL}
+			</if>
+			<if test="account != null">
+				and ACCOUNT = #{account,jdbcType=VARCHAR}
+			</if>
+			<if test="acctTitle != null">
+				and ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="appoAcct != null">
+				and APPO_ACCT = #{appoAcct,jdbcType=VARCHAR}
+			</if>
+			<if test="appoAcctTitle != null">
+				and APPO_ACCT_TITLE = #{appoAcctTitle,jdbcType=VARCHAR}
+			</if>
+			<if test="appoDorc != null">
+				and APPO_DORC = #{appoDorc,jdbcType=VARCHAR}
+			</if>
+			<if test="delegationTeller != null">
+				and DELEGATION_TELLER = #{delegationTeller,jdbcType=VARCHAR}
+			</if>
+			<if test="dorc != null">
+				and DORC = #{dorc,jdbcType=VARCHAR}
+			</if>
+			<if test="memo != null">
+				and MEMO = #{memo,jdbcType=VARCHAR}
+			</if>
+			<if test="memo2 != null">
+				and MEMO2 = #{memo2,jdbcType=VARCHAR}
+			</if>
+			<if test="memo3 != null">
+				and MEMO3 = #{memo3,jdbcType=VARCHAR}
+			</if>
+			<if test="organ != null">
+				and ORGAN = #{organ,jdbcType=VARCHAR}
+			</if>
+			<if test="reversedNo != null">
+				and REVERSED_NO = #{reversedNo,jdbcType=VARCHAR}
+			</if>
+			<if test="teller != null">
+				and TELLER = #{teller,jdbcType=VARCHAR}
+			</if>
+			<if test="tradeAmount != null">
+				and TRADE_AMOUNT = #{tradeAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="tradeCode != null">
+				and TRADE_CODE = #{tradeCode,jdbcType=VARCHAR}
+			</if>
+			<if test="tradeDate != null">
+				and TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="tradeKind != null">
+				and TRADE_KIND = #{tradeKind,jdbcType=VARCHAR}
+			</if>
+			<if test="tradeNo != null">
+				and TRADE_NO = #{tradeNo,jdbcType=VARCHAR}
+			</if>
+			<if test="tradeType != null">
+				and TRADE_TYPE = #{tradeType,jdbcType=VARCHAR}
+			</if>
+			<if test="voucherCode != null">
+				and VOUCHER_CODE = #{voucherCode,jdbcType=VARCHAR}
+			</if>
+			<if test="voucherKind != null">
+				and VOUCHER_KIND = #{voucherKind,jdbcType=VARCHAR}
+			</if>
+			<if test="endAmount != null">
+				and END_AMOUNT = #{endAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="repayInfoId != null">
+				and REPAY_INFO_ID = #{repayInfoId,jdbcType=DECIMAL}
+			</if>
+			<if test="loanId != null">
+				and LOAN_ID = #{loanId,jdbcType=DECIMAL}
+			</if>
+			<if test="createTime != null">
+				and CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateTime != null">
+				and UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.offer.domain.OfferFlow"
+		resultMap="BaseResultMap">
+		<include refid="flowSelective" />
+		<include refid="flowConditions" />
+	</select>
+
+	<select id="findByTradeNoaccTitleAsc" parameterType="java.util.Map"
+			resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_FLOW
+		WHERE  ACCT_TITLE IN
+		<foreach collection="acctTitles" item="acctTitle" open="(" close=")" separator=",">
+			#{acctTitle}
+		</foreach>
+		<if test="tradeNo != null and tradeNo != ''">
+			AND TRADE_NO = #{tradeNo}
+		</if>
+		ORDER BY ID ASC
+	</select>
+
+	<select id="findRecordAccountsFlowsBytradeNo" parameterType="java.util.Map"
+			resultMap="BaseResultMap">
+		select *
+		from offer_flow a
+		where
+		a.appo_dorc = 'D'
+		and a.dorc = 'D'
+		<if test="tradeNo != null and tradeNo != ''">
+			and a.trade_no = #{tradeNo}
+		</if>
+		order by id ASC
+	</select>
+
+	<select id="findRecordAccountsFlows" parameterType="java.util.Map"
+			resultMap="BaseResultMap">
+		SELECT B.*
+		FROM OFFER_REPAY_INFO A
+		JOIN OFFER_FLOW B
+		ON A.TRADE_NO = B.TRADE_NO
+		WHERE A.AMOUNT = 0
+		AND  B.ACCT_TITLE IN ('452','451','211','494')
+		<if test="loanId != null and loanId != ''">
+			AND A.LOAN_ID = #{loanId}
+		</if>
+		<if test="tradeDate != null "></if>
+		AND A.TRADE_DATE = #{tradeDate}
+		ORDER BY B.ID ASC
+	</select>
+
+	<select id="findCancelAccountsFlowsBytradeNo" parameterType="java.util.Map"
+			resultMap="BaseResultMap">
+		select *
+		from offer_flow a
+		where
+		a.appo_dorc = 'C'
+		and a.dorc = 'C'
+		<if test="tradeNo != null and tradeNo != ''">
+			and a.trade_no = #{tradeNo}
+		</if>
+		order by id ASC
+	</select>
+
+	<select id="getMoreTermFineAmount" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+		select nvl(sum(a.trade_amount),0)
+		from offer_flow a
+		where a.acct_title = '452'
+		<if test="loanId != null and loanId != ''">
+			and a.loan_id = #{loanId}
+		</if>
+		and a.memo2 in
+		<foreach collection="terms" item="term" open="(" close=")" separator=",">
+			to_char(#{term})
+		</foreach>
+	</select>
+
+	<select id="findOverDueOfferFlow4Lufax" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_FLOW
+		where account != 'ZD0000001090000002'
+		<if test="loanId != null">
+			and loan_id = #{loanId}
+		</if>
+		<if test="memo2 != null">
+			and memo2 = to_char(#{memo2})
+		</if>
+		<if test = "acctTitle != null">
+			and acct_title = #{acctTitle}
+		</if>
+	</select>
+	<select id="getCurrenTermAlreadyRepayTotalMoney" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+		select nvl(sum(b.tradeAmount), 0)
+		from (select case
+		when a.account = 'ZD0000001090000002' and
+		a.acct_title = '452' then
+		-a.trade_amount
+		else
+		a.trade_amount
+		end tradeAmount
+		from offer_flow a
+		where 1=1
+		<if test="loanId != null and loanId != ''">
+			and a.loan_id = #{loanId}
+		</if>
+		<if test="currentTerm != null and currentTerm != ''">
+			and a.memo2 = #{currentTerm}
+		</if>
+		)b
+	</select>
+
+	<select id="getHistoryReleifTime" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from offer_flow a where a.account = 'ZD0000001090000002'  and a.acct_title = '452' and a.loan_id = #{loanId}
+	</select>
+
+	<select id="getHistoryReliefAmount" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+		select nvl(sum(a.trade_amount),0) from offer_flow a where a.account = 'ZD0000001090000002'  and a.acct_title = '452' and a.loan_id = #{loanId}
+	</select>
+
+	<select id="getAlreadyPayFineAmount" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+		select nvl(sum(a.trade_amount),0) from offer_flow a where a.acct_title = '452' and a.loan_id = #{loanId} and a.memo2 = #{currentTerm}
+	</select>
+	
+	<!-- 实际还款日期  实还本金  实还利息  实还罚息 实还金额   -->
+	<select id="getRepayStateDetailRealValue" parameterType="java.util.Map" resultType="com.zdmoney.credit.repay.vo.RepayStateDetail">
+			 SELECT to_char(MAX(T.TRADE_DATE),'yyyy/MM/dd') AS realReturnDate,
+		       NVL(SUM(CASE
+		                 WHEN T.ACCT_TITLE = '211' THEN 
+		                  T.TRADE_AMOUNT
+		                 ELSE
+		                  0
+		               END),
+		           0) AS realCorpus,
+		       NVL(SUM(CASE
+		                 WHEN T.ACCT_TITLE = '451' THEN 
+		                  T.TRADE_AMOUNT
+		                 ELSE
+		                  0
+		               END),
+		           0) AS realAccrual,
+		       NVL(SUM(CASE
+		                 WHEN T.ACCT_TITLE = '452' AND T.ACCOUNT &lt;&gt; 'ZD0000001090000002' THEN
+		                  T.TRADE_AMOUNT
+		                 ELSE
+		                  0
+		               END),
+		           0) AS realCorpusOine,
+		           NVL(SUM(T.TRADE_AMOUNT),0) tradeAmount
+		  FROM OFFER_FLOW T
+		 WHERE T.LOAN_ID = #{loanId}
+		 	AND T.TRADE_CODE IN ('1001','3001')
+		    AND T.ACCT_TITLE IN ('451','211','452')
+		    <if test="lastTerm != null">
+		    	 AND T.TRADE_DATE &gt;= TO_DATE('${loanRepayDetailReturnDate}', 'YYYYMM')
+		    	 AND T.TRADE_DATE &lt;= LAST_DAY(TO_DATE('${currentDate}', 'YYYYMM'))
+		    </if>
+		    <if test="lastTerm == null and loanRepayDetailReturnDate != null">
+		     	 AND T.TRADE_DATE &gt;= TO_DATE('${loanRepayDetailReturnDate}', 'YYYYMM')
+				 AND T.TRADE_DATE &lt;= LAST_DAY(TO_DATE('${loanRepayDetailReturnDate}', 'YYYYMM'))
+		    </if>
+		  	
+	</select>
+	
+</mapper>

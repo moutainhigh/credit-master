@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanLedgerMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanLedger">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="APPRAISAL_EXP" property="appraisalExp"
+			jdbcType="DECIMAL" />
+		<result column="APPRAISAL_INCOME" property="appraisalIncome"
+			jdbcType="DECIMAL" />
+		<result column="CONSULT_EXP" property="consultExp" jdbcType="DECIMAL" />
+		<result column="CONSULT_INCOME" property="consultIncome"
+			jdbcType="DECIMAL" />
+		<result column="FINE_EXP" property="fineExp" jdbcType="DECIMAL" />
+		<result column="FINE_INCOME" property="fineIncome" jdbcType="DECIMAL" />
+		<result column="FINE_PAYABLE" property="finePayable" jdbcType="DECIMAL" />
+		<result column="FINE_RECEIVABLE" property="fineReceivable"
+			jdbcType="DECIMAL" />
+		<result column="INTEREST_EXP" property="interestExp" jdbcType="DECIMAL" />
+		<result column="INTEREST_INCOME" property="interestIncome"
+			jdbcType="DECIMAL" />
+		<result column="INTEREST_PAYABLE" property="interestPayable"
+			jdbcType="DECIMAL" />
+		<result column="INTEREST_RECEIVABLE" property="interestReceivable"
+			jdbcType="DECIMAL" />
+		<result column="LOAN_AMOUNT" property="loanAmount" jdbcType="DECIMAL" />
+		<result column="MANAGE_EXP" property="manageExp" jdbcType="DECIMAL" />
+		<result column="MANAGE_INCOME" property="manageIncome"
+			jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="NON_OPERAT_EXP" property="nonOperatExp"
+			jdbcType="DECIMAL" />
+		<result column="NON_OPERAT_INCOME" property="nonOperatIncome"
+			jdbcType="DECIMAL" />
+		<result column="OTHER_EXP" property="otherExp" jdbcType="DECIMAL" />
+		<result column="OTHER_INCOME" property="otherIncome" jdbcType="DECIMAL" />
+		<result column="OTHER_PAYABLE" property="otherPayable"
+			jdbcType="DECIMAL" />
+		<result column="OTHER_RECEIVALE" property="otherReceivale"
+			jdbcType="DECIMAL" />
+		<result column="PENALTY_EXP" property="penaltyExp" jdbcType="DECIMAL" />
+		<result column="PENALTY_INCOME" property="penaltyIncome"
+			jdbcType="DECIMAL" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ACCOUNT, AMOUNT, APPRAISAL_EXP, APPRAISAL_INCOME, CONSULT_EXP,
+		CONSULT_INCOME,
+		FINE_EXP, FINE_INCOME, FINE_PAYABLE, FINE_RECEIVABLE, INTEREST_EXP,
+		INTEREST_INCOME,
+		INTEREST_PAYABLE, INTEREST_RECEIVABLE, LOAN_AMOUNT, MANAGE_EXP, MANAGE_INCOME, MEMO,
+		NON_OPERAT_EXP, NON_OPERAT_INCOME, OTHER_EXP, OTHER_INCOME,
+		OTHER_PAYABLE, OTHER_RECEIVALE,
+		PENALTY_EXP, PENALTY_INCOME, TYPE, LOAN_ID
+	</sql>
+	<sql id="findbyLoanIdConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null">
+				AND LOAN_ID = #{loanId}
+			</if>
+		</trim>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_LEDGER
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<select id="findByLoanId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_LEDGER
+		where LOAN_ID = #{loanId,jdbcType=DECIMAL}
+	</select>
+
+	<select id="findByAccount" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_LEDGER
+		where ACCOUNT = #{account}
+	</select>
+
+
+	<select id="findByLoanIdForUpdate" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_LEDGER
+		where LOAN_ID = #{loanId,jdbcType=DECIMAL}
+		for update
+	</select>
+
+	<select id="findByAccountForUpdate" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_LEDGER
+		where ACCOUNT = #{account}
+		for update
+	</select>
+	
+
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from LOAN_LEDGER
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanLedger">
+		insert into LOAN_LEDGER (ID, ACCOUNT, AMOUNT,
+		APPRAISAL_EXP, APPRAISAL_INCOME, CONSULT_EXP,
+		CONSULT_INCOME, FINE_EXP, FINE_INCOME,
+		FINE_PAYABLE, FINE_RECEIVABLE, INTEREST_EXP,
+		INTEREST_INCOME, INTEREST_PAYABLE, INTEREST_RECEIVABLE,
+		LOAN_AMOUNT, MANAGE_EXP, MANAGE_INCOME,
+		MEMO, NON_OPERAT_EXP, NON_OPERAT_INCOME,
+		OTHER_EXP, OTHER_INCOME, OTHER_PAYABLE,
+		OTHER_RECEIVALE, PENALTY_EXP, PENALTY_INCOME,
+		TYPE, LOAN_ID)
+		values (#{id,jdbcType=DECIMAL}, #{account,jdbcType=VARCHAR},
+		#{amount,jdbcType=DECIMAL},
+		#{appraisalExp,jdbcType=DECIMAL}, #{appraisalIncome,jdbcType=DECIMAL}, #{consultExp,jdbcType=DECIMAL},
+		#{consultIncome,jdbcType=DECIMAL}, #{fineExp,jdbcType=DECIMAL},
+		#{fineIncome,jdbcType=DECIMAL},
+		#{finePayable,jdbcType=DECIMAL}, #{fineReceivable,jdbcType=DECIMAL}, #{interestExp,jdbcType=DECIMAL},
+		#{interestIncome,jdbcType=DECIMAL},
+		#{interestPayable,jdbcType=DECIMAL},
+		#{interestReceivable,jdbcType=DECIMAL},
+		#{loanAmount,jdbcType=DECIMAL}, #{manageExp,jdbcType=DECIMAL},
+		#{manageIncome,jdbcType=DECIMAL},
+		#{memo,jdbcType=VARCHAR}, #{nonOperatExp,jdbcType=DECIMAL},
+		#{nonOperatIncome,jdbcType=DECIMAL},
+		#{otherExp,jdbcType=DECIMAL}, #{otherIncome,jdbcType=DECIMAL}, #{otherPayable,jdbcType=DECIMAL},
+		#{otherReceivale,jdbcType=DECIMAL}, #{penaltyExp,jdbcType=DECIMAL},
+		#{penaltyIncome,jdbcType=DECIMAL},
+		#{type,jdbcType=VARCHAR}, #{loanId,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanLedger">
+		insert into LOAN_LEDGER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="account != null">
+				ACCOUNT,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="appraisalExp != null">
+				APPRAISAL_EXP,
+			</if>
+			<if test="appraisalIncome != null">
+				APPRAISAL_INCOME,
+			</if>
+			<if test="consultExp != null">
+				CONSULT_EXP,
+			</if>
+			<if test="consultIncome != null">
+				CONSULT_INCOME,
+			</if>
+			<if test="fineExp != null">
+				FINE_EXP,
+			</if>
+			<if test="fineIncome != null">
+				FINE_INCOME,
+			</if>
+			<if test="finePayable != null">
+				FINE_PAYABLE,
+			</if>
+			<if test="fineReceivable != null">
+				FINE_RECEIVABLE,
+			</if>
+			<if test="interestExp != null">
+				INTEREST_EXP,
+			</if>
+			<if test="interestIncome != null">
+				INTEREST_INCOME,
+			</if>
+			<if test="interestPayable != null">
+				INTEREST_PAYABLE,
+			</if>
+			<if test="interestReceivable != null">
+				INTEREST_RECEIVABLE,
+			</if>
+			<if test="loanAmount != null">
+				LOAN_AMOUNT,
+			</if>
+			<if test="manageExp != null">
+				MANAGE_EXP,
+			</if>
+			<if test="manageIncome != null">
+				MANAGE_INCOME,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="nonOperatExp != null">
+				NON_OPERAT_EXP,
+			</if>
+			<if test="nonOperatIncome != null">
+				NON_OPERAT_INCOME,
+			</if>
+			<if test="otherExp != null">
+				OTHER_EXP,
+			</if>
+			<if test="otherIncome != null">
+				OTHER_INCOME,
+			</if>
+			<if test="otherPayable != null">
+				OTHER_PAYABLE,
+			</if>
+			<if test="otherReceivale != null">
+				OTHER_RECEIVALE,
+			</if>
+			<if test="penaltyExp != null">
+				PENALTY_EXP,
+			</if>
+			<if test="penaltyIncome != null">
+				PENALTY_INCOME,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="appraisalExp != null">
+				#{appraisalExp,jdbcType=DECIMAL},
+			</if>
+			<if test="appraisalIncome != null">
+				#{appraisalIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="consultExp != null">
+				#{consultExp,jdbcType=DECIMAL},
+			</if>
+			<if test="consultIncome != null">
+				#{consultIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="fineExp != null">
+				#{fineExp,jdbcType=DECIMAL},
+			</if>
+			<if test="fineIncome != null">
+				#{fineIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="finePayable != null">
+				#{finePayable,jdbcType=DECIMAL},
+			</if>
+			<if test="fineReceivable != null">
+				#{fineReceivable,jdbcType=DECIMAL},
+			</if>
+			<if test="interestExp != null">
+				#{interestExp,jdbcType=DECIMAL},
+			</if>
+			<if test="interestIncome != null">
+				#{interestIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="interestPayable != null">
+				#{interestPayable,jdbcType=DECIMAL},
+			</if>
+			<if test="interestReceivable != null">
+				#{interestReceivable,jdbcType=DECIMAL},
+			</if>
+			<if test="loanAmount != null">
+				#{loanAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="manageExp != null">
+				#{manageExp,jdbcType=DECIMAL},
+			</if>
+			<if test="manageIncome != null">
+				#{manageIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="nonOperatExp != null">
+				#{nonOperatExp,jdbcType=DECIMAL},
+			</if>
+			<if test="nonOperatIncome != null">
+				#{nonOperatIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="otherExp != null">
+				#{otherExp,jdbcType=DECIMAL},
+			</if>
+			<if test="otherIncome != null">
+				#{otherIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="otherPayable != null">
+				#{otherPayable,jdbcType=DECIMAL},
+			</if>
+			<if test="otherReceivale != null">
+				#{otherReceivale,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyExp != null">
+				#{penaltyExp,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyIncome != null">
+				#{penaltyIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanLedger">
+		update LOAN_LEDGER
+		<set>
+			<if test="account != null">
+				ACCOUNT = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="appraisalExp != null">
+				APPRAISAL_EXP = #{appraisalExp,jdbcType=DECIMAL},
+			</if>
+			<if test="appraisalIncome != null">
+				APPRAISAL_INCOME = #{appraisalIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="consultExp != null">
+				CONSULT_EXP = #{consultExp,jdbcType=DECIMAL},
+			</if>
+			<if test="consultIncome != null">
+				CONSULT_INCOME = #{consultIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="fineExp != null">
+				FINE_EXP = #{fineExp,jdbcType=DECIMAL},
+			</if>
+			<if test="fineIncome != null">
+				FINE_INCOME = #{fineIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="finePayable != null">
+				FINE_PAYABLE = #{finePayable,jdbcType=DECIMAL},
+			</if>
+			<if test="fineReceivable != null">
+				FINE_RECEIVABLE = #{fineReceivable,jdbcType=DECIMAL},
+			</if>
+			<if test="interestExp != null">
+				INTEREST_EXP = #{interestExp,jdbcType=DECIMAL},
+			</if>
+			<if test="interestIncome != null">
+				INTEREST_INCOME = #{interestIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="interestPayable != null">
+				INTEREST_PAYABLE = #{interestPayable,jdbcType=DECIMAL},
+			</if>
+			<if test="interestReceivable != null">
+				INTEREST_RECEIVABLE = #{interestReceivable,jdbcType=DECIMAL},
+			</if>
+			<if test="loanAmount != null">
+				LOAN_AMOUNT = #{loanAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="manageExp != null">
+				MANAGE_EXP = #{manageExp,jdbcType=DECIMAL},
+			</if>
+			<if test="manageIncome != null">
+				MANAGE_INCOME = #{manageIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="nonOperatExp != null">
+				NON_OPERAT_EXP = #{nonOperatExp,jdbcType=DECIMAL},
+			</if>
+			<if test="nonOperatIncome != null">
+				NON_OPERAT_INCOME = #{nonOperatIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="otherExp != null">
+				OTHER_EXP = #{otherExp,jdbcType=DECIMAL},
+			</if>
+			<if test="otherIncome != null">
+				OTHER_INCOME = #{otherIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="otherPayable != null">
+				OTHER_PAYABLE = #{otherPayable,jdbcType=DECIMAL},
+			</if>
+			<if test="otherReceivale != null">
+				OTHER_RECEIVALE = #{otherReceivale,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyExp != null">
+				PENALTY_EXP = #{penaltyExp,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyIncome != null">
+				PENALTY_INCOME = #{penaltyIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanLedger">
+		update LOAN_LEDGER
+		set ACCOUNT = #{account,jdbcType=VARCHAR},
+		AMOUNT = #{amount,jdbcType=DECIMAL},
+		APPRAISAL_EXP = #{appraisalExp,jdbcType=DECIMAL},
+		APPRAISAL_INCOME = #{appraisalIncome,jdbcType=DECIMAL},
+		CONSULT_EXP = #{consultExp,jdbcType=DECIMAL},
+		CONSULT_INCOME = #{consultIncome,jdbcType=DECIMAL},
+		FINE_EXP = #{fineExp,jdbcType=DECIMAL},
+		FINE_INCOME = #{fineIncome,jdbcType=DECIMAL},
+		FINE_PAYABLE = #{finePayable,jdbcType=DECIMAL},
+		FINE_RECEIVABLE = #{fineReceivable,jdbcType=DECIMAL},
+		INTEREST_EXP = #{interestExp,jdbcType=DECIMAL},
+		INTEREST_INCOME = #{interestIncome,jdbcType=DECIMAL},
+		INTEREST_PAYABLE = #{interestPayable,jdbcType=DECIMAL},
+		INTEREST_RECEIVABLE = #{interestReceivable,jdbcType=DECIMAL},
+		LOAN_AMOUNT = #{loanAmount,jdbcType=DECIMAL},
+		MANAGE_EXP = #{manageExp,jdbcType=DECIMAL},
+		MANAGE_INCOME = #{manageIncome,jdbcType=DECIMAL},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		NON_OPERAT_EXP = #{nonOperatExp,jdbcType=DECIMAL},
+		NON_OPERAT_INCOME = #{nonOperatIncome,jdbcType=DECIMAL},
+		OTHER_EXP = #{otherExp,jdbcType=DECIMAL},
+		OTHER_INCOME = #{otherIncome,jdbcType=DECIMAL},
+		OTHER_PAYABLE = #{otherPayable,jdbcType=DECIMAL},
+		OTHER_RECEIVALE = #{otherReceivale,jdbcType=DECIMAL},
+		PENALTY_EXP = #{penaltyExp,jdbcType=DECIMAL},
+		PENALTY_INCOME = #{penaltyIncome,jdbcType=DECIMAL},
+		TYPE = #{type,jdbcType=VARCHAR},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+
+	<select id="getLoanLedgerHasBalanceByDate" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select LOAN_ID
+		from LOAN_LEDGER a
+		where  (a.Amount > 0 or exists(select 1 from special_repayment_apply c where a.loan_id = c.loan_id and c.application_status = 5))
+		and a.Type='2'
+		and exists(select 1 from V_LOAN_INFO b where id=a.loan_id and
+		b.promise_Return_Date = #{promiseReturnDate})
+	</select>
+	<update id="updateOtherPayableByLoanId" parameterType="com.zdmoney.credit.loan.domain.LoanLedger">
+		update LOAN_LEDGER
+		set 
+		OTHER_PAYABLE = #{otherPayable,jdbcType=DECIMAL}
+		where LOAN_ID = #{loanId,jdbcType=DECIMAL}
+	</update>
+	
+	<select id="getLoanLedgerInfoByLoanBelong" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT T2.*
+		  FROM V_LOAN_INFO T1, LOAN_LEDGER T2
+		 WHERE T1.ID = T2.LOAN_ID
+		   AND T1.LOAN_BELONG = #{loanBelong}
+		   AND T1.LOAN_STATE IN ('正常')
+		   AND T2.TYPE = '2'
+		   AND T2.AMOUNT > 0
+		   AND T1.PROMISE_RETURN_DATE = #{promiseReturnDate}
+	</select>
+	<select id="findMoreThanZero" resultMap="BaseResultMap">
+		select t.*
+    	from loan_ledger t,loan_base tt where t.amount>0 and t.loan_id=tt.id and tt.loan_state='正常' and t.type='2'
+	</select>
+</mapper>

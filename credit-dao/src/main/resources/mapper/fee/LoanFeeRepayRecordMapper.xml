@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.credit.fee.domain.LoanFeeRepayRecordMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.fee.domain.LoanFeeRepayRecord">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+    <result column="FEE_ID" jdbcType="DECIMAL" property="feeId" />
+    <result column="ACCT_TITLE" jdbcType="VARCHAR" property="acctTitle" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="REPAY_AMOUNT" jdbcType="DECIMAL" property="repayamount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOAN_ID, FEE_ID, ACCT_TITLE, AMOUNT, REPAY_AMOUNT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_FEE_REPAY_RECORD
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from LOAN_FEE_REPAY_RECORD
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.fee.domain.LoanFeeRepayRecord">
+    insert into LOAN_FEE_REPAY_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="loanId != null">
+        LOAN_ID,
+      </if>
+      <if test="feeId != null">
+        FEE_ID,
+      </if>
+      <if test="acctTitle != null">
+        ACCT_TITLE,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
+      </if>
+      <if test="repayamount != null">
+        REPAY_AMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null">
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="feeId != null">
+        #{feeId,jdbcType=DECIMAL},
+      </if>
+      <if test="acctTitle != null">
+        #{acctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repayamount != null">
+        #{repayamount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.fee.domain.LoanFeeRepayRecord">
+    update LOAN_FEE_REPAY_RECORD
+    <set>
+      <if test="loanId != null">
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="feeId != null">
+        FEE_ID = #{feeId,jdbcType=DECIMAL},
+      </if>
+      <if test="acctTitle != null">
+        ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repayamount != null">
+        REPAY_AMOUNT = #{repayamount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectLoanFeeRepayRecordByFeeIdAndAcctTitle" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		select 
+    <include refid="Base_Column_List" />
+    from LOAN_FEE_REPAY_RECORD
+    where FEE_ID = #{feeId,jdbcType=DECIMAL}
+    and ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR}
+  </select>
+</mapper>

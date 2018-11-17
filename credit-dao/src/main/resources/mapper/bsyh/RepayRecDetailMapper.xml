@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zdmoney.credit.bsyh.domain.RepayRecDetailMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.bsyh.domain.RepayRecDetail">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+		<result column="CHANL_NO" property="chanlNo" jdbcType="VARCHAR" />
+		<result column="TERM" property="term"
+			jdbcType="DECIMAL" />
+		<result column="TRADE_AMT" property="tradeAmt"
+			jdbcType="DECIMAL" />
+		<result column="TOTAL_INTEREST" property="totalInterest" jdbcType="DECIMAL" />
+		<result column="TOTAL_FEE_AMT" property="totalFeeAmt" jdbcType="DECIMAL" />		
+		<result column="REPAY_TYPE" property="repayType" jdbcType="VARCHAR" />
+		<result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />		
+		<result column="TOTAL_NUM" property="totalNum" jdbcType="DECIMAL" />
+		<result column="TOTAL_AMT" property="totalAmt" jdbcType="DECIMAL" />
+		<result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />			
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, ORDER_NO, CHANL_NO, TERM,
+		TRADE_AMT,TOTAL_INTEREST,TOTAL_FEE_AMT,REPAY_TYPE,TRADE_DATE,TOTAL_NUM,TOTAL_AMT,FILE_NAME,CREATE_DATE,STATE
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from REPAY_REC_DETAIL
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		delete from REPAY_REC_DETAIL
+		where ID
+		= #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.bsyh.domain.RepayRecDetail">
+		insert into REPAY_REC_DETAIL (ID, ORDER_NO, CHANL_NO, TERM,
+		TRADE_AMT,TOTAL_INTEREST,TOTAL_FEE_AMT,REPAY_TYPE,TRADE_DATE,TOTAL_NUM,TOTAL_AMT,FILE_NAME,CREATE_DATE,STATE)
+		values
+		(#{id,jdbcType=DECIMAL}, #{orderNo,jdbcType=VARCHAR},
+		#{chanlNo,jdbcType=VARCHAR},
+		#{term,jdbcType=DECIMAL},#{tradeAmt,jdbcType=DECIMAL},
+		#{totalInterest,jdbcType=DECIMAL}, #{totalFeeAmt,jdbcType=DECIMAL},
+		#{repayType,jdbcType=VARCHAR},#{tradeDate,jdbcType=TIMESTAMP},#{totalNum,jdbcType=DECIMAL},
+		#{totalAmt,jdbcType=DECIMAL},#{fileName,jdbcType=VARCHAR},#{createDate,jdbcType=TIMESTAMP},#{state,jdbcType=VARCHAR})
+	</insert>	
+	<update id="update" parameterType="com.zdmoney.credit.bsyh.domain.RepayRecDetail">
+		update GRANT_REC_DETAIL
+		<set>
+			<if test="orderNo != null">
+				ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="chanlNo != null">
+				CHANL_NO = #{chanlNo,jdbcType=VARCHAR},
+			</if>
+			<if test="term != null">
+				TERM = #{term,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeAmt != null">
+				TRADE_AMT = #{tradeAmt,jdbcType=DECIMAL},
+			</if>
+			<if test="totalInterest != null">
+				TOTAL_INTEREST = #{totalInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="totalFeeAmt != null">
+				TOTAL_FEE_AMT = #{totalFeeAmt,jdbcType=DECIMAL},
+			</if>	
+			<if test="repayType != null">
+				REPAY_TYPE = #{repayType,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeDate != null">
+				TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalNum != null">
+				TOTAL_NUM = #{totalNum,jdbcType=DECIMAL},
+			</if>
+			<if test="totalAmt != null">
+				TOTAL_AMT = #{totalAmt,jdbcType=DECIMAL},
+			</if>
+			<if test="fileName != null">
+				FILE_NAME = #{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>	
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>	
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

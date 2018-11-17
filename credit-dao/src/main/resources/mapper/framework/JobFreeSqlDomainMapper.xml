@@ -1,0 +1,2139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.framework.domain.JobFreeSqlDomainMapper">
+	<!-- <resultMap id="fuiouOfferJobEntryResultMap" type="com.zdmoney.credit.offer.domain.FuiouOfferJobEntry" 
+		> <id column="NAME" property="name" jdbcType="VARCHAR" /> <result column="IDNUM" 
+		property="idNum" jdbcType="VARCHAR" /> <result column="IDTYPE" property="idType" 
+		jdbcType="VARCHAR" /> <result column="MPHONE" property="mphone" jdbcType="VARCHAR" 
+		/> <result column="ACCOUNT" property="account" jdbcType="VARCHAR" /> <result 
+		column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" /> </resultMap> -->
+
+	<delete id="overdueDetailsJobDelete">
+		delete from overdue_detail where cur_date = trunc(sysdate)
+	</delete>
+
+	<insert id="overdueDetailsJobInsert">
+		INSERT INTO overdue_detail
+		(id,
+		cur_date,
+		daikuaizhonglei,
+		faxijine,
+		faxiqisuanri,
+		genzongqingkuang,
+		hetongjine,
+		kehuxingming,
+		khujinli,
+		khujinli_id,
+		lianxifangshione,
+		lianxifangshitwo,
+		qianyueriqi,
+		shengfenzhenghao,
+		shengyubenjin,
+		yinghuanzongjine,
+		yinyebu,
+		yinyuebucode,
+		yinyuebuleixing,
+		yuqibenjin,
+		yuqibenxihe,
+		yuqilixi,
+		yuqiqishiri,
+		yuqiqishu,
+		yuqitianshu,
+		zuihouyicihuankuanjine,
+		zuihouyicihuankuanriqi,
+		shenheyuan,
+		kefu,
+		/*orgname,*/
+		sales_department_id,
+		loan_id,
+		salesman_code,
+		sign_sales_dep_name,
+		sign_sales_dep_id,
+		sign_sales_dep_code,
+		sign_sales_dep_type)
+		select SEQ_PUB_ID.nextval,
+		cur_date,
+		loan_type,
+		penalty,
+		penalty_date,
+		'',
+		pact_money,
+		name,
+		salesman,
+		salesman_id,
+		'',
+		'',
+		sign_date,
+		idnum,
+		residual_pact_money,
+		over_principal + over_interest + penalty,
+		department_name,
+		department_code,
+		department_type,
+		over_principal,
+		over_principal + over_interest,
+		over_interest,
+		overdue_date,
+		over_terms,
+		over_days,
+		amount,
+		trade_date,
+		assessor,
+		crm,
+		/*orgname,*/
+		did,
+		id,
+		salesman_code,
+		sign_sales_dep_name,
+		sign_sales_dep_id,
+		sign_sales_dep_code,
+		sign_sales_dep_type
+		from v_overdue_detail
+		where not exists (select 1
+		from overdue_detail
+		where cur_date = trunc(sysdate))
+	</insert>
+
+	<delete id="overdueStatJobDelete" parameterType="java.lang.String">
+		delete from Overdue_Stat where to_char(cur_Date,'yyyy-MM-dd')= #{dateStr,
+		jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="overdueStatJobInsert">
+		insert into overdue_stat
+		(ID,
+		CUR_DATE,
+		SHENGYUBENJIN,
+		YINYEBU,
+		YINYUEBUCODE,
+		YUQIJINE,
+		YUQILV,
+		YINYUEBULEIXING,
+		YINGYEBUBIANHAO,
+		DAIZHANGBENJIN,
+		DAIZHANGBILV,
+		SALES_DEPARTMENT_ID,
+		FUNDS_SOURCES,
+		CREATE_TIME)
+		select SEQ_OVERDUE_STAT.nextval, trunc(sysdate), t.*, systimestamp
+		from (select nvl(shengyubenjin, 0),
+		depname,
+		depid,
+		nvl(yuqishengyubenjin, 0),
+		case
+		when yuqishengyubenjin * shengyubenjin is null then
+		0
+		else
+		yuqishengyubenjin / shengyubenjin
+		end,
+		type,
+		depnum,
+		nvl(daizhangbenjin, 0),
+		case
+		when daizhangbenjin * shengyubenjin is null then
+		0
+		else
+		daizhangbenjin / shengyubenjin
+		end,
+		departmentid,
+		funds_sources
+		from V_OVERDUE_STAT
+		union
+		select nvl(shengyubenjin, 0),
+		depname,
+		depid,
+		nvl(yuqishengyubenjin, 0),
+		case
+		when yuqishengyubenjin * shengyubenjin is null then
+		0
+		else
+		yuqishengyubenjin / shengyubenjin
+		end,
+		type,
+		depnum,
+		nvl(daizhangbenjin, 0),
+		case
+		when daizhangbenjin * shengyubenjin is null then
+		0
+		else
+		daizhangbenjin / shengyubenjin
+		end,
+		departmentid,
+		loan_belong
+		from V_OVERDUE_STAT_LOAN_BELONG) t
+	</insert>
+
+	<delete id="overdueRatioStatJobDelete" parameterType="java.lang.String">
+		delete from Overdue_Ratio_Stat where to_char(cur_Date,'yyyy-MM-dd') =
+		#{dateStr, jdbcType=VARCHAR}
+	</delete>
+
+	<select id="orsjSelectData" resultType="java.util.Map">
+		with rest_info as
+		(select rest.rest_amount,
+		/*overdue.rest_overdue_amount,*/
+		rest.loan_type,
+		rest.SALES_DEPARTMENT_ID
+		from (select sum(loan.residual_pact_money) as rest_amount,
+		loan.LOAN_TYPE,
+		loan.SALES_DEPARTMENT_ID
+		from v_loan_info loan
+		where loan.LOAN_STATE in ('正常', '逾期')
+		group by loan.LOAN_TYPE, loan.SALES_DEPARTMENT_ID) rest
+		/*full join (select sum(loan.residual_pact_money) as rest_overdue_amount,
+		loan.LOAN_TYPE,
+		loan.SALES_DEPARTMENT_ID
+		from v_loan_info loan
+		where loan.LOAN_STATE in ('逾期')
+		group by loan.LOAN_TYPE, loan.SALES_DEPARTMENT_ID) overdue
+		on (rest.loan_type = overdue.loan_type and
+		rest.SALES_DEPARTMENT_ID = overdue.SALES_DEPARTMENT_ID)*/)
+		select sd.name as depName,
+		nvl(rest_info.rest_amount, 0) as rest_amount,
+		/*nvl(rest_info.rest_overdue_amount, 0) as rest_overdue_amount, */
+		sd.org_code as depId,
+		rest_info.loan_type,
+		sd.department_type as type
+		from rest_info
+		left join com_organization sd
+		on (rest_info.SALES_DEPARTMENT_ID = sd.id)
+	</select>
+
+	<select id="orsjSelectLoanId" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select l.id as loan_id
+		from v_loan_info l left join com_organization sd on (l.SALES_DEPARTMENT_ID
+		= sd.id)
+		where sd.org_code = #{depId, jdbcType=VARCHAR}
+		and l.loan_type = #{loanType, jdbcType=VARCHAR}
+		and l.loan_state in ('逾期')
+	</select>
+
+	<select id="orsjSelectReturnDate" parameterType="java.util.Map"
+		resultType="java.util.Date">
+		select lrd.return_date
+		from loan_repayment_detail lrd
+		where lrd.loan_id = #{loanId, jdbcType=DECIMAL}
+		and lrd.REPAYMENT_STATE in
+		<foreach item="item" index="index" collection="repaymentStates"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		order by current_Term
+	</select>
+
+	<select id="orsjSelectOverdueSum" parameterType="java.util.Map"
+		resultType="java.lang.String">
+		select to_char(nvl(sum(residualPactMoney), 0))
+		from v_loan_info l left join com_organization sd on (l.SALES_DEPARTMENT_ID
+		= sd.id)
+		where sd.org_code = #{depId, jdbcType=VARCHAR}
+		and l.loan_type = #{loanType, jdbcType=VARCHAR}
+		and l.id in
+		<foreach item="item" index="index" collection="loanIds" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="orsjSelectCheck" resultType="java.lang.Integer">
+		select 1 from overdue_ratio_new where to_char(cur_date, 'yyyy-MM-dd') =
+		to_char(sysdate, 'yyyy-MM-dd')
+	</select>
+
+	<insert id="orsjInsertRatioNew">
+		INSERT INTO overdue_ratio_new
+		(id,
+		dep_name,
+		zone_code,
+		dep_code,
+		department_num,
+		department_type,
+		did,
+		residual_pact_money,
+		loan_type,
+		funds_sources,
+		residual_pact_money_product,
+		residual_pact_money_over_p,
+		overdue_stat_product,
+		product_count,
+		product_count_overdue,
+		m1_residual_pact_money,
+		m1_overdue_stat,
+		m2_residual_pact_money,
+		m2_overdue_stat,
+		m3_residual_pact_money,
+		m3_overdue_stat,
+		m4_6_residual_pact_money,
+		m4_6_overdue_stat,
+		m7_ge_residual_pact_money,
+		m7_ge_overdue_stat,
+		overdue_stat_department,
+		cur_date)
+		select SEQ_OVERDUE_RATIO_NEW.NEXTVAL, t.* from
+		(select
+		dep_name,
+		zone_code,
+		dep_code,
+		department_num,
+		department_type,
+		did,
+		residual_pact_money,
+		loan_type,
+		funds_sources,
+		residual_pact_money_product,
+		residual_pact_money_over_p,
+		overdue_stat_product,
+		product_count,
+		product_count_overdue,
+		m1_residual_pact_money,
+		m1_overdue_stat,
+		m2_residual_pact_money,
+		m2_overdue_stat,
+		m3_residual_pact_money,
+		m3_overdue_stat,
+		m4_6_residual_pact_money,
+		m4_6_overdue_stat,
+		m7_ge_residual_pact_money,
+		m7_ge_overdue_stat,
+		overdue_stat_department,
+		cur_date
+		from v_overdue_ratio
+		union
+		select dep_name,
+		zone_code,
+		dep_code,
+		department_num,
+		department_type,
+		did,
+		residual_pact_money,
+		loan_type,
+		loan_belong,
+		residual_pact_money_product,
+		residual_pact_money_over_p,
+		overdue_stat_product,
+		product_count,
+		product_count_overdue,
+		m1_residual_pact_money,
+		m1_overdue_stat,
+		m2_residual_pact_money,
+		m2_overdue_stat,
+		m3_residual_pact_money,
+		m3_overdue_stat,
+		m4_6_residual_pact_money,
+		m4_6_overdue_stat,
+		m7_ge_residual_pact_money,
+		m7_ge_overdue_stat,
+		overdue_stat_department,
+		cur_date
+		from v_overdue_ratio_loan_belong) t
+	</insert>
+
+	<select id="getDrawJimuRiskData" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select id
+		from v_Loan_info
+		where funds_sources= #{fundsSource, jdbcType=VARCHAR}
+		and promise_return_date= #{promiseReturnDate, jdbcType=VARCHAR}
+		and loan_state in
+		<foreach item="item" index="index" collection="states" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="jimuMailData" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select to_char(nvl(sum(t.current_accrual), 0)) as accrual,
+		to_char(nvl(sum(t.returneterm), 0)) as returneterm,
+		to_char(nvl(sum(t.principal), 0)) as principal,
+		to_char(count(t.id)) as count
+		from (
+		select distinct case
+		when d.current_term = 1 then
+		l.residual_pact_money
+		else
+		d.repayment_all + d.give_back_rate - d.penalty -
+		d.current_accrual
+		end principal,
+		case
+		when d.current_term = 1 then
+		d.repayment_all + d.give_back_rate - d.penalty -
+		l.residual_pact_money
+		else
+		d.current_accrual
+		end current_accrual,
+		d.returneterm,
+		d.id
+		from v_loan_info l
+		left join v_advance_repayment a
+		on (l.id = a.loan_id)
+		left join offer_repay_info r
+		on (l.id = r.loan_id)
+		left join loan_repayment_detail d
+		on (l.ID = d.loan_id and a.current_term = d.current_term)
+		where l.FUNDS_SOURCES = '积木盒子'
+		and l.PROMISE_RETURN_DATE = #{day, jdbcType=DECIMAL}
+		and r.trade_time between to_date(#{lastTime, jdbcType=VARCHAR},
+		'yyyy-mm-dd hh24:mi')
+		and to_date(#{currentTime, jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi')
+		and a.trade_date between to_date(#{startDate, jdbcType=VARCHAR},
+		'yyyy-mm-dd')
+		and to_date(#{endDate, jdbcType=VARCHAR}, 'yyyy-mm-dd')
+		) t
+	</select>
+
+	<resultMap id="jimuNotifyDataMap"
+		type="com.zdmoney.credit.common.util.exceldata.JimuData">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="idnum" property="idnum" jdbcType="VARCHAR" />
+		<result column="loanId" property="loanId" jdbcType="DECIMAL" />
+		<result column="currentTerm" property="currentTerm" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<select id="jimuNotifyData" parameterType="java.util.Map"
+		resultMap="jimuNotifyDataMap">
+		with datas as
+		(select max(t2.trade_time) as trade_time,
+		t1.loan_id,
+		t1.idnum,
+		t1.name,
+		t1.current_term,
+		t1.trade_date
+		from v_advance_repayment t1, offer_repay_info t2
+		where t1.loan_id = t2.loan_id
+		and t2.trade_code = '3001'
+		group by t1.loan_id, t1.idnum, t1.name, t1.current_term, t1.trade_date)
+		select datas.idnum, datas.name, datas.loan_id as loanId,
+		datas.current_term as currentTerm
+		from datas, v_loan_info l
+		where l.ID = datas.loan_id
+		and l.FUNDS_SOURCES = '积木盒子'
+		and l.PROMISE_RETURN_DATE = #{day, jdbcType=DECIMAL}
+		and datas.trade_time between to_date(#{lastTime, jdbcType=VARCHAR},
+		'yyyy-mm-dd hh24:mi')
+		and to_date(#{currentTime, jdbcType=VARCHAR}, 'yyyy-mm-dd hh24:mi')
+		and datas.trade_date between to_date(#{startDate, jdbcType=VARCHAR},
+		'yyyy-mm-dd')
+		and to_date(#{endDate, jdbcType=VARCHAR}, 'yyyy-mm-dd')
+	</select>
+	
+	<select id="exportLoanStatusDetail"  parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select e.name manage_sales_dep_name, /*管理营业部*/
+       h.usercode salseman_code, /*客户经理工号*/
+       i.idnum borrower_idnum, /*证件号码*/
+       a.contract_num, /*合同编号*/
+       j.pact_money pact_money, /*合同金额*/
+       to_char(j.startrdate, 'yyyy-mm-dd') startrdate, /*首次还款日*/
+       j.time time, /*还款期限*/
+       b.loan_type loan_type, /*产品类型*/
+       j.promise_return_date promise_return_date, /*还款日*/
+       to_char(b.grant_money_date, 'yyyy-mm-dd') grant_money_date, /*放款日期*/
+       l.usercode crm_code, /*客服工号*/
+       rpm.residual_pact_money residual_pact_money, /*剩余本金*/
+       trunc(sysdate-1) - ovmin.return_date over_days, /*逾期天数*/
+       ovmax.max_term - ovmin.min_term + 1 over_terms,/*逾期期数*/
+       j.endrdate,/*还款止日*/
+       com.name salesteam_name,/*销售团队*/
+       l1.usercode  salesteam_manager_code, --业务主任工号
+       CASE WHEN a.ID IN(SELECT t.LOAN_ID FROM CS_OUTSOURCING_APPLY t WHERE t.LOAN_ID=a.ID AND t.APPLY_STATE='通过' AND t.IS_CLOSE='0') THEN '是' ELSE '否' END AS IS_OUTSOURCING,--是否委外
+	   a.apply_type,--申请类型
+       case when a.apply_input_flag = 'applyInput' then '否'  when a.apply_input_flag = 'directApplyInput' then '是' else '' end apply_input_flag,--是否直通车进件
+       lv.REPAY_LEVEL as repaymentlevel,
+	   (select count(*) from loan_base lb WHERE i.id=lb.BORROWER_ID AND lb.loan_state in ('预结清','结清','逾期','正常')) loan_number, --客户贷款笔数
+	   (case WHEN 'TOPUP' in (select apply_type from loan_base lb2 WHERE i.id=lb2.BORROWER_ID) THEN '有' ELSE '无' END ) is_top_up --追加账户
+  from loan_base a
+  join loan_initial_info b on (a.id = b.loan_id)
+  join loan_manage_sales_dep_log c on (a.id = c.loan_id)
+  left join com_organization e on (c.sales_dep_id = e.id)
+  left join com_organization com on (a.sales_team_id = com.id)
+  left join com_employee h on (a.salesman_id = h.id)
+  left join person_info i on (a.borrower_id = i.id)
+  left join loan_product j on (a.id = j.loan_id)
+  left join com_employee l on (a.crm_id = l.id)
+  
+  left join (
+       select org_id,usercode,name from (
+				select org_id,usercode,name,row_number()over(partition by org_id order by usercode desc ) row_num    from com_employee where employee_type = '管理人员' and in_active = 't' 
+			) where row_num=1 
+  ) l1  on(a.sales_team_id = l1.org_id)
+  
+  left join (select residual_pact_money, loan_id, cur_date
+               from report_residual_money_detail
+              where cur_date = trunc(sysdate-1)) rpm on (a.id = rpm.loan_id)
+  left join (select return_date, loan_id, min_term, penalty_date
+               from (select r.return_date,
+                            r.loan_id,
+                            r.current_term AS min_term,
+                            r.penalty_date,
+                            row_number() over(partition by loan_id order by id) t1
+                       from loan_repayment_detail r
+                      where return_date <![CDATA[<=]]> trunc(sysdate-1)
+                        and return_date != sysdate
+                        and (fact_return_date <![CDATA[>]]> trunc(sysdate-1) or fact_return_date is null))
+              where t1 = 1) ovmin on (ovmin.loan_id = a. id)
+  left join (select max(r.current_term) max_term, r.loan_id
+               from loan_repayment_detail r
+              where r.return_date <![CDATA[<=]]> trunc(sysdate-1)
+                and r.return_date != current_date
+                and (r.fact_return_date <![CDATA[>]]> trunc(sysdate-1) or r.fact_return_date is null)
+              group by r.loan_id) ovmax on (ovmax.loan_id = a. id)
+  left join (
+			SELECT t1.LOAN_ID, t1.REPAY_LEVEL FROM LOAN_REPAYMENT_LEVEL_HIS t1
+      		RIGHT JOIN
+      		(SELECT LOAN_ID, MAX(CURRENT_TERM) CURRENT_TERM FROM LOAN_REPAYMENT_LEVEL_HIS GROUP BY LOAN_ID) t2
+      		ON t1.LOAN_ID=t2.LOAN_ID AND t1.CURRENT_TERM=t2.CURRENT_TERM
+		) lv
+		on a.id = lv.loan_id            
+where a.loan_state in ('正常', '逾期', '结清', '预结清', '坏账')           
+          and b.grant_money_date <![CDATA[>=]]>to_date('2010-01-01 00:00:00','yyyy-mm-dd hh24:mi:ss')           
+          and b.grant_money_date <![CDATA[<=]]> to_date(to_char(to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 23:59:59'), 'yyyy-mm-dd hh24:mi:ss')               
+          and c.begin_date <![CDATA[<=]]> to_date(to_char(to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 23:59:59'), 'yyyy-mm-dd hh24:mi:ss') 
+          and c.end_date <![CDATA[>]]> to_date(to_char(to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 23:59:59'), 'yyyy-mm-dd hh24:mi:ss')
+          order by e.name, h.name, b.loan_type, i.name
+          ) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="jimuReturnRiskData" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select t.id, t.pact_money as pactMoney, t.time as currentTerm
+		from v_loan_info t
+		where t.id not in
+		(select f.memo3 from offer_flow f where f.trade_code = '5006')
+		and t.funds_sources = '积木盒子'
+		and t.endrdate between
+		to_date(#{startDate, jdbcType = VARCHAR}, 'yyyy-mm-dd') and to_date(#{endDate, jdbcType =
+		VARCHAR} , 'yyyy-mm-dd')
+		UNION
+		select t.id, t.pact_money as pactMoney, t.time as currentTerm
+		from v_loan_info t, jimu_ext_repay_all e
+		where t.id = e.loan_id
+		and t.id not in
+		(select f.memo3 from offer_flow f where f.trade_code = '5006')
+		and t.funds_sources = '积木盒子'
+		and e.notify_date between to_date(#{startDate, jdbcType = VARCHAR},
+		'yyyy-mm-dd') and to_date(#{endDate, jdbcType = VARCHAR},
+		'yyyy-mm-dd')
+	</select>
+
+	<select id="jimuFillRiskData" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select id from v_loan_info
+		where funds_sources=#{fundsSources, jdbcType=VARCHAR}
+		and loan_state in
+		<foreach item="item" index="index" collection="states" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+<!-- idtype经处理，不转枚举 -->
+	<select id="getExportBorrower" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select p.id,
+		p.name,
+		p.idtype as id_type,
+		p.idnum,
+		p.sex,
+		to_char(p.birthday, 'YYYYMMDD') AS birthday,
+		p.married,
+		p.ed_level,
+		p.children_count,
+		p.number_dependanted,
+		p.rent,
+		p.sign_sales_dep_id,
+		p.sales_department_id,
+		p.recorder_id AS sign_crm_id,
+		case
+		when length(p.company) <![CDATA[>]]>
+		26 then
+		SUBSTR(p.company, 1, 23) || '...'
+		else
+		p.company
+		end as ca_company,
+		p.c_type AS ca_type,
+		p.workertype AS ca_workertype,
+		p.industry_type AS ca_industry_type,
+		p.department AS ca_department,
+		CASE
+		WHEN length(p.duty) <![CDATA[>]]>
+		10 then
+		''
+		ELSE
+		p.duty
+		END AS ca_duty,
+		p.official_rank AS ca_official_rank,
+		p.c_code AS ca_postcode,
+		'' AS ca_enter_time,
+		p.work_year AS ca_work_year,
+		p.pay_type AS ca_pay_type,
+		p.pay_day AS ca_pay_day,
+		p.wage AS ca_wage,
+		p.other_monthly_income AS ca_other_monthly_income,
+		p.total_monthly_income AS ca_total_monthly_income,
+		p.profession AS ca_profession,
+		c.car_type AS car_type,
+		'' AS car_buy_time,
+		case when c.has_loan = 't' then 'true'
+		when c.has_loan = 'f' then 'false'
+		else '' end car_has_loan,
+		c.loan_period AS car_loan_period,
+		c.monthly_payment AS car_loan_monthly_payment,
+		c.price AS car_price,
+		p.house_type AS house_type,
+		case
+		when length(h.address) <![CDATA[>]]>
+		85 then
+		SUBSTR(h.address, 1, 82) || '...'
+		else
+		h.address
+		end as house_address,
+		case when h.has_loan = 't' then 'true'
+		when h.has_loan = 'f' then 'false'
+		else '' end house_has_loan,
+		h.building_area AS house_building_area,
+		'' AS house_buy_time,
+		h.loan_balance AS house_loan_balance,
+		h.loan_period AS house_loan_period,
+		h.monthly_payment AS house_monthly_payment,
+		CASE
+		WHEN length(h.postcode) <![CDATA[>]]>
+		10 then
+		''
+		else
+		REPLACE(REPLACE(REPLACE(REPLACE(h.postcode, CHR(10), ''),
+		chr(13),
+		''),
+		chr(32),
+		''),
+		chr(9),
+		'')
+		END AS house_postcode,
+		h.price AS house_price,
+		h.property_proportion AS house_property_proportion,
+		e.enterprise_type AS enterprise_type,
+		'' AS enterprise_time_founded,
+		e.shareholding_ratio AS enterprise_shareholding_ratio,
+		e.monthly_net_profit AS enterprise_monthly_net_profit,
+		e.profit_margin AS enterprise_profit_margin,
+		e.premises_type AS enterprise_premises_type,
+		e.employee_amount AS enterprise_employee_amount,
+		p.memo as memo,
+		case
+		when length(p.email) <![CDATA[>]]>
+		30 then
+		SUBSTR(p.email, 1, 27) || '...'
+		else
+		p.email
+		end as email
+		from loan_base l
+		LEFT JOIN person_info P
+		ON l.borrower_id = p.id
+		LEFT JOIN person_car_info C
+		ON c.person_id = p.id
+		LEFT JOIN person_house_info h
+		ON h.person_id = p.id
+		LEFT JOIN person_entrepreneur_info e
+		ON e.person_id = p.id
+		WHERE l.loan_state = '逾期'
+		and l.is_send = 'f'
+		order by p.id
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportLoan" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		SELECT l.ID,
+		l.APP_NO AS APP_NO,
+		l.borrower_id AS person_id,
+		l.contract_num,
+		ba.org_code as sign_sales_dep_id,
+		ba2.org_code as sales_department_id,
+		e.usercode AS sign_crm_id,
+		e2.usercode AS crm_id,
+		'',
+		to_char(l.startrdate, 'YYYYMMDD') AS startrdate,
+		to_char(l.endrdate, 'YYYYMMDD') AS endrdate,
+		l.loan_type,
+		l.loan_state,
+		l.rateem,
+		l.rateey,
+		to_char(l.request_date, 'YYYYMMDD') AS request_date,
+		to_char(l.grant_money_date, 'YYYYMMDD') AS grant_money_date,
+		l.pact_money,
+		l.grant_money,
+		l.TIME,
+		l.purpose,
+		ll.amount AS ledger_money,
+		l.promise_return_date,
+		vod.residual_pact_money AS residual_pact_money,
+		l.residual_time AS residual_time,
+		vod.over_terms AS overdue_term,
+		vod.over_days AS overdue_day,
+		to_char(vod.overdue_date, 'YYYYMMDD') AS overdue_date,
+		vod.over_interest + vod.over_principal + vod.penalty AS overdue_amount,
+		vod.over_interest AS overdue_interest,
+		vod.over_principal AS overdue_principal,
+		vod.penalty AS overdue_penalty,
+		'' AS memo,
+		CASE
+		WHEN l.loan_state IN ('正常', '结清', '预结清') THEN
+		'O'
+		ELSE
+		'I'
+		END out_in,
+		CASE
+		WHEN od.yuqitianshu <![CDATA[>]]>
+		20 AND vod.over_days = 1 THEN
+		'Y'
+		ELSE
+		'N'
+		END backwash,
+		l.funds_sources as funds_sources,
+		b.account as grant_bank_account,
+		to_char(l.sign_date, 'YYYYMMDD') as sign_date
+		FROM v_loan_info l
+		LEFT JOIN com_employee e
+		on e.id = l.sign_crm_id
+		LEFT JOIN com_employee e2
+		on e2.id = l.crm_id
+		LEFT JOIN com_organization ba
+		on ba.id = l.sign_sales_dep_id
+		LEFT JOIN com_organization ba2
+		on ba2.id = l.sales_department_id
+		LEFT JOIN loan_bank b
+		ON l.give_back_bank_id = b.id
+		LEFT JOIN v_overdue_detail vod
+		ON l.id = vod.id
+		LEFT JOIN (SELECT T.loan_id,
+		MAX(T.yuqitianshu) AS yuqitianshu,
+		MAX(T.cur_date) AS cur_date
+		FROM overdue_detail T, v_overdue_detail vt
+		WHERE T.loan_id = vt.ID
+		AND T.yuqitianshu <![CDATA[>]]>
+		20
+		AND T.cur_date = sysdate - 1
+		GROUP BY T.loan_id) od
+		ON od.loan_id = l.ID
+		LEFT JOIN loan_ledger ll
+		ON ll.loan_id = l.id
+		WHERE (l.loan_state = '逾期' OR (l.loan_state <![CDATA[<>]]>
+		'逾期' AND l.is_send = 't'))
+		ORDER BY l.ID
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportContact" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select c.id AS id,
+		c.person_id AS person_id,
+		case
+		WHEN LENGTH(c.name) <![CDATA[>]]>
+		10 then
+		''
+		else
+		REPLACE(REPLACE(REPLACE(REPLACE(c.name, CHR(10), ''), chr(13), ''),
+		chr(32),
+		''),
+		chr(9),
+		'')
+		end AS name,
+		c.contact_type AS contact_type,
+		c.relation AS relation,
+		case
+		when LENGTH(REPLACE(REPLACE(REPLACE(REPLACE(c.company,
+		CHR(10),
+		''),
+		chr(13),
+		''),
+		chr(32),
+		''),
+		chr(9),
+		'')) <![CDATA[>]]>
+		26 then
+		SUBSTR(REPLACE(REPLACE(REPLACE(REPLACE(c.company,
+		CHR(10),
+		''),
+		chr(13),
+		''),
+		chr(32),
+		''),
+		chr(9),
+		''), 1, 23) || '...'
+		else
+		REPLACE(REPLACE(REPLACE(REPLACE(c.company,
+		CHR(10),
+		''),
+		chr(13),
+		''),
+		chr(32),
+		''),
+		chr(9),
+		'')
+		end as company,
+		c.department AS department,
+		CASE
+		WHEN LENGTH(c.duty) <![CDATA[>]]>
+		20 then
+		''
+		ELSE
+		c.duty
+		END AS ca_duty,
+		case when c.is_know_loan = 't' then 'true' 
+		else 'false'
+		end is_know_loan,
+		c.id_card,
+		c.mphone,
+		c.ctel
+		from person_contact_info c
+		LEFT JOIN loan_base l
+		ON l.borrower_id = c.person_id
+		WHERE l.loan_state = '逾期'
+		and l.is_send = 'f'
+		order by id
+) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportTel" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		(SELECT T.ID AS ID,
+		T.class_name AS class_name,
+		T.object_id AS object_id,
+		T.tel_type AS tel_type,
+		case when length(T.CONTENT) <![CDATA[>]]>
+		20 then '' else T.CONTENT end AS tel,
+		case when T.VALID = 't' then 'true'
+		when T.VALID = 'f' then 'false' 
+		else '' end VALID
+		FROM person_tel_info T
+		left JOIN loan_base l
+		ON l.borrower_id = T.object_id
+		WHERE l.loan_state='逾期' and l.is_send = 'f')
+		UNION
+		(SELECT T.ID AS ID,
+		T.class_name AS class_name,
+		T.object_id AS object_id,
+		T.tel_type AS tel_type,
+		case when length(T.CONTENT)<![CDATA[>]]>20
+		then '' else T.CONTENT end AS tel,
+		case when T.VALID = 't' then 'true'
+		when T.VALID = 'f' then 'false' 
+		else '' end VALID
+		FROM person_tel_info T
+		LEFT JOIN person_contact_info c
+		ON c.id = t.object_id
+		LEFT JOIN loan_base l
+		ON l.borrower_id = c.person_id
+		WHERE l.loan_state='逾期' and l.is_send = 'f') ORDER BY id
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportAddress" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		(SELECT A.ID AS ID,
+		A.class_name AS class_name,
+		A.object_id AS
+		object_id,
+		A.address_type AS address_type,
+		case when length(A.CONTENT)<![CDATA[>]]>
+		85 then substr(A.CONTENT,1,82) || '...' else
+		A.CONTENT end as address,
+		case when A.VALID = 't' then 'true'
+		when A.VALID = 'f' then 'false'
+		else 'false' end VALID,
+		A.postcode AS postcode
+		FROM person_address_info A
+		LEFT
+		JOIN loan_base l ON l.borrower_id = A.object_id
+		WHERE l.loan_state =
+		'逾期'
+		AND l.is_send = 'f'
+		)
+		UNION
+		(
+		SELECT A.ID AS ID,
+		A.class_name AS
+		class_name,
+		A.object_id AS object_id,
+		A.address_type AS address_type,
+		case
+		when length(A.CONTENT) <![CDATA[>]]>
+		85 then
+		substr(A.CONTENT, 1, 82) || '...'
+		else
+		A.CONTENT
+		end as address,
+		case when A.VALID = 't' then 'true'
+		when A.VALID = 'f' then 'false'
+		else 'false' end VALID,
+		A.postcode AS postcode
+		FROM person_address_info A
+		LEFT
+		JOIN person_contact_info c
+		ON c.id = a.object_id
+		LEFT JOIN loan_base l
+		ON l.borrower_id = c.person_id
+		WHERE l.loan_state = '逾期'
+		and l.is_send =
+		'f'
+		) ORDER BY id
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportRepaymentDetial" parameterType="java.util.Map"
+		resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		(SELECT
+		r.ID AS ID,
+		r.loan_id AS loan_id,
+		r.current_term AS current_term,
+		r.returneterm AS returneterm,
+		r.current_accrual AS current_accrual,
+		r.deficit AS deficit,
+		to_char(r.return_date, 'YYYYMMDD') AS return_date,
+		r.repayment_state AS repayment_state,
+		to_char(r.fact_return_date, 'YYYYMMDD') AS fact_return_date,
+		r.penalty AS penalty,
+		r.give_back_rate AS give_back_rate,
+		r.repayment_all AS repayment_all,
+		r.principal_balance AS principal_balance
+		FROM loan_repayment_detail r
+		LEFT JOIN loan_base l ON r.loan_id = l.id
+		WHERE l.loan_state = '逾期'
+		AND l.is_send = 'f')
+		UNION
+		(SELECT
+		r.ID AS ID,
+		r.loan_id AS loan_id,
+		r.current_term AS current_term,
+		r.returneterm AS returneterm,
+		r.current_accrual AS current_accrual,
+		r.deficit AS deficit,
+		to_char(r.return_date, 'YYYYMMDD') AS return_date,
+		r.repayment_state AS repayment_state,
+		to_char(r.fact_return_date, 'YYYYMMDD') AS fact_return_date,
+		r.penalty AS penalty,
+		r.give_back_rate AS give_back_rate,
+		r.repayment_all AS repayment_all,
+		r.principal_balance AS principal_balance
+		FROM loan_repayment_detail r
+		LEFT JOIN loan_base l ON r.loan_id = l.id
+		WHERE l.loan_state in ('逾期' , '结清' , '预结清' , '正常')
+		AND l.is_send = 't'
+		and to_char(r.fact_return_date,'yyyy-MM-dd') = '${dateStr}'
+		)) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+		<!-- <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" /> -->
+	</select>
+
+	<select id="getExportRepayInfo" parameterType="java.util.Map"
+		resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		SELECT r.ID AS ID,
+		r.trade_no AS trade_no,
+		l.borrower_id AS person_id,
+		r.loan_id AS loan_id,
+		to_char(r.trade_date, 'YYYYMMDD') AS trade_date,
+		to_char(r.trade_time, 'YYYYMMDDhh24missSS') AS trade_time,
+		r.amount AS amount,
+		r.trade_kind AS trade_mode,
+		r.trade_type AS trade_type,
+		CASE
+		WHEN LENGTH(r.memo) <![CDATA[>]]>
+		20 then
+		''
+		else
+		REPLACE(REPLACE(REPLACE(REPLACE(r.memo, CHR(10), ''), chr(13), ''),
+		chr(32),
+		''),
+		chr(9),
+		'')
+		END memo,
+		'N' AS is_delete
+		FROM offer_repay_info r
+		LEFT JOIN loan_base l
+		ON l.ID = r.loan_id
+		WHERE (l.loan_state = '逾期' AND l.is_send = 'f')
+		OR (l.loan_state in ('正常', '逾期', '结清', '预结清') AND l.is_send = 't' AND
+		to_char(nvl(r.trade_date, r.trade_time), 'yyyy-MM-dd') = '${dateStr}')
+		union all
+		SELECT
+                        c.repay_info_id AS ID,
+                        c.trade_no AS trade_no,
+                        null AS person_id,
+                        null AS loan_id,
+                        to_char(c.create_time, 'YYYYMMDD') AS trade_date,
+                        to_char(c.create_time, 'YYYYMMDDhh24missSS') AS trade_time,
+                        null AS amount,
+                        null AS trade_mode,
+                        null AS trade_type,
+                        null AS memo,
+                        'Y' AS is_delete
+                        FROM
+                        loan_cancel_repay_info C
+                        WHERE to_char(c.create_time,'yyyy-MM-dd') = '${dateStr}'
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportFlow" parameterType="java.util.Map"
+		resultType="java.util.LinkedHashMap">
+		with t1 as
+		(select f.id as id,
+		f.trade_no as trade_no,
+		f.trade_amount as money,
+		CASE
+		WHEN f.acct_title = '111' and f.appo_dorc = 'C' THEN
+		'期初余额'
+		WHEN f.acct_title = '111' and f.appo_dorc <![CDATA[<>]]>
+		'C' THEN
+		'期末余额'
+		WHEN f.acct_title = '211' THEN
+		'本金'
+		WHEN f.acct_title = '249' THEN
+		'其他应付款'
+		WHEN f.acct_title = '451' THEN
+		'利息'
+		WHEN f.acct_title = '452' and f.account = 'ZD0000001090000002' THEN
+		'罚息(减免)'
+		WHEN f.acct_title = '452' and f.account <![CDATA[<>]]>
+		'ZD0000001090000002' THEN
+		'罚息'
+		WHEN f.acct_title= '494' THEN
+		'违约金'
+		WHEN f.acct_title = '481' and f.appo_dorc = 'D' and f.dorc = 'C' THEN
+		'丙方管理费(退费)'
+		WHEN f.acct_title = '491' and f.appo_dorc = 'D' and f.dorc = 'C' THEN
+		'咨询费(退费)'
+		WHEN f.acct_title = '492' and f.appo_dorc = 'D' and f.dorc = 'C' THEN
+		'评估费(退费)'
+		WHEN f.acct_title = '493' and f.appo_dorc = 'D' and f.dorc = 'C' THEN
+		'管理费(退费)'
+		WHEN f.acct_title = '481' and (f.appo_dorc <![CDATA[<>]]>
+		'D' or f.dorc <![CDATA[<>]]>
+		'C') THEN
+		'丙方管理费'
+		WHEN f.acct_title = '491' and (f.appo_dorc <![CDATA[<>]]>
+		'D' or f.dorc <![CDATA[<>]]>
+		'C') THEN
+		'咨询费'
+		WHEN f.acct_title = '492' and (f.appo_dorc <![CDATA[<>]]>
+		'D' or f.dorc <![CDATA[<>]]>
+		'C') THEN
+		'评估费'
+		WHEN f.acct_title = '493' and (f.appo_dorc <![CDATA[<>]]>
+		'D' or f.dorc <![CDATA[<>]]>
+		'C') THEN
+		'管理费'
+		ELSE ''
+		END trade_type,
+		CASE
+		when length(f.memo2) <![CDATA[>]]>
+		2 then ''
+		ELSE f.memo2
+		END term
+		from offer_flow f
+		LEFT JOIN loan_base l ON (l.id = f.loan_id)
+
+		WHERE (l.loan_state = '逾期'
+		AND l.is_send = 'f')
+		OR (
+		l.loan_state in('正常','逾期','结清','预结清')
+		AND l.is_send = 't'
+		AND to_char(f.trade_date, 'yyyy-mm-dd') = '${dateStr}'
+		)
+		order by f.id
+		),
+		t2 as
+		(select f.id as id,
+		f.trade_no as trade_no,
+		f.trade_amount as money,
+		'罚息(减免)' as trade_type,
+		CASE
+		when length(f.memo2) <![CDATA[>]]>
+		2 then
+		''
+		ELSE
+		f.memo2
+		END term
+		from offer_flow f
+		LEFT JOIN loan_base l
+		ON (to_char(l.id) = f.appo_acct)
+
+		where
+		(
+		(l.loan_state = '逾期' AND l.is_send = 'f')
+		OR (
+		l.loan_state in ('正常', '逾期', '结清', '预结清') AND
+		l.is_send = 't' AND
+		to_char(f.trade_date, 'yyyy-mm-dd') = '${dateStr}'
+		)
+		)
+		and f.acct_title = '452'
+		and f.account = 'ZD0000001090000002'
+		order by f.id
+		)
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select * from t1
+		union all
+		select * from t2
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportPersonTotal" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select p.id AS id,
+		ba.org_code as sales_department_id,
+		e.usercode AS sign_crm_id
+		from person_info p
+		left join loan_base l
+		on l.borrower_id = p.id
+		left join com_employee e
+		on e.id = l.sign_crm_id
+		left join com_organization ba
+		on p.sales_department_id = ba.id
+		where l.loan_state = '逾期'
+		order by p.id
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+
+	<select id="getExportDepartment" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select dep.id, dep.name as depname, city.name as cityname, hq.name as hqname, area.name as areaname
+		from com_organization dep
+		left join com_organization city
+		on dep.parent_id = city.id
+		left join com_organization hq
+		on city.parent_id = hq.id
+		left join com_organization area
+		on hq.parent_id = area.id
+		where dep.v_level = 'V104'
+		order by dep.id
+		) row_
+			WHERE rownum <![CDATA[ <= ]]>
+			${pager.end}
+			)
+			WHERE RN <![CDATA[ > ]]>
+			${pager.start}
+	</select>
+	
+	
+	<delete id="residualPactMoneyDetailJobDelete" parameterType="java.util.Date">
+	delete from report_residual_money_detail
+	where CUR_DATE = #{date, jdbcType=TIMESTAMP}
+	</delete>
+	
+	<insert id="residualPactMoneyDetailJobInsert">
+	insert into report_residual_money_detail
+  (ID,
+   CUR_DATE,
+   LOANTYPE,
+   LOANMONEY,
+   TIME,
+   PACTMONEY,
+   CUSTOMERNAME,
+   IDNUM,
+   RESIDUAL_PACT_MONEY,
+   RESIDUAL_TIME,
+   DEPARTMENT,
+   DEPARTMENT_CODE,
+   DEPARTMENT_TYPE,
+   ORGANIZATION,
+   CUSTOM_SERVICE,
+   SIGN_DATE,
+   loan_id,
+   sales_department_id,
+   sign_sales_dep_id,
+   sign_sales_dep_name)
+  select SEQ_REPORT_RESIDUAL_MONEY.NEXTVAL,
+         trunc(sysdate),
+         l.loan_type,
+         l.grant_money,
+         l.time,
+         l.pact_money,
+         p.name,
+         p.idnum,
+         l.residual_pact_money,
+         l.residual_time,
+         b.name,
+         b.org_code,
+         b.department_type,
+         oo.name jigou,
+         e.name,
+         l.sign_date,
+         l.id,
+         l.sales_department_id,
+         l.sign_sales_dep_id,
+         ba.name
+    from v_loan_info l
+    left join com_organization b
+      on l.sales_department_id = b.id
+    left join com_organization ba
+      on l.sign_sales_dep_id = ba.id
+    left join person_info p
+      on l.borrower_id = p.id
+    left join zhuxue_product_plan o
+      on l.PLAN_ID = o.id
+    left join zhuxue_organization oo
+      on o.organization_id = oo.id
+    left join com_employee e
+      on l.crm_id = e.id
+   where l.loan_state in ('正常', '逾期', '预结清')
+	</insert>
+	
+	<select id="updateOverdueHistory" parameterType="java.lang.String" resultType="java.lang.String">
+		select func_update_overdue_history(#{dateStr, jdbcType=VARCHAR}) from dual
+	</select>
+
+	<delete id="organizationMarginJobDelete">
+		DELETE FROM ZHUXUE_ORGANIZATION_MARGIN ma WHERE ma.CREATE_TIME = trunc(sysdate)
+	</delete>
+
+	<insert id="organizationMarginJobInsert">
+		INSERT INTO ZHUXUE_ORGANIZATION_MARGIN(
+			ID,
+			CODE,
+			ORG_TYPE,
+			NAME,
+			OWNER,
+			DATE_SIGNED,
+			MARGIN_RATE,
+			GUAZHANGJINE,
+			FW_TRADE_AMOUNT,
+			CREATE_TIME,
+			UPDATE_TIME
+			)
+	   SELECT SEQ_ZHUXUE_ORGANIZATION_MARGIN.NEXTVAL,
+	       code,
+	       org_type,
+	       name,
+	       owner,
+	       date_signed,
+	       margin_rate,
+	       lr_Amount,
+	       fw_Trade_Amount,
+	       sysdate,
+	       sysdate
+  	  from (select a.id,
+               a.code,
+               org_type,
+               name,
+               owner,
+               date_signed,
+               margin_rate,
+               coalesce(Amount, 0) lr_Amount,
+               coalesce(sum(Trade_Amount), 0) fw_Trade_Amount
+          from ZHUXUE_ORGANIZATION a
+          LEFT JOIN LOAN_LEDGER b
+            on a.id || '' = b.account
+          LEFT JOIN (select *
+                      from OFFER_FLOW
+                     where Trade_Code = '4002'
+                       and Acct_Title = '498') c
+            on a.id || '' = c.Appo_Acct
+
+         where org_Type = '学校'
+         GROUP BY a.code,
+                  org_type,
+                  name,
+                  owner,
+                  date_signed,
+                  margin_rate,
+                  Amount,
+                  a.id
+         ORDER BY a.id) a
+	</insert>
+	
+	<select id="exportLoanStatusDetailTrimester" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select e.name manage_sales_dep_name, /*管理营业部*/
+		h.usercode salseman_code, /*客户经理工号*/
+		i.idnum borrower_idnum, /*证件号码*/
+		a.contract_num,/*合同编号*/
+		j.pact_money pact_money, /*合同金额*/
+		to_char(j.startrdate, 'yyyy-mm-dd') startrdate, /*首次还款日*/
+		j.time time, /*还款期限*/
+		b.loan_type loan_type, /*产品类型*/
+		j.promise_return_date promise_return_date, /*还款日*/
+		to_char(b.grant_money_date, 'yyyy-mm-dd') grant_money_date, /*放款日期*/
+		l.usercode crm_code, /*客服工号*/
+		rpm.residual_pact_money residual_pact_money, /*剩余本金*/
+		trunc(sysdate-1) - ovmin.return_date over_days, /*逾期天数*/
+		ovmax.max_term - ovmin.min_term + 1 over_terms,/*逾期期数*/
+		j.endrdate,/*还款止日*/
+		com.name salesteam_name,/*销售团队*/
+		l1.usercode salesteam_manager_code, --业务主任工号
+		CASE WHEN a.ID IN(SELECT t.LOAN_ID FROM CS_OUTSOURCING_APPLY t WHERE
+		t.LOAN_ID=a.ID AND t.APPLY_STATE='通过' AND t.IS_CLOSE='0') THEN '是' ELSE
+		'否' END AS IS_OUTSOURCING,--是否委外
+		a.apply_type,--申请类型
+		case when a.apply_input_flag = 'applyInput' then '否' when
+		a.apply_input_flag = 'directApplyInput' then '是' else '' end
+		apply_input_flag,--是否直通车进件
+		lv.REPAY_LEVEL as repaymentlevel,
+		(select count(*) from loan_base lb WHERE i.id=lb.BORROWER_ID AND lb.loan_state in ('预结清','结清','逾期','正常')) loan_number, --客户贷款笔数
+		(case WHEN 'TOPUP' in (select apply_type from loan_base lb2 WHERE i.id=lb2.BORROWER_ID) THEN '有' ELSE '无' END ) is_top_up --追加账户
+		from loan_base a
+		join loan_initial_info b on (a.id = b.loan_id)
+		join loan_manage_sales_dep_log c on (a.id = c.loan_id)
+		left join com_organization e on (c.sales_dep_id = e.id)
+		left join com_organization com on (a.sales_team_id = com.id)
+		left join com_employee h on (a.salesman_id = h.id)
+		left join person_info i on (a.borrower_id = i.id)
+		left join loan_product j on (a.id = j.loan_id)
+		left join com_employee l on (a.crm_id = l.id)
+		
+		left join (
+       		select org_id,usercode,name from (
+				select org_id,usercode,name,row_number()over(partition by org_id order by usercode desc ) row_num    from com_employee where employee_type = '管理人员' and in_active = 't' 
+			) where row_num=1 
+  		) l1  on(a.sales_team_id = l1.org_id)
+		
+		left join (select residual_pact_money, loan_id, cur_date
+		from report_residual_money_detail
+		where cur_date = trunc(sysdate-1)) rpm on (a.id = rpm.loan_id)
+		left join (select return_date, loan_id, min_term, penalty_date
+		from (select r.return_date,
+		r.loan_id,
+		r.current_term AS min_term,
+		r.penalty_date,
+		row_number() over(partition by loan_id order by id) t1
+		from loan_repayment_detail r
+		where return_date <![CDATA[ <= ]]>
+		trunc(sysdate-1)
+		and return_date != sysdate
+		and (fact_return_date <![CDATA[ > ]]>
+		trunc(sysdate-1) or fact_return_date is null))
+		where t1 = 1) ovmin on (ovmin.loan_id = a. id)
+		left join (select max(r.current_term) max_term, r.loan_id
+		from loan_repayment_detail r
+		where r.return_date <![CDATA[ <= ]]>
+		trunc(sysdate-1)
+		and r.return_date != current_date
+		and (r.fact_return_date <![CDATA[ > ]]>
+		trunc(sysdate-1) or r.fact_return_date is null)
+		group by r.loan_id) ovmax on (ovmax.loan_id = a. id)
+		left join (
+		SELECT t1.LOAN_ID, t1.REPAY_LEVEL FROM LOAN_REPAYMENT_LEVEL_HIS t1
+		RIGHT JOIN
+		(SELECT LOAN_ID, MAX(CURRENT_TERM) CURRENT_TERM FROM LOAN_REPAYMENT_LEVEL_HIS
+		GROUP BY LOAN_ID) t2
+		ON t1.LOAN_ID=t2.LOAN_ID AND t1.CURRENT_TERM=t2.CURRENT_TERM
+		) lv
+		on a.id = lv.loan_id
+		where a.loan_state in ('正常', '逾期', '结清', '预结清', '坏账')
+		and b.grant_money_date <![CDATA[ >= ]]> to_date('2010-01-01 00:00:00','yyyy-mm-dd hh24:mi:ss')
+		and b.grant_money_date <![CDATA[ <= ]]> to_date(to_char(to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 23:59:59'), 'yyyy-mm-dd hh24:mi:ss')
+		and c.begin_date <![CDATA[ <= ]]> to_date(to_char(to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 23:59:59'), 'yyyy-mm-dd hh24:mi:ss')
+		and c.end_date <![CDATA[ > ]]> to_date(to_char(to_char(trunc(sysdate - 1), 'yyyy-mm-dd') || ' 23:59:59'), 'yyyy-mm-dd hh24:mi:ss')
+		and nvl(trunc(sysdate-1) - ovmin.return_date,0) <![CDATA[ <= ]]> 90
+		and rpm.residual_pact_money is not null
+		order by e.name, h.name, b.loan_type, i.name
+		) row_
+		WHERE rownum <![CDATA[ <= ]]>
+		${pager.end}
+		)
+		WHERE RN <![CDATA[ > ]]>
+		${pager.start}
+    </select>
+    <!-- 放款客户质量追踪 -->
+   <select id="exportLoanCustomers" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+   <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+   select (select o.name from com_organization o where o.id = t1.SALES_DEPARTMENT_ID) /*管理营业部*/ management,
+      t1.countsum /*累计放款账户数*/,t1.pactsum /*累计放款合同额*/,
+      t2.c1# c1_count, t2.c1$ c1_sum,
+      t3.c16# c16_count,t3.c16$ c16_sum,
+      t4.m1_1# m1_1count,t4.m1_1$ m1_1sum,
+      t5.m1_16# m1_16count,t5.m1_16$ m1_16sum,
+      t6.m2_1# m2_1count,t6.m2_1$ m2_1sum,
+      t7.m2_16# m2_16count,t7.m2_16$ m2_16sum,
+      t8.m3_1# m3_1count,t8.m3_1$ m3_1sum,
+      t9.m3_16# m3_16count,t9.m3_16$ m3_16sum,
+      t10.m4# m4_count,t10.m4$ m4_sum,
+      t12.m5# m5_count,t12.m5$ m5_sum,
+      t14.m6# m6_count,t14.m6$ m6_sum,
+      t16.m7# m7_count,t16.m7$ m7_sum,
+    t18.首逾# overdue_count,t18.首逾$ overdue_sum,
+    t19.新增# add_count,t19.新增$ add_sum,
+    t20.好转1# improve1_count,t20.好转1$ improve1_sum,
+    t21.好转16# improve16_count,t21.好转16$ improve16_sum,
+    t22.催回1# pushback1_count,t22.催回1$ pushback1_sum,
+    t23.催回16# pushback16_count,t23.催回16$ pushback16_sum,
+    t24.M1结清1# M1_settle1_count,t24.M1结清1$ M1_settle1_sum,
+    t25.M1结清16# M1_settle16_count,t25.M1结清16$ M1_settle16_sum,
+    t26.M2结清1# M2_settle1_count,t26.M2结清1$ M2_settle1_sum,
+    t27.M2结清16# M2_settle16_count,t27.M2结清16$ M2_settle16_sum
+  from (select SALES_DEPARTMENT_ID, count(*) countsum, sum(PACT_MONEY) pactsum
+          from v_loan_info
+         where LOAN_FLOW_STATE = '正常'
+         group by SALES_DEPARTMENT_ID) t1
+   left join(select v.SALES_DEPARTMENT_ID, count(*) c1#, sum(v.residual_pact_money) c1$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '1'
+           and od.yuqitianshu is null
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t2
+    on t1.SALES_DEPARTMENT_ID = t2.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) c16#, sum(v.residual_pact_money) c16$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '16'
+           and od.yuqitianshu is null
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t3
+    on t1.SALES_DEPARTMENT_ID = t3.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m1_1#, sum(v.residual_pact_money) m1_1$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '1'
+           and od.yuqitianshu <![CDATA[ >= ]]> 0 and od.yuqitianshu <![CDATA[ <= ]]> 30
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t4
+    on t1.SALES_DEPARTMENT_ID = t4.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m1_16#, sum(v.residual_pact_money) m1_16$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '16'
+           and od.yuqitianshu <![CDATA[ >= ]]> 0 and od.yuqitianshu <![CDATA[ <= ]]> 30
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t5
+    on t1.SALES_DEPARTMENT_ID = t5.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m2_1#, sum(v.residual_pact_money) m2_1$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '1'
+           and od.yuqitianshu >30 and od.yuqitianshu <![CDATA[ <= ]]> 60
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t6
+    on t1.SALES_DEPARTMENT_ID = t6.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m2_16#, sum(v.residual_pact_money) m2_16$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '16'
+           and od.yuqitianshu >30 and od.yuqitianshu <![CDATA[ <= ]]> 60
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t7
+    on t1.SALES_DEPARTMENT_ID = t7.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m3_1#, sum(v.residual_pact_money) m3_1$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '1'
+           and od.yuqitianshu >60 and od.yuqitianshu <![CDATA[ <= ]]> 90
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t8
+    on t1.SALES_DEPARTMENT_ID = t8.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m3_16#, sum(v.residual_pact_money) m3_16$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and v.PROMISE_RETURN_DATE = '16'
+           and od.yuqitianshu >60 and od.yuqitianshu <![CDATA[ <= ]]> 90
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t9
+    on t1.SALES_DEPARTMENT_ID = t9.SALES_DEPARTMENT_ID
+     left join(select v.SALES_DEPARTMENT_ID, count(*) m4#, sum(v.residual_pact_money) m4$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and od.yuqitianshu >90 and od.yuqitianshu <![CDATA[ <= ]]> 120
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t10
+    on t1.SALES_DEPARTMENT_ID = t10.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m5#, sum(v.residual_pact_money) m5$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and od.yuqitianshu >120 and od.yuqitianshu <![CDATA[ <= ]]> 150
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t12
+    on t1.SALES_DEPARTMENT_ID = t12.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID, count(*) m6#, sum(v.residual_pact_money) m6$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and od.yuqitianshu >150 and od.yuqitianshu <![CDATA[ <= ]]> 180
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t14
+    on t1.SALES_DEPARTMENT_ID = t14.SALES_DEPARTMENT_ID
+    left join(select v.SALES_DEPARTMENT_ID,count(*) m7#, sum(v.residual_pact_money) m7$
+          from v_loan_info v
+          left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+            on v.id = od.loan_id
+         where v.LOAN_FLOW_STATE = '正常'
+           and od.yuqitianshu >180 
+           and v.residual_pact_money > 0
+         group by SALES_DEPARTMENT_ID) t16
+    on t1.SALES_DEPARTMENT_ID = t16.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*) 首逾#,  sum(v.residual_pact_money) 首逾$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+                 on v.id = od.loan_id
+              where v.LOAN_FLOW_STATE = '正常'
+                and trunc(v.STARTRDATE, 'MM') = trunc(sysdate, 'MM')
+                and od.yuqitianshu <![CDATA[ >= ]]> 0
+              group by SALES_DEPARTMENT_ID) t18
+    on t1.SALES_DEPARTMENT_ID = t18.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*)  新增#,  sum(v.residual_pact_money) 新增$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+               on v.id = odd.loan_id
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+                 on v.id = od.loan_id
+              where v.LOAN_FLOW_STATE = '正常'
+                and odd.yuqitianshu  is null            
+                and od.yuqitianshu = 0
+              group by SALES_DEPARTMENT_ID) t19
+    on t1.SALES_DEPARTMENT_ID = t19.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*)  好转1#,  sum(v.residual_pact_money) 好转1$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+                 on v.id = od.loan_id
+              where v.LOAN_FLOW_STATE = '正常'
+                and v.PROMISE_RETURN_DATE = '1'
+                and odd.yuqitianshu <![CDATA[ >= ]]> 31              
+                and od.yuqitianshu <![CDATA[ <= ]]> 30
+                and od.yuqitianshu is not null
+              group by SALES_DEPARTMENT_ID) t20
+    on t1.SALES_DEPARTMENT_ID = t20.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*)  好转16#,  sum(v.residual_pact_money) 好转16$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+                 on v.id = od.loan_id
+              where v.LOAN_FLOW_STATE = '正常'               
+                and v.PROMISE_RETURN_DATE = '16'
+                and odd.yuqitianshu <![CDATA[ >= ]]> 31              
+                and od.yuqitianshu <![CDATA[ <= ]]> 30
+                and od.yuqitianshu is not null
+              group by SALES_DEPARTMENT_ID) t21
+    on t1.SALES_DEPARTMENT_ID = t21.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*)  催回1#,  sum(v.residual_pact_money) 催回1$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+                 on v.id = od.loan_id    
+              where v.LOAN_FLOW_STATE = '正常'
+                and v.PROMISE_RETURN_DATE = '1' and v.residual_pact_money > 0
+                and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30              
+                and od.yuqitianshu is null
+              group by SALES_DEPARTMENT_ID) t22
+    on t1.SALES_DEPARTMENT_ID = t22.SALES_DEPARTMENT_ID
+     left join (select v.SALES_DEPARTMENT_ID, count(*)  催回16#,  sum(v.residual_pact_money) 催回16$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+               left join (select loan_id,yuqitianshu  from overdue_detail where cur_date = trunc(sysdate-1) ) od
+                 on v.id = od.loan_id
+              where v.LOAN_FLOW_STATE = '正常'               
+                and v.PROMISE_RETURN_DATE = '16' and v.residual_pact_money > 0
+                and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30              
+                and od.yuqitianshu is null
+              group by SALES_DEPARTMENT_ID) t23
+    on t1.SALES_DEPARTMENT_ID = t23.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*)  M1结清1#,  sum(odd.shengyubenjin) M1结清1$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu,SHENGYUBENJIN  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+              where v.LOAN_FLOW_STATE = '正常'
+                and v.PROMISE_RETURN_DATE = '1'
+                and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30 and odd.SHENGYUBENJIN>0
+                and v.residual_pact_money = 0                      
+              group by SALES_DEPARTMENT_ID) t24
+    on t1.SALES_DEPARTMENT_ID = t24.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*)  M1结清16#,  sum(odd.shengyubenjin) M1结清16$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu,SHENGYUBENJIN  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+              where v.LOAN_FLOW_STATE = '正常'
+                and v.PROMISE_RETURN_DATE = '16'
+                and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30 and odd.SHENGYUBENJIN>0
+                and v.residual_pact_money = 0
+              group by SALES_DEPARTMENT_ID) t25
+    on t1.SALES_DEPARTMENT_ID = t25.SALES_DEPARTMENT_ID
+    left join (select v.SALES_DEPARTMENT_ID, count(*)  M2结清1#,  sum(odd.shengyubenjin) M2结清1$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu,SHENGYUBENJIN  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+              where v.LOAN_FLOW_STATE = '正常'               
+                and v.PROMISE_RETURN_DATE = '1'
+                and odd.yuqitianshu <![CDATA[ >= ]]> 30 and odd.SHENGYUBENJIN>0
+                and v.residual_pact_money = 0
+              group by SALES_DEPARTMENT_ID) t26
+    on t1.SALES_DEPARTMENT_ID = t26.SALES_DEPARTMENT_ID
+      left join (select v.SALES_DEPARTMENT_ID, count(*)  M2结清16#,  sum(odd.shengyubenjin) M2结清16$
+               from v_loan_info v
+               left join (select loan_id,yuqitianshu,SHENGYUBENJIN  from overdue_detail where cur_date = trunc(sysdate-2) ) odd
+                 on v.id = odd.loan_id
+              where v.LOAN_FLOW_STATE = '正常'               
+                and v.PROMISE_RETURN_DATE = '16'
+                and odd.yuqitianshu <![CDATA[ >= ]]> 30  and odd.SHENGYUBENJIN>0
+                and v.residual_pact_money = 0
+              group by SALES_DEPARTMENT_ID) t27
+    on t1.SALES_DEPARTMENT_ID = t27.SALES_DEPARTMENT_ID   
+    ) row_
+		WHERE rownum <![CDATA[ <= ]]>
+		${pager.end}
+		)
+		WHERE RN <![CDATA[ > ]]>
+		${pager.start}
+	</select>
+	<!-- 直通车放款客户质量追踪 -->
+	<select id="exportTrainLoanCustomers" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+	select (select o.name from com_organization o where o.id =t1.SALES_DEPARTMENT_ID) management /*管理营业部*/,
+	t1.countsum /*累计放款账户数*/,t1.pactsum /*累计放款合同额*/,
+	t2.c1# c1_count, t2.c1$ c1_sum,
+    t3.c16# c16_count,t3.c16$ c16_sum,
+    t4.m1_1# m1_1count,t4.m1_1$ m1_1sum,
+    t5.m1_16# m1_16count,t5.m1_16$ m1_16sum,
+    t6.m2_1# m2_1count,t6.m2_1$ m2_1sum,
+    t7.m2_16# m2_16count,t7.m2_16$ m2_16sum,
+    t8.m3_1# m3_1count,t8.m3_1$ m3_1sum,
+    t9.m3_16# m3_16count,t9.m3_16$ m3_16sum,
+    t10.m4# m4_count,t10.m4$ m4_sum,
+    t12.m5# m5_count,t12.m5$ m5_sum,
+    t14.m6# m6_count,t14.m6$ m6_sum,
+    t16.m7# m7_count,t16.m7$ m7_sum,
+	t18.首逾# overdue_count,t18.首逾$ overdue_sum,
+	t19.新增# add_count,t19.新增$ add_sum,
+	t20.好转1# improve1_count,t20.好转1$ improve1_sum,
+	t21.好转16# improve16_count,t21.好转16$ improve16_sum,
+	t22.催回1# pushback1_count,t22.催回1$ pushback1_sum,
+	t23.催回16# pushback16_count,t23.催回16$ pushback16_sum,
+	t24.M1结清1# M1_settle1_count,t24.M1结清1$ M1_settle1_sum,
+	t25.M1结清16# M1_settle16_count,t25.M1结清16$ M1_settle16_sum,
+	t26.M2结清1# M2_settle1_count,t26.M2结清1$ M2_settle1_sum,
+	t27.M2结清16# M2_settle16_count,t27.M2结清16$ M2_settle16_sum
+	from (select SALES_DEPARTMENT_ID, count(*) countsum, sum(PACT_MONEY)
+	pactsum
+	from v_loan_info
+	where LOAN_FLOW_STATE = '正常' and APPLY_INPUT_FLAG = 'directApplyInput'
+	group by SALES_DEPARTMENT_ID) t1
+	left join(select v.SALES_DEPARTMENT_ID, count(*) c1#,
+	sum(v.residual_pact_money) c1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'
+	and od.yuqitianshu is null
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t2
+	on t1.SALES_DEPARTMENT_ID = t2.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) c16#,
+	sum(v.residual_pact_money) c16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16'
+	and od.yuqitianshu is null
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t3
+	on t1.SALES_DEPARTMENT_ID = t3.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m1_1#,
+	sum(v.residual_pact_money) m1_1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'
+	and od.yuqitianshu <![CDATA[ >= ]]> 0 and od.yuqitianshu <![CDATA[ <= ]]> 30
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t4
+	on t1.SALES_DEPARTMENT_ID = t4.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m1_16#,
+	sum(v.residual_pact_money) m1_16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16'
+	and od.yuqitianshu <![CDATA[ >= ]]> 0 and od.yuqitianshu <![CDATA[ <= ]]> 30
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t5
+	on t1.SALES_DEPARTMENT_ID = t5.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m2_1#,
+	sum(v.residual_pact_money) m2_1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'
+	and od.yuqitianshu >30 and od.yuqitianshu <![CDATA[ <= ]]> 60
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t6
+	on t1.SALES_DEPARTMENT_ID = t6.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m2_16#,
+	sum(v.residual_pact_money) m2_16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16'
+	and od.yuqitianshu >30 and od.yuqitianshu <![CDATA[ <= ]]> 60
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t7
+	on t1.SALES_DEPARTMENT_ID = t7.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m3_1#,
+	sum(v.residual_pact_money) m3_1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'
+	and od.yuqitianshu >60 and od.yuqitianshu <![CDATA[ <= ]]> 90
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t8
+	on t1.SALES_DEPARTMENT_ID = t8.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m3_16#,
+	sum(v.residual_pact_money) m3_16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16'
+	and od.yuqitianshu >60 and od.yuqitianshu <![CDATA[ <= ]]> 90
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t9
+	on t1.SALES_DEPARTMENT_ID = t9.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m4#,
+	sum(v.residual_pact_money) m4$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and od.yuqitianshu >90 and od.yuqitianshu <![CDATA[ <= ]]> 120
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t10
+	on t1.SALES_DEPARTMENT_ID = t10.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m5#,
+	sum(v.residual_pact_money) m5$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and od.yuqitianshu >120 and od.yuqitianshu <![CDATA[ <= ]]> 150
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t12
+	on t1.SALES_DEPARTMENT_ID = t12.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID, count(*) m6#,
+	sum(v.residual_pact_money) m6$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and od.yuqitianshu >150 and od.yuqitianshu <![CDATA[ <= ]]> 180
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t14
+	on t1.SALES_DEPARTMENT_ID = t14.SALES_DEPARTMENT_ID
+	left join(select v.SALES_DEPARTMENT_ID,count(*) m7#,
+	sum(v.residual_pact_money) m7$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and od.yuqitianshu >180
+	and v.residual_pact_money > 0
+	group by SALES_DEPARTMENT_ID) t16
+	on t1.SALES_DEPARTMENT_ID = t16.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) 首逾#,
+	sum(v.residual_pact_money) 首逾$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and trunc(v.STARTRDATE, 'MM') = trunc(sysdate, 'MM')
+	and od.yuqitianshu <![CDATA[ >= ]]> 0
+	group by SALES_DEPARTMENT_ID) t18
+	on t1.SALES_DEPARTMENT_ID = t18.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) 新增#,
+	sum(v.residual_pact_money) 新增$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and odd.yuqitianshu is null
+	and od.yuqitianshu = 0
+	group by SALES_DEPARTMENT_ID) t19
+	on t1.SALES_DEPARTMENT_ID = t19.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) 好转1#,
+	sum(v.residual_pact_money) 好转1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'
+	and odd.yuqitianshu <![CDATA[ >= ]]> 31
+	and od.yuqitianshu <![CDATA[ <= ]]> 30
+	and od.yuqitianshu is not null
+	group by SALES_DEPARTMENT_ID) t20
+	on t1.SALES_DEPARTMENT_ID = t20.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) 好转16#,
+	sum(v.residual_pact_money) 好转16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16'
+	and odd.yuqitianshu <![CDATA[ >= ]]> 31
+	and od.yuqitianshu <![CDATA[ <= ]]> 30
+	and od.yuqitianshu is not null
+	group by SALES_DEPARTMENT_ID) t21
+	on t1.SALES_DEPARTMENT_ID = t21.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) 催回1#,
+	sum(v.residual_pact_money) 催回1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'and v.residual_pact_money>0
+	and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30
+	and od.yuqitianshu is null
+	group by SALES_DEPARTMENT_ID) t22
+	on t1.SALES_DEPARTMENT_ID = t22.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) 催回16#,
+	sum(v.residual_pact_money) 催回16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	left join (select loan_id,yuqitianshu from overdue_detail where cur_date =
+	trunc(sysdate-1) ) od
+	on v.id = od.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16' and v.residual_pact_money>0
+	and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30
+	and od.yuqitianshu is null
+	group by SALES_DEPARTMENT_ID) t23
+	on t1.SALES_DEPARTMENT_ID = t23.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) M1结清1#,
+	sum(odd.shengyubenjin) M1结清1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu,SHENGYUBENJIN from overdue_detail
+	where cur_date = trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'
+	and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30 and odd.SHENGYUBENJIN>0
+	and v.residual_pact_money = 0
+	group by SALES_DEPARTMENT_ID) t24
+	on t1.SALES_DEPARTMENT_ID = t24.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) M1结清16#,
+	sum(odd.shengyubenjin) M1结清16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu,SHENGYUBENJIN from overdue_detail
+	where cur_date = trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16'
+	and odd.yuqitianshu <![CDATA[ >= ]]> 0 and odd.yuqitianshu <![CDATA[ <= ]]> 30 and odd.SHENGYUBENJIN>0
+	and v.residual_pact_money = 0
+	group by SALES_DEPARTMENT_ID) t25
+	on t1.SALES_DEPARTMENT_ID = t25.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) M2结清1#,
+	sum(odd.shengyubenjin) M2结清1$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu,SHENGYUBENJIN from overdue_detail
+	where cur_date = trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '1'
+	and odd.yuqitianshu <![CDATA[ >= ]]> 30 and odd.SHENGYUBENJIN>0
+	and v.residual_pact_money = 0
+	group by SALES_DEPARTMENT_ID) t26
+	on t1.SALES_DEPARTMENT_ID = t26.SALES_DEPARTMENT_ID
+	left join (select v.SALES_DEPARTMENT_ID, count(*) M2结清16#,
+	sum(odd.shengyubenjin) M2结清16$
+	from v_loan_info v
+	left join (select loan_id,yuqitianshu,SHENGYUBENJIN from overdue_detail
+	where cur_date = trunc(sysdate-2) ) odd
+	on v.id = odd.loan_id
+	where LOAN_FLOW_STATE = '正常' and v.APPLY_INPUT_FLAG = 'directApplyInput'
+	and v.PROMISE_RETURN_DATE = '16'
+	and odd.yuqitianshu <![CDATA[ >= ]]> 30 and odd.SHENGYUBENJIN>0
+	and v.residual_pact_money = 0
+	group by SALES_DEPARTMENT_ID) t27
+	on t1.SALES_DEPARTMENT_ID = t27.SALES_DEPARTMENT_ID
+	) row_
+		WHERE rownum <![CDATA[ <= ]]>
+		${pager.end}
+		)
+		WHERE RN <![CDATA[ > ]]>
+		${pager.start}
+	</select>
+	
+	<!-- 逾期日报 快照 -->
+	<insert id="dayReportSnapshotJobInsert"  parameterType="java.util.Map" >
+   	INSERT INTO DAY_REPORT_SNAPSHOT
+   	   select 
+   	   seq_day_report_snapshot.nextval,
+   	   cur_date curDate,
+       create_time createTime,
+       loan_id loanId,
+       PROMISE_RETURN_DATE promiseReturnDate,
+       yuqiqishiri yuqiqishiri,
+       over_days overDays ,
+       over_principal overPrincipal,
+       danqibenjin danqibenjin,
+       jieqinbenjin jieqinbenjin,
+       current_term currentTerm,
+       return_date returnDate,
+       name1 name1,
+       name2 name2,
+       name3 name3,
+       name4 name4,
+       APPLY_INPUT_FLAG applyInputFlag,
+       is_valid isValid,
+       open_date openDate,
+       close_date closeDate ,
+       is_outsourcing isOutsourcing,
+       yuqitichu yuqitichu
+  from ((select trunc(sysdate) - 1 cur_date, --日报日期
+               sysdate create_time, --数据生成日期
+               l.id loan_id, --债权ID
+               l.PROMISE_RETURN_DATE, --端口日
+               ovmin.yuqiqishiri, --逾期起始日
+               (trunc(sysdate) - ovmin.yuqiqishiri - 1) as over_days, --逾期天数
+               nvl(ovpi.over_principal, 0) over_principal, --逾期本金
+               nvl(ovmax.danqibenjin, 0) danqibenjin, --当期本金
+               nvl(ovmax.principal_balance, 0) jieqinbenjin, --结清本金
+               ovmax.current_term, --当前期数
+               ovmax.return_date, --当期应还日期
+               oo.name1, --所属营业部
+               oo.name2, --所属区域
+               oo.name3, --所属分部
+               oo.name4, --所属城市
+               l.APPLY_INPUT_FLAG, --进件标识
+               oo.is_valid, --关店标识
+               oo.open_date, --开业时间
+               oo.close_date, --停业时间
+               case
+                 when coa.loan_id is not null then
+                  '1'
+                 else
+                  ''
+               end as is_outsourcing, --是否委外
+               null yuqitichu --逾期剔除标识
+          from v_loan_info l
+          join (select o.id,
+                           o.name name1,
+                           o.is_valid,
+                           o.open_date,
+                           o.close_date,
+                           (select name
+                              from com_organization
+                             where substr(o.org_code, 0, 4) = org_code) name2,
+                           (select name
+                              from com_organization
+                             where substr(o.org_code, 0, 8) = org_code) name3,
+                           (select name
+                              from com_organization
+                             where substr(o.org_code, 0, 12) = org_code) name4
+                      from com_organization o where o.department_type = '个贷') oo
+            on l.SALES_DEPARTMENT_ID = oo.id
+          left join (select r.return_date yuqiqishiri,
+                           r.loan_id,
+                           r.current_term
+                      from loan_repayment_detail r
+                     right join (select min(lrd.id) as mid
+                                  from loan_repayment_detail lrd
+                                 where lrd.repayment_state <![CDATA[<>]]> '结清'
+                                   and lrd.return_date <![CDATA[<=]]> trunc(sysdate) - 1
+                                 group by lrd.loan_id) mr
+                        on mr.mid = r.id) ovmin
+            on ovmin.loan_id = l.id
+          left join (select r.return_date,
+                           r.loan_id,
+                           r.current_term,
+                           r.returneterm - r.current_accrual danqibenjin,
+                           r.principal_balance
+                      from loan_repayment_detail r
+                     right join (select min(lrd.id) as mid
+                                  from loan_repayment_detail lrd
+                                 where lrd.return_date <![CDATA[>]]> trunc(sysdate) - 1
+                                 group by lrd.loan_id) mr
+                        on mr.mid = r.id) ovmax
+            on ovmax.loan_id = l.id
+          left join (select sum(case
+                                 when (r.returneterm - r.current_accrual <![CDATA[>=]]>
+                                      r.deficit) then
+                                  r.deficit
+                                 else
+                                  (r.returneterm - r.current_accrual)
+                               end) as over_principal,
+                           r.loan_id
+                      from loan_repayment_detail r
+                     where r.repayment_state <![CDATA[<>]]> '结清'
+                       and r.return_date <![CDATA[<=]]> trunc(sysdate) - 1
+                     group by r.loan_id) ovpi
+            on ovpi.loan_id = l.id
+          left join (select loan_id
+                      from cs_outsourcing_apply
+                     where is_close = '0') coa
+            on coa.loan_id = l.id 
+         where l.LOAN_STATE in ('正常', '逾期' , '预结清')
+              
+         <if test="day != '1'.toString()">
+         	and not exists (
+			select 1 from day_report_snapshot t where t.cur_date <![CDATA[<]]> trunc(sysdate)-1 and t.loan_id=l.id 
+			and t.over_days is null and  (trunc(sysdate) - ovmin.yuqiqishiri-1) is null  and t.return_date=ovmax.return_date
+			)
+        </if> 
+        )  
+	union (select trunc(sysdate) - 1 cur_date, --日报日期
+              sysdate create_time, --数据生成日期
+              l.id loan_id, --债权ID 
+              l.PROMISE_RETURN_DATE, --端口日
+              null yuqiqishiri,
+              null over_days,
+              0 over_principal, 
+              0 danqibenjin,
+              0 jieqinbenjin,
+              null current_term,
+              null return_date,
+              oo.name1, --所属营业部
+              oo.name2, --所属区域
+              oo.name3, --所属分部
+              oo.name4, --所属城市
+              l.APPLY_INPUT_FLAG, --进件标识
+              oo.is_valid, --关店标识
+              oo.open_date, --开业时间
+              oo.close_date, --停业时间
+              case
+                when coa.loan_id is not null then
+                 '1'
+                else
+                 ''
+              end as is_outsourcing, --是否委外
+              null yuqitichu --逾期剔除标识
+         from v_loan_info l
+         left join loan_repayment_detail lr
+           on l.id = lr.loan_id
+          and lr.current_term = l.TIME
+         left join (select o.id,
+                          o.name name1,
+                          o.is_valid,
+                          o.open_date,
+                          o.close_date,
+                          (select name
+                             from com_organization
+                            where substr(o.org_code, 0, 4) = org_code) name2,
+                          (select name
+                             from com_organization
+                            where substr(o.org_code, 0, 8) = org_code) name3,
+                          (select name
+                             from com_organization
+                            where substr(o.org_code, 0, 12) = org_code) name4
+                     from com_organization o) oo
+           on l.SALES_DEPARTMENT_ID = oo.id
+         left join (select loan_id
+                     from cs_outsourcing_apply
+                    where is_close = '0') coa
+           on coa.loan_id = l.id
+        where l.LOAN_STATE = '结清'
+          and lr.fact_return_date = trunc(sysdate) - 1))
+   		
+	</insert>
+</mapper>

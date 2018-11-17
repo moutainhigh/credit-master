@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.BaseEmssendInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.BaseEmssendInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DELIVER_STATE" property="deliverState"
+			jdbcType="VARCHAR" />
+		<result column="DELIVER_STATE_REMARK" property="deliverStateRemark"
+			jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="REPAY_REMIND_ID" property="repayRemindId"
+			jdbcType="DECIMAL" />
+		<result column="SEND_ID" property="sendId" jdbcType="VARCHAR" />
+		<result column="SEND_STATE" property="sendState" jdbcType="VARCHAR" />
+		<result column="SEND_STATE_REMARK" property="sendStateRemark"
+			jdbcType="VARCHAR" />
+		<result column="EMS_SEND_INFOS_IDX" property="emsSendInfosIdx"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ems.ID, ems.DELIVER_STATE, ems.DELIVER_STATE_REMARK, ems.MOBILE, ems.REPAY_REMIND_ID,
+		ems.SEND_ID, ems.SEND_STATE,
+		ems.SEND_STATE_REMARK, ems.EMS_SEND_INFOS_IDX, ems.CREATE_TIME, ems.UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from BASE_EMSSEND_INFO ems
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from BASE_EMSSEND_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.BaseEmssendInfo">
+		insert into BASE_EMSSEND_INFO (ID, DELIVER_STATE,
+		DELIVER_STATE_REMARK,
+		MOBILE, REPAY_REMIND_ID, SEND_ID,
+		SEND_STATE, SEND_STATE_REMARK, EMS_SEND_INFOS_IDX,
+		CREATE_TIME, UPDATE_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{deliverState,jdbcType=VARCHAR},
+		#{deliverStateRemark,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{repayRemindId,jdbcType=DECIMAL}, #{sendId,jdbcType=VARCHAR},
+		#{sendState,jdbcType=VARCHAR}, #{sendStateRemark,jdbcType=VARCHAR},
+		#{emsSendInfosIdx,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.BaseEmssendInfo">
+		insert into BASE_EMSSEND_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="deliverState != null">
+				DELIVER_STATE,
+			</if>
+			<if test="deliverStateRemark != null">
+				DELIVER_STATE_REMARK,
+			</if>
+			<if test="mobile != null">
+				MOBILE,
+			</if>
+			<if test="repayRemindId != null">
+				REPAY_REMIND_ID,
+			</if>
+			<if test="sendId != null">
+				SEND_ID,
+			</if>
+			<if test="sendState != null">
+				SEND_STATE,
+			</if>
+			<if test="sendStateRemark != null">
+				SEND_STATE_REMARK,
+			</if>
+			<if test="emsSendInfosIdx != null">
+				EMS_SEND_INFOS_IDX,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="deliverState != null">
+				#{deliverState,jdbcType=VARCHAR},
+			</if>
+			<if test="deliverStateRemark != null">
+				#{deliverStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="repayRemindId != null">
+				#{repayRemindId,jdbcType=DECIMAL},
+			</if>
+			<if test="sendId != null">
+				#{sendId,jdbcType=VARCHAR},
+			</if>
+			<if test="sendState != null">
+				#{sendState,jdbcType=VARCHAR},
+			</if>
+			<if test="sendStateRemark != null">
+				#{sendStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="emsSendInfosIdx != null">
+				#{emsSendInfosIdx,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.BaseEmssendInfo">
+		update BASE_EMSSEND_INFO
+		<set>
+			<if test="deliverState != null">
+				DELIVER_STATE = #{deliverState,jdbcType=VARCHAR},
+			</if>
+			<if test="deliverStateRemark != null">
+				DELIVER_STATE_REMARK = #{deliverStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="repayRemindId != null">
+				REPAY_REMIND_ID = #{repayRemindId,jdbcType=DECIMAL},
+			</if>
+			<if test="sendId != null">
+				SEND_ID = #{sendId,jdbcType=VARCHAR},
+			</if>
+			<if test="sendState != null">
+				SEND_STATE = #{sendState,jdbcType=VARCHAR},
+			</if>
+			<if test="sendStateRemark != null">
+				SEND_STATE_REMARK = #{sendStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="emsSendInfosIdx != null">
+				EMS_SEND_INFOS_IDX = #{emsSendInfosIdx,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.BaseEmssendInfo">
+		update BASE_EMSSEND_INFO
+		set DELIVER_STATE = #{deliverState,jdbcType=VARCHAR},
+		DELIVER_STATE_REMARK = #{deliverStateRemark,jdbcType=VARCHAR},
+		MOBILE = #{mobile,jdbcType=VARCHAR},
+		REPAY_REMIND_ID = #{repayRemindId,jdbcType=DECIMAL},
+		SEND_ID = #{sendId,jdbcType=VARCHAR},
+		SEND_STATE = #{sendState,jdbcType=VARCHAR},
+		SEND_STATE_REMARK = #{sendStateRemark,jdbcType=VARCHAR},
+		EMS_SEND_INFOS_IDX = #{emsSendInfosIdx,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="baseEmssendInfoSelective">
+		select
+		<include refid="Base_Column_List" />
+		from BASE_EMSSEND_INFO ems
+	</sql>
+
+	<select id="getRepayRemindLastEmssendInfo" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select * from (
+		<include refid="baseEmssendInfoSelective" />
+		where repay_remind_id = #{repayRemindId, jdbcType=DECIMAL}
+		order by id desc
+		) where rownum = 1
+	</select>
+
+	<select id="getDistinctSendIdByRepayDate" parameterType="java.util.Date"
+		resultType="java.lang.String">
+		select distinct(ems.send_id)
+		from base_emssend_info ems
+		left join base_repay_remind rmd
+		on (ems.repay_remind_id = rmd.id)
+		where rmd.repay_date = #{repayDate, jdbcType=TIMESTAMP}
+		and ems.deliver_state is null
+	</select>
+
+	<select id="getSendInfoByRepayDateAndState" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_emssend_info ems
+		left join base_repay_remind rmd
+		on (ems.repay_remind_id = rmd.id)
+		where rmd.repay_date = #{repayDate, jdbcType=TIMESTAMP}
+		<choose>
+		<when test="deliverState != null">
+		and ems.deliver_state = #{deliverState, jdbcType=VARCHAR}
+		</when>
+		<otherwise>
+		and ems.deliver_state is null
+		</otherwise>
+		</choose>
+		
+		and ems.send_state = #{sendState, jdbcType=VARCHAR}
+	</select>
+	<!-- and ems.deliver_state = #{deliverState, jdbcType=VARCHAR} -->
+	
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.BaseEmssendInfo" resultMap="BaseResultMap" >
+	<include refid="baseEmssendInfoSelective" />
+	<where>
+	<if test="id != null">
+	and id = #{id, jdbcType=DECIMAL}
+	</if>
+		<choose>
+		<when test="deliverState != null">
+		and deliver_state = #{deliverState, jdbcType=VARCHAR}
+		</when>
+		<otherwise>
+		and deliver_state is null
+		</otherwise>
+		</choose>
+			<if test="deliverStateRemark != null">
+				and DELIVER_STATE_REMARK = #{deliverStateRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="mobile != null">
+				and MOBILE = #{mobile,jdbcType=VARCHAR}
+			</if>
+			<if test="repayRemindId != null">
+				and REPAY_REMIND_ID = #{repayRemindId,jdbcType=DECIMAL}
+			</if>
+			<if test="sendId != null">
+				and SEND_ID = #{sendId,jdbcType=VARCHAR}
+			</if>
+			<if test="sendState != null">
+				and SEND_STATE = #{sendState,jdbcType=VARCHAR}
+			</if>
+			<if test="sendStateRemark != null">
+				and SEND_STATE_REMARK = #{sendStateRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="emsSendInfosIdx != null">
+				and EMS_SEND_INFOS_IDX = #{emsSendInfosIdx,jdbcType=VARCHAR}
+			</if>
+			<if test="createTime != null">
+				and CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateTime != null">
+				and UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+	</where>
+	</select>
+</mapper>

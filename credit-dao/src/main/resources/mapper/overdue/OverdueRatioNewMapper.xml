@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.overdue.domain.OverdueRatioNewMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.overdue.domain.OverdueRatioNew">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DEP_NAME" property="depName" jdbcType="VARCHAR" />
+		<result column="DEP_CODE" property="depCode" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT_NUM" property="departmentNum"
+			jdbcType="VARCHAR" />
+		<result column="DEPARTMENT_TYPE" property="departmentType"
+			jdbcType="VARCHAR" />
+		<result column="DID" property="did" jdbcType="DECIMAL" />
+		<result column="RESIDUAL_PACT_MONEY" property="residualPactMoney"
+			jdbcType="DECIMAL" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="RESIDUAL_PACT_MONEY_PRODUCT" property="residualPactMoneyProduct"
+			jdbcType="DECIMAL" />
+		<result column="RESIDUAL_PACT_MONEY_OVER_P" property="residualPactMoneyOverP"
+			jdbcType="DECIMAL" />
+		<result column="OVERDUE_STAT_PRODUCT" property="overdueStatProduct"
+			jdbcType="DECIMAL" />
+		<result column="PRODUCT_COUNT" property="productCount"
+			jdbcType="DECIMAL" />
+		<result column="PRODUCT_COUNT_OVERDUE" property="productCountOverdue"
+			jdbcType="DECIMAL" />
+		<result column="M1_RESIDUAL_PACT_MONEY" property="m1ResidualPactMoney"
+			jdbcType="DECIMAL" />
+		<result column="M1_OVERDUE_STAT" property="m1OverdueStat"
+			jdbcType="DECIMAL" />
+		<result column="M2_RESIDUAL_PACT_MONEY" property="m2ResidualPactMoney"
+			jdbcType="DECIMAL" />
+		<result column="M2_OVERDUE_STAT" property="m2OverdueStat"
+			jdbcType="DECIMAL" />
+		<result column="M3_RESIDUAL_PACT_MONEY" property="m3ResidualPactMoney"
+			jdbcType="DECIMAL" />
+		<result column="M3_OVERDUE_STAT" property="m3OverdueStat"
+			jdbcType="DECIMAL" />
+		<result column="M4_6_RESIDUAL_PACT_MONEY" property="m46ResidualPactMoney"
+			jdbcType="DECIMAL" />
+		<result column="M4_6_OVERDUE_STAT" property="m46OverdueStat"
+			jdbcType="DECIMAL" />
+		<result column="M7_GE_RESIDUAL_PACT_MONEY" property="m7GeResidualPactMoney"
+			jdbcType="DECIMAL" />
+		<result column="M7_GE_OVERDUE_STAT" property="m7GeOverdueStat"
+			jdbcType="DECIMAL" />
+		<result column="OVERDUE_STAT_DEPARTMENT" property="overdueStatDepartment"
+			jdbcType="DECIMAL" />
+		<result column="CUR_DATE" property="curDate" jdbcType="TIMESTAMP" />
+		<result column="ZONE_CODE" property="zoneCode" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, DEP_NAME, DEP_CODE, DEPARTMENT_NUM, DEPARTMENT_TYPE, DID,
+		RESIDUAL_PACT_MONEY,
+		LOAN_TYPE, RESIDUAL_PACT_MONEY_PRODUCT, RESIDUAL_PACT_MONEY_OVER_P,
+		OVERDUE_STAT_PRODUCT,
+		PRODUCT_COUNT, PRODUCT_COUNT_OVERDUE, M1_RESIDUAL_PACT_MONEY, M1_OVERDUE_STAT,
+		M2_RESIDUAL_PACT_MONEY,
+		M2_OVERDUE_STAT, M3_RESIDUAL_PACT_MONEY, M3_OVERDUE_STAT, M4_6_RESIDUAL_PACT_MONEY,
+		M4_6_OVERDUE_STAT, M7_GE_RESIDUAL_PACT_MONEY, M7_GE_OVERDUE_STAT,
+		OVERDUE_STAT_DEPARTMENT,
+		CUR_DATE, ZONE_CODE, CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from OVERDUE_RATIO_NEW
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from OVERDUE_RATIO_NEW
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.overdue.domain.OverdueRatioNew">
+		insert into OVERDUE_RATIO_NEW (ID, DEP_NAME, DEP_CODE,
+		DEPARTMENT_NUM, DEPARTMENT_TYPE, DID,
+		RESIDUAL_PACT_MONEY, LOAN_TYPE, RESIDUAL_PACT_MONEY_PRODUCT,
+		RESIDUAL_PACT_MONEY_OVER_P, OVERDUE_STAT_PRODUCT,
+		PRODUCT_COUNT, PRODUCT_COUNT_OVERDUE, M1_RESIDUAL_PACT_MONEY,
+		M1_OVERDUE_STAT, M2_RESIDUAL_PACT_MONEY, M2_OVERDUE_STAT,
+		M3_RESIDUAL_PACT_MONEY, M3_OVERDUE_STAT, M4_6_RESIDUAL_PACT_MONEY,
+		M4_6_OVERDUE_STAT, M7_GE_RESIDUAL_PACT_MONEY,
+		M7_GE_OVERDUE_STAT, OVERDUE_STAT_DEPARTMENT,
+		CUR_DATE, ZONE_CODE, CREATE_TIME,
+		UPDATE_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{depName,jdbcType=VARCHAR},
+		#{depCode,jdbcType=VARCHAR},
+		#{departmentNum,jdbcType=VARCHAR}, #{departmentType,jdbcType=VARCHAR}, #{did,jdbcType=DECIMAL},
+		#{residualPactMoney,jdbcType=DECIMAL}, #{loanType,jdbcType=VARCHAR},
+		#{residualPactMoneyProduct,jdbcType=DECIMAL},
+		#{residualPactMoneyOverP,jdbcType=DECIMAL},
+		#{overdueStatProduct,jdbcType=DECIMAL},
+		#{productCount,jdbcType=DECIMAL},
+		#{productCountOverdue,jdbcType=DECIMAL},
+		#{m1ResidualPactMoney,jdbcType=DECIMAL},
+		#{m1OverdueStat,jdbcType=DECIMAL},
+		#{m2ResidualPactMoney,jdbcType=DECIMAL},
+		#{m2OverdueStat,jdbcType=DECIMAL},
+		#{m3ResidualPactMoney,jdbcType=DECIMAL},
+		#{m3OverdueStat,jdbcType=DECIMAL},
+		#{m46ResidualPactMoney,jdbcType=DECIMAL},
+		#{m46OverdueStat,jdbcType=DECIMAL},
+		#{m7GeResidualPactMoney,jdbcType=DECIMAL},
+		#{m7GeOverdueStat,jdbcType=DECIMAL},
+		#{overdueStatDepartment,jdbcType=DECIMAL},
+		#{curDate,jdbcType=TIMESTAMP}, #{zoneCode,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.overdue.domain.OverdueRatioNew">
+		insert into OVERDUE_RATIO_NEW
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="depName != null">
+				DEP_NAME,
+			</if>
+			<if test="depCode != null">
+				DEP_CODE,
+			</if>
+			<if test="departmentNum != null">
+				DEPARTMENT_NUM,
+			</if>
+			<if test="departmentType != null">
+				DEPARTMENT_TYPE,
+			</if>
+			<if test="did != null">
+				DID,
+			</if>
+			<if test="residualPactMoney != null">
+				RESIDUAL_PACT_MONEY,
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE,
+			</if>
+			<if test="residualPactMoneyProduct != null">
+				RESIDUAL_PACT_MONEY_PRODUCT,
+			</if>
+			<if test="residualPactMoneyOverP != null">
+				RESIDUAL_PACT_MONEY_OVER_P,
+			</if>
+			<if test="overdueStatProduct != null">
+				OVERDUE_STAT_PRODUCT,
+			</if>
+			<if test="productCount != null">
+				PRODUCT_COUNT,
+			</if>
+			<if test="productCountOverdue != null">
+				PRODUCT_COUNT_OVERDUE,
+			</if>
+			<if test="m1ResidualPactMoney != null">
+				M1_RESIDUAL_PACT_MONEY,
+			</if>
+			<if test="m1OverdueStat != null">
+				M1_OVERDUE_STAT,
+			</if>
+			<if test="m2ResidualPactMoney != null">
+				M2_RESIDUAL_PACT_MONEY,
+			</if>
+			<if test="m2OverdueStat != null">
+				M2_OVERDUE_STAT,
+			</if>
+			<if test="m3ResidualPactMoney != null">
+				M3_RESIDUAL_PACT_MONEY,
+			</if>
+			<if test="m3OverdueStat != null">
+				M3_OVERDUE_STAT,
+			</if>
+			<if test="m46ResidualPactMoney != null">
+				M4_6_RESIDUAL_PACT_MONEY,
+			</if>
+			<if test="m46OverdueStat != null">
+				M4_6_OVERDUE_STAT,
+			</if>
+			<if test="m7GeResidualPactMoney != null">
+				M7_GE_RESIDUAL_PACT_MONEY,
+			</if>
+			<if test="m7GeOverdueStat != null">
+				M7_GE_OVERDUE_STAT,
+			</if>
+			<if test="overdueStatDepartment != null">
+				OVERDUE_STAT_DEPARTMENT,
+			</if>
+			<if test="curDate != null">
+				CUR_DATE,
+			</if>
+			<if test="zoneCode != null">
+				ZONE_CODE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="depName != null">
+				#{depName,jdbcType=VARCHAR},
+			</if>
+			<if test="depCode != null">
+				#{depCode,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentNum != null">
+				#{departmentNum,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentType != null">
+				#{departmentType,jdbcType=VARCHAR},
+			</if>
+			<if test="did != null">
+				#{did,jdbcType=DECIMAL},
+			</if>
+			<if test="residualPactMoney != null">
+				#{residualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				#{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="residualPactMoneyProduct != null">
+				#{residualPactMoneyProduct,jdbcType=DECIMAL},
+			</if>
+			<if test="residualPactMoneyOverP != null">
+				#{residualPactMoneyOverP,jdbcType=DECIMAL},
+			</if>
+			<if test="overdueStatProduct != null">
+				#{overdueStatProduct,jdbcType=DECIMAL},
+			</if>
+			<if test="productCount != null">
+				#{productCount,jdbcType=DECIMAL},
+			</if>
+			<if test="productCountOverdue != null">
+				#{productCountOverdue,jdbcType=DECIMAL},
+			</if>
+			<if test="m1ResidualPactMoney != null">
+				#{m1ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m1OverdueStat != null">
+				#{m1OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m2ResidualPactMoney != null">
+				#{m2ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m2OverdueStat != null">
+				#{m2OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m3ResidualPactMoney != null">
+				#{m3ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m3OverdueStat != null">
+				#{m3OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m46ResidualPactMoney != null">
+				#{m46ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m46OverdueStat != null">
+				#{m46OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m7GeResidualPactMoney != null">
+				#{m7GeResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m7GeOverdueStat != null">
+				#{m7GeOverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="overdueStatDepartment != null">
+				#{overdueStatDepartment,jdbcType=DECIMAL},
+			</if>
+			<if test="curDate != null">
+				#{curDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="zoneCode != null">
+				#{zoneCode,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.overdue.domain.OverdueRatioNew">
+		update OVERDUE_RATIO_NEW
+		<set>
+			<if test="depName != null">
+				DEP_NAME = #{depName,jdbcType=VARCHAR},
+			</if>
+			<if test="depCode != null">
+				DEP_CODE = #{depCode,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentNum != null">
+				DEPARTMENT_NUM = #{departmentNum,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentType != null">
+				DEPARTMENT_TYPE = #{departmentType,jdbcType=VARCHAR},
+			</if>
+			<if test="did != null">
+				DID = #{did,jdbcType=DECIMAL},
+			</if>
+			<if test="residualPactMoney != null">
+				RESIDUAL_PACT_MONEY = #{residualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="residualPactMoneyProduct != null">
+				RESIDUAL_PACT_MONEY_PRODUCT =
+				#{residualPactMoneyProduct,jdbcType=DECIMAL},
+			</if>
+			<if test="residualPactMoneyOverP != null">
+				RESIDUAL_PACT_MONEY_OVER_P =
+				#{residualPactMoneyOverP,jdbcType=DECIMAL},
+			</if>
+			<if test="overdueStatProduct != null">
+				OVERDUE_STAT_PRODUCT = #{overdueStatProduct,jdbcType=DECIMAL},
+			</if>
+			<if test="productCount != null">
+				PRODUCT_COUNT = #{productCount,jdbcType=DECIMAL},
+			</if>
+			<if test="productCountOverdue != null">
+				PRODUCT_COUNT_OVERDUE = #{productCountOverdue,jdbcType=DECIMAL},
+			</if>
+			<if test="m1ResidualPactMoney != null">
+				M1_RESIDUAL_PACT_MONEY = #{m1ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m1OverdueStat != null">
+				M1_OVERDUE_STAT = #{m1OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m2ResidualPactMoney != null">
+				M2_RESIDUAL_PACT_MONEY = #{m2ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m2OverdueStat != null">
+				M2_OVERDUE_STAT = #{m2OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m3ResidualPactMoney != null">
+				M3_RESIDUAL_PACT_MONEY = #{m3ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m3OverdueStat != null">
+				M3_OVERDUE_STAT = #{m3OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m46ResidualPactMoney != null">
+				M4_6_RESIDUAL_PACT_MONEY = #{m46ResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m46OverdueStat != null">
+				M4_6_OVERDUE_STAT = #{m46OverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="m7GeResidualPactMoney != null">
+				M7_GE_RESIDUAL_PACT_MONEY =
+				#{m7GeResidualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="m7GeOverdueStat != null">
+				M7_GE_OVERDUE_STAT = #{m7GeOverdueStat,jdbcType=DECIMAL},
+			</if>
+			<if test="overdueStatDepartment != null">
+				OVERDUE_STAT_DEPARTMENT = #{overdueStatDepartment,jdbcType=DECIMAL},
+			</if>
+			<if test="curDate != null">
+				CUR_DATE = #{curDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="zoneCode != null">
+				ZONE_CODE = #{zoneCode,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.overdue.domain.OverdueRatioNew">
+		update OVERDUE_RATIO_NEW
+		set DEP_NAME = #{depName,jdbcType=VARCHAR},
+		DEP_CODE = #{depCode,jdbcType=VARCHAR},
+		DEPARTMENT_NUM = #{departmentNum,jdbcType=VARCHAR},
+		DEPARTMENT_TYPE = #{departmentType,jdbcType=VARCHAR},
+		DID = #{did,jdbcType=DECIMAL},
+		RESIDUAL_PACT_MONEY = #{residualPactMoney,jdbcType=DECIMAL},
+		LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+		RESIDUAL_PACT_MONEY_PRODUCT = #{residualPactMoneyProduct,jdbcType=DECIMAL},
+		RESIDUAL_PACT_MONEY_OVER_P =
+		#{residualPactMoneyOverP,jdbcType=DECIMAL},
+		OVERDUE_STAT_PRODUCT = #{overdueStatProduct,jdbcType=DECIMAL},
+		PRODUCT_COUNT = #{productCount,jdbcType=DECIMAL},
+		PRODUCT_COUNT_OVERDUE = #{productCountOverdue,jdbcType=DECIMAL},
+		M1_RESIDUAL_PACT_MONEY = #{m1ResidualPactMoney,jdbcType=DECIMAL},
+		M1_OVERDUE_STAT = #{m1OverdueStat,jdbcType=DECIMAL},
+		M2_RESIDUAL_PACT_MONEY = #{m2ResidualPactMoney,jdbcType=DECIMAL},
+		M2_OVERDUE_STAT = #{m2OverdueStat,jdbcType=DECIMAL},
+		M3_RESIDUAL_PACT_MONEY = #{m3ResidualPactMoney,jdbcType=DECIMAL},
+		M3_OVERDUE_STAT = #{m3OverdueStat,jdbcType=DECIMAL},
+		M4_6_RESIDUAL_PACT_MONEY = #{m46ResidualPactMoney,jdbcType=DECIMAL},
+		M4_6_OVERDUE_STAT = #{m46OverdueStat,jdbcType=DECIMAL},
+		M7_GE_RESIDUAL_PACT_MONEY = #{m7GeResidualPactMoney,jdbcType=DECIMAL},
+		M7_GE_OVERDUE_STAT = #{m7GeOverdueStat,jdbcType=DECIMAL},
+		OVERDUE_STAT_DEPARTMENT = #{overdueStatDepartment,jdbcType=DECIMAL},
+		CUR_DATE = #{curDate,jdbcType=TIMESTAMP},
+		ZONE_CODE = #{zoneCode,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

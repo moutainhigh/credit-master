@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanProductMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanProduct">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="STARTRDATE" property="startrdate" jdbcType="TIMESTAMP" />
+		<result column="ENDRDATE" property="endrdate" jdbcType="TIMESTAMP" />
+		<result column="EVAL_RATE" property="evalRate" jdbcType="DECIMAL" />
+		<result column="MANAGE_RATE" property="manageRate" jdbcType="DECIMAL" />
+		<result column="PACT_MONEY" property="pactMoney" jdbcType="DECIMAL" />
+		<result column="PROMISE_RETURN_DATE" property="promiseReturnDate"
+			jdbcType="DECIMAL" />
+		<result column="RATEEM" property="rateem" jdbcType="DECIMAL" />
+		<result column="RATEEY" property="rateey" jdbcType="DECIMAL" />
+		<result column="RATEED" property="rateed" jdbcType="DECIMAL" />
+		<result column="RATE_SUM" property="rateSum" jdbcType="DECIMAL" />
+		<result column="REFER_RATE" property="referRate" jdbcType="DECIMAL" />
+		<result column="TIME" property="time" jdbcType="DECIMAL" />
+		<result column="GRANT_MONEY" property="grantMoney" jdbcType="DECIMAL" />
+		<result column="MARGIN" property="margin" jdbcType="DECIMAL" />
+		<result column="RISK" property="risk" jdbcType="DECIMAL" />
+		<result column="PENALTY_RATE" property="penaltyRate" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="RESIDUAL_PACT_MONEY" property="residualPactMoney"
+			jdbcType="DECIMAL" />
+		<result column="MANAGE_RATE_FOR_PARTY_C" property="manageRateForPartyC"
+			jdbcType="DECIMAL" />
+		<result column="ACCRUALEM" property="accrualem" jdbcType="DECIMAL" />
+		<result column="ADVANCE" property="advance" jdbcType="DECIMAL" />
+		<result column="RATE" property="rate" jdbcType="DECIMAL" />
+		<result column="CALCULATOR_TYPE" property="calculatorType" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, STARTRDATE, ENDRDATE, EVAL_RATE, MANAGE_RATE, PACT_MONEY,
+		PROMISE_RETURN_DATE,
+		RATEEM, RATEEY, RATEED, RATE_SUM, REFER_RATE, TIME, GRANT_MONEY, MARGIN, RISK,
+		PENALTY_RATE,
+		CREATE_TIME, UPDATE_TIME, RESIDUAL_PACT_MONEY, MANAGE_RATE_FOR_PARTY_C, ACCRUALEM,
+		ADVANCE, RATE, CALCULATOR_TYPE
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_PRODUCT
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from LOAN_PRODUCT
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanProduct">
+		insert into LOAN_PRODUCT (ID, LOAN_ID, STARTRDATE,
+		ENDRDATE, EVAL_RATE, MANAGE_RATE,
+		PACT_MONEY, PROMISE_RETURN_DATE, RATEEM,
+		RATEEY, RATEED, RATE_SUM, REFER_RATE,
+		TIME, GRANT_MONEY, MARGIN,
+		RISK, PENALTY_RATE, CREATE_TIME,
+		UPDATE_TIME, RESIDUAL_PACT_MONEY, MANAGE_RATE_FOR_PARTY_C,
+		ACCRUALEM, ADVANCE, RATE, CALCULATOR_TYPE
+		)
+		values (#{id,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{startrdate,jdbcType=TIMESTAMP},
+		#{endrdate,jdbcType=TIMESTAMP}, #{evalRate,jdbcType=DECIMAL}, #{manageRate,jdbcType=DECIMAL},
+		#{pactMoney,jdbcType=DECIMAL}, #{promiseReturnDate,jdbcType=DECIMAL},
+		#{rateem,jdbcType=DECIMAL},
+		#{rateey,jdbcType=DECIMAL},#{rateed,jdbcType=DECIMAL}, #{rateSum,jdbcType=DECIMAL}, #{referRate,jdbcType=DECIMAL},
+		#{time,jdbcType=DECIMAL}, #{grantMoney,jdbcType=DECIMAL},
+		#{margin,jdbcType=DECIMAL},
+		#{risk,jdbcType=DECIMAL}, #{penaltyRate,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{residualPactMoney,jdbcType=DECIMAL},
+		#{manageRateForPartyC,jdbcType=DECIMAL},
+		#{accrualem,jdbcType=DECIMAL}, #{advance,jdbcType=DECIMAL},
+		#{rate,jdbcType=DECIMAL}, #{calculatorType,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanProduct">
+		insert into LOAN_PRODUCT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="startrdate != null">
+				STARTRDATE,
+			</if>
+			<if test="endrdate != null">
+				ENDRDATE,
+			</if>
+			<if test="evalRate != null">
+				EVAL_RATE,
+			</if>
+			<if test="manageRate != null">
+				MANAGE_RATE,
+			</if>
+			<if test="pactMoney != null">
+				PACT_MONEY,
+			</if>
+			<if test="promiseReturnDate != null">
+				PROMISE_RETURN_DATE,
+			</if>
+			<if test="rateem != null">
+				RATEEM,
+			</if>
+			<if test="rateey != null">
+				RATEEY,
+			</if>
+			<if test="rateed != null">
+				RATEED,
+			</if>
+			<if test="rateSum != null">
+				RATE_SUM,
+			</if>
+			<if test="referRate != null">
+				REFER_RATE,
+			</if>
+			<if test="time != null">
+				TIME,
+			</if>
+			<if test="grantMoney != null">
+				GRANT_MONEY,
+			</if>
+			<if test="margin != null">
+				MARGIN,
+			</if>
+			<if test="risk != null">
+				RISK,
+			</if>
+			<if test="penaltyRate != null">
+				PENALTY_RATE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="residualPactMoney != null">
+				RESIDUAL_PACT_MONEY,
+			</if>
+			<if test="manageRateForPartyC != null">
+				MANAGE_RATE_FOR_PARTY_C,
+			</if>
+			<if test="accrualem != null">
+				ACCRUALEM,
+			</if>
+			<if test="advance != null">
+				ADVANCE,
+			</if>
+			<if test="rate != null">
+				RATE,
+			</if>
+			<if test="calculatorType != null" >
+        		CALCULATOR_TYPE,
+      		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="startrdate != null">
+				#{startrdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endrdate != null">
+				#{endrdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="evalRate != null">
+				#{evalRate,jdbcType=DECIMAL},
+			</if>
+			<if test="manageRate != null">
+				#{manageRate,jdbcType=DECIMAL},
+			</if>
+			<if test="pactMoney != null">
+				#{pactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="promiseReturnDate != null">
+				#{promiseReturnDate,jdbcType=DECIMAL},
+			</if>
+			<if test="rateem != null">
+				#{rateem,jdbcType=DECIMAL},
+			</if>
+			<if test="rateey != null">
+				#{rateey,jdbcType=DECIMAL},
+			</if>
+			<if test="rateed != null">
+				#{rateed,jdbcType=DECIMAL},
+			</if>
+			<if test="rateSum != null">
+				#{rateSum,jdbcType=DECIMAL},
+			</if>
+			<if test="referRate != null">
+				#{referRate,jdbcType=DECIMAL},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=DECIMAL},
+			</if>
+			<if test="grantMoney != null">
+				#{grantMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="margin != null">
+				#{margin,jdbcType=DECIMAL},
+			</if>
+			<if test="risk != null">
+				#{risk,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyRate != null">
+				#{penaltyRate,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="residualPactMoney != null">
+				#{residualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="manageRateForPartyC != null">
+				#{manageRateForPartyC,jdbcType=DECIMAL},
+			</if>
+			<if test="accrualem != null">
+				#{accrualem,jdbcType=DECIMAL},
+			</if>
+			<if test="advance != null">
+				#{advance,jdbcType=DECIMAL},
+			</if>
+			<if test="rate != null">
+				#{rate,jdbcType=DECIMAL},
+			</if>
+			<if test="calculatorType != null" >
+        		#{calculatorType,jdbcType=VARCHAR},
+      		</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanProduct">
+		update LOAN_PRODUCT
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="startrdate != null">
+				STARTRDATE = #{startrdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endrdate != null">
+				ENDRDATE = #{endrdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="evalRate != null">
+				EVAL_RATE = #{evalRate,jdbcType=DECIMAL},
+			</if>
+			<if test="manageRate != null">
+				MANAGE_RATE = #{manageRate,jdbcType=DECIMAL},
+			</if>
+			<if test="pactMoney != null">
+				PACT_MONEY = #{pactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="promiseReturnDate != null">
+				PROMISE_RETURN_DATE = #{promiseReturnDate,jdbcType=DECIMAL},
+			</if>
+			<if test="rateem != null">
+				RATEEM = #{rateem,jdbcType=DECIMAL},
+			</if>
+			<if test="rateey != null">
+				RATEEY = #{rateey,jdbcType=DECIMAL},
+			</if>
+			<if test="rateed != null">
+				RATEED = #{rateed,jdbcType=DECIMAL},
+			</if>
+			<if test="rateSum != null">
+				RATE_SUM = #{rateSum,jdbcType=DECIMAL},
+			</if>
+			<if test="referRate != null">
+				REFER_RATE = #{referRate,jdbcType=DECIMAL},
+			</if>
+			<if test="time != null">
+				TIME = #{time,jdbcType=DECIMAL},
+			</if>
+			<if test="grantMoney != null">
+				GRANT_MONEY = #{grantMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="margin != null">
+				MARGIN = #{margin,jdbcType=DECIMAL},
+			</if>
+			<if test="risk != null">
+				RISK = #{risk,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyRate != null">
+				PENALTY_RATE = #{penaltyRate,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="residualPactMoney != null">
+				RESIDUAL_PACT_MONEY = #{residualPactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="manageRateForPartyC != null">
+				MANAGE_RATE_FOR_PARTY_C = #{manageRateForPartyC,jdbcType=DECIMAL},
+			</if>
+			<if test="accrualem != null">
+				ACCRUALEM = #{accrualem,jdbcType=DECIMAL},
+			</if>
+			<if test="advance != null">
+				ADVANCE = #{advance,jdbcType=DECIMAL},
+			</if>
+			<if test="rate != null">
+				RATE = #{rate,jdbcType=DECIMAL},
+			</if>
+			<if test="calculatorType != null" >
+        		CALCULATOR_TYPE = #{calculatorType,jdbcType=VARCHAR},
+      		</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanProduct">
+		update LOAN_PRODUCT
+		set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		STARTRDATE = #{startrdate,jdbcType=TIMESTAMP},
+		ENDRDATE = #{endrdate,jdbcType=TIMESTAMP},
+		EVAL_RATE = #{evalRate,jdbcType=DECIMAL},
+		MANAGE_RATE = #{manageRate,jdbcType=DECIMAL},
+		PACT_MONEY = #{pactMoney,jdbcType=DECIMAL},
+		PROMISE_RETURN_DATE = #{promiseReturnDate,jdbcType=DECIMAL},
+		RATEEM = #{rateem,jdbcType=DECIMAL},
+		RATEEY = #{rateey,jdbcType=DECIMAL},
+		RATEED = #{rateed,jdbcType=DECIMAL},
+		RATE_SUM = #{rateSum,jdbcType=DECIMAL},
+		REFER_RATE = #{referRate,jdbcType=DECIMAL},
+		TIME = #{time,jdbcType=DECIMAL},
+		GRANT_MONEY = #{grantMoney,jdbcType=DECIMAL},
+		MARGIN = #{margin,jdbcType=DECIMAL},
+		RISK = #{risk,jdbcType=DECIMAL},
+		PENALTY_RATE = #{penaltyRate,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		RESIDUAL_PACT_MONEY = #{residualPactMoney,jdbcType=DECIMAL},
+		MANAGE_RATE_FOR_PARTY_C = #{manageRateForPartyC,jdbcType=DECIMAL},
+		ACCRUALEM = #{accrualem,jdbcType=DECIMAL},
+		ADVANCE = #{advance,jdbcType=DECIMAL},
+		RATE = #{rate,jdbcType=DECIMAL},
+		CALCULATOR_TYPE = #{calculatorType,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_PRODUCT
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND LOAN_PRODUCT.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_PRODUCT.LOAN_ID = #{loanId}
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanProduct"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+		ORDER BY ID DESC
+	</select>
+
+</mapper>

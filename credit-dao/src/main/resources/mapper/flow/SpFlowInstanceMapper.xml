@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.flow.domain.SpFlowInstanceMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.flow.domain.SpFlowInstance" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="APPLY_ID" property="applyId" jdbcType="DECIMAL" />
+    <result column="FLOW_ID" property="flowId" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="NEXT_NODE_ID" property="nextNodeId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, APPLY_ID, FLOW_ID, STATUS, NEXT_NODE_ID, CREATE_TIME, FINISH_TIME
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from SP_FLOW_INSTANCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="delete" parameterType="java.math.BigDecimal" >
+    delete from SP_FLOW_INSTANCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.flow.domain.SpFlowInstance" >
+    insert into SP_FLOW_INSTANCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+      <if test="flowId != null" >
+        FLOW_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="nextNodeId != null" >
+        NEXT_NODE_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="finishTime != null" >
+        FINISH_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=DECIMAL},
+      </if>
+      <if test="flowId != null" >
+        #{flowId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="nextNodeId != null" >
+        #{nextNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.flow.domain.SpFlowInstance" >
+    update SP_FLOW_INSTANCE
+    <set >
+      <if test="applyId != null" >
+        APPLY_ID = #{applyId,jdbcType=DECIMAL},
+      </if>
+      <if test="flowId != null" >
+        FLOW_ID = #{flowId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="nextNodeId != null" >
+        NEXT_NODE_ID = #{nextNodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        FINISH_TIME = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <sql id="findListByMapConditions">
+    <trim prefix="where" prefixOverrides="and">
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="flowId != null">
+        and flow_id = #{flowId}
+      </if>
+      <if test="applyId != null">
+        and apply_id = #{applyId}
+      </if>
+    </trim>
+  </sql>
+  <sql id="findListByMapOrderBy">
+    ORDER BY ID ASC
+  </sql>
+  <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM sp_flow_instance
+    <include refid="findListByMapConditions"/>
+    <include refid="findListByMapOrderBy"/>
+  </select>
+</mapper>

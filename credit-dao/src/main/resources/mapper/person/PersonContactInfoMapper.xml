@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.person.domain.PersonContactInfoMapper">
+	<resultMap id="personContactInfoResultMap"
+		type="com.zdmoney.credit.person.domain.PersonContactInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+		<result column="CONTACT_TYPE" property="contactType" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+		<result column="DUTY" property="duty" jdbcType="VARCHAR" />
+		<result column="ID_CARD" property="idCard" jdbcType="VARCHAR" />
+		<result column="MPHONE" property="mphone" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="RELATION" property="relation" jdbcType="VARCHAR" />
+		<result column="TEL" property="tel" jdbcType="VARCHAR" />
+		<result column="PERSON_ID" property="personId" jdbcType="DECIMAL" />
+		<result column="CTEL" property="ctel" jdbcType="VARCHAR" />
+		<result column="IS_KNOW_LOAN" property="isKnowLoan" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ADDRESS, COMPANY, CONTACT_TYPE, DEPARTMENT, DUTY, ID_CARD, MPHONE,
+		NAME, RELATION,
+		TEL, PERSON_ID, CTEL, IS_KNOW_LOAN
+	</sql>
+	<select id="get" resultMap="personContactInfoResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from PERSON_CONTACT_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<sql id="personContactInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PERSON_CONTACT_INFO
+	</sql>
+
+	<sql id="personContactInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND PERSON_CONTACT_INFO.ID= #{id}
+			</if>
+			<if test="personId != null and personId != ''">
+				AND PERSON_CONTACT_INFO.PERSON_ID = #{personId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.person.domain.PersonContactInfo"
+		resultMap="personContactInfoResultMap">
+		<include refid="personContactInfoSelective" />
+		<include refid="personContactInfoConditions" />
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from PERSON_CONTACT_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.person.domain.PersonContactInfo">
+		insert into PERSON_CONTACT_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="company != null">
+				COMPANY,
+			</if>
+			<if test="contactType != null">
+				CONTACT_TYPE,
+			</if>
+			<if test="department != null">
+				DEPARTMENT,
+			</if>
+			<if test="duty != null">
+				DUTY,
+			</if>
+			<if test="idCard != null">
+				ID_CARD,
+			</if>
+			<if test="mphone != null">
+				MPHONE,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="relation != null">
+				RELATION,
+			</if>
+			<if test="tel != null">
+				TEL,
+			</if>
+			<if test="personId != null">
+				PERSON_ID,
+			</if>
+			<if test="ctel != null">
+				CTEL,
+			</if>
+			<if test="isKnowLoan != null">
+				IS_KNOW_LOAN,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				#{company,jdbcType=VARCHAR},
+			</if>
+			<if test="contactType != null">
+				#{contactType,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				#{department,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				#{duty,jdbcType=VARCHAR},
+			</if>
+			<if test="idCard != null">
+				#{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				#{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="relation != null">
+				#{relation,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				#{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="personId != null">
+				#{personId,jdbcType=DECIMAL},
+			</if>
+			<if test="ctel != null">
+				#{ctel,jdbcType=VARCHAR},
+			</if>
+			<if test="isKnowLoan != null">
+				#{isKnowLoan,jdbcType=CHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.person.domain.PersonContactInfo">
+		update PERSON_CONTACT_INFO
+		<set>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				COMPANY = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="contactType != null">
+				CONTACT_TYPE = #{contactType,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				DEPARTMENT = #{department,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=VARCHAR},
+			</if>
+			<if test="idCard != null">
+				ID_CARD = #{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				MPHONE = #{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="relation != null">
+				RELATION = #{relation,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				TEL = #{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="personId != null">
+				PERSON_ID = #{personId,jdbcType=DECIMAL},
+			</if>
+			<if test="ctel != null">
+				CTEL = #{ctel,jdbcType=VARCHAR},
+			</if>
+			<if test="isKnowLoan != null">
+				IS_KNOW_LOAN = #{isKnowLoan,jdbcType=CHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findWithPG" parameterType="com.zdmoney.credit.person.domain.PersonContactInfo"
+		resultMap="personContactInfoResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="personContactInfoSelective" />
+		<include refid="personContactInfoConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="count" parameterType="com.zdmoney.credit.person.domain.PersonContactInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="personContactInfoSelective" />
+		<include refid="personContactInfoConditions" />
+		)
+	</select>
+	<delete id="deleteByPersonId" parameterType="java.lang.Long">
+		delete from PERSON_CONTACT_INFO
+		where PERSON_ID = #{personId,jdbcType=DECIMAL}
+	</delete>
+	
+	<select id="findContactInfo4LXXD" resultType="java.util.Map"	parameterType="java.util.Map">
+		select 
+		c.contact_type as "contactType",
+		c.relation as "relation",
+		'' as "contactTypeCode",
+		c.name as "name",
+		c.id_card as "idNum",
+		c.mphone as "mobilePhone",
+		c.company as "company",
+		c.address as "address"
+		from person_contact_info c
+		<trim prefix="where" prefixOverrides="and">
+		 	<if test="personId != null">
+				and c.person_id = #{personId,jdbcType=DECIMAL}
+		 	</if>
+		</trim>
+	</select>
+</mapper>

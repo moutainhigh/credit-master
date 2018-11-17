@@ -1,0 +1,162 @@
+<beans 
+ xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:aop="http://www.springframework.org/schema/aop"
+ xmlns:tx="http://www.springframework.org/schema/tx"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:mvc="http://www.springframework.org/schema/mvc"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+ http://www.springframework.org/schema/tx 
+ http://www.springframework.org/schema/tx/spring-tx.xsd 
+ http://www.springframework.org/schema/mvc 
+ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+ 
+    <aop:aspectj-autoproxy />
+    
+    <!-- 激活spring的注解. -->
+	<context:annotation-config />
+	
+	<!-- 扫描注解组件并且自动的注入spring beans中. 
+	例如,他会扫描@Controller 和@Service下的文件.所以确保此base-package设置正确. -->
+	<context:component-scan base-package="com.*" />
+
+	<!-- 配置注解驱动的Spring MVC Controller 的编程模型.注:次标签只在 Servlet MVC工作! -->
+	<!-- 
+	<mvc:annotation-driven >
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	 -->
+	 
+	<mvc:annotation-driven >
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<bean id="systemConfig" class="com.zdmoney.credit.common.SystemConfig">
+		<constructor-arg index="0" value="${Maven.System.Environment}"/>
+	</bean>
+	
+   <bean id="propertyConfigurer"
+		class="com.zdmoney.credit.framework.configurer.DefaultPropertyPlaceholderConfigurer">
+		<property name="order" value="1"></property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" /> 
+		<property name="locations">
+			<list>
+				<value>${Maven.DataBase.File}</value>
+				 <value>${maven.rmi.service}</value>
+				<value>${Maven.System.Config.File}</value>
+				<value>${Maven.Redis.Config.File}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 数据源配置 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driver}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.driverUrl}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="maxActive" value="${jdbc.maxActive}"/><!-- 最大连接数 -->
+        <property name="maxWait" value="${jdbc.maxWait}"/><!-- 最大等待时间 -->
+        <property name="initialSize" value="${jdbc.initialSize}"/>  <!--初始个数 -->
+        <property name="maxIdle" value="${jdbc.maxIdle}"/> <!--最大空闲 -->
+        <property name="minIdle" value="${jdbc.minIdle}"/><!--最小空闲 -->
+        <property name="testOnBorrow" value="${jdbc.testOnBorrow}"/><!--borrowObject进行处理时，对拿到的connection进行validateObject校验 -->
+        <property name="testWhileIdle" value="${jdbc.testWhileIdle}"/><!--是否测试连接 -->
+        <property name="validationQuery" value="${jdbc.validationQuery}"/><!--测试语句-->
+        <property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/><!-- 设置的Evict测试线程的时间，单位ms，大于0才会开启evict检查线程 -->
+		<property name="validationQueryTimeout" value="${jdbc.validationQueryTimeout}"/><!--代表在执行检查时，通过statement设置，statement.setQueryTimeout(validationQueryTimeout)-->
+		<property name="numTestsPerEvictionRun" value="${jdbc.maxActive}"/><!-- 代表每次检查链接的数量，建议设置和maxActive一样大，这样每次可以有效检查所有的链接. -->    
+	</bean>
+	<!-- 数据源配置 -->
+	
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+   
+   <tx:advice id="TestAdvice" transaction-manager="transactionManager">
+	    <tx:attributes>
+	      <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+	      <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+	      <tx:method name="query*" propagation="SUPPORTS" read-only="true"/>
+	      <tx:method name="*" propagation="REQUIRED"/>
+	    </tx:attributes>
+	</tx:advice>
+	
+	<!--  配置参与事务的类 -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="allTestServiceMethod" expression="execution(* com.zdmoney.credit.*.service.*.*(..))"/>
+		<aop:advisor pointcut-ref="allTestServiceMethod" advice-ref="TestAdvice" />
+	</aop:config>
+   
+   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/mybatis/configuration.xml" />
+		<!-- 
+			<property name="typeAliasesPackage" value="" />
+		-->
+		<!-- mapper和resultmap配置路径 -->
+		<property name="mapperLocations">
+			<list>
+				<!-- 表示在mapper包所有目录中，以-Mapper.xml结尾所有文件 -->
+				<value>classpath:/mapper/**/*Mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 
+	<bean id="thirdPaymentService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" autowire="byName">
+        <property name="serviceUrl" value="${rmi.service}"/>
+        <property name="serviceInterface" value="com.zendaimoney.thirdpp.rmi.service.request.ThirdPaymentService" />
+        <property name="lookupStubOnStartup" value="false"></property>
+        <property name="refreshStubOnConnectFailure" value="true"></property>
+    </bean>
+     -->
+    
+    <!-- restTemplate工厂配置 -->
+    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <property name="readTimeout" value="60000"/>
+        <property name="connectTimeout" value="5000"/>
+    </bean>
+    
+    <bean class="com.zdmoney.credit.framework.init.InitDataListener"/>
+    
+    <!-- restTemplate的配置 -->
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="requestFactory"/>
+    </bean> 
+    
+    <!-- 核心接口AOP拦截配置 -->
+    <aop:config>
+    	<aop:aspect ref="coreInterAOP">
+    		<aop:around  method="onAround" pointcut="execution (* com.zdmoney.credit.core.controller.*.*(..))"/>
+    	</aop:aspect>
+    </aop:config>
+    
+</beans>  

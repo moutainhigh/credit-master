@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.UploadFtpFileLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.UploadFtpFileLog" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="APP_NO" property="appNo" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+    <result column="RECORDTIMES" property="recordtimes" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="UPLOAD_ADDRESS" property="uploadAddress" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ID, APP_NO, CONTRACT_NUM, RECORDTIMES, CREATE_TIME, UPDATE_TIME, STATUS, upload_address
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select
+    <include refid="Base_Column_List" />
+    from UPLOAD_FTP_FILE_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UPLOAD_FTP_FILE_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.UploadFtpFileLog" >
+    insert into UPLOAD_FTP_FILE_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="appNo != null" >
+        APP_NO,
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM,
+      </if>
+      <if test="recordtimes != null" >
+        RECORDTIMES,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="uploadAddress != null" >
+        UPLOAD_ADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="appNo != null" >
+        #{appNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtimes != null" >
+        #{recordtimes,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadAddress != null" >
+        #{uploadAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.loan.domain.UploadFtpFileLog" >
+    update UPLOAD_FTP_FILE_LOG
+    <set >
+      <if test="appNo != null" >
+        APP_NO = #{appNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtimes != null" >
+        RECORDTIMES = #{recordtimes,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+<!--  <select id="findUploadFtpFileLogFails" resultMap="BaseResultMap">
+    select * from upload_ftp_file_log a where a.status=0 and a.recordtimes &lt; 4
+  </select>-->
+
+  <select id="findUploadFtpFileLog" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from upload_ftp_file_log a where  a.contract_num=#{contractNum} and a.upload_address is null
+  </select>
+  <select id="findUploadFtpFileByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List"></include>
+     from upload_ftp_file_log a
+     <where>
+     	<if test="uploadAddress != null and uploadAddress != ''">
+     		AND UPLOAD_ADDRESS = #{uploadAddress,jdbcType=VARCHAR}
+     	</if>
+     	<if test="status == 0 ">
+     		AND (status is null or status =  #{status,jdbcType=DECIMAL} ) 
+     	</if>
+     </where>
+  </select>
+  
+    <update id="updateUploadFtpFileLogStatus2Success" parameterType="java.util.Map" >
+   	 update UPLOAD_FTP_FILE_LOG
+     <set >
+		update_time = sysDate,
+		status = 1,
+     </set>
+   	<where>
+     	<if test="uploadAddress != null and uploadAddress != ''">
+     		AND UPLOAD_ADDRESS = #{uploadAddress,jdbcType=VARCHAR}
+     	</if>
+     	<if test="contractNum != null and contractNum != ''">
+     		AND CONTRACT_NUM =  #{contractNum,jdbcType=VARCHAR}
+     	</if>
+    </where>
+  </update>
+</mapper>

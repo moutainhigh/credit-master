@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.SpecialRepaymentApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.SpecialRepaymentApply" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="APPLICATION_STATUS" property="applicationStatus" jdbcType="VARCHAR" />
+    <result column="APPLY_TYPE" property="applyType" jdbcType="VARCHAR" />
+    <result column="APPLY_NO" property="applyNo" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="PROPOSER_ID" property="proposerId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="MEMO1" property="memo1" jdbcType="VARCHAR" />
+    <result column="IS_SPECIAL" property="isSpecial" jdbcType="VARCHAR" />
+    <result column="REPAY_LEVEL" property="repayLevel" jdbcType="VARCHAR" />
+    <result column="REPAY_AMOUNT" property="repayAmount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LOAN_ID, APPLY_AMOUNT, APPLICATION_STATUS, APPLY_TYPE, APPLY_NO, FLAG, PROPOSER_ID,
+    CREATE_TIME, UPDATE_TIME, CREATOR, UPDATOR, MEMO, MEMO1, IS_SPECIAL, REPAY_LEVEL,
+    REPAY_AMOUNT
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from SPECIAL_REPAYMENT_APPLY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <select id="get"  parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from SPECIAL_REPAYMENT_APPLY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.SpecialRepaymentApply" >
+    insert into SPECIAL_REPAYMENT_APPLY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="applyAmount != null" >
+        APPLY_AMOUNT,
+      </if>
+      <if test="applicationStatus != null" >
+        APPLICATION_STATUS,
+      </if>
+      <if test="applyType != null and applyType != '' " >
+        APPLY_TYPE,
+      </if>
+      <if test="applyNo != null and applyNo != '' " >
+        APPLY_NO,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="proposerId != null" >
+        PROPOSER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="updator != null" >
+        UPDATOR,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="memo1 != null" >
+        MEMO1,
+      </if>
+      <if test="isSpecial != null" >
+        IS_SPECIAL,
+      </if>
+      <if test="repayLevel != null" >
+        REPAY_LEVEL,
+      </if>
+      <if test="repayAmount != null" >
+        REPAY_AMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="applyAmount != null" >
+        #{applyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="applicationStatus != null" >
+        #{applicationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="applyType != null and applyType != '' " >
+        #{applyType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyNo != null and applyNo != '' " >
+        #{applyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerId != null" >
+        #{proposerId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null" >
+        #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="isSpecial != null" >
+        #{isSpecial,jdbcType=VARCHAR},
+      </if>
+      <if test="repayLevel != null" >
+        #{repayLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="repayAmount != null" >
+        #{repayAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.loan.domain.SpecialRepaymentApply" >
+    update SPECIAL_REPAYMENT_APPLY
+    <set >
+      <if test="loanId != null" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="applyAmount != null" >
+        APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="applicationStatus != null" >
+        APPLICATION_STATUS = #{applicationStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="applyType != null" >
+        APPLY_TYPE = #{applyType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyNo != null" >
+        APPLY_NO = #{applyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerId != null" >
+        PROPOSER_ID = #{proposerId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null" >
+        MEMO1 = #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="isSpecial != null" >
+        IS_SPECIAL = #{isSpecial,jdbcType=VARCHAR},
+      </if>
+      <if test="repayLevel != null" >
+        REPAY_LEVEL = #{repayLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="repayAmount != null" >
+        REPAY_AMOUNT = #{repayAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <sql id="findListByMapConditions">
+    <trim prefix="where" prefixOverrides="and">
+      <if test="loanId != null">
+        loan_id = #{loanId, jdbcType=DECIMAL}
+      </if>
+      <if test="applicationStatus != null and applicationStatus != ''">
+        AND application_status = #{applicationStatus, jdbcType=VARCHAR}
+      </if>
+      <if test="applicationStatusArrays != null">
+        AND application_status in
+        <foreach item="item" index="index" collection="applicationStatusArrays" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="currDate != null and currDate != '' ">
+        AND trunc(create_time) = to_date(#{currDate},'yyyy-mm-dd')
+      </if>
+    </trim>
+  </sql>
+  <sql id="findListByMapOrderBy">
+    ORDER BY ID ASC
+  </sql>
+  <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM special_repayment_apply
+    <include refid="findListByMapConditions"/>
+    <include refid="findListByMapOrderBy"/>
+  </select>
+
+  <sql id="queryApplyReliefConditions">
+    <trim prefix="where" prefixOverrides="and | or">
+      loan.borrower_id = person.id
+      and loan.sales_department_id = org.id
+      and loan.id = sra.loan_id
+      <if test="approveStep == true">
+        and sra.id = sfi.apply_id
+        and sfi.id = sfti.flow_instance_id
+        and sfti.node_id = sne.node_id
+        and sfti.status = '0'
+        and sne.status = '0'
+      </if>
+      <if test="showApprpveNodeName == true">
+        and sra.id = sfi.apply_id
+        and sfi.id = sfti.flow_instance_id
+        and sfti.node_id = sni.id
+        and sfti.status = '0'
+        and sni.status = '0'
+        <if test="nodeId != null and nodeId != ''">
+          and sni.id = #{nodeId}
+        </if>
+      </if>
+      and sra.flag = '0'
+      <if test="applicationStatus != null and applicationStatus != ''">
+      and sra.application_status = #{applicationStatus}
+      </if>
+      <if test="orgCode != null and orgCode != ''">
+      and org.org_code like #{orgCode} || '%'
+      </if>
+      <if test="orgId != null and orgId != ''">
+      and org.id = #{orgId}
+      </if>
+      <if test="contractNum != null and contractNum != ''">
+      and loan.contract_num = #{contractNum}
+      </if>
+      <if test="idNum != null and idNum != ''">
+      and person.idnum = #{idNum}
+      </if>
+      <if test="name != null and name != ''">
+      and person.name like #{name}||'%'
+      </if>
+      <if test="applyType != null and applyType != ''">
+      and sra.apply_type = #{applyType}
+      </if>
+      <if test="applicationStatusList != null">
+      and sra.application_status in
+        <foreach item="appStatus" index="index" collection="applicationStatusList"
+                 open="(" separator="," close=")">
+          #{appStatus}
+        </foreach>
+      </if>
+      <if test="startApplyDate != null and startApplyDate != ''">
+      and sra.create_time &gt;= to_date(#{startApplyDate}, 'yyyy-mm-dd')
+      </if>
+      <if test="endApplyDate != null and endApplyDate != ''">
+      and sra.create_time &lt; to_date(#{endApplyDate}, 'yyyy-mm-dd')
+      </if>
+      <if test="isCSYQGLSRole == true">
+       and org.is_Valid = '2'
+      </if>
+      <if test="isCSYQGLSRole == false">
+        and org.is_Valid != '2'
+      </if>
+      <if test="approveStep == true and employeeId != null">
+        and sne.employee_id = #{employeeId}
+      </if>
+      <if test="approveFinish == true and employeeId != null">
+        and exists(
+        select 1 from sp_flow_instance sfi ,sp_flow_transition_info sfti ,sp_node_employee sne
+        where sfi.apply_id = sra.id and sfti.flow_instance_id = sfi.id and sne.node_id = sfti.node_id and sne.employee_id = sfti.proposer_id
+        and sne.employee_id = #{employeeId}
+        )
+      </if>
+      <if test="isSpecial != null and isSpecial != ''">
+        and sra.is_special = #{isSpecial}
+      </if>
+    </trim>
+  </sql>
+
+  <sql id ="queryApplyReliefJoinTable">
+    <trim prefix=",">
+    <if test="approveStep == true">
+      sp_flow_instance        sfi,
+      sp_flow_transition_info sfti,
+      sp_node_employee        sne
+    </if>
+     <if test="showApprpveNodeName == true">
+       sp_flow_instance        sfi,
+       sp_flow_transition_info sfti,
+       sp_node_info            sni
+     </if>
+    </trim>
+  </sql>
+  <sql id ="showApprpveNodeNameT1">
+    <trim prefix=",">
+      <if test="showApprpveNodeName == true">
+        T1.nodeName
+      </if>
+    </trim>
+  </sql>
+  <sql id ="showApprpveNodeNameSni">
+    <trim prefix=",">
+      <if test="showApprpveNodeName == true">
+        sni.node_name          as nodeName
+      </if>
+    </trim>
+  </sql>
+  <sql id="queryApplyReliefInfos">
+    select T1.applyId,
+    T1.contractNum,
+    T1.loanType,
+    T1.name,
+    T1.idNum,
+    T1.createTime,
+    T1.applyAmount,
+    T1.applyType,
+    lsr.amount as effectiveMoney,
+    T1.applicationStatus,
+    T1.memo,
+    T1.memo1,
+    T1.updateTime,
+    T1.updator,
+    T1.isSpecial
+    <include refid="showApprpveNodeNameT1"/>
+    from (select sra.id                 as applyId,
+    loan.contract_num      as contractNum,
+    loan.loan_type         as loanType,
+    person.name            as name,
+    person.idnum           as idNum,
+    sra.create_time        as createTime,
+    sra.apply_amount       as applyAmount,
+    sra.apply_type         as applyType,
+    sra.application_status as applicationStatus,
+    sra.memo               as memo,
+    sra.memo1              as memo1,
+    sra.update_time        as updateTime,
+    sra.updator            as updator,
+    sra.is_special          as isSpecial
+    <include refid="showApprpveNodeNameSni"/>
+    from v_loan_info             loan,
+    person_info             person,
+    special_repayment_apply sra,
+    com_organization        org
+    <include refid="queryApplyReliefJoinTable"/>
+    <include refid="queryApplyReliefConditions"/>
+    ) T1
+    left join special_repayment_relation srr
+    on T1.applyId = srr.apply_id
+    left join loan_special_repayment lsr
+    on srr.effective_id = lsr.id
+  </sql>
+
+  <select id="queryApplyReliefInfosDetail" parameterType="java.util.Map" resultType="com.zdmoney.credit.loan.vo.ApplyReliefManagerVo">
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+    <include refid="queryApplyReliefInfos"/>
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  <select id="queryApplyReliefInfosCount" parameterType="java.util.Map"
+          resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM (
+    <include refid="queryApplyReliefInfos"/>
+    )
+  </select>
+  <select id="querySpecialRepaymentApplyByEffectiveid"  parameterType="java.util.Map" resultMap="BaseResultMap">
+    select a.* from special_repayment_apply a,special_repayment_relation b where a.id = b.apply_id and b.effective_id = #{effectiveId}
+  </select>
+
+  <select id="queryEffectiveLoanSpecialRepayment" parameterType="java.util.Map" resultType="java.util.Map">
+    select t2.amount as "effectiveMoney", to_char(trunc(t2.create_time),'yyyy-mm-dd') as "effectiveDate"
+    from special_repayment_relation t1,
+    loan_special_repayment t2
+    where t1.effective_id = t2.id
+    <if test="applyId != null ">
+      and t1.apply_id = #{applyId,jdbcType=DECIMAL}
+    </if>
+  </select>
+
+  <sql id = "queryReliefInfos">
+    select t2.contract_num as contractNum,
+       t3.name         as salesdepartmentname,
+       t4.name,
+       t2.loan_type    as loanType,
+       t1.repay_amount as repayAmount,
+       t6.amount       as reliefAmonut,
+       t6.create_time  as releifDate,
+       t1.apply_type   as applyType,
+       t1.is_special   as isSpecial,
+       t1.flag,
+       t7.trade_no     as tradeNo,
+       t2.grant_money_date as grantDate,
+       t2.pact_money as pactMoney,
+       t1.repay_level as grantType,
+       t4.idnum            as idNum,
+       t2.time             as time
+    from special_repayment_apply t1
+  join v_loan_info t2
+    on t1.loan_id = t2.id
+  join com_organization t3
+    on t2.sales_department_id = t3.id
+  join person_info t4
+    on t2.borrower_id = t4.id
+  left join special_repayment_relation t5
+    on t1.id = t5.apply_id
+  left join loan_special_repayment t6
+    on t5.effective_id = t6.id
+  left join special_trade_relation t7
+    on t6.id = t7.effective_id
+    <include refid="queryReliefInfosConditions"/>
+  </sql>
+  <sql id = "queryReliefInfosConditions">
+    <trim prefix="where" prefixOverrides="and | or">
+        t1.application_status = '7'
+      <if test="applyType != null and applyType != ''">
+        and t1.apply_type = #{applyType}
+      </if>
+      <if test="isSpecial != null and isSpecial != ''">
+        and t1.is_special = #{isSpecial}
+      </if>
+      <if test="idNum != null and idNum != ''">
+        and t4.idnum = #{idNum}
+      </if>
+      <if test="name != null and name != ''">
+        and t4.name = #{name}
+      </if>
+      <if test="contractNum != null and contractNum != ''">
+        and t2.contract_num = #{contractNum}
+      </if>
+      <if test="startApplyDate != null and startApplyDate != ''">
+        and t6.create_time &gt;= to_date(#{startApplyDate}, 'yyyy-mm-dd')
+      </if>
+      <if test="endApplyDate != null and endApplyDate != ''">
+        and t6.create_time &lt; to_date(#{endApplyDate}, 'yyyy-mm-dd')
+      </if>
+      <if test="orgCode != null and orgCode != ''">
+        and t3.org_code like #{orgCode} || '%'
+      </if>
+    </trim>
+  </sql>
+  <select id="queryReliefInfosDetail" parameterType="java.util.Map" resultType="com.zdmoney.credit.loan.vo.ReliefQueryReportVo">
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+    <include refid="queryReliefInfos"/>
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  <select id="queryReliefInfosCount" parameterType="java.util.Map"
+          resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM (
+    <include refid="queryReliefInfos"/>
+    )
+  </select>
+
+  <select id="queryReliefQueryReport" parameterType="java.util.Map" resultType="com.zdmoney.credit.loan.vo.ReliefQueryReportVo">
+    <include refid="queryReliefInfos"/>
+  </select>
+
+  <resultMap id="queryAccountMap" type="java.util.Map">
+    <result column="principal" property="principal" jdbcType="DECIMAL" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="fine" property="fine" jdbcType="DECIMAL" />
+    <result column="penalty" property="penalty" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="queryAccount" parameterType="java.util.Map" resultMap="queryAccountMap">
+    select nvl(sum(case
+             when a.acct_title = '211' then
+              a.trade_amount
+             else
+              0
+           end),0) as principal,
+       nvl(sum(case
+             when a.acct_title = '451' then
+              a.trade_amount
+             else
+              0
+           end),0) as interest,
+       nvl(sum(case
+             when a.acct_title = '452' and a.account != 'ZD0000001090000002' then
+              a.trade_amount
+             else
+              0
+           end),0) as fine,
+       nvl(sum(case
+             when a.acct_title = '494' then
+              a.trade_amount
+             else
+              0
+           end),0) as penalty
+      from offer_flow a
+    where a.trade_no = #{tradeNo}
+  </select>
+</mapper>

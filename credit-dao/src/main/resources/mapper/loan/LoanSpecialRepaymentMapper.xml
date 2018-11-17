@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanSpecialRepaymentMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.loan.domain.LoanSpecialRepayment">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="PROPOSER_ID" property="proposerId" jdbcType="DECIMAL" />
+		<result column="REQUEST_DATE" property="requestDate" jdbcType="TIMESTAMP" />
+		<result column="SPECIAL_REPAYMENT_TYPE" property="specialRepaymentType"
+			jdbcType="VARCHAR" />
+		<result column="SPECIAL_REPAYMENT_STATE" property="specialRepaymentState"
+			jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CLOSING_DATE" property="closingDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="BsyhSpecialRepayVo"
+		type="com.zdmoney.credit.bsyh.vo.BsyhSpecialRepayVo">
+		<id column="ID" property="logId" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="APPLY_STATE" property="applyState" jdbcType="VARCHAR" />
+		<result column="DEDUCT_STATE" property="deductState" jdbcType="VARCHAR" />
+		<result column="REQUEST_DATE" property="requestDate" jdbcType="TIMESTAMP" />
+		<result column="REPAY_BUS_NUMBER" property="repayBusNumber"
+			jdbcType="VARCHAR" />		
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, MEMO, PROPOSER_ID, REQUEST_DATE,
+		SPECIAL_REPAYMENT_TYPE,
+		SPECIAL_REPAYMENT_STATE,
+		AMOUNT, CREATE_TIME,
+		UPDATE_TIME,CLOSING_DATE
+	</sql>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_SPECIAL_REPAYMENT
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<sql id="findByLoanIdAndDateAndTypeAndStateConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null">
+				AND LOAN_ID = #{loanId}
+			</if>
+			<if test="currDate != null">
+				AND TRUNC(REQUEST_DATE) = TRUNC(#{currDate})
+			</if>
+			<if test="types != null">
+				AND SPECIAL_REPAYMENT_TYPE IN
+				<foreach collection="types" item="tmp" open="(" separator=","
+					close=")">
+					#{tmp}
+				</foreach>
+			</if>
+			<if test="type != null and type != ''">
+				AND SPECIAL_REPAYMENT_TYPE = #{type}
+			</if>
+			<if test="states != null and states != ''">
+				AND SPECIAL_REPAYMENT_STATE IN
+				<foreach collection="states" item="tmp" open="(" separator=","
+					close=")">
+					#{tmp}
+				</foreach>
+			</if>
+			<if test="state != null and state != ''">
+				AND SPECIAL_REPAYMENT_STATE = #{state}
+			</if>
+		</trim>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_SPECIAL_REPAYMENT
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<select id="findByLoanIdAndDateAndTypeAndState" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_SPECIAL_REPAYMENT
+		<include refid="findByLoanIdAndDateAndTypeAndStateConditions"></include>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from
+		LOAN_SPECIAL_REPAYMENT
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanSpecialRepayment">
+		insert into LOAN_SPECIAL_REPAYMENT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="proposerId != null">
+				PROPOSER_ID,
+			</if>
+			<if test="requestDate != null">
+				REQUEST_DATE,
+			</if>
+			<if test="specialRepaymentType != null">
+				SPECIAL_REPAYMENT_TYPE,
+			</if>
+			<if test="specialRepaymentState != null">
+				SPECIAL_REPAYMENT_STATE,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="updator != null">
+				UPDATOR,
+			</if>
+			<if test="closingDate != null">
+				CLOSING_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="proposerId != null">
+				#{proposerId,jdbcType=DECIMAL},
+			</if>
+			<if test="requestDate != null">
+				TRUNC(#{requestDate,jdbcType=TIMESTAMP}),
+			</if>
+			<if test="specialRepaymentType != null">
+				#{specialRepaymentType,jdbcType=VARCHAR},
+			</if>
+			<if test="specialRepaymentState != null">
+				#{specialRepaymentState,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="closingDate != null">
+				TRUNC(#{closingDate,jdbcType=TIMESTAMP}),
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				#{updator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanSpecialRepayment">
+		update LOAN_SPECIAL_REPAYMENT
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="proposerId != null">
+				PROPOSER_ID = #{proposerId,jdbcType=DECIMAL},
+			</if>
+			<if test="requestDate != null">
+				REQUEST_DATE = TRUNC(#{requestDate,jdbcType=TIMESTAMP}),
+			</if>
+			<if test="specialRepaymentType != null">
+				SPECIAL_REPAYMENT_TYPE =
+				#{specialRepaymentType,jdbcType=VARCHAR},
+			</if>
+			<if test="specialRepaymentState != null">
+				SPECIAL_REPAYMENT_STATE =
+				#{specialRepaymentState,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+			<if test="closingDate != null">
+				CLOSING_DATE = TRUNC(#{closingDate,jdbcType=TIMESTAMP}),
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanSpecialRepayment">
+		update
+		LOAN_SPECIAL_REPAYMENT
+		set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		MEMO =
+		#{memo,jdbcType=VARCHAR},
+		PROPOSER_ID = #{proposerId,jdbcType=DECIMAL},
+		REQUEST_DATE = #{requestDate,jdbcType=TIMESTAMP},
+		SPECIAL_REPAYMENT_TYPE = #{specialRepaymentType,jdbcType=VARCHAR},
+		SPECIAL_REPAYMENT_STATE = #{specialRepaymentState,jdbcType=VARCHAR},
+		AMOUNT = #{amount,jdbcType=DECIMAL},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="loanSpecialRepaymentSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_SPECIAL_REPAYMENT
+	</sql>
+
+	<sql id="loanSpecialRepaymentConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND LOAN_SPECIAL_REPAYMENT.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_SPECIAL_REPAYMENT.LOAN_ID = #{loanId}
+			</if>
+			<if test="specialRepaymentType != null ">
+				AND LOAN_SPECIAL_REPAYMENT.SPECIAL_REPAYMENT_TYPE =
+				#{specialRepaymentType}
+			</if>
+			<if test="specialRepaymentState != null ">
+				AND LOAN_SPECIAL_REPAYMENT.SPECIAL_REPAYMENT_STATE =
+				#{specialRepaymentState}
+			</if>
+			<if test="requestDate != null ">
+				AND LOAN_SPECIAL_REPAYMENT.REQUEST_DATE =
+				trunc(#{requestDate})
+			</if>
+			<if test="specialRepaymentTypes != null ">
+				AND LOAN_SPECIAL_REPAYMENT.SPECIAL_REPAYMENT_TYPE IN
+				<foreach item="typeTmp" index="index" collection="specialRepaymentTypes"
+					open="(" separator="," close=")">
+					#{typeTmp}
+				</foreach>
+			</if>
+			<if test="specialRepaymentStates != null ">
+				AND LOAN_SPECIAL_REPAYMENT.SPECIAL_REPAYMENT_STATE IN
+				<foreach item="stateTmp" index="index" collection="specialRepaymentStates"
+					open="(" separator="," close=")">
+					#{stateTmp}
+				</foreach>
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanSpecialRepayment"
+		resultMap="BaseResultMap">
+		<include refid="loanSpecialRepaymentSelective" />
+		<include refid="loanSpecialRepaymentConditions" />
+	</select>
+
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="loanSpecialRepaymentSelective" />
+		<include refid="loanSpecialRepaymentConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+	<select id="findListByMapCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="loanSpecialRepaymentSelective" />
+		<include refid="loanSpecialRepaymentConditions" />
+		)
+	</select>
+
+	<update id="updateSpecialRepaymentStateAtEndOfDay" parameterType="java.util.Map">
+		UPDATE LOAN_SPECIAL_REPAYMENT S
+		SET
+		SPECIAL_REPAYMENT_STATE = '结束' ,
+		UPDATE_TIME = sysdate 
+		WHERE s.SPECIAL_REPAYMENT_TYPE = '提前扣款'
+		AND s.SPECIAL_REPAYMENT_STATE = '申请'
+		AND S.loan_id IN
+		(SELECT p.loan_id
+		FROM LOAN_PRODUCT p
+		WHERE p.loan_id = S.loan_id AND
+		p.promise_Return_Date =
+		#{promiseReturnDate})
+
+	</update>
+
+	<select id="findSpecialRepaymentByLoanIdAndTypeAndState"
+		parameterType="com.zdmoney.credit.common.vo.core.SpecialRepayParamsVO"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_SPECIAL_REPAYMENT
+		<include refid="loanSpecialRepaymentConditions" />
+	</select>
+
+
+
+
+
+	<resultMap id="loanInfoResultMap" type="com.zdmoney.credit.loan.domain.VLoanInfo">
+		<result column="LOAN_ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_LOAN_STATE" property="loanState" jdbcType="VARCHAR" />
+		<result column="LOAN_LOAN_TYPE" property="loanType" jdbcType="DECIMAL" />
+		<result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP" />
+		<result column="MONEY" property="money" jdbcType="VARCHAR" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+		<association property="personInfo" resultMap="personInfoResultMap" />
+	</resultMap>
+	<!-- person 客户Map -->
+	<resultMap id="personInfoResultMap" type="com.zdmoney.credit.system.domain.PersonInfo">
+		<result column="PERSON_ID" property="id" jdbcType="DECIMAL" />
+		<result column="PERSON_NAME" property="name" jdbcType="VARCHAR" />
+		<result column="PERSON_IDNUM" property="idnum" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<sql id="searchLoanSpecialRepaymentSelective">
+		SELECT
+		loaninfo.ID LOAN_ID,
+		person.id PERSON_ID,
+		person.name
+		PERSON_NAME,
+		person.idnum PERSON_IDNUM,
+		loaninfo.MONEY MONEY,
+		loaninfo.LOAN_TYPE LOAN_LOAN_TYPE,
+		loaninfo.SIGN_DATE SIGN_DATE,
+		loaninfo.LOAN_STATE "LOAN_LOAN_STATE",
+        loaninfo.CONTRACT_NUM CONTRACT_NUM
+		FROM v_loan_info loaninfo
+		INNER
+		JOIN
+		COM_ORGANIZATION salesdepar1_
+		ON
+		loaninfo.sales_department_id =
+		salesdepar1_.id
+		inner join PERSON_INFO
+		person
+		on
+		person.id=loaninfo.BORROWER_ID
+	</sql>
+
+	<sql id="searchLoanSpecialRepaymentSelectiveZB">
+		SELECT
+		loaninfo.ID LOAN_ID,
+		person.id PERSON_ID,
+		person.name
+		PERSON_NAME,
+		person.idnum PERSON_IDNUM,
+		loaninfo.MONEY MONEY,
+		loaninfo.LOAN_TYPE LOAN_LOAN_TYPE,
+		loaninfo.SIGN_DATE SIGN_DATE,
+		loaninfo.LOAN_STATE "LOAN_LOAN_STATE",
+        loaninfo.CONTRACT_NUM CONTRACT_NUM, 
+		( select CREATOR from (select
+		SR.CREATOR,SR.LOAN_ID from LOAN_SPECIAL_REPAYMENT sr where
+		sr.special_repayment_type = '结算单'
+		AND sr.special_repayment_state = '申请结算单' ORDER BY sr.id desc) t1 where
+		t1.LOAN_ID=loaninfo.id and ROWNUM = 1 ) CREATOR
+		FROM v_loan_info
+		loaninfo
+		INNER
+		JOIN
+		COM_ORGANIZATION salesdepar1_
+		ON
+		loaninfo.sales_department_id =
+		salesdepar1_.id
+		inner join PERSON_INFO
+		person
+		on
+		person.id=loaninfo.BORROWER_ID
+	</sql>
+	<sql id="searchLoanSpecialRepaymentConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="code != null  and code != ''">
+				AND salesdepar1_.org_code LIKE  #{code} || '%'
+			</if>
+			<if test="idNum != null  and idNum != ''">
+				AND person.IDNUM = #{idNum}
+			</if>
+			<if test="name != null  and name != ''">
+				AND person.NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="contractNum != null  and contractNum != ''">
+				AND loaninfo.CONTRACT_NUM = #{contractNum}
+			</if>
+			and loaninfo.loan_state in ('结清','预结清')
+		</trim>
+	</sql>
+	<sql id="searchLoanSpecialRepaymentConditionsZB">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="code != null  and code != ''">
+				AND salesdepar1_.org_code LIKE  #{code} || '%'
+			</if>
+			<if test="idNum != null  and idNum != ''">
+				AND person.IDNUM = #{idNum}
+			</if>
+			<if test="name != null  and name != ''">
+				AND person.NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="contractNum != null  and contractNum != ''">
+				AND loaninfo.CONTRACT_NUM = #{contractNum}
+			</if>
+			and loaninfo.loan_state in ('结清','预结清')
+
+			AND loaninfo.id IN
+			(SELECT
+			l.loan_id
+			FROM LOAN_SPECIAL_REPAYMENT l
+			WHERE l.special_repayment_type
+			= '结算单'
+			AND l.special_repayment_state = '申请结算单')
+		</trim>
+	</sql>
+	<select id="searchLoanSpecialRepayment" parameterType="java.util.Map"
+		resultMap="loanInfoResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="searchLoanSpecialRepaymentSelective" />
+		<include refid="searchLoanSpecialRepaymentConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+	<select id="searchLoanSpecialRepaymentCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="searchLoanSpecialRepaymentSelective" />
+		<include refid="searchLoanSpecialRepaymentConditions" />
+		)
+	</select>
+
+
+	<select id="searchLoanSpecialRepaymentZB" parameterType="java.util.Map"
+		resultMap="loanInfoResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="searchLoanSpecialRepaymentSelectiveZB" />
+		<include refid="searchLoanSpecialRepaymentConditionsZB" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+	<select id="searchLoanSpecialRepaymentCountZB" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="searchLoanSpecialRepaymentSelectiveZB" />
+		<include refid="searchLoanSpecialRepaymentConditionsZB" />
+		)
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<select id="findSpecialRepaymentByLoanId" parameterType="java.lang.Long"
+		resultType="java.lang.Integer">
+		select count(*) from LOAN_SPECIAL_REPAYMENT t where
+		t.loan_id=#{loanId} and t.special_repayment_type='结算单'
+    and t.special_repayment_state='申请结算单'
+	</select>
+
+	<select id="findLoanByUserIdAndLoanState" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(1) from v_loan_info loan where
+		loan.BORROWER_ID=#{userId} and loan.LOAN_STATE in('结清','预结清')
+	</select>
+
+	<select id="getSpecialRepaymentByLoanId" parameterType="java.lang.Long"
+		resultType="com.zdmoney.credit.loan.domain.LoanSpecialRepayment">
+		select * from LOAN_SPECIAL_REPAYMENT t where
+		t.loan_id=#{loanId} 
+	</select>
+
+	<update id="updateFYJM" parameterType="com.zdmoney.credit.loan.domain.LoanSpecialRepayment">
+		update
+		LOAN_SPECIAL_REPAYMENT
+		set
+		MEMO = #{memo,jdbcType=VARCHAR},
+		PROPOSER_ID =
+		#{proposerId,jdbcType=DECIMAL},
+		REQUEST_DATE =
+		#{requestDate,jdbcType=TIMESTAMP},
+		SPECIAL_REPAYMENT_TYPE =
+		#{specialRepaymentType,jdbcType=VARCHAR},
+		SPECIAL_REPAYMENT_STATE =
+		#{specialRepaymentState,jdbcType=VARCHAR},
+		AMOUNT =
+		#{amount,jdbcType=DECIMAL},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where LOAN_ID =
+		#{loanId,jdbcType=DECIMAL}
+	</update>
+	<select id="findLoanSpecialRepaymentByStateAndLoanId"
+		parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM loan_special_repayment t where t.loan_id=#{loanId}
+		and t.special_repayment_state
+		in('正常费用减免','区域总审批','信贷综合管理部审批','信贷综合管理部经理审批','分管领导审批','总经理审批')
+	</select>
+
+
+	<select id="findSpecialRepaymentByUserAndDate"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT *
+  FROM loan_special_repayment t
+ where  t.loan_id =#{loanId}
+ and t.special_repayment_type='正常费用减免'
+   and t.special_repayment_state in ('正常费用减免',
+                                     '区域总审批',
+                                     '信贷综合管理部审批',
+                                     '信贷综合管理部经理审批',
+                                     '分管领导审批',
+                                     '总经理审批','申请')
+      and TO_CHAR(t.create_time,'YY/MM/DD')= TO_CHAR(SYSDATE,'YY/MM/DD')
+	</select>
+	
+	<select id="findBsyhSpecialRepay" resultMap="BsyhSpecialRepayVo" parameterType="java.util.Map">
+	select t2.id as loan_id from loan_special_repayment t1,v_loan_info t2
+	where t1.loan_id = t2.ID and t1.special_repayment_type = '提前扣款' 
+	and t1.special_repayment_state = '申请'
+	   and t2.loan_state = '正常'
+	   and t1.request_date &lt;= #{currDate}
+	   and t2.loan_belong = '包商银行'
+	   and not exists(
+	      select 1 from repay_bus_log a where a.loan_id = t1.loan_id 
+	      and a.current_term = (
+	      select min(t.current_term) from loan_repayment_detail t where t.loan_id = a.loan_id
+	      and t.return_date>=t1.request_date
+	      ) and a.apply_state = 't' and (a.deduct_state is null or a.deduct_state = 't')
+	   )
+	</select>
+	
+	<select id="findBsyhSpecialRepayAll" resultMap="BsyhSpecialRepayVo">
+     select t1.loan_id  
+	  from loan_special_repayment t1
+	  left join loan_base t2 on t1.loan_id = t2.id
+	 where t1.special_repayment_type = '一次性还款'
+	   and t1.special_repayment_state = '申请'
+	   and t2.loan_state = '预结清'
+	   and t2.loan_belong = '包商银行'
+	</select>
+
+	<select id="findReleifApplyEffect" parameterType="java.util.Map" resultMap="BaseResultMap">
+			select b.* from special_repayment_relation a,loan_special_repayment b where a.effective_id = b.id and a.apply_id = #{applyId}
+	</select>
+</mapper>

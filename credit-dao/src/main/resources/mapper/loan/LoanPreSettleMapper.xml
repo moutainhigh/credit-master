@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanPreSettleMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanPreSettle">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="SETTLE_DATE" property="settleDate" jdbcType="TIMESTAMP" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="REAL_SETTLE_DATE" property="realSettleDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, SETTLE_DATE, CREATE_TIME, UPDATE_TIME, REAL_SETTLE_DATE
+	</sql>
+	<select id="findListByMap" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_PRE_SETTLE
+		where 1=1
+		<if test="id != null">
+			AND ID=#{id,jdbcType=DECIMAL}
+		</if>
+		<if test="loanId != null">
+			AND LOAN_ID = #{loanId,jdbcType=DECIMAL}
+		</if>
+		<if test="settleDate != null">
+			AND SETTLE_DATE=#{settleDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createTime != null">
+			AND CREATE_TIME=#{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="updateTime != null">
+			AND  UPDATE_TIME=#{updateTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="realSettleDate != null">
+			AND  REAL_SETTLE_DATE=#{realSettleDate,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from LOAN_PRE_SETTLE
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanPreSettle">
+		insert into LOAN_PRE_SETTLE (ID, LOAN_ID, SETTLE_DATE,
+		CREATE_TIME, UPDATE_TIME, REAL_SETTLE_DATE)
+		values (#{id,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{settleDate,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{realSettleDate,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanPreSettle">
+		insert into LOAN_PRE_SETTLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="settleDate != null">
+				SETTLE_DATE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="settleDate != null">
+				#{settleDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanPreSettle">
+		update LOAN_PRE_SETTLE
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="settleDate != null">
+				SETTLE_DATE = #{settleDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="realSettleDate != null">
+				REAL_SETTLE_DATE = #{realSettleDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanPreSettle">
+		update LOAN_PRE_SETTLE
+		set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		SETTLE_DATE = #{settleDate,jdbcType=TIMESTAMP},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

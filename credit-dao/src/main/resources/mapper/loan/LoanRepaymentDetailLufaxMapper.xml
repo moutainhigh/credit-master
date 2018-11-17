@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanRepaymentDetailLufaxMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanRepaymentDetailLufax" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="CURRENT_ACCRUAL" property="currentAccrual" jdbcType="DECIMAL" />
+    <result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+    <result column="GIVE_BACK_RATE" property="giveBackRate" jdbcType="DECIMAL" />
+    <result column="PRINCIPAL_BALANCE" property="principalBalance" jdbcType="DECIMAL" />
+    <result column="REPAYMENT_ALL" property="repaymentAll" jdbcType="DECIMAL" />
+    <result column="RETURN_DATE" property="returnDate" jdbcType="TIMESTAMP" />
+    <result column="DEFICIT" property="deficit" jdbcType="DECIMAL" />
+    <result column="REPAYMENT_STATE" property="repaymentState" jdbcType="VARCHAR" />
+    <result column="FACT_RETURN_DATE" property="factReturnDate" jdbcType="TIMESTAMP" />
+    <result column="PENALTY_DATE" property="penaltyDate" jdbcType="TIMESTAMP" />
+    <result column="RETURNETERM" property="returneterm" jdbcType="DECIMAL" />
+    <result column="PENALTY" property="penalty" jdbcType="DECIMAL" />
+    <result column="ACCRUAL_REVISE" property="accrualRevise" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="LOAN_STATUS_LUFAX" property="loanStatusLufax" jdbcType="VARCHAR" />
+    <result column="REPAY_DATE_LUFAX" property="repayDateLufax" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+		ID, LOAN_ID, CURRENT_ACCRUAL, CURRENT_TERM, GIVE_BACK_RATE,
+		PRINCIPAL_BALANCE, REPAYMENT_ALL,
+		RETURN_DATE, DEFICIT, REPAYMENT_STATE, FACT_RETURN_DATE, PENALTY_DATE,
+		RETURNETERM,
+		PENALTY, ACCRUAL_REVISE, CREATE_TIME, UPDATE_TIME,LOAN_STATUS_LUFAX,REPAY_DATE_LUFAX
+	</sql>
+	
+	<select id="get" resultMap="BaseResultMap"		parameterType="java.lang.Long">
+		select
+			<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL_LUFAX
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetailLufax" >
+    insert into LOAN_REPAYMENT_DETAIL_LUFAX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="currentAccrual != null" >
+        CURRENT_ACCRUAL,
+      </if>
+      <if test="currentTerm != null" >
+        CURRENT_TERM,
+      </if>
+      <if test="giveBackRate != null" >
+        GIVE_BACK_RATE,
+      </if>
+      <if test="principalBalance != null" >
+        PRINCIPAL_BALANCE,
+      </if>
+      <if test="repaymentAll != null" >
+        REPAYMENT_ALL,
+      </if>
+      <if test="returnDate != null" >
+        RETURN_DATE,
+      </if>
+      <if test="deficit != null" >
+        DEFICIT,
+      </if>
+      <if test="repaymentState != null" >
+        REPAYMENT_STATE,
+      </if>
+      <if test="factReturnDate != null" >
+        FACT_RETURN_DATE,
+      </if>
+      <if test="penaltyDate != null" >
+        PENALTY_DATE,
+      </if>
+      <if test="returneterm != null" >
+        RETURNETERM,
+      </if>
+      <if test="penalty != null" >
+        PENALTY,
+      </if>
+      <if test="accrualRevise != null" >
+        ACCRUAL_REVISE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="loanStatusLufax != null" >
+        LOAN_STATUS_LUFAX,
+      </if>
+      <if test="repayDateLufax != null" >
+        REPAY_DATE_LUFAX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="currentAccrual != null" >
+        #{currentAccrual,jdbcType=DECIMAL},
+      </if>
+      <if test="currentTerm != null" >
+        #{currentTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="giveBackRate != null" >
+        #{giveBackRate,jdbcType=DECIMAL},
+      </if>
+      <if test="principalBalance != null" >
+        #{principalBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentAll != null" >
+        #{repaymentAll,jdbcType=DECIMAL},
+      </if>
+      <if test="returnDate != null" >
+        #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deficit != null" >
+        #{deficit,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentState != null" >
+        #{repaymentState,jdbcType=VARCHAR},
+      </if>
+      <if test="factReturnDate != null" >
+        #{factReturnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="penaltyDate != null" >
+        #{penaltyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returneterm != null" >
+        #{returneterm,jdbcType=DECIMAL},
+      </if>
+      <if test="penalty != null" >
+        #{penalty,jdbcType=DECIMAL},
+      </if>
+      <if test="accrualRevise != null" >
+        #{accrualRevise,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanStatusLufax != null" >
+        #{loanStatusLufax,jdbcType=VARCHAR},
+      </if>
+      <if test="repayDateLufax != null" >
+        #{repayDateLufax,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetailLufax">
+		update LOAN_REPAYMENT_DETAIL_LUFAX
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="currentAccrual != null">
+				CURRENT_ACCRUAL = #{currentAccrual,jdbcType=DECIMAL},
+			</if>
+			<if test="currentTerm != null">
+				CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="giveBackRate != null">
+				GIVE_BACK_RATE = #{giveBackRate,jdbcType=DECIMAL},
+			</if>
+			<if test="principalBalance != null">
+				PRINCIPAL_BALANCE = #{principalBalance,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentAll != null">
+				REPAYMENT_ALL = #{repaymentAll,jdbcType=DECIMAL},
+			</if>
+			<if test="returnDate != null">
+				RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deficit != null">
+				DEFICIT = #{deficit,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentState != null">
+				REPAYMENT_STATE = #{repaymentState,jdbcType=VARCHAR},
+			</if>
+			<if test="factReturnDate != null">
+				FACT_RETURN_DATE = #{factReturnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="penaltyDate != null">
+				PENALTY_DATE = #{penaltyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="returneterm != null">
+				RETURNETERM = #{returneterm,jdbcType=DECIMAL},
+			</if>
+			<if test="penalty != null">
+				PENALTY = #{penalty,jdbcType=DECIMAL},
+			</if>
+			<if test="accrualRevise != null">
+				ACCRUAL_REVISE = #{accrualRevise,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanStatusLufax != null">
+				LOAN_STATUS_LUFAX = #{loanStatusLufax,jdbcType=VARCHAR},
+			</if>
+			<if test="repayDateLufax != null" >
+		        REPAY_DATE_LUFAX = #{repayDateLufax,jdbcType=TIMESTAMP},
+		    </if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<sql id="loanRepaymentDetailLufaxSelective">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_REPAYMENT_DETAIL_LUFAX
+	</sql>
+	
+	<sql id="loanRepaymentDetailLufaxConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null">
+				AND LOAN_ID = #{loanId, jdbcType=DECIMAL}
+			</if>
+			<if test="returnDate != null ">
+				AND RETURN_DATE = #{returnDate}
+			</if>
+            <if test = "repaymentStates != null">
+                AND repayment_state IN
+              <foreach collection="repaymentStates" item="repState" open="(" close=")" separator=",">
+                #{repState}
+              </foreach>
+            </if>
+            <if test = "currentReturnDate != null">
+              AND RETURN_DATE  &lt;=  to_date(#{currentReturnDate},'yyyy-mm-dd')
+            </if>
+            <if test= "aftercurrentTerm != null ">
+              AND CURRENT_TERM  >=  #{aftercurrentTerm}
+            </if>
+			<if test="loanIds != null">
+				AND LOAN_ID in
+				<foreach collection="loanIds" item="loanIdd" open="(" close=")" separator=",">
+					#{loanIdd}
+				</foreach>
+			</if>
+			<if test="currentTerm != null">
+				AND CURRENT_TERM = #{currentTerm, jdbcType=DECIMAL}
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="loanRepaymentDetailLufaxSelective" />
+		<include refid="loanRepaymentDetailLufaxConditions" />
+        <include refid="loanRepaymentDetailLufaxOrderBy" />
+	</select>
+	
+	<select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentDetailLufax" resultMap="BaseResultMap">
+		<include refid="loanRepaymentDetailLufaxSelective" />
+		<include refid="loanRepaymentDetailLufaxConditions" />
+		ORDER BY ID DESC
+	</select>
+	<sql id="loanRepaymentDetailLufaxOrderBy">
+        <if test = "orderByCurrentTerm != null">
+            order by CURRENT_TERM asc
+        </if>
+    </sql>
+	<select id="updateRepaymentDetailLufaxByLoanId" parameterType="java.util.Map" resultMap="BaseResultMap">
+		UPDATE LOAN_REPAYMENT_DETAIL_LUFAX L SET 
+		   		<if test="repaymentState != null">
+					L.REPAYMENT_STATE = #{repaymentState,jdbcType=VARCHAR},
+				</if>
+				<if test="loanStatusLufax != null">
+					L.LOAN_STATUS_LUFAX = #{loanStatusLufax,jdbcType=VARCHAR},
+				</if>
+				<if test="deficit != null">
+					L.deficit = #{deficit,jdbcType=DECIMAL},
+				</if>
+				<if test="factReturnDate != null">
+					L.FACT_RETURN_DATE  = TO_DATE(#{factReturnDate},'yyyy/MM/dd'),
+				</if>
+				<if test="repayDateLufax != null">
+					L.REPAY_DATE_LUFAX  = TO_DATE(#{repayDateLufax},'yyyy/MM/dd hh24:mi:ss'),
+				</if>
+				L.UPDATE_TIME  = SYSDATE
+		 	<where>
+		 		<if test="loanId != null">
+					 L.LOAN_ID = #{loanId, jdbcType=DECIMAL}
+				</if>
+				<if test="currentTerm != null">
+					AND L.CURRENT_TERM &gt;= #{currentTerm, jdbcType=DECIMAL}
+				</if>
+		 	</where>
+	</select>
+
+  <delete id="deleteByLoanId" parameterType="java.lang.Long">
+    DELETE FROM LOAN_REPAYMENT_DETAIL_LUFAX
+    WHERE LOAN_ID = #{lonId,jdbcType=DECIMAL}
+  </delete>
+</mapper>

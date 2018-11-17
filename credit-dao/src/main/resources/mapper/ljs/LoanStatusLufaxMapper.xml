@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.ljs.domain.LoanStatusLufaxMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.ljs.domain.LoanStatusLufax" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="LOAN_STATUS" property="loanStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="LoanStatusMap" type="com.zdmoney.credit.framework.vo.lufax.entity.LoanDetailLufax" >
+  		<result column="loan_no" property="loan_no" jdbcType="VARCHAR" />
+  		<result column="loan_status" property="loan_status" jdbcType="VARCHAR" />
+  		<result column="overdue_fine" property="overdue_fine" jdbcType="DECIMAL" />
+  		<result column="is_need_offer" property="is_need_offer" jdbcType="VARCHAR" />
+  		<result column="batch_status" property="batch_status" jdbcType="VARCHAR" />
+  		<result column="overdue_days" property="overdue_days" jdbcType="VARCHAR" />
+  		<result column="next_repaydate" property="next_repaydate" jdbcType="VARCHAR" />
+  		<result column="last_interest_expiry_date" property="last_interest_expiry_date" jdbcType="VARCHAR" />
+  		<result column="curdeduct_date" property="curdeduct_date" jdbcType="VARCHAR" />
+  		<result column="finish_date" property="finish_date" jdbcType="VARCHAR" />
+  		<result column="normal_principal" property="normal_principal" jdbcType="DECIMAL" />
+  		<result column="overdue_principal" property="overdue_principal" jdbcType="DECIMAL" />
+  		<result column="batch_begin_date" property="batch_begin_date" jdbcType="VARCHAR" />
+  		<result column="current_term" property="current_term" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LOAN_ID, LOAN_STATUS, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_STATUS_LUFAX
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from LOAN_STATUS_LUFAX
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.ljs.domain.LoanStatusLufax" >
+    insert into LOAN_STATUS_LUFAX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="loanStatus != null" >
+        LOAN_STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="loanStatus != null" >
+        #{loanStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.ljs.domain.LoanStatusLufax" >
+    update LOAN_STATUS_LUFAX
+    <set >
+      <if test="loanId != null" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="loanStatus != null" >
+        LOAN_STATUS = #{loanStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="findLoanDetailLufaxList"  resultMap="LoanStatusMap" parameterType="java.util.Map">
+		(select 'ZDJR_' || t2.CHANNEL_PUSH_NO as loan_no,
+		       t1.loan_status as loan_status,
+		       nvl(t3.faxijine, 0.00) as overdue_fine,
+		       '0' as is_need_offer,
+		       to_char(nvl(t3.yuqitianshu, 0)) as overdue_days,
+		       case
+		         when t2.LOAN_STATE &lt;> '结清' then
+		          (select to_char(d.return_date, 'yyyyMMdd')
+		             from loan_repayment_detail_lufax d
+		            where d.loan_id = t1.loan_id
+		              and d.current_term = t2.lastday_curr_term)
+		         else
+		          ''
+		       end as next_repaydate,
+		       case
+		         when t2.lastday_curr_term > 1 then
+		          (select to_char(d.return_date, 'yyyyMMdd')
+		             from loan_repayment_detail_lufax d
+		            where d.loan_id = t1.loan_id
+		              and d.current_term = (t2.lastday_curr_term - 1))
+		         else
+		          ''
+		       end as last_interest_expiry_date,
+		       to_char(sysdate, 'yyyyMMdd') as curdeduct_date,
+		       case
+		         when t2.LOAN_STATE = '结清' then
+		         (select to_char(max(d.fact_return_date),'yyyyMMdd') from loan_repayment_detail_lufax d  where d.loan_id = t1.loan_id)
+		         else
+		          ''
+		       end as finish_date,
+		       (T2.residual_pact_money- NVL(T3.Yuqibenjin,0)) as normal_principal,
+		       T3.Yuqibenjin as overdue_principal,
+		       (select to_char(max(d.fact_return_date),'yyyyMMdd') from loan_repayment_detail_lufax d  where d.loan_id = t1.loan_id)
+		       as batch_begin_date,
+		       t2.lastday_curr_term as current_term
+		  from loan_status_lufax T1
+		  left join (select v.*,
+		                    (SELECT RE.CURRENT_TERM
+		                       FROM (SELECT RETURN_DATE,
+		                                    REPAYMENT_STATE,
+		                                    CURRENT_TERM,
+		                                    loan_id
+		                               FROM LOAN_REPAYMENT_DETAIL
+		                              WHERE RETURN_DATE >=
+		                                    to_date( #{currDate} , 'yyyy-MM-dd')
+		                              ORDER BY RETURN_DATE ASC) re
+		                      WHERE re.loan_id = v.id
+		                        AND ROWNUM = 1) as lastday_curr_term
+		               from v_loan_info v) T2
+		    on T1.Loan_Id = T2.ID
+		  left join overdue_detail T3
+		    on T1.Loan_Id = T3.Loan_Id
+		 where T2.FUNDS_SOURCES = '陆金所'
+		   and T3.Cur_Date = to_date(#{currDate}, 'yyyy-MM-dd'))
+		   union
+		(select 'ZDJR_' || t2.CHANNEL_PUSH_NO as loan_no,
+		       t1.loan_status as loan_status,
+		       0.00 as overdue_fine,
+		       '0' as is_need_offer,
+		       '0' as overdue_days,
+		       case
+		         when t2.LOAN_STATE &lt;> '结清' then
+		          (select to_char(d.return_date, 'yyyyMMdd')
+		             from loan_repayment_detail_lufax d
+		            where d.loan_id = t1.loan_id
+		              and d.current_term = t2.lastday_curr_term)
+		         else
+		          ''
+		       end as next_repaydate,
+		       case
+		         when t2.lastday_curr_term > 1 then
+		          (select to_char(d.return_date, 'yyyyMMdd')
+		             from loan_repayment_detail_lufax d
+		            where d.loan_id = t1.loan_id
+		              and d.current_term = (t2.lastday_curr_term - 1))
+		         else
+		          ''
+		       end as last_interest_expiry_date,
+		       to_char(sysdate, 'yyyyMMdd') as curdeduct_date,
+		       case
+		         when t2.LOAN_STATE = '结清' then
+		          (select to_char(max(d.fact_return_date),'yyyyMMdd') from loan_repayment_detail_lufax d  where d.loan_id = t1.loan_id)
+		         else
+		          ''
+		       end as finish_date,
+		       T2.residual_pact_money as normal_principal,
+		       0.00 as overdue_principal,
+		       (select to_char(max(d.fact_return_date),'yyyyMMdd') from loan_repayment_detail_lufax d  where d.loan_id = t1.loan_id)
+		       as batch_begin_date,
+		       t2.lastday_curr_term as current_term
+		  from loan_status_lufax T1
+		  left join (select v.*,
+		                    (SELECT RE.CURRENT_TERM
+		                       FROM (SELECT RETURN_DATE,
+		                                    REPAYMENT_STATE,
+		                                    CURRENT_TERM,
+		                                    loan_id
+		                               FROM LOAN_REPAYMENT_DETAIL
+		                              WHERE RETURN_DATE >=
+		                                    to_date(#{currDate}, 'yyyy-MM-dd')
+		                              ORDER BY RETURN_DATE ASC) re
+		                      WHERE re.loan_id = v.id
+		                        AND ROWNUM = 1) as lastday_curr_term
+		               from v_loan_info v) T2
+		    on T1.Loan_Id = T2.ID
+		 where T2.FUNDS_SOURCES = '陆金所'
+		   and not exists (select 1 from overdue_detail ovd where ovd.loan_id = T1.loan_id and ovd.Cur_Date = to_date(#{currDate}, 'yyyy-MM-dd'))
+		   and not exists (select 1 from v_loan_info v where v.id = t1.loan_id and v.LOAN_STATE = '结清'and (select max(d.fact_return_date) from loan_repayment_detail_lufax d  where d.loan_id = t1.loan_id) &lt; to_date(#{currDate}, 'yyyy-MM-dd'))
+		   )
+  </select>
+  
+  <sql id="loanStatusLufaxSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_STATUS_LUFAX
+	</sql>
+  
+  <sql id="loanStatusLufaxConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_ID = #{loanId}
+			</if>
+		</trim>
+	</sql>
+  
+  <select id="findListByVO" parameterType="com.zdmoney.credit.ljs.domain.LoanStatusLufax" resultMap="BaseResultMap">
+		<include refid="loanStatusLufaxSelective" />
+		<include refid="loanStatusLufaxConditions" />
+	</select>
+
+	<select id="findLoanStatusLufax2Transmit"  resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>
+		from loan_status_lufax l where not exists (select 1
+		from operate_log o
+		where o.loan_id = l.loan_id
+		and o.operate_type = '09'
+		and o.status = '1')
+	</select>
+
+	<update id="updateLufuxStatusToYuqi">
+		UPDATE loan_status_lufax T
+		SET T .loan_status = '05',
+		 T .UPDATE_TIME = SYSDATE
+		WHERE
+			EXISTS (
+				SELECT
+					1
+				FROM
+					v_loan_info v
+				WHERE
+					v. ID = T .loan_id
+				AND v.loan_belong = '陆金所'
+				AND v.loan_state = '逾期'
+			)
+	</update>
+</mapper>

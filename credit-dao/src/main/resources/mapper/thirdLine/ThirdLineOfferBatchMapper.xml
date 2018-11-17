@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.payment.domain.ThirdLineOfferBatchMapper">
+    <resultMap id="BaseResultMap"
+        type="com.zdmoney.credit.payment.domain.ThirdLineOfferBatch">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="TRADE_MARK" property="tradeMark" jdbcType="VARCHAR" />
+        <result column="MERCHANT_ID" property="merchantId" jdbcType="VARCHAR" />
+        <result column="COMMIT_TIME" property="commitTime" jdbcType="TIMESTAMP" />
+        <result column="RECORDS_TOTAL" property="recordsTotal" jdbcType="DECIMAL" />
+        <result column="AMOUNT_TOTAL" property="amountTotal" jdbcType="DECIMAL" />
+        <result column="BUSINESS_TYPE" property="businessType" jdbcType="VARCHAR" />
+        <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="DAY_BATCH_NUMBER" property="dayBatchNumber" jdbcType="VARCHAR" />
+        <result column="VERSION" property="version" jdbcType="VARCHAR" />
+        <result column="EXPORT_FILE" property="exportFile" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        TRADE_MARK,
+        MERCHANT_ID,
+        COMMIT_TIME,
+        RECORDS_TOTAL,
+        AMOUNT_TOTAL,
+        BUSINESS_TYPE,
+        FILE_NAME,
+        CREATE_TIME,
+        DAY_BATCH_NUMBER,
+        VERSION,
+        EXPORT_FILE
+    </sql>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from THIRD_LINE_OFFER_BATCH
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from THIRD_LINE_OFFER_BATCH
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+
+    <insert id="insert" parameterType="com.zdmoney.credit.payment.domain.ThirdLineOfferBatch">
+        insert into THIRD_LINE_OFFER_BATCH
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="tradeMark != null">
+                TRADE_MARK,
+            </if>
+            <if test="merchantId != null">
+                MERCHANT_ID,
+            </if>
+            <if test="commitTime != null">
+                COMMIT_TIME,
+            </if>
+            <if test="recordsTotal != null">
+                RECORDS_TOTAL,
+            </if>
+            <if test="amountTotal != null">
+                AMOUNT_TOTAL,
+            </if>
+            <if test="businessType != null">
+                BUSINESS_TYPE,
+            </if>
+            <if test="fileName != null">
+                FILE_NAME,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="dayBatchNumber != null">
+                DAY_BATCH_NUMBER,
+            </if>
+            <if test="version != null">
+                VERSION,
+            </if>
+            <if test="exportFile != null">
+                EXPORT_FILE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="tradeMark != null">
+                #{tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="commitTime != null">
+                #{commitTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recordsTotal != null">
+                #{recordsTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="amountTotal != null">
+                #{amountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dayBatchNumber != null">
+                #{dayBatchNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="exportFile != null">
+                #{exportFile,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zdmoney.credit.payment.domain.ThirdLineOfferBatch">
+        update THIRD_LINE_OFFER_BATCH
+        <set>
+            <if test="tradeMark != null">
+                TRADE_MARK = #{tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantId != null">
+                MERCHANT_ID = #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="commitTime != null">
+                COMMIT_TIME = #{commitTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recordsTotal != null">
+                RECORDS_TOTAL = #{recordsTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="amountTotal != null">
+                AMOUNT_TOTAL = #{amountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="businessType != null">
+                BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                FILE_NAME = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dayBatchNumber != null">
+                DAY_BATCH_NUMBER = #{dayBatchNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                VERSION = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="exportFile != null">
+                EXPORT_FILE = #{exportFile,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- 查询主体 -->
+    <sql id="offerBatchSelective">
+        select
+        <include refid="Base_Column_List" />
+        from THIRD_LINE_OFFER_BATCH
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="offerBatchConditions">
+        <trim prefix="where" prefixOverrides="and">
+            <if test="id != null">
+                AND ID = id
+            </if>
+            <if test="commitTime != null">
+                AND COMMIT_TIME >= TRUNC(#{commitTime})
+                AND COMMIT_TIME &lt; TRUNC(#{commitTime}) + 1
+            </if>
+            <if test="exportFile != null and exportFile !=''">
+                AND EXPORT_FILE = #{exportFile}
+            </if>
+            <if test="dayBatchNumber != null and dayBatchNumber !=''">
+                AND DAY_BATCH_NUMBER = #{dayBatchNumber}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="findListByVO" parameterType="com.zdmoney.credit.payment.domain.ThirdLineOfferBatch" resultMap="BaseResultMap">
+        <include refid="offerBatchSelective" />
+        <include refid="offerBatchConditions" />
+    </select>
+
+    <select id="findThirdLineOfferBatch">
+        select * from third_line_offer hto ,third_line_offer_batch htb
+        where hto.batch_id = htb.id
+        and htb.export_file = 'f';
+        and htb.create_time = (select t.create_time from third_line_offer_batch t
+        where not exists (select 1 from third_line_offer_batch t1 where
+        trunc(t1.create_time) > trunc(t.create_time)) )
+    </select>
+
+    <select id="findHaTwoOfferBatchNotExport" resultMap="BaseResultMap">
+        select * from third_line_offer_batch where export_file ='f'
+    </select>
+
+    <select id="findOfferBatchId" resultMap="BaseResultMap">
+        select * from (
+        select * from third_line_offer_batch tt where tt.export_file = 'f'
+        order by tt.create_time desc ) where rownum = 1
+    </select>
+    
+    <!-- 查询最近未导出报盘信息的批次 -->
+    <select id="findLatelyOfferBatchInfo" resultMap="BaseResultMap">
+        SELECT *
+          FROM (SELECT <include refid="Base_Column_List"/>
+                  FROM THIRD_LINE_OFFER_BATCH
+                 WHERE EXPORT_FILE = 'f'
+                 ORDER BY CREATE_TIME DESC)
+         WHERE ROWNUM = 1
+    </select>
+</mapper>

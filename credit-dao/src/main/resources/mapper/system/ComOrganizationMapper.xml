@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.ComOrganizationMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.ComOrganization">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT_NUM" property="departmentNum"
+			jdbcType="VARCHAR" />
+		<result column="DEPARTMENT_TYPE" property="departmentType"
+			jdbcType="VARCHAR" />
+		<result column="DEP_LEVEL" property="depLevel" jdbcType="VARCHAR" />
+		<result column="V_LEVEL" property="vLevel" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+		<result column="CITY_NUM" property="cityNum" jdbcType="VARCHAR" />
+		<result column="SERVICE_TEL" property="serviceTel" jdbcType="VARCHAR" />
+		<result column="SITE" property="site" jdbcType="VARCHAR" />
+		<result column="ZONE_CODE" property="zoneCode" jdbcType="VARCHAR" />
+		<result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		<result column="CITY" property="city" jdbcType="VARCHAR" />
+		<result column="ZONE" property="zone" jdbcType="VARCHAR" />
+		<result column="IS_VALID" property="isValid" jdbcType="VARCHAR" />
+		<result column="OPEN_DATE" property="openDate" jdbcType="TIMESTAMP" />
+		<result column="CLOSE_DATE" property="closeDate" jdbcType="TIMESTAMP" />
+		<result column="LNG" property="lng" jdbcType="VARCHAR" />
+		<result column="LAT" property="lat" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ORG_CODE, NAME, PARENT_ID, DEPARTMENT_NUM, DEPARTMENT_TYPE,
+		DEP_LEVEL,
+		V_LEVEL, MEMO, CREATE_TIME, UPDATE_TIME, CREATOR, UPDATOR, CITY_NUM,
+		SERVICE_TEL, SITE, ZONE_CODE, FULL_NAME,PROVINCE,CITY,ZONE,IS_VALID,OPEN_DATE,CLOSE_DATE,LNG,LAT
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_ORGANIZATION
+		WHERE ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		DELETE FROM COM_ORGANIZATION T WHERE T.ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- 查询最大CODE记录 -->
+	<select id="getMaxCode" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT A.* FROM (
+			SELECT
+			<include refid="Base_Column_List" />
+			FROM COM_ORGANIZATION
+			WHERE V_LEVEL = #{vLevel}
+			AND LENGTH(ORG_CODE) = #{maxCodeLen}
+			ORDER BY SUBSTR(ORG_CODE, #{codeLen} ) DESC NULLS LAST
+		) A WHERE ROWNUM = 1
+	</select>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.ComOrganization">
+		insert into COM_ORGANIZATION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="orgCode != null">
+				ORG_CODE,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="parentId != null">
+				PARENT_ID,
+			</if>
+			<if test="departmentNum != null">
+				DEPARTMENT_NUM,
+			</if>
+			<if test="departmentType != null">
+				DEPARTMENT_TYPE,
+			</if>
+			<if test="depLevel != null">
+				DEP_LEVEL,
+			</if>
+			<if test="vLevel != null">
+				V_LEVEL,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="cityNum != null">
+				CITY_NUM,
+			</if>
+			<if test="serviceTel != null">
+				SERVICE_TEL,
+			</if>
+			<if test="site != null">
+				SITE,
+			</if>
+			<if test="zoneCode != null">
+				ZONE_CODE,
+			</if>
+			<if test="fullName != null">
+				FULL_NAME,
+			</if>
+			<if test="province != null">
+				PROVINCE,
+			</if>
+			<if test="city != null">
+				CITY,
+			</if>
+			<if test="zone != null">
+				ZONE,
+			</if>
+			<if test="isValid != null">
+				IS_VALID,
+			</if>
+			<if test="openDate != null">
+				OPEN_DATE,
+			</if>
+			<if test="closeDate != null">
+				CLOSE_DATE,
+			</if>
+			<if test="lng != null">
+				LNG,
+			</if>
+			<if test="lat != null">
+				LAT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="orgCode != null">
+				#{orgCode,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentNum != null">
+				#{departmentNum,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentType != null">
+				#{departmentType,jdbcType=VARCHAR},
+			</if>
+			<if test="depLevel != null">
+				#{depLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="vLevel != null">
+				#{vLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="cityNum != null">
+				#{cityNum,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceTel != null">
+				#{serviceTel,jdbcType=VARCHAR},
+			</if>
+			<if test="site != null">
+				#{site,jdbcType=VARCHAR},
+			</if>
+			<if test="zoneCode != null">
+				#{zoneCode,jdbcType=VARCHAR},
+			</if>
+			<if test="fullName != null">
+				#{fullName,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null" >
+				#{city,jdbcType=VARCHAR}, 
+			</if>
+			<if test="zone != null" >
+				#{zone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isValid != null" >
+				#{isValid,jdbcType=VARCHAR}, 
+			</if>
+			<if test="openDate != null">
+				#{openDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="closeDate != null" >
+				#{closeDate,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="lng != null" >
+				#{lng,jdbcType=VARCHAR}, 
+			</if>
+			<if test="lat != null" >
+				#{lat,jdbcType=VARCHAR}, 
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.system.domain.ComOrganization">
+		UPDATE COM_ORGANIZATION
+		<set>
+			<if test="orgCode != null and orgCode != ''" >
+				ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null and parentId != ''" >
+				PARENT_ID = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<!-- <if test="departmentNum != null" > DEPARTMENT_NUM = #{departmentNum,jdbcType=VARCHAR}, 
+				</if> -->
+			<if test="departmentType != null">
+				DEPARTMENT_TYPE = #{departmentType,jdbcType=VARCHAR},
+			</if>
+			<if test="depLevel != null">
+				DEP_LEVEL = #{depLevel,jdbcType=VARCHAR},
+			</if>
+			<!-- <if test="vLevel != null" > V_LEVEL = #{vLevel,jdbcType=VARCHAR}, 
+				</if> -->
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<!-- <if test="createTime != null" > CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}, 
+				</if> -->
+			<if test="cityNum != null">
+				CITY_NUM = #{cityNum,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceTel != null">
+				SERVICE_TEL = #{serviceTel,jdbcType=VARCHAR},
+			</if>
+			<if test="site != null">
+				SITE = #{site,jdbcType=VARCHAR},
+			</if>
+			<if test="zoneCode != null" >
+				ZONE_CODE = #{zoneCode,jdbcType=VARCHAR}, 
+			</if>
+			<if test="fullName != null and fullName != ''" >
+				FULL_NAME = #{fullName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="province != null">
+				PROVINCE = #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null" >
+				CITY = #{city,jdbcType=VARCHAR}, 
+			</if>
+			<if test="zone != null" >
+				ZONE = #{zone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isValid != null" >
+				IS_VALID = #{isValid,jdbcType=VARCHAR}, 
+			</if>
+			<if test="openDate != null">
+				OPEN_DATE = #{openDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="closeDate != null" >
+				CLOSE_DATE = #{closeDate,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="lng != null" >
+				LNG = #{lng,jdbcType=VARCHAR}, 
+			</if>
+			<if test="lat != null" >
+				LAT = #{lat,jdbcType=VARCHAR}, 
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="comOrganizationSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_ORGANIZATION
+	</sql>
+
+	<sql id="comOrganizationConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND COM_ORGANIZATION.ID= #{id}
+			</if>
+			<if test="orgCode != null and orgCode != ''">
+				AND COM_ORGANIZATION.ORG_CODE= #{orgCode}
+			</if>
+			<if test="parentId != null and parentId != ''">
+				AND COM_ORGANIZATION.PARENT_ID = #{parentId}
+			</if>
+			<if test="departmentType != null and departmentType != ''">
+				AND COM_ORGANIZATION.DEPARTMENT_TYPE = #{departmentType}
+			</if>
+			<if test="vLevel != null and vLevel != ''">
+				AND COM_ORGANIZATION.V_LEVEL = #{vLevel}
+			</if>
+			<if test="name != null and name != ''">
+				AND COM_ORGANIZATION.NAME = #{name}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.ComOrganization"
+		resultMap="BaseResultMap">
+		<include refid="comOrganizationSelective" />
+		<include refid="comOrganizationConditions" />
+		ORDER BY NAME
+	</select>
+	
+	<select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="comOrganizationSelective" />
+		<include refid="comOrganizationConditions" />
+	</select>
+
+	<select id="count" parameterType="com.zdmoney.credit.system.domain.ComOrganization"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="comOrganizationSelective" />
+		<include refid="comOrganizationConditions" />
+		)
+	</select>
+
+	<select id="findParentOrganization" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		<include refid="comOrganizationSelective" />
+		WHERE ID = (SELECT O.PARENT_ID
+		FROM COM_ORGANIZATION O
+		WHERE O.ID = #{id,jdbcType=DECIMAL}
+		AND ROWNUM = 1)
+	</select>
+
+	<select id="findOrganization" parameterType="map" resultType="map">
+		select
+		a.id "id",
+		a.name "name",
+		<if test="showParentName!=null">
+			b.name "parentName",
+			b.name||'/'||a.name "joinName",
+		</if>
+		a.org_code "orgCode",
+		a.parent_id "parentId",
+		a.department_num "departmentNum",
+		a.department_type "departmentType",
+		a.dep_level "depLevel",
+		a.v_level "vLevel",
+		a.PROVINCE,
+		a.city,
+		a.zone
+		from
+		com_organization a
+		<if test="showParentName!=null">
+			join com_organization b
+			on(a.parent_id = b.id)
+		</if>
+		where 1=1
+		<if test="orgCode != null">
+			and a.org_code like '${orgCode}%'
+		</if>
+		<if test="departmentType != null">
+			and a.department_type = '${departmentType}'
+		</if>
+		<if test="departmentTypes != null">
+			and a.department_type in
+			<foreach collection="departmentTypes" item="departmentType"
+				open="(" separator="," close=")">
+				'${departmentType}'
+			</foreach>
+			)
+		</if>
+		<if test="orgId != null">
+			and a.id = ${orgId}
+		</if>
+		<if test="orgIds != null">
+			and a.id in
+			<foreach collection="orgIds" item="orgId" open="(" separator=","
+				close=")">
+				${orgId}
+			</foreach>
+		</if>
+		<if test="vLevel != null">
+			and a.v_level = '${vLevel}'
+		</if>
+		<if test="vLevels != null">
+			and a.v_level in
+			<foreach collection="vLevels" item="vLevel" open="("
+				separator="," close=")">
+				'${vLevel}'
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="searchWithFullName" parameterType="com.zdmoney.credit.system.domain.ComOrganization"
+		resultMap="BaseResultMap">
+		SELECT A.ID,A.V_LEVEL,A.ORG_CODE,A.PARENT_ID,A.NAME,A.FULL_NAME
+		FROM COM_ORGANIZATION A WHERE 1 = 1 
+		<if test="vLevel != null and vLevel != ''">
+			AND A.V_LEVEL = #{vLevel}
+		</if>
+		ORDER BY A.FULL_NAME
+	</select>
+	
+	<!-- 变更营业网点归属关系时，批量修改 -->
+	<update id="updateBatchOrgCode" parameterType="map">
+		UPDATE COM_ORGANIZATION SET ORG_CODE = REGEXP_REPLACE(ORG_CODE,'^' || #{oldOrgCode,jdbcType=VARCHAR} ,#{newOrgCode,jdbcType=VARCHAR} )
+		WHERE ORG_CODE LIKE CONCAT(#{oldOrgCode,jdbcType=VARCHAR},'%')
+	</update>
+	
+	<!-- 变更营业网点名称时，批量修改 -->
+	<update id="updateBatchFullName" parameterType="map">
+		UPDATE COM_ORGANIZATION SET FULL_NAME = REGEXP_REPLACE(FULL_NAME,'^' || replace(replace(#{oldFullName,jdbcType=VARCHAR},'(','\('),')','\)') , #{newFullName,jdbcType=VARCHAR})
+		WHERE REGEXP_LIKE(FULL_NAME,'^' ||  replace(replace(#{oldFullName,jdbcType=VARCHAR},'(','\('),')','\)'))
+	</update>
+	
+	<select id="queryPartOrgName" parameterType="java.lang.Long"  resultType="java.util.Map">
+		SELECT T1.NAME    NAME1,
+		       T2.NAME    NAME2,
+		       T3.NAME    NAME3,
+		       T4.NAME    NAME4,
+		       T5.NAME    NAME5,
+		       T6.NAME    NAME6,
+		       T6.V_LEVEL
+		  FROM COM_ORGANIZATION T1,
+		       COM_ORGANIZATION T2,
+		       COM_ORGANIZATION T3,
+		       COM_ORGANIZATION T4,
+		       COM_ORGANIZATION T5,
+		       COM_ORGANIZATION T6
+		 WHERE T6.ID = #{id,jdbcType=DECIMAL}
+		   AND T6.PARENT_ID = T5.ID(+)
+		   AND T5.PARENT_ID = T4.ID(+)
+		   AND T4.PARENT_ID = T3.ID(+)
+		   AND T3.PARENT_ID = T2.ID(+)
+		   AND T2.PARENT_ID = T1.ID(+)
+	</select>
+
+	<select id="getNoValidSalesDepartment" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		 from com_organization  where v_level = 'V104' and is_valid = '2' and id = #{id}
+	</select>
+	
+	<!-- 查询支付路由试点组织机构配置表 -->
+	<select id="getPaymentRouteDeptCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM  PAYMENT_ROUTE_DEPT P WHERE EXISTS (SELECT C.PARENT_ID 
+          FROM COM_ORGANIZATION C WHERE C.ID = P.ORG_ID CONNECT BY C.ID = PRIOR C.PARENT_ID START WITH C.ID = #{id,jdbcType=DECIMAL})
+	</select>
+	
+</mapper>

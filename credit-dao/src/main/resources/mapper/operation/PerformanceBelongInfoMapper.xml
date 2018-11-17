@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zdmoney.credit.operation.domain.PerformanceBelongInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.operation.domain.PerformanceBelongInfo">
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="REQUEST_MONEY" property="requestMoney"
+			jdbcType="DECIMAL" />
+		<result column="PACT_MONEY" property="pactMoney" jdbcType="DECIMAL" />
+		<result column="TIME" property="time" jdbcType="DECIMAL" />
+		<result column="SALES_MAN_ID" property="salesManId" jdbcType="DECIMAL" />
+		<result column="SALES_MAN_NAME" property="salesManName"
+			jdbcType="VARCHAR" />
+		<result column="SALES_TEAM_ID" property="salesTeamId" jdbcType="DECIMAL" />
+		<result column="SALES_TEAM_NAME" property="salesTeamName"
+			jdbcType="VARCHAR" />
+		<result column="SALES_DEPT_ID" property="salesDeptId" jdbcType="DECIMAL" />
+		<result column="SALES_DEPT_NAME" property="salesDeptName"
+			jdbcType="VARCHAR" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+		<result column="APPLY_INPUT_FLAG" property="applyInputFlag" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="optionInfoMap" type="java.util.Map">
+		<result property="id" column="ID" jdbcType="DECIMAL" />
+		<result property="name" column="NAME" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		T1.ID AS LOAN_ID,
+		T2.NAME,
+		T2.IDNUM,
+		T1.LOAN_TYPE,
+		T1.REQUEST_MONEY,
+		T1.PACT_MONEY,
+		T1.TIME,
+		T1.SALESMAN_ID AS SALES_MAN_ID,
+		T3.NAME AS SALES_MAN_NAME,
+		T1.SALES_TEAM_ID,
+		T4.NAME || '/' || (SELECT O.NAME FROM COM_ORGANIZATION O WHERE O.ID =
+		T1.SALES_TEAM_ID AND ROWNUM=1) AS SALES_TEAM_NAME,
+		T1.SALES_DEPARTMENT_ID AS SALES_DEPT_ID,
+		T4.NAME AS SALES_DEPT_NAME,
+        T1.CONTRACT_NUM,
+        T1.APPLY_INPUT_FLAG
+	</sql>
+
+	<!-- 查询主体 -->
+	<sql id="performanceBelongInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM V_LOAN_INFO T1,
+		PERSON_INFO T2,
+		COM_EMPLOYEE T3,
+		COM_ORGANIZATION T4
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="performanceBelongInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			AND T1.BORROWER_ID = T2.ID
+			AND T1.SALESMAN_ID = T3.ID
+			AND T1.SALES_DEPARTMENT_ID = T4.ID
+			<if test="name != null and name !=''">
+				AND T2.NAME LIKE #{name} || '%'
+			</if>
+			<if test="mobile != null and mobile !=''">
+				AND T2.MPHONE = #{mobile}
+			</if>
+			<if test="idNum != null and idNum !=''">
+				AND T2.IDNUM = #{idNum}
+			</if>
+			<if test="salesTeamId != null and salesTeamId !=''">
+				AND T1.SALES_TEAM_ID = #{salesTeamId}
+			</if>
+			<if test="salesManId != null and salesManId !=''">
+				AND T1.SALESMAN_ID = #{salesManId}
+			</if>
+			<if test="contractNum != null and contractNum!=''">
+			    AND T1.CONTRACT_NUM=#{contractNum}
+		    </if>
+			AND T4.ORG_CODE LIKE #{empNum} || '%'
+			AND T1.LOAN_STATE IN ('拒绝','通过','正常','逾期','结清','预结清','坏账')
+			<!-- AND T4.DEPARTMENT_TYPE IN ('渠道', '个贷', '互联网', '电销', '渠道2') -->
+		</trim>
+	</sql>
+
+	<sql id="findListByConditions">
+		<include refid="performanceBelongInfoSelective" />
+		<include refid="performanceBelongInfoConditions" />
+	</sql>
+
+	<!-- 查询业绩归属信息 -->
+	<select id="findListByVO"
+		parameterType="com.zdmoney.credit.operation.domain.PerformanceBelongInfo"
+		resultMap="BaseResultMap">
+		<include refid="performanceBelongInfoSelective" />
+		<include refid="performanceBelongInfoConditions" />
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findWithPG"
+		parameterType="com.zdmoney.credit.operation.domain.PerformanceBelongInfo"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="findListByConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<!-- 查询总件数 -->
+	<select id="count"
+		parameterType="com.zdmoney.credit.operation.domain.PerformanceBelongInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="findListByConditions" />
+		)
+	</select>
+
+	<!-- 查询当前用户所属机构下的销售人员信息 -->
+	<select id="getSalesManOptionInfo" parameterType="java.util.Map"
+		resultMap="optionInfoMap">
+		SELECT T1.ID, T1.NAME || '(' || T1.USERCODE || ')' AS NAME
+		FROM COM_EMPLOYEE T1,
+		COM_ORGANIZATION T2
+		WHERE T1.ORG_ID = T2.ID
+		AND T1.EMPLOYEE_TYPE = #{roleName}
+		AND T2.ORG_CODE LIKE #{empNum} || '%'
+		<if test="inActive !=null and inActive !=''">
+			AND TRIM(T1.IN_ACTIVE) = #{inActive}
+		</if>
+		<!-- AND T2.DEPARTMENT_TYPE IN ('渠道', '个贷', '互联网', '电销', '渠道2') -->
+		ORDER BY T1.NAME ASC
+	</select>
+
+	<!-- 查询当前用户所属机构下的营业组信息 -->
+	<select id="getSalesTeamOptionInfo" parameterType="java.util.Map"
+		resultMap="optionInfoMap">
+		SELECT T.ID,
+		(SELECT O.NAME
+		FROM COM_ORGANIZATION O
+		WHERE O.ID = T.PARENT_ID
+		AND ROWNUM = 1) || '/'|| T.NAME AS NAME
+		FROM COM_ORGANIZATION T
+		WHERE T.ORG_CODE LIKE #{empNum} || '%'
+		<if test="vLevel !=null and vLevel !=''">
+			AND T.V_LEVEL = #{vLevel}
+		</if>
+		<!-- AND T.DEPARTMENT_TYPE IN ('渠道', '个贷', '互联网', '电销', '渠道2') -->
+		ORDER BY T.PARENT_ID ASC,T.NAME ASC
+	</select>
+</mapper>

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.repay.vo.RequestManagementVoMapper">
+    <resultMap id="loanApplyDetailMap" type="com.zdmoney.credit.repay.vo.LoanApplyDetailVo">
+        <result column="CREDIT_CODE" property="creditCode" jdbcType="VARCHAR" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="REQUEST_PLACE" property="requestPlace" jdbcType="VARCHAR" />
+        <result column="REQUEST_NO" property="requestNo" jdbcType="VARCHAR" />
+        <result column="CHANNEL" property="channel" jdbcType="VARCHAR" />
+        <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+        <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="CONTACT_PHONE" property="contactPhone" jdbcType="VARCHAR" />
+        <result column="MPHONE" property="mphone" jdbcType="VARCHAR" />
+        <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+        <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+        <result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+        <result column="PACT_MONEY" property="pactMoney" jdbcType="DECIMAL" />
+        <result column="MONEY" property="money" jdbcType="DECIMAL" />
+        <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+        <result column="TIME" property="time" jdbcType="DECIMAL" />
+        <result column="ACCOUNT_TYPE" property="accountType" jdbcType="VARCHAR" />
+        <result column="BACK_ACCOUNT" property="backAccount" jdbcType="VARCHAR" />
+        <result column="REPAYMENT_METHOD" property="repaymentMethod" jdbcType="VARCHAR" />
+        <result column="REPAYMENT_DAY_TYPE" property="repaymentDayType" jdbcType="VARCHAR" />
+        <result column="REPAYMENT_DAY_CATEGORY" property="repaymentDayCategory" jdbcType="VARCHAR" />
+        <result column="PROMISE_RETURN_DATE" property="promiseReturnDate" jdbcType="DECIMAL" />
+        <result column="MARRIED" property="married" jdbcType="VARCHAR" />
+        <result column="ED_LEVEL" property="edLevel" jdbcType="VARCHAR" />
+        <result column="HR_ADDRESS" property="hrAddress" jdbcType="VARCHAR" />
+        <result column="TOTAL_MONTHLY_INCOME" property="totalMonthlyIncome" jdbcType="DECIMAL" />
+        <result column="FAMILY_ADDRESS" property="familyAddress" jdbcType="VARCHAR" />
+        <result column="FAMILY_POSTCODE" property="familyPostcode" jdbcType="VARCHAR" />
+        <result column="FAMILY_PHONE" property="familyPhone" jdbcType="VARCHAR" />
+        <result column="HANDLE_ORG" property="handleOrg" jdbcType="VARCHAR" />
+        <result column="PAY_METHOD" property="payMethod" jdbcType="VARCHAR" />
+        <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+        <result column="CUSTOMER_TYPE" property="customerType" jdbcType="VARCHAR" />
+        <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+        <result column="COUNTER_FEE" property="counterFee" jdbcType="DECIMAL" />
+        <result column="COUNTER_RATE" property="counterRate" jdbcType="DECIMAL" />
+        <result column="RATE" property="rate" jdbcType="DECIMAL" />
+        <result column="DEFAULT_RATE" property="defaultRate" jdbcType="DECIMAL" />
+        <result column="PENALTY_RATE" property="penaltyRate" jdbcType="DECIMAL" />
+        <result column="ASSURE_DAYS" property="assureDays" jdbcType="DECIMAL" />
+        <result column="SERVICE_FEE" property="serviceFee" jdbcType="DECIMAL" />
+        <result column="SERVICE_FEE_RATE" property="serviceFeeRate" jdbcType="DECIMAL" />
+        <result column="ASSURE_FEE" property="assureFee" jdbcType="DECIMAL" />
+        <result column="ASSURE_FEE_RATE" property="assureFeeRate" jdbcType="DECIMAL" />
+        <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+        <result column="OPEN_ACCOUNT_CITY" property="openAccountCity" jdbcType="VARCHAR" />
+        <result column="FEE_1" property="fee1" jdbcType="DECIMAL" />
+        <result column="FEE_2" property="fee2" jdbcType="DECIMAL" />
+        <result column="FEE_3" property="fee3" jdbcType="DECIMAL" />
+        <result column="FEE_4" property="fee4" jdbcType="DECIMAL" />
+        <result column="FEE_5" property="fee5" jdbcType="DECIMAL" />
+        <result column="PROFESSION" property="profession" jdbcType="VARCHAR" />
+        <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+        <result column="INDUSTRY_TYPE" property="industryType" jdbcType="VARCHAR" />
+        <result column="C_ADDRESS" property="cAddress" jdbcType="VARCHAR" />
+        <result column="C_CODE" property="cCode" jdbcType="VARCHAR" />
+        <result column="START_YEAR" property="startYear" jdbcType="VARCHAR" />
+        <result column="OFFICIAL_RANK" property="officialRank" jdbcType="VARCHAR" />
+        <result column="STAFF" property="staff" jdbcType="VARCHAR" />
+        <result column="ASSURE_METHOD" property="assureMethod" jdbcType="VARCHAR" />
+        <result column="ASSURE_NAME" property="assureName" jdbcType="VARCHAR" />
+        <result column="ASSURE_ID_TYPE" property="assureIdType" jdbcType="VARCHAR" />
+        <result column="ASSURE_IDNUM" property="assureIdnum" jdbcType="VARCHAR" />
+        <result column="ASSURE_AMOUNT" property="assureAmount" jdbcType="DECIMAL" />
+        <result column="ASSURE_RELATION" property="assureRelation" jdbcType="VARCHAR" />
+        <result column="LENDER_ACOUNT_TYPE" property="lenderAcountType" jdbcType="VARCHAR" />
+        <result column="LENDER_BANK_CODE" property="lenderBankCode" jdbcType="VARCHAR" />
+        <result column="LENDER_ACOUNT_NAME" property="lenderAcountName" jdbcType="VARCHAR" />
+        <result column="LENDER_ACOUNT" property="lenderAcount" jdbcType="DECIMAL" />
+        <result column="LENDER_BRANCH_BANK" property="lenderBranchBank" jdbcType="VARCHAR" />
+        <result column="LENDER_ACOUNT_PROVINCE" property="lenderAcountProvince" jdbcType="VARCHAR" />
+        <result column="LENDER_ACOUNT_CITY" property="lenderAcountCity" jdbcType="VARCHAR" />
+        <result column="APPLY_NAME" property="applyName" jdbcType="VARCHAR" />
+        <result column="LOAN_DATE" property="loanDate" jdbcType="VARCHAR" />
+        <result column="ENDRDATE" property="endrdate" jdbcType="VARCHAR" />
+        <result column="RATE_TYPE" property="rateType" jdbcType="VARCHAR" />
+        <result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+        <result column="VALUE_DATE" property="valueDate" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <!-- 查询主体-->
+    <sql id="loanApplyDetailSelective">
+        SELECT * FROM V_LOAN_INFO T1
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="loanApplyDetailConditions">
+        <if test="organization != null and organization !=''">
+            AND T1.BATCH_NUM LIKE #{organization} || '%'
+        </if>
+        <if test="batchNum != null and batchNum !=''">
+            AND T1.BATCH_NUM = #{batchNum}
+        </if>
+        <if test="grantMoneyDate != null and grantMoneyDate !=''">
+            AND T1.GRANT_MONEY_DATE >= TO_DATE(#{grantMoneyDate},'yyyy-MM-dd')
+            AND T1.GRANT_MONEY_DATE &lt; TO_DATE(#{grantMoneyDate},'yyyy-MM-dd') + 1
+        </if>
+        <if test="applyUploadDate != null and applyUploadDate !=''">
+	        AND exists (SELECT id
+			FROM REQUEST_FILE_OPERATE_RECORD R
+			WHERE t1.BATCH_NUM = R.BATCH_NUM
+			and R.OPERATE_TYPE =  '02' and R.operate_date >= TO_DATE(#{applyUploadDate},'yyyy-MM-dd')
+			and R.operate_date &lt; TO_DATE(#{applyUploadDate},'yyyy-MM-dd') + 1
+			)
+        </if>
+        <if test="loanState != null and loanState !=''">
+            AND T1.LOAN_STATE = #{loanState}
+        </if>
+        <if test="loanFlowState != null and loanFlowState !=''">
+            AND T1.LOAN_FLOW_STATE = #{loanFlowState}
+        </if>
+        <if test="fundsSource != null and fundsSource !=''">
+            AND T1.FUNDS_SOURCES = #{fundsSource}
+        </if>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="loanApplyDetailOrderConditions">
+        ORDER BY TRADE_DATE DESC
+    </sql>
+
+    <!-- 放款申请明细查询 -->
+    <select id="queryLoanApplyDetailList" parameterType="java.util.Map" resultMap="loanApplyDetailMap">
+        SELECT DECODE(T1.FUNDS_SOURCES, '渤海信托', 'ZDCF01', '渤海2', 'ZDCF02','华瑞渤海','ZDCF03') AS CREDIT_CODE,
+        T1.ID as LOAN_ID,
+        T1.CONTRACT_NUM,
+        T1.RATEEM*100 as RATE,
+		(SELECT B.CODE
+		FROM BHXT_CITY_ORG B
+		WHERE B.ORG_ID = T4.PARENT_ID
+		AND ROWNUM = 1) AS REQUEST_PLACE,
+        T1.CONTRACT_NUM AS REQUEST_NO,
+        '信托' AS CHANNEL,
+        '0' AS ID_TYPE,
+        T2.IDNUM,
+        T2.NAME,
+        T2.TEL AS CONTACT_PHONE,
+        T2.MPHONE,
+        T2.POSTCODE,
+        REPLACE(T2.ADDRESS, ' ', '') AS ADDRESS,
+		'个人消费' as PURPOSE,
+        T1.PACT_MONEY,
+        T1.MONEY,
+        '01' AS CURRENCY,
+        T1.TIME,
+        '0201' AS ACCOUNT_TYPE,
+        (SELECT B.ACCOUNT FROM LOAN_BANK B WHERE B.ID = T1.GIVE_BACK_BANK_ID) AS BACK_ACCOUNT,
+        CASE
+        WHEN T1.FUNDS_SOURCES = '渤海2'OR T1.FUNDS_SOURCES = '华瑞渤海' THEN
+        '04'
+        ELSE
+        '01'
+        END AS REPAYMENT_METHOD,
+        '02' AS REPAYMENT_DAY_TYPE,
+        '02' AS REPAYMENT_DAY_CATEGORY,
+        T1.PROMISE_RETURN_DATE,
+        CASE
+        WHEN T2.MARRIED = '未婚' THEN
+        '10'
+        WHEN T2.MARRIED = '已婚' THEN
+        '20'
+        WHEN T2.MARRIED = '离异' THEN
+        '40'
+        ELSE
+        '90'
+        END AS MARRIED,
+        CASE
+        WHEN T2.ED_LEVEL = '初中及以下' THEN
+        '70'
+        WHEN T2.ED_LEVEL = '中专' THEN
+        '40'
+        WHEN T2.ED_LEVEL = '高中' THEN
+        '60'
+        WHEN T2.ED_LEVEL = '大专' THEN
+        '30'
+        WHEN T2.ED_LEVEL = '本科' THEN
+        '20'
+        WHEN T2.ED_LEVEL = '硕士及以上' THEN
+        '10'
+        ELSE
+        '90'
+        END AS ED_LEVEL,
+        (SELECT B.CODE
+        FROM BHXT_CITY_ORG B
+        WHERE B.ORG_ID = T4.PARENT_ID
+        AND ROWNUM = 1) AS HR_ADDRESS,
+        NVL(T2.TOTAL_MONTHLY_INCOME, 0) AS TOTAL_MONTHLY_INCOME,
+        REPLACE(T2.ADDRESS, ' ', '') AS FAMILY_ADDRESS,
+        T2.POSTCODE AS FAMILY_POSTCODE,
+        T2.TEL AS FAMILY_PHONE,
+        '' AS HANDLE_ORG,
+        '02' AS PAY_METHOD,
+        '03' AS LOAN_TYPE,
+        '99' AS CUSTOMER_TYPE,
+        (SELECT P.CODE
+        FROM PRODUCT_CONFIG P
+        WHERE P.NAME = T1.LOAN_TYPE
+        AND ROWNUM = 1) AS PRODUCT_CODE,
+        T1.LOAN_TYPE AS PRODUCT_NAME,
+        0 AS COUNTER_FEE,
+        0 AS COUNTER_RATE,
+        1.1 AS RATE,
+        NULL AS DEFAULT_RATE,
+        CASE
+        WHEN T1.FUNDS_SOURCES = '渤海2' OR T1.FUNDS_SOURCES = '华瑞渤海' THEN
+        0.0005
+        ELSE
+        (SELECT PT.PENALTY_RATE
+        FROM PROD_CREDIT_PRODUCT_TERM       PT,
+        PROD_CREDIT_RENEW_PRODUCT_INFO PI,
+        PROD_CREDIT_PRODUCT_INFO       PCI,
+        PROD_CREDIT_FUNDS_SOURCES      PS
+        WHERE PT.RENEW_PROD_ID = PI.ID
+        AND PI.SOURCE_ID = PS.ID
+        AND PI.PROD_ID = PCI.ID
+        AND PT.TERM = T1.TIME
+        AND PCI.LOAN_TYPE = T1.LOAN_TYPE
+        AND PS.FUNDS_SOURCES = T1.FUNDS_SOURCES)
+        END AS PENALTY_RATE,
+        0 AS ASSURE_DAYS,
+        0 AS SERVICE_FEE,
+        0 AS SERVICE_FEE_RATE,
+        0 AS ASSURE_FEE,
+        0 AS ASSURE_FEE_RATE,
+        (SELECT B.CODE
+        FROM BHXT_BANK_CONFIG B
+        WHERE B.BANK_CODE = T3.BANK_CODE
+        AND ROWNUM = 1) AS BANK_CODE,
+        (SELECT B.CODE
+        FROM BHXT_CITY_ORG B
+        WHERE B.ORG_ID = T4.PARENT_ID
+        AND ROWNUM = 1) AS OPEN_ACCOUNT_CITY,
+        0 AS FEE_1,
+        0 AS FEE_2,
+        0 AS FEE_3,
+        0 AS FEE_4,
+        0 AS FEE_5,
+        CASE
+        WHEN T2.PROFESSION = '工薪' THEN
+        '0'
+        WHEN T2.PROFESSION = '自营' THEN
+        '1'
+        WHEN T2.PROFESSION = '白领' THEN
+        '0'
+        WHEN T2.PROFESSION = '学生' THEN
+        'Z'
+        ELSE
+        'Z'
+        END AS PROFESSION,
+        REPLACE(T2.COMPANY, ' ', '') AS COMPANY,
+        'Z' AS INDUSTRY_TYPE,
+        REPLACE(T2.C_ADDRESS, ' ', '') AS C_ADDRESS,
+        T2.C_CODE,
+        TO_CHAR(T2.C_ENTER_TIME, 'YYYY') AS START_YEAR,
+        CASE
+        WHEN T2.OFFICIAL_RANK = '总经理' THEN
+        '1'
+        WHEN T2.OFFICIAL_RANK = '主管' THEN
+        '2'
+        WHEN T2.OFFICIAL_RANK = '职员' THEN
+        '3'
+        WHEN T2.OFFICIAL_RANK = '法人代表' THEN
+        '4'
+        WHEN T2.OFFICIAL_RANK = '副总经理' THEN
+        '1'
+        WHEN T2.OFFICIAL_RANK = '部门经理' THEN
+        '1'
+        ELSE
+        '9'
+        END AS OFFICIAL_RANK,
+        '9' AS STAFF,
+        '4' AS ASSURE_METHOD,
+        '' AS ASSURE_NAME,
+        '' AS ASSURE_ID_TYPE,
+        '' AS ASSURE_IDNUM,
+        0 AS ASSURE_AMOUNT,
+        '' AS ASSURE_RELATION,
+        '11' AS LENDER_ACOUNT_TYPE,
+        (SELECT B.CODE
+        FROM BHXT_BANK_CONFIG B
+        WHERE B.BANK_CODE = T3.BANK_CODE
+        AND ROWNUM = 1) AS LENDER_BANK_CODE,
+        T2.NAME AS LENDER_ACOUNT_NAME,
+        T3.ACCOUNT AS LENDER_ACOUNT,
+        REPLACE(T3.FULL_NAME, ' ', '') AS LENDER_BRANCH_BANK,
+        '' AS LENDER_ACOUNT_PROVINCE,
+        '' AS LENDER_ACOUNT_CITY,
+        '' APPLY_NAME,
+        <if test="apply == null ">
+        	TO_CHAR(NVL(T1.GRANT_MONEY_DATE, T1.REQUEST_DATE), 'YYYY/MM/DD') AS LOAN_DATE,
+        </if>
+        <if test="apply != null ">
+        	TO_CHAR(T1.REQUEST_DATE, 'YYYY/MM/DD') AS LOAN_DATE,
+        </if>
+        TO_CHAR(T1.ENDRDATE, 'YYYY/MM/DD') AS ENDRDATE,
+        '20' AS RATE_TYPE,
+        <if test="apply == null ">
+        	TO_CHAR(NVL(T1.GRANT_MONEY_DATE, T1.REQUEST_DATE), 'YYYY/MM/DD') AS VALUE_DATE,
+        </if>
+        <if test="apply != null ">
+        	TO_CHAR(T1.REQUEST_DATE, 'YYYY/MM/DD') AS VALUE_DATE,
+        </if>
+        T1.BATCH_NUM
+          FROM V_LOAN_INFO T1, PERSON_INFO T2, LOAN_BANK T3, COM_ORGANIZATION T4
+         WHERE T1.BORROWER_ID = T2.ID
+           AND T1.GRANT_BANK_ID = T3.ID
+           AND T1.SALES_DEPARTMENT_ID = T4.ID
+           <include refid="loanApplyDetailConditions"/>
+           ORDER BY T1.ID DESC
+    </select>
+    
+    <resultMap id="payPlanMap" type="java.util.Map">
+        <result column="CREDIT_CODE" property="creditCode" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="REPAYMENT_TYPE" property="repaymentType" jdbcType="VARCHAR" />
+        <result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+        <result column="RETURN_DATE" property="returnDate" jdbcType="VARCHAR" />
+        <result column="CURRENT_PRINCIPAL" property="currentPrincipal" jdbcType="DECIMAL" />
+        <result column="CURRENT_ACCRUAL" property="currentAccrual" jdbcType="DECIMAL" />
+        <result column="COUNTER_FEE" property="counterFee" jdbcType="DECIMAL" />
+        <result column="ASSURE_FEE" property="assureFee" jdbcType="DECIMAL" />
+        <result column="SERVICE_FEE" property="serviceFee" jdbcType="DECIMAL" />
+        <result column="FEE_1" property="fee1" jdbcType="DECIMAL" />
+        <result column="FEE_2" property="fee2" jdbcType="DECIMAL" />
+        <result column="FEE_3" property="fee3" jdbcType="DECIMAL" />
+        <result column="PRINCIPAL_BALANCE" property="principalBalance" jdbcType="DECIMAL" />
+        <result column="REPAYMENT_ALL" property="repaymentAll" jdbcType="DECIMAL" />
+     </resultMap>
+    
+    <!-- 查询还款计划  -->
+    <select id="queryPayPlanList" parameterType="java.util.Map" resultMap="payPlanMap">
+        SELECT DECODE(T1.FUNDS_SOURCES,'渤海信托','ZDCF01','渤海2','ZDCF02','华瑞渤海','ZDCF03') AS CREDIT_CODE,
+               T1.CONTRACT_NUM,
+               '1' AS REPAYMENT_TYPE,
+               T2.CURRENT_TERM,
+               TO_CHAR(T2.RETURN_DATE, 'YYYY/MM/DD') AS RETURN_DATE,
+               T2.RETURNETERM - T2.CURRENT_ACCRUAL AS CURRENT_PRINCIPAL,
+               T2.CURRENT_ACCRUAL,
+               0 AS COUNTER_FEE,
+               0 AS ASSURE_FEE,
+               0 AS SERVICE_FEE,
+               0 AS FEE_1,
+               0 AS FEE_2,
+               0 AS FEE_3,
+               T2.PRINCIPAL_BALANCE,
+               T2.REPAYMENT_ALL
+          FROM V_LOAN_INFO T1, LOAN_REPAYMENT_DETAIL T2
+         WHERE T1.ID = T2.LOAN_ID
+           <include refid="loanApplyDetailConditions"/>
+         ORDER BY T1.ID DESC, T2.CURRENT_TERM ASC
+    </select>
+    
+    <resultMap id="applyPdfInfoMap" type="java.util.Map">
+        <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+        <result column="MONEY" property="money" jdbcType="DECIMAL" />
+     </resultMap>
+     
+    <!-- 查询划拨申请书统计信息  -->
+    <select id="queryApplyPdfInfo" parameterType="java.util.Map" resultMap="applyPdfInfoMap">
+        SELECT COUNT(1) AS QUANTITY, ROUND(SUM(T.PACT_MONEY),2) AS MONEY
+          FROM V_LOAN_INFO T
+         WHERE T.BATCH_NUM = #{batchNum}
+    </select>
+
+    <select id="queryAlreadyGrantMoney" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+        select NVL(ROUND(SUM(PACT_MONEY),2),0)  from v_loan_info  where GRANT_MONEY_DATE is not null
+        <if test="batchNums != null">
+            and BATCH_NUM IN
+            <foreach item="batchNum" index="index" collection="batchNums"
+                     open="(" separator="," close=")">
+                #{batchNum}
+            </foreach>
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanBsbMappingMapper">
+	<resultMap id="loanBsbMappingMap" type="com.zdmoney.credit.loan.domain.LoanBsbMapping">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="BUS_NUMBER" property="busNumber" jdbcType="VARCHAR" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="VALUE_DATE" property="valueDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID,BUS_NUMBER,ORDER_NO,LOAN_ID,VALUE_DATE
+	</sql>
+	
+	<select id="getByLoanId" resultMap="loanBsbMappingMap" parameterType="long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_BSB_MAPPING
+		where LOAN_ID = #{loanId,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="getByOrderNo" resultMap="loanBsbMappingMap" parameterType="string">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_BSB_MAPPING
+		where ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByBusNumber" resultMap="loanBsbMappingMap" parameterType="string">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_BSB_MAPPING
+			where BUS_NUMBER = #{busNumber,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="string">
+		delete from LOAN_BSB_MAPPING
+			where ID = #{ID,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanBsbMapping">
+		insert into LOAN_BSB_MAPPING
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="busNumber != null">
+				BUS_NUMBER,
+			</if>
+			<if test="orderNo != null">
+				ORDER_NO,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="valueDate != null">
+				VALUE_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="busNumber != null">
+				#{busNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="orderNo != null">
+				#{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="valueDate != null">
+				#{valueDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanBsbMapping">
+		update LOAN_BSB_MAPPING
+		<set>
+			<if test="orderNo != null">
+				ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="busNumber != null">
+				BUS_NUMBER = #{busNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="valueDate != null">
+				VALUE_DATE = #{valueDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.payment.domain.OfferExportInfoMapper" >
+    <resultMap id="BaseResultMap" type="com.zdmoney.credit.payment.domain.OfferExportInfo" >
+        <id column="RECSEQ_ID" property="recSeqId" jdbcType="VARCHAR" />
+        <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+        <result column="ACC_TYPE" property="accType" jdbcType="VARCHAR" />
+        <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_NAME" property="accountName" jdbcType="VARCHAR" />
+        <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+        <result column="GRANT_MONEY" property="grantMoney" jdbcType="DECIMAL" />
+        <result column="CARD_TYPE" property="cardType" jdbcType="VARCHAR" />
+        <result column="CARD_ID" property="cardId" jdbcType="VARCHAR" />
+        <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+
+    </resultMap>
+    <!-- -->
+    <select id="getGuoMinXinTuoThirdLine" resultMap="BaseResultMap">
+     select lpad(rownum,5,0) as RECSEQ_ID,
+       t2.bank_code as BANK_CODE,
+       '00' as ACC_TYPE,
+       t2.account as ACCOUNT,
+       t3.name as ACCOUNT_NAME,
+       t2.bank_name as BANK_NAME,
+       t1.grant_money*100 as GRANT_MONEY,
+       '0' as CARD_TYPE,
+       t3.idnum as CARD_ID
+     from v_loan_info t1, loan_bank t2, person_info t3
+    where t1.give_back_bank_id = t2.id
+     and t1.borrower_id = t3.id
+     and t1.loan_state = '通过'
+     and t1.loan_flow_state = '财务放款'
+     and t1.funds_sources = '国民信托'
+    </select>
+
+    <!--  -->
+    <select id="getGuoMinXinTuoThirdLineTotalAmount" resultType ="java.math.BigDecimal">
+        select sum(t1.grant_money) as totalAmount from v_loan_info t1
+            where t1.loan_state = '通过' and t1.loan_flow_state = '财务放款' and t1.funds_sources = '国民信托'
+    </select>
+</mapper>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanBankMapper">
+	<resultMap id="loanBankResultMap" type="com.zdmoney.credit.loan.domain.LoanBank">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+		<result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+		<result column="BRANCH_BANK_CODE" property="branchBankCode"
+			jdbcType="VARCHAR" />
+		<result column="BANK_DIC_TYPE" property="bankDicType" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		LOAN_BANK . ID, LOAN_BANK . ACCOUNT, LOAN_BANK . BANK_NAME, LOAN_BANK .
+		FULL_NAME, LOAN_BANK . BANK_CODE
+		, LOAN_BANK . BRANCH_BANK_CODE, LOAN_BANK . BANK_DIC_TYPE, LOAN_BANK .
+		CREATE_TIME,LOAN_BANK . UPDATE_TIME
+	</sql>
+	<select id="get" resultMap="loanBankResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_BANK
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="loanBankResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_BANK
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<select id="findNumByLoanId" parameterType="java.lang.Long" resultType="java.lang.String">
+	    select 
+	        l.account 
+	    from 
+	       loan_bank l 
+	    where l.id=
+	         (select b.give_back_bank_id from  loan_base b where b.id=#{loanId,jdbcType=DECIMAL} )
+	    
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from LOAN_BANK
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanBank">
+		insert into LOAN_BANK
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="account != null">
+				ACCOUNT,
+			</if>
+			<if test="bankName != null">
+				BANK_NAME,
+			</if>
+			<if test="fullName != null">
+				FULL_NAME,
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE,
+			</if>
+			<if test="branchBankCode != null">
+				BRANCH_BANK_CODE,
+			</if>
+			<if test="bankDicType != null">
+				BANK_DIC_TYPE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="fullName != null">
+				#{fullName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				#{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="branchBankCode != null">
+				#{branchBankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankDicType != null">
+				#{bankDicType,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanBank">
+		update LOAN_BANK
+		<set>
+			<if test="account != null">
+				ACCOUNT = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				BANK_NAME = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="fullName != null">
+				FULL_NAME = #{fullName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="branchBankCode != null">
+				BRANCH_BANK_CODE = #{branchBankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankDicType != null">
+				BANK_DIC_TYPE = #{bankDicType,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="loanBankSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_BANK
+		<if test="personId != null">
+			,PERSON_BANK_MAP
+		</if>
+		<if test="loanId != null">
+			,LOAN_BASE
+		</if>
+	</sql>
+
+	<sql id="loanBankConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="personId != null">
+				AND LOAN_BANK.ID = PERSON_BANK_MAP.BANK_ID
+				AND
+				PERSON_BANK_MAP.PERSON_ID = #{personId}
+			</if>
+			<if test="loanId != null">
+			    and (LOAN_BASE.GIVE_BACK_BANK_ID=LOAN_BANK.ID or LOAN_BASE.GRANT_BANK_ID=LOAN_BANK.ID) and LOAN_BASE.ID = #{loanId}
+		</if>
+		</trim>
+	</sql>
+
+	<select id="findWithPGByMap" parameterType="java.util.Map"
+		resultMap="loanBankResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="loanBankSelective" />
+		<include refid="loanBankConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="countByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="loanBankSelective" />
+		<include refid="loanBankConditions" />
+		)
+	</select>
+
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="loanBankResultMap">
+		<include refid="loanBankSelective" />
+		<include refid="loanBankConditions" />
+	</select>
+
+	<select id="findByAccount" resultMap="loanBankResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_BANK
+		WHERE ACCOUNT = #{account, jdbcType=VARCHAR}
+	</select>
+
+	<select id="findLoanBankByWm3" resultMap="loanBankResultMap"
+			parameterType="java.util.Map">
+		select b.id, b.account, b.bank_name, b.full_name, c.code as bank_code
+		from loan_bank B
+		left join bhxt_bank_config c
+		on b.bank_code = c.bank_code
+		<where>
+			<if test="bankId != null">
+				and b.id = ${bankId}
+			</if>
+			<if test="bankCode != null">
+				and b.bank_code = '${bankCode}'
+			</if>
+			and rownum =1
+		</where>
+	</select>
+	
+	
+</mapper>

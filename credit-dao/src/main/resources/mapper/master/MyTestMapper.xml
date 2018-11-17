@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.master.domain.MyTestMapper">
+	<resultMap id="myTestResultMap" type="com.zdmoney.credit.master.domain.MyTest">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		MY_TEST.ID,MY_TEST.USER_NAME,MY_TEST.REAL_NAME
+	</sql>
+	<select id="get" resultMap="myTestResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from MY_TEST
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from MY_TEST
+		where ID =
+		#{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.master.domain.MyTest">
+		INSERT INTO MY_TEST
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="userName != null">
+				USER_NAME,
+			</if>
+			<if test="realName != null">
+				REAL_NAME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				#{realName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.master.domain.MyTest">
+		UPDATE MY_TEST
+		<set>
+			<if test="userName != null">
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				REAL_NAME = #{realName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="myTestSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM MY_TEST
+	</sql>
+
+	<sql id="myTestConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND MY_TEST.ID= #{id}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND MY_TEST.USER_NAME = #{userName}
+			</if>
+			<if test="realName != null and realName != ''">
+				AND MY_TEST.REAL_NAME = #{realName}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.master.domain.MyTest"
+		resultMap="myTestResultMap">
+		<include refid="myTestSelective" />
+		<include refid="myTestConditions" />
+	</select>
+
+	<select id="findWithPG" parameterType="com.zdmoney.credit.master.domain.MyTest"
+		resultMap="myTestResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="myTestSelective" />
+		<include refid="myTestConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="count" parameterType="com.zdmoney.credit.master.domain.MyTest"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="myTestSelective" />
+		<include refid="myTestConditions" />
+		)
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.credit.system.domain.ComRoleHierarchyMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.system.domain.ComRoleHierarchy">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+    <result column="SON_ROLE_ID" jdbcType="DECIMAL" property="sonRoleId" />
+    <result column="SON_ROLE_NAME" jdbcType="VARCHAR" property="sonRoleName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="SP1" jdbcType="VARCHAR" property="sp1" />
+    <result column="SP2" jdbcType="VARCHAR" property="sp2" />
+    <result column="SP3" jdbcType="VARCHAR" property="sp3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ROLE_ID, SON_ROLE_ID, SON_ROLE_NAME, CREATE_TIME, ROLE_NAME, CREATOR, SP1, SP2, 
+    SP3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from COM_ROLE_HIERARCHY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from COM_ROLE_HIERARCHY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.system.domain.ComRoleHierarchy">
+    insert into COM_ROLE_HIERARCHY (ID, ROLE_ID, SON_ROLE_ID, 
+      SON_ROLE_NAME, CREATE_TIME, ROLE_NAME, 
+      CREATOR, SP1, SP2, 
+      SP3)
+    values (#{id,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, #{sonRoleId,jdbcType=DECIMAL}, 
+      #{sonRoleName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{roleName,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{sp1,jdbcType=VARCHAR}, #{sp2,jdbcType=VARCHAR}, 
+      #{sp3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.ComRoleHierarchy">
+    insert into COM_ROLE_HIERARCHY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="sonRoleId != null">
+        SON_ROLE_ID,
+      </if>
+      <if test="sonRoleName != null">
+        SON_ROLE_NAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="sp1 != null">
+        SP1,
+      </if>
+      <if test="sp2 != null">
+        SP2,
+      </if>
+      <if test="sp3 != null">
+        SP3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="sonRoleId != null">
+        #{sonRoleId,jdbcType=DECIMAL},
+      </if>
+      <if test="sonRoleName != null">
+        #{sonRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="sp1 != null">
+        #{sp1,jdbcType=VARCHAR},
+      </if>
+      <if test="sp2 != null">
+        #{sp2,jdbcType=VARCHAR},
+      </if>
+      <if test="sp3 != null">
+        #{sp3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.ComRoleHierarchy">
+    update COM_ROLE_HIERARCHY
+    <set>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="sonRoleId != null">
+        SON_ROLE_ID = #{sonRoleId,jdbcType=DECIMAL},
+      </if>
+      <if test="sonRoleName != null">
+        SON_ROLE_NAME = #{sonRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="sp1 != null">
+        SP1 = #{sp1,jdbcType=VARCHAR},
+      </if>
+      <if test="sp2 != null">
+        SP2 = #{sp2,jdbcType=VARCHAR},
+      </if>
+      <if test="sp3 != null">
+        SP3 = #{sp3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.ComRoleHierarchy">
+    update COM_ROLE_HIERARCHY
+    set ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      SON_ROLE_ID = #{sonRoleId,jdbcType=DECIMAL},
+      SON_ROLE_NAME = #{sonRoleName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      SP1 = #{sp1,jdbcType=VARCHAR},
+      SP2 = #{sp2,jdbcType=VARCHAR},
+      SP3 = #{sp3,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+ <delete id="deleteByIdList" parameterType="com.zdmoney.credit.system.domain.ComRoleHierarchy">
+		delete from
+		COM_ROLE_HIERARCHY
+		where ROLE_ID=#{roleId,jdbcType=DECIMAL}
+	</delete>
+	<sql id="comRoleHierarchySelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_ROLE_HIERARCHY
+	</sql>
+
+	<sql id="comRoleHierarchyConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="roleId != null and roleId  != ''">
+				AND ROLE_ID = #{roleId}
+			</if>
+		</trim>
+	</sql>
+	
+ <select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.ComRoleHierarchy"
+		resultMap="BaseResultMap">
+		<include refid="comRoleHierarchySelective" />
+		<include refid="comRoleHierarchyConditions" />
+	</select>
+</mapper>

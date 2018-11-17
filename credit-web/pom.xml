@@ -1,0 +1,143 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.zdmoney</groupId>
+    <artifactId>credit</artifactId>
+    <version>1.0</version>
+  </parent>
+  <artifactId>credit-web</artifactId>
+  <packaging>war</packaging>
+  
+  <dependencies>
+	 <dependency>
+	 	<groupId>com.zdmoney.domain</groupId>
+		<artifactId>credit-domain</artifactId>
+		<version>1.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>com.zdmoney.service</groupId>
+		<artifactId>credit-service</artifactId>
+		<version>1.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>com.zdmoney.common</groupId>
+		<artifactId>credit-common</artifactId>
+		<version>1.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>com.zdmoney.service-api</groupId>
+		<artifactId>credit-service-api</artifactId>
+		<version>1.0.1</version>
+	</dependency>
+  </dependencies>
+  <build>
+	<plugins>
+		<!-- 构建项目时生成时间搓  -->
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>buildnumber-maven-plugin</artifactId>
+			<version>1.0-beta-3</version>
+			<configuration>
+				<buildNumberPropertyName>buildNumber.value</buildNumberPropertyName>
+				<timestampPropertyName>buildNumber.timestamp</timestampPropertyName>
+				<format>{0,date,yyyyMMddHHmmss}</format>
+				<items>
+					<item>timestamp</item>
+				</items>
+			</configuration>
+			<executions>
+				<execution>
+					<phase>validate</phase>
+					<goals>
+						<goal>create</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>2.6</version>
+			<configuration>
+				<webResources>
+					<resource>
+						<directory>src/main/webapp</directory>
+						<includes>
+							<include>views/common/headIncludeFile.jsp</include>
+						</includes>
+						<filtering>true</filtering>
+					</resource>
+				</webResources>
+			</configuration>
+		</plugin>
+	</plugins>
+	
+  	<resources>
+  		<!-- 生成war包时指定写入的文件 -->
+  		<resource>
+  			<directory>src/main/resources</directory>
+  			<!-- 排除文件 -->
+  			<excludes>
+  				<exclude>filter/**</exclude>
+  			</excludes>
+  		</resource>
+  		<!-- 生成war包时指定写入的文件 -->
+		
+		<!-- Maven构建时需要替换内容的文件 -->
+		<resource>
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>spring/applicationContent.xml</include>
+				<include>spring/spring-dubbo.xml</include>
+				<include>log4j.properties</include>
+			</includes>
+			<filtering>true</filtering>
+		</resource>
+		<!-- Maven构建时需要替换内容的文件 -->
+  	</resources>
+  </build>
+  
+  <profiles>
+	<!-- 本地开发环境 -->
+	<profile>
+		<id>develop</id>
+		<properties>
+			<env>develop</env>
+		</properties>
+		<build>
+			<filters>
+				<filter>src/main/resources/filter/config_develop.properties</filter>
+			</filters>
+		</build>
+		<activation>
+			<!-- 默认启用develop环境配置 -->
+			<activeByDefault>true</activeByDefault>
+		</activation>
+	</profile>
+	<!-- 测试环境 -->
+	<profile>
+		<id>test</id>
+		<properties>
+			<env>test</env>
+		</properties>
+		<build>
+			<filters>
+				<filter>src/main/resources/filter/config_test.properties</filter>
+			</filters>
+		</build>
+	</profile>
+	<!-- 生产环境 -->
+	<profile>
+		<id>production</id>
+		<properties>
+			<env>production</env>
+		</properties>
+		<build>
+			<filters>
+				<filter>src/main/resources/filter/config_production.properties</filter>
+			</filters>
+		</build>
+	</profile>
+  </profiles>
+</project>

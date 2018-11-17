@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.operation.domain.BasePublicAccountInfoExtendMapper" >
+  <resultMap id="RecResultMap" type="java.util.Map" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+    <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="REPAY_METHOD" property="repayMethod" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+    <result column="REPAY_NO" property="repayNo" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="RecRepayResultMap" type="java.util.Map" >
+    <result column="REPAY_DATE" property="repayDate" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+    <result column="SECOND_ACCOUNT" property="secondAccount" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="SECOND_COMPANY" property="secondCompany" jdbcType="VARCHAR" />
+    <result column="REPAY_METHOD" property="repayMethod" jdbcType="VARCHAR" />
+    <result column="RECOPERATOR" property="recOperator" jdbcType="VARCHAR" />
+    <result column="REC_TIME" property="recTime" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="RecLoanResultMap" type="java.util.Map" >
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="BORROWER_ID" property="borrowerId" jdbcType="DECIMAL" />
+    <result column="BORROWER_NAME" property="borrowerName" jdbcType="VARCHAR" />
+    <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+    <result column="SALESMAN_ID" property="salesmanId" jdbcType="DECIMAL" />
+    <result column="SALESMAN_NAME" property="salesmanName" jdbcType="VARCHAR" />
+    <result column="CRM_ID" property="crmId" jdbcType="DECIMAL" />
+    <result column="CRM_NAME" property="crmName" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+    <result column="PROFESSION" property="profession" jdbcType="VARCHAR" />
+    <result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+    <result column="PACT_MONEY" property="pactMoney" jdbcType="DECIMAL" />
+    <result column="MONEY" property="money" jdbcType="DECIMAL" />
+    <result column="TIME" property="time" jdbcType="DECIMAL" />
+    <result column="LOAN_STATE" property="loanState" jdbcType="VARCHAR" />
+    <result column="REC_COUNT" property="recCount" jdbcType="DECIMAL" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 已认领结果 -->
+  <sql id="rec_column_list" >
+    T1.ID,
+    T3.NAME,
+    T3.IDNUM,
+    T2.LOAN_TYPE,
+    TO_CHAR(T2.STARTRDATE, 'yyyy-MM-dd') AS CREATE_TIME,
+    T1.AMOUNT,
+    '转账' AS REPAY_METHOD,
+    TO_CHAR(T1.REPAY_DATE, 'yyyy-MM-dd') || ':' || T1.SECOND_COMPANY AS MEMO,
+    T2.CONTRACT_NUM,
+    T1.REPAY_NO,
+    T1.REMARK
+  </sql>
+  
+  <!-- 已认领对公账户还款结果 -->
+  <sql id="rec_repay_column_list" >
+    TO_CHAR(T1.REPAY_DATE, 'yyyy-MM-dd') AS REPAY_DATE,
+    T1.TIME,
+    T1.SECOND_ACCOUNT,
+    T1.AMOUNT,
+    T1.SECOND_COMPANY,
+    T4.NAME AS RECOPERATOR,
+    TO_CHAR(T1.REC_TIME, 'yyyy-MM-dd hh24:mi:ss') AS REC_TIME,
+    T3.NAME,
+    T3.IDNUM,
+    T2.CONTRACT_NUM
+  </sql>
+  
+  <!-- 领取还款记录 -->
+  <sql id="rec_loan_column_list" >
+    T1.ID   AS LOAN_ID,
+    T2.ID   AS BORROWER_ID,
+    T2.NAME AS BORROWER_NAME,
+    T1.LOAN_TYPE,
+    T1.SALESMAN_ID,
+    (SELECT C.NAME FROM COM_EMPLOYEE C WHERE C.ID = T1.SALESMAN_ID AND ROWNUM = 1) AS SALESMAN_NAME,
+    T1.CRM_ID,
+    T3.NAME AS CRM_NAME,
+    T2.IDNUM,
+    T2.PROFESSION,
+    T1.PURPOSE,
+    T1.PACT_MONEY,
+    T1.MONEY,
+    T1.TIME,
+    T1.LOAN_STATE,
+    T1.CONTRACT_NUM
+  </sql>
+  
+  <!-- 查询主体（已认领结果） -->
+  <sql id="recSelective">
+    SELECT 
+        <include refid = "rec_column_list"/>
+    FROM (
+      <include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoMapper.basePublicAccountInfoSelective" />
+      <include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoMapper.basePublicAccountInfoConditions" />
+      ) T1, V_LOAN_INFO T2, PERSON_INFO T3
+  </sql>
+  
+  <!-- 查询条件（已认领结果） -->
+  <sql id="recConditions">
+    WHERE T1.LOAN_ID = T2.ID
+      AND T2.BORROWER_ID = T3.ID
+  </sql>
+  
+  <!-- 查询主体（已认领对公账户还款结果） -->
+  <sql id="recRepaySelective">
+    SELECT 
+        <include refid = "rec_repay_column_list"/>
+    FROM (
+      <include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoMapper.basePublicAccountInfoSelective" />
+      <include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoMapper.basePublicAccountInfoConditions" />
+      ) T1, V_LOAN_INFO T2,PERSON_INFO T3,COM_EMPLOYEE T4
+  </sql>
+  
+  <!-- 查询条件（已认领对公账户还款结果） -->
+  <sql id="recRepayConditions">
+     WHERE T1.LOAN_ID = T2.ID
+       AND T2.BORROWER_ID = T3.ID
+       AND T1.REC_OPERATOR_ID = T4.ID
+  </sql>
+  
+  <!-- 查询主体（领取还款记录） -->
+  <sql id="recLoanSelective">
+    SELECT 
+        <include refid = "com.zdmoney.credit.operation.domain.BasePublicAccountInfoExtendMapper.rec_loan_column_list"/>
+    FROM V_LOAN_INFO T1, PERSON_INFO T2, COM_EMPLOYEE T3, COM_ORGANIZATION T4
+  </sql>
+  
+  <!-- 查询条件（领取还款记录） -->
+  <sql id="recLoanConditions">
+     WHERE T1.BORROWER_ID = T2.ID
+       AND T1.CRM_ID = T3.ID
+       AND T1.SALES_DEPARTMENT_ID = T4.ID
+       AND T1.LOAN_BELONG NOT IN ('外贸信托','外贸3','华瑞渤海','陆金所')
+       <if test="contractPhone != null and contractPhone !=''">
+           AND (T2.MPHONE = #{contractPhone} OR T2.TEL = #{contractPhone} OR T2.C_TEL = #{contractPhone})
+       </if>
+       <if test="name != null and name!=''">
+           AND T2.NAME LIKE #{name} || '%'
+       </if>
+       <if test="idNum != null and idNum!=''">
+           AND T2.IDNUM = #{idNum}
+       </if>
+       <if test="loanStates != null">
+           AND T1.LOAN_STATE IN 
+           <foreach collection="loanStates" item="loanStatus" index="index" open="(" close=")" separator=",">
+                #{loanStatus}
+           </foreach>
+       </if>
+       <if test="contractNum != null and contractNum !=''">
+           AND T1.CONTRACT_NUM=#{contractNum,jdbcType=VARCHAR}
+       </if>
+       AND T4.ORG_CODE LIKE #{orgCode} || '%'
+  </sql>
+  
+  <!-- 查询领取还款记录 -->
+  <sql id="findRecLoanListByConditions">
+      <include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoExtendMapper.recLoanSelective" />
+      <include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoExtendMapper.recLoanConditions" />
+  </sql>
+  
+  <!-- 排序条件 -->
+  <sql id="orderConditions">
+    ORDER BY T1.REPAY_DATE DESC,T1.TIME DESC
+  </sql>
+  
+  <!-- 查询对公账户已认领结果 -->
+  <select id="findPublicAccountReceiveInfo" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" resultMap="RecResultMap">
+    SELECT * FROM ( <include refid = "recSelective"/>
+                    <include refid = "recConditions"/>
+                    <include refid="orderConditions"/>)
+  </select>
+  
+  <!-- 查询对公账户还款认领情况表 -->
+  <select id="findPublicAccountRepayReceiveInfo" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" resultMap="RecRepayResultMap">
+    SELECT * FROM ( <include refid = "recRepaySelective"/>
+                    <include refid = "recRepayConditions"/>
+                    <include refid="orderConditions"/>) 
+  </select>
+  
+</mapper>

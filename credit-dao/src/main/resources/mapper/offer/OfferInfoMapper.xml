@@ -1,0 +1,1399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.offer.domain.OfferInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.offer.domain.OfferInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ACCT_TYPE" property="acctType" jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="OFFER_AMOUNT" property="offerAmount" jdbcType="DECIMAL" />
+		<result column="ACTUAL_AMOUNT" property="actualAmount"
+			jdbcType="DECIMAL" />
+		<result column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+		<result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="CAUSE" property="cause" jdbcType="VARCHAR" />
+		<result column="CURRENCY_TYPE" property="currencyType"
+			jdbcType="VARCHAR" />
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="OFFER_NO" property="offerNo" jdbcType="VARCHAR" />
+		<result column="OFFER_DATE" property="offerDate" jdbcType="TIMESTAMP" />
+		<result column="OFFER_FILE_ID" property="offerFileId" jdbcType="DECIMAL" />
+		<result column="ORGAN" property="organ" jdbcType="VARCHAR" />
+		<result column="PROTOCOL" property="protocol" jdbcType="VARCHAR" />
+		<result column="PROTOCOL_CUST" property="protocolCust"
+			jdbcType="VARCHAR" />
+		<result column="RETURN_CODE" property="returnCode" jdbcType="VARCHAR" />
+		<result column="RETURN_FILE_ID" property="returnFileId"
+			jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+		<result column="TEL" property="tel" jdbcType="VARCHAR" />
+		<result column="TELLER" property="teller" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="TPP_TYPE" property="tppType" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="PRIORITY" property="priority" jdbcType="DECIMAL" />
+		<result column="TPP_SYS_NUM" property="tppSysNum" jdbcType="VARCHAR" />
+		<result column="INFO_CATEGORY_CODE" property="infoCategoryCode" jdbcType="VARCHAR" />
+		<result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+		<result column="FUNDS_SOURCES" property="fundsSources" jdbcType="VARCHAR" />
+		<result column="oldState" property="oldState" jdbcType="VARCHAR" />
+		<result column="SPT1" property="spt1" jdbcType="VARCHAR" />
+		<result column="SPT2" property="spt2" jdbcType="VARCHAR" />
+		<result column="RDO_TIME" property="rdoTime" jdbcType="TIMESTAMP" />
+		<result column="rtn_info" property="rtnInfo" jdbcType="VARCHAR" />
+		<result column="OFFER_RANGE" property="offerRange" jdbcType="VARCHAR" />
+		<result column="PAY_SYS_NO_REAL" property="paySysNoReal" jdbcType="VARCHAR" />
+		<result column="isThird" property="isThird" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID, ACCT_TYPE, AMOUNT, OFFER_AMOUNT, ACTUAL_AMOUNT, BANK_ACCT, BANK_CODE,
+		BANK_NAME,
+		CAUSE, CURRENCY_TYPE, CUST_ID, IDNUM, LOAN_ID, MEMO, NAME, OFFER_NO,
+		OFFER_DATE,
+		OFFER_FILE_ID, ORGAN, PROTOCOL, PROTOCOL_CUST, RETURN_CODE, RETURN_FILE_ID, STATE,
+		TEL, TELLER, CREATE_TIME, UPDATE_TIME, TPP_TYPE, TYPE, PRIORITY,
+		TPP_SYS_NUM,INFO_CATEGORY_CODE,BIZ_SYS_NO,PAY_SYS_NO,SPT1,SPT2,OFFER_RANGE,FUNDS_SOURCES,PAY_SYS_NO_REAL
+	</sql>
+	<!-- 员工最高划扣次数-->
+	<select id="getoffercountByusercode" parameterType="java.lang.String" resultType="java.lang.String">
+		select offer_count from offer_num
+		where user_code = #{usercode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_INFO l
+		WHERE l.ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from OFFER_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.offer.domain.OfferInfo">
+		insert into OFFER_INFO (ID, ACCT_TYPE, AMOUNT,
+		OFFER_AMOUNT, ACTUAL_AMOUNT, BANK_ACCT,
+		BANK_CODE, BANK_NAME, CAUSE,
+		CURRENCY_TYPE, CUST_ID, IDNUM,
+		LOAN_ID, MEMO, NAME,
+		OFFER_NO, OFFER_DATE, OFFER_FILE_ID,
+		ORGAN, PROTOCOL, PROTOCOL_CUST,
+		RETURN_CODE, RETURN_FILE_ID, STATE,
+		TEL, TELLER, CREATE_TIME,
+		UPDATE_TIME, TPP_TYPE, TYPE,
+		PRIORITY, TPP_SYS_NUM,INFO_CATEGORY_CODE,BIZ_SYS_NO,PAY_SYS_NO,SPT1,SPT2,OFFER_RANGE,FUNDS_SOURCES,PAY_SYS_NO_REAL,CREATOR)
+		values (#{id,jdbcType=DECIMAL}, #{acctType,jdbcType=VARCHAR},
+		#{amount,jdbcType=DECIMAL},
+		#{offerAmount,jdbcType=DECIMAL}, #{actualAmount,jdbcType=DECIMAL}, #{bankAcct,jdbcType=VARCHAR},
+		#{bankCode,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR},
+		#{cause,jdbcType=VARCHAR},
+		#{currencyType,jdbcType=VARCHAR}, #{custId,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR},
+		#{loanId,jdbcType=DECIMAL}, #{memo,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{offerNo,jdbcType=VARCHAR}, #{offerDate,jdbcType=TIMESTAMP}, #{offerFileId,jdbcType=DECIMAL},
+		#{organ,jdbcType=VARCHAR}, #{protocol,jdbcType=VARCHAR},
+		#{protocolCust,jdbcType=VARCHAR},
+		#{returnCode,jdbcType=VARCHAR}, #{returnFileId,jdbcType=DECIMAL}, #{state,jdbcType=VARCHAR},
+		#{tel,jdbcType=VARCHAR}, #{teller,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}, #{tppType,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+		#{priority,jdbcType=DECIMAL}, #{tppSysNum,jdbcType=VARCHAR}, #{infoCategoryCode,jdbcType=VARCHAR}, #{bizSysNo,jdbcType=VARCHAR}, #{paySysNo,jdbcType=VARCHAR}
+		,#{spt1,jdbcType=VARCHAR},#{spt2,jdbcType=VARCHAR},#{offerRange,jdbcType=VARCHAR},#{fundsSources,jdbcType=VARCHAR},#{paySysNoReal,jdbcType=VARCHAR}
+		,#{creator,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.offer.domain.OfferInfo">
+		insert into OFFER_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="acctType != null">
+				ACCT_TYPE,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="offerAmount != null">
+				OFFER_AMOUNT,
+			</if>
+			<if test="actualAmount != null">
+				ACTUAL_AMOUNT,
+			</if>
+			<if test="bankAcct != null">
+				BANK_ACCT,
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE,
+			</if>
+			<if test="bankName != null">
+				BANK_NAME,
+			</if>
+			<if test="cause != null">
+				CAUSE,
+			</if>
+			<if test="currencyType != null">
+				CURRENCY_TYPE,
+			</if>
+			<if test="custId != null">
+				CUST_ID,
+			</if>
+			<if test="idnum != null">
+				IDNUM,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="offerNo != null">
+				OFFER_NO,
+			</if>
+			<if test="offerDate != null">
+				OFFER_DATE,
+			</if>
+			<if test="offerFileId != null">
+				OFFER_FILE_ID,
+			</if>
+			<if test="organ != null">
+				ORGAN,
+			</if>
+			<if test="protocol != null">
+				PROTOCOL,
+			</if>
+			<if test="protocolCust != null">
+				PROTOCOL_CUST,
+			</if>
+			<if test="returnCode != null">
+				RETURN_CODE,
+			</if>
+			<if test="returnFileId != null">
+				RETURN_FILE_ID,
+			</if>
+			<if test="state != null">
+				STATE,
+			</if>
+			<if test="tel != null">
+				TEL,
+			</if>
+			<if test="teller != null">
+				TELLER,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="tppType != null">
+				TPP_TYPE,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="priority != null">
+				PRIORITY,
+			</if>
+			<if test="tppSysNum != null">
+				TPP_SYS_NUM,
+			</if>
+			<if test="infoCategoryCode != null">
+				INFO_CATEGORY_CODE
+			</if>
+			<if test="bizSysNo != null">
+				BIZ_SYS_NO,
+			</if>
+			<if test="paySysNo != null">
+				PAY_SYS_NO,
+			</if>
+			<if test="spt1 != null">
+				SPT1,
+			</if>
+			<if test="spt2 != null">
+				SPT2,
+			</if>
+			<if test="offerRange != null">
+				OFFER_RANGE,
+			</if>
+			<if test="fundsSources != null">
+				FUNDS_SOURCES,
+			</if>
+			<if test="paySysNoReal != null">
+				PAY_SYS_NO_REAL,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="acctType != null">
+				#{acctType,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="offerAmount != null">
+				#{offerAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualAmount != null">
+				#{actualAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="bankAcct != null">
+				#{bankAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				#{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="cause != null">
+				#{cause,jdbcType=VARCHAR},
+			</if>
+			<if test="currencyType != null">
+				#{currencyType,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+				#{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="idnum != null">
+				#{idnum,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="offerNo != null">
+				#{offerNo,jdbcType=VARCHAR},
+			</if>
+			<if test="offerDate != null">
+				#{offerDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="offerFileId != null">
+				#{offerFileId,jdbcType=DECIMAL},
+			</if>
+			<if test="organ != null">
+				#{organ,jdbcType=VARCHAR},
+			</if>
+			<if test="protocol != null">
+				#{protocol,jdbcType=VARCHAR},
+			</if>
+			<if test="protocolCust != null">
+				#{protocolCust,jdbcType=VARCHAR},
+			</if>
+			<if test="returnCode != null">
+				#{returnCode,jdbcType=VARCHAR},
+			</if>
+			<if test="returnFileId != null">
+				#{returnFileId,jdbcType=DECIMAL},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				#{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="teller != null">
+				#{teller,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tppType != null">
+				#{tppType,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="priority != null">
+				#{priority,jdbcType=DECIMAL},
+			</if>
+			<if test="tppSysNum != null">
+				#{tppSysNum,jdbcType=VARCHAR},
+			</if>
+			<if test="infoCategoryCode != null">
+				#{infoCategoryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bizSysNo != null">
+				#{bizSysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="paySysNo != null">
+				#{paySysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="spt1 != null">
+				#{spt1,jdbcType=VARCHAR},
+			</if>
+			<if test="spt2 != null">
+				#{spt2,jdbcType=VARCHAR},
+			</if>
+			<if test="offerRange != null">
+				#{offerRange,jdbcType=VARCHAR},
+			</if>
+			<if test="fundsSources != null">
+				#{fundsSources,jdbcType=VARCHAR},
+			</if>
+			<if test="paySysNoReal != null">
+				#{paySysNoReal,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.offer.domain.OfferInfo">
+		update OFFER_INFO
+		<set>
+			<if test="acctType != null">
+				ACCT_TYPE = #{acctType,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="offerAmount != null">
+				OFFER_AMOUNT = #{offerAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualAmount != null">
+				ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="bankAcct != null">
+				BANK_ACCT = #{bankAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				BANK_NAME = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="cause != null">
+				CAUSE = #{cause,jdbcType=VARCHAR},
+			</if>
+			<if test="currencyType != null">
+				CURRENCY_TYPE = #{currencyType,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+				CUST_ID = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="idnum != null">
+				IDNUM = #{idnum,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="offerNo != null">
+				OFFER_NO = #{offerNo,jdbcType=VARCHAR},
+			</if>
+			<if test="offerDate != null">
+				OFFER_DATE = #{offerDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="offerFileId != null">
+				OFFER_FILE_ID = #{offerFileId,jdbcType=DECIMAL},
+			</if>
+			<if test="organ != null">
+				ORGAN = #{organ,jdbcType=VARCHAR},
+			</if>
+			<if test="protocol != null">
+				PROTOCOL = #{protocol,jdbcType=VARCHAR},
+			</if>
+			<if test="protocolCust != null">
+				PROTOCOL_CUST = #{protocolCust,jdbcType=VARCHAR},
+			</if>
+			<if test="returnCode != null">
+				RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+			</if>
+			<if test="returnFileId != null">
+				RETURN_FILE_ID = #{returnFileId,jdbcType=DECIMAL},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				TEL = #{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="teller != null">
+				TELLER = #{teller,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tppType != null">
+				TPP_TYPE = #{tppType,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="priority != null">
+				PRIORITY = #{priority,jdbcType=DECIMAL},
+			</if>
+			<if test="tppSysNum != null">
+				TPP_SYS_NUM = #{tppSysNum,jdbcType=VARCHAR},
+			</if>
+			<if test="infoCategoryCode != null">
+				INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bizSysNo != null">
+				BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="paySysNo != null">
+				PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="spt1 != null">
+				SPT1 = #{spt1,jdbcType=VARCHAR},
+			</if>
+			<if test="spt2 != null">
+				SPT2 = #{spt2,jdbcType=VARCHAR},
+			</if>
+			<if test="offerRange != null">
+				OFFER_RANGE = #{offerRange,jdbcType=VARCHAR},
+			</if>
+			<if test="fundsSources != null">
+				FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+			</if>
+			<if test="paySysNoReal != null">
+				PAY_SYS_NO_REAL = #{paySysNoReal,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="update" parameterType="com.zdmoney.credit.offer.domain.OfferInfo">
+		update OFFER_INFO
+		set ACCT_TYPE = #{acctType,jdbcType=VARCHAR},
+		AMOUNT = #{amount,jdbcType=DECIMAL},
+		OFFER_AMOUNT = #{offerAmount,jdbcType=DECIMAL},
+		ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+		BANK_ACCT = #{bankAcct,jdbcType=VARCHAR},
+		BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+		BANK_NAME = #{bankName,jdbcType=VARCHAR},
+		CAUSE = #{cause,jdbcType=VARCHAR},
+		CURRENCY_TYPE = #{currencyType,jdbcType=VARCHAR},
+		CUST_ID = #{custId,jdbcType=VARCHAR},
+		IDNUM = #{idnum,jdbcType=VARCHAR},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		OFFER_NO = #{offerNo,jdbcType=VARCHAR},
+		OFFER_DATE = #{offerDate,jdbcType=TIMESTAMP},
+		OFFER_FILE_ID = #{offerFileId,jdbcType=DECIMAL},
+		ORGAN = #{organ,jdbcType=VARCHAR},
+		PROTOCOL = #{protocol,jdbcType=VARCHAR},
+		PROTOCOL_CUST = #{protocolCust,jdbcType=VARCHAR},
+		RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+		RETURN_FILE_ID = #{returnFileId,jdbcType=DECIMAL},
+		STATE = #{state,jdbcType=VARCHAR},
+		TEL = #{tel,jdbcType=VARCHAR},
+		TELLER = #{teller,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		TPP_TYPE = #{tppType,jdbcType=VARCHAR},
+		TYPE = #{type,jdbcType=VARCHAR},
+		PRIORITY = #{priority,jdbcType=DECIMAL},
+		TPP_SYS_NUM = #{tppSysNum,jdbcType=VARCHAR},
+		INFO_CATEGORY_CODE = #{infoCategoryCode,jdbcType=VARCHAR},
+		BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+		PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+		SPT1 = #{spt1,jdbcType=VARCHAR},
+		SPT2 = #{spt2,jdbcType=VARCHAR},
+		OFFER_RANGE = #{offerRange,jdbcType=VARCHAR},
+		FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+		PAY_SYS_NO_REAL = #{paySysNoReal,jdbcType=VARCHAR},
+		UPDATOR = #{updator,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+
+
+<update id="updateOfferInfo" parameterType="java.util.Map">
+		update OFFER_INFO
+		<set>	
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			STATE = '已关闭',
+			UPDATE_TIME = sysdate			
+		</set>
+		where ID = #{offerId,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_INFO
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND OFFER_INFO.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND OFFER_INFO.LOAN_ID = #{loanId}
+			</if>
+			<if test="offerDate != null ">
+				AND OFFER_INFO.OFFER_DATE = trunc(#{offerDate})
+			</if>
+			<if test="type != null ">
+				AND OFFER_INFO.TYPE = #{type}
+			</if>
+			<if test="state != null ">
+				AND OFFER_INFO.STATE = #{state}
+			</if>
+			<if test="offerInfoTypes != null ">
+				AND OFFER_INFO.TYPE IN
+				<foreach item="typeTmp" index="index" collection="offerInfoTypes"
+					open="(" separator="," close=")">
+					#{typeTmp}
+				</foreach>
+			</if>
+			<if test="offerInfoStates != null ">
+				AND OFFER_INFO.STATE IN
+				<foreach item="stateTmp" index="index" collection="offerInfoStates"
+					open="(" separator="," close=")">
+					#{stateTmp}
+				</foreach>
+			</if>
+			<if test="notExistsOfferRange != null ">
+				AND (OFFER_INFO.OFFER_RANGE not IN
+				<foreach item="offerRangeTmp" index="index" collection="notExistsOfferRange"
+					open="(" separator="," close=")">
+					#{offerRangeTmp}
+				</foreach> 
+				 or OFFER_INFO.OFFER_RANGE is null or OFFER_INFO.OFFER_RANGE ='' )
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.offer.domain.OfferInfo"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+		ORDER BY ID DESC
+	</select>
+
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+	</select>
+
+	<select id="getOfferCountForNoDecuct" parameterType="com.zdmoney.credit.offer.domain.OfferInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM OFFER_INFO
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null ">
+				AND OFFER_INFO.LOAN_ID = #{loanId}
+			</if>
+			<if test="state != null ">
+				AND OFFER_INFO.STATE != #{state}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getOfferCountForYet3Deduct" parameterType="com.zdmoney.credit.offer.domain.OfferInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM OFFER_INFO
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null ">
+				AND OFFER_INFO.LOAN_ID = #{loanId}
+			</if>
+			<if test="type != null ">
+				AND OFFER_INFO.TYPE = #{type}
+			</if>
+			<if test="offerDate != null ">
+				AND OFFER_INFO.OFFER_DATE =#{offerDate}
+			</if>
+			<if test="state != null ">
+				AND OFFER_INFO.STATE != #{state}
+			</if>
+		</trim>
+	</select>
+
+	<sql id="queryListByConditionsWithPg">
+		SELECT O.ID, ACCT_TYPE, AMOUNT, OFFER_AMOUNT, ACTUAL_AMOUNT,
+		BANK_ACCT, BANK_CODE, BANK_NAME,CAUSE, CURRENCY_TYPE,
+		CUST_ID, IDNUM, LOAN_ID, O.MEMO, O.NAME, OFFER_NO, OFFER_DATE,
+		OFFER_FILE_ID, ORGAN, PROTOCOL, PROTOCOL_CUST, RETURN_CODE,
+		RETURN_FILE_ID, STATE, TEL, TELLER, O.CREATE_TIME, O.UPDATE_TIME,
+		TPP_TYPE, TYPE, PRIORITY, TPP_SYS_NUM,INFO_CATEGORY_CODE,BIZ_SYS_NO,PAY_SYS_NO,SPT1,SPT2,OFFER_RANGE
+		FROM OFFER_INFO O
+		LEFT JOIN LOAN_BASE L ON O.LOAN_ID=L.ID
+		LEFT JOIN COM_ORGANIZATION ORG ON L.SALES_DEPARTMENT_ID=ORG.ID
+		<trim prefix="where" prefixOverrides="and">
+			<if test="name != null">
+				AND O.NAME= #{name}
+			</if>
+			<if test="idnum != null ">
+				AND O.IDNUM = #{idnum}
+			</if>
+			<if test="loanId != null ">
+				AND O.LOAN_ID = #{loanId}
+			</if>
+			<if test="offerDate != null ">
+				AND O.OFFER_DATE = #{offerDate}
+			</if>
+			<if test="fundsSources != null ">
+				AND L.FUNDS_SOURCES = #{fundsSources}
+			</if>
+			<if test="saleDeptId != null ">
+				AND ORG.ORG_CODE LIKE  #{saleDeptId} || '%'
+			</if>
+			<if test="isSucSql != null and isSucSql !=''">
+				AND ${isSucSql}
+			</if>
+			<if test="offerStateSql != null and offerStateSql!=''">
+				AND ${offerStateSql}
+			</if>
+			<choose>
+				<when test="isSuc != null and  isSuc =='succ'.toString()">
+					<trim prefix="AND (" suffix=")" prefixOverrides="or">
+						<if test="success1 != null ">
+							OR O.RETURN_CODE=#{success1}
+						</if>
+						<if test="success2 != null ">
+							OR O.RETURN_CODE=#{success2}
+						</if>
+						<if test="success3 != null ">
+							OR O.RETURN_CODE LIKE '%'|| #{success3}||'%'
+						</if>
+					</trim>
+				</when>
+				<when test="isSuc != null and isSuc =='fail'.toString()">
+					<trim prefix="AND (" suffix=")" prefixOverrides="and">
+						O.RETURN_CODE IS NOT NULL
+						<if test="success1 != null ">
+							AND O.RETURN_CODE != #{success1}
+						</if>
+						<if test="success2 != null ">
+							AND O.RETURN_CODE != #{success2}
+						</if>
+						<if test="success3 != null ">
+							AND O.RETURN_CODE NOT LIKE '%'|| #{success3}||'%'
+						</if>
+						AND O.STATE=#{offerState}
+					</trim>
+				</when>
+			</choose>
+			ORDER BY O.OFFER_NO ASC,ID ASC
+		</trim>
+	</sql>
+
+	<!-- 通过Map参数集合分页查询 -->
+	<select id="queryListWithPGByMap" parameterType="java.util.Map"		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="queryListByConditionsWithPg" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<!-- 查询总件数 -->
+	<select id="queryCountWithPGByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM (
+		<include refid="queryListByConditionsWithPg" />
+		)
+	</select>
+	
+	<sql id="selectDebitInfo">
+		select o.id,
+		o.acct_type,
+		o.amount,
+		o.offer_amount,
+		o.actual_amount,
+		o.acct_no as bank_acct,
+		o.bank_code,
+		o.acct_name as bank_name,
+		'' as cause,
+		'' as currency_type,
+		'' as cust_id,
+		o.id_no as idnum,
+		o.loan_id,
+		o.memo,
+		o.cust_name AS name,
+		'' as offer_no,
+		o.offer_date ,
+		null as offer_file_id,
+		'' as organ,
+		'' as protocol,
+		'' as protocol_cust,
+		(case
+		when (select count(1)
+		from debit_transaction t
+		where t.debit_id = o.id) > 0 then
+		(select
+		case ot.STATE
+		when '扣款成功' then
+		'扣款成功'
+		when '扣款失败' then
+		'扣款失败'
+		else
+		''
+		end as return_code
+		from debit_transaction ot
+		where ot.id = (select max(t.id)
+		from debit_transaction t
+		where t.debit_id = o.id))
+		else
+		''
+		end) as return_code ,
+		null "return_file_id",
+		case o.state
+		when '已回盘全额' then
+		'已回盘'
+		when '已回盘非全额' then
+		'已回盘'
+		when '未报盘' then
+		'未报盘'
+		when '已报盘' then
+		'已报盘'
+		when '已关闭' then
+		'已关闭'
+		else
+		''
+		end as state,
+		'' AS tel,
+		'' AS teller,
+		o.create_time,
+		o.update_time,
+		'' as tpp_type,
+		o.type,
+		null as priority,
+		'' as tpp_sys_num,
+		'' as info_category_code,
+		'' as biz_sys_no,
+		o.pay_sys_no,
+		l.funds_sources,
+		o.state as oldState,
+	
+		(case when (select count(1) from debit_transaction t where t.debit_id =
+		o.id) > 0 then
+		(select ot.RES_TIME from debit_transaction ot where ot.id = (select max(t.id)
+		from debit_transaction t where t.debit_id = o.id))
+		else
+		null
+		end) as rdo_time,
+	
+		(case when (select count(1) from debit_transaction t where t.debit_id =
+		o.id) > 0 then
+		(select ot.rtn_info from offer_transaction ot where ot.id = (select max(t.id)
+		from offer_transaction t where t.offer_id = o.id))
+		else
+		null
+		end) as rtn_info
+		from debit_base_info o, v_loan_info l, com_organization c
+		where o.loan_id = l.id
+		and l.sales_department_id = c.id
+	
+		<if test="orgCode != null ">
+			and c.org_code like #{orgCode} || '%'
+		</if>
+		<if test="fundsSource != null ">
+			and l.funds_sources = #{fundsSource}
+		</if>
+		<if test="isEdit != null ">
+			<!-- 应报金额等于实报金额 -->
+			and o.amount = o.offer_amount
+		</if>
+		<if test="name != null ">
+			and o.CUST_NAME like #{name} || '%'
+		</if>
+		<if test="idNum != null ">
+			and o.ID_NO = #{idNum}
+		</if>
+		<if test="contractNum != null and contractNum !=''">
+			and l.contract_num = #{contractNum,jdbcType=VARCHAR}
+		</if>
+		<if test="paySysNo != null and paySysNo !=''">
+			and o.pay_sys_no = #{paySysNo,jdbcType=VARCHAR}
+		</if>
+		<if test="offerDate != null ">
+			and o.offer_date >= to_date(#{offerDate},'yyyy-MM-dd')
+			and o.offer_date &lt; to_date(#{offerDate},'yyyy-MM-dd') + 1
+		</if>
+		<if test="startOfferDate != null ">
+			and o.offer_date >= to_date(#{startOfferDate},'yyyy-MM-dd')
+		</if>
+		<if test="endOfferDate != null ">
+			and o.offer_date &lt; to_date(#{endOfferDate},'yyyy-MM-dd') + 1
+		</if>
+		<if test="state != null ">
+			<choose>
+				<when test="state =='已回盘'">
+					and o.state in ('已回盘全额','已回盘非全额')
+				</when>
+				<otherwise>
+					and o.state = #{state}
+				</otherwise>
+			</choose>
+		</if>
+		<!-- <if test="teller != null "> and o.teller = #{teller} </if> -->
+		<if test="isSuc !=null">
+			<!-- 扣款成功 -->
+			<if test="isSuc == 1">
+				and o.state = '已回盘全额'
+			</if>
+			<!-- 扣款失败 -->
+			<if test="isSuc == 2">
+				and o.state in ('已回盘非全额','已关闭')
+			</if>
+		</if>
+		<if test="loanBelong !=null and loanBelong !=''">
+			and l.loan_belong = #{loanBelong}
+		</if>
+		<if test="bankCode !=null and bankCode !=''">
+			and o.bank_code = #{bankCode}
+		</if>
+		<if test="fundsSourcesList != null">
+			and l.funds_sources in
+			<foreach item="fundsSource" index="index" collection="fundsSourcesList"
+				open="(" separator="," close=")">
+				#{fundsSource}
+			</foreach>
+		</if>
+		) ot
+		<where>
+			<if test="startBackOfferDate !=null">
+				and ot.rdo_time >= to_date(#{startBackOfferDate}, 'yyyy-MM-dd')
+			</if>
+			<if test="endBackOfferDate !=null">
+				and ot.rdo_time &lt; to_date(#{endBackOfferDate}, 'yyyy-MM-dd') + 1
+			</if>
+		</where>
+	</sql>
+
+	<sql id="offerSelect">
+      select * from (
+      	select o.id,
+		       o.acct_type,
+		       o.amount,
+		       o.offer_amount,
+		       o.actual_amount,
+		       o.bank_acct,
+		       o.bank_code,
+		       o.bank_name,
+		       o.cause,
+		       o.currency_type,
+		       o.cust_id,
+		       o.idnum,
+		       o.loan_id,
+		       o.memo,
+		       o.name,
+		       o.offer_no,
+		       o.offer_date,
+		       o.offer_file_id,
+		       o.organ,
+		       o.protocol,
+		       o.protocol_cust,
+				(case
+                         when (select count(1)
+                                 from offer_transaction t
+                                where t.offer_id = o.id) > 0 then
+                          (select 
+                               case ot.trx_state
+                                  when '扣款成功' then
+                                        '扣款成功'
+                                 when '扣款失败' then
+                                  '扣款失败'                                 
+                                 else
+                                  ''
+                                  end as return_code 
+                             from offer_transaction ot
+                            where ot.id = (select max(t.id)
+                                             from offer_transaction t
+                                            where t.offer_id = o.id))
+                         else
+                          ''
+                       end) as return_code ,
+		       o.return_file_id,
+		       case o.state
+		         when '已回盘全额' then
+		          '已回盘'
+		         when '已回盘非全额' then
+		          '已回盘'
+		         when '未报盘' then
+		          '未报盘'
+		         when '已报盘' then
+		          '已报盘'
+		         when '已关闭' then
+		          '已关闭'
+		         else
+		          ''
+		       end as state,
+		       o.tel,
+		       o.teller,
+		       o.create_time,
+		       o.update_time,
+		       o.tpp_type,
+		       o.type,
+		       o.priority,
+		       o.tpp_sys_num,
+		       o.info_category_code,
+		       o.biz_sys_no,
+		       o.pay_sys_no,
+		       l.funds_sources,
+		       o.state as oldState,
+		       <!-- 回盘时间 -->
+		       (case when (select count(1) from offer_transaction t where t.offer_id = o.id) > 0 then
+				   (select ot.rdo_time from offer_transaction ot where ot.id = (select max(t.id) from offer_transaction t where t.offer_id = o.id))
+		       else
+		       	null
+		       end) as rdo_time,
+		       <!-- 备注 -->
+		       (case when (select count(1) from offer_transaction t where t.offer_id = o.id) > 0 then
+				   (select ot.rtn_info from offer_transaction ot where ot.id = (select max(t.id) from offer_transaction t where t.offer_id = o.id))
+		       else
+		       	null
+		       end) as rtn_info,
+		       'F' as isThird,
+		       o.creator
+		      
+		  from offer_info o, v_loan_info l, com_organization c
+		 where o.loan_id = l.id
+		   and l.sales_department_id = c.id
+		<if test="orgCode != null ">
+			and c.org_code like #{orgCode} || '%'
+		</if>
+		<if test="fundsSource != null ">
+			and l.funds_sources = #{fundsSource}
+		</if>
+		<if test="isEdit != null ">
+			<!-- 应报金额等于实报金额 -->
+			<if test="isEdit == 1">
+				and o.amount = o.offer_amount
+			</if>
+			<!-- 应报金额不等于实报金额 -->
+			<if test="isEdit == 2">
+				and o.amount &lt;&gt; o.offer_amount
+			</if>
+		</if> 
+		<if test="name != null ">
+			and o.name like #{name} || '%'
+		</if>
+		<if test="idNum != null ">
+			and o.idnum = #{idNum}
+		</if>
+		<if test="contractNum != null and contractNum !=''">
+			and l.contract_num = #{contractNum,jdbcType=VARCHAR}
+		</if>	
+		<if test="paySysNo != null and paySysNo !=''">
+			and o.pay_sys_no = #{paySysNo,jdbcType=VARCHAR}
+		</if>	
+		<if test="offerDate != null ">
+			and o.offer_date >= to_date(#{offerDate},'yyyy-MM-dd')
+			and o.offer_date &lt; to_date(#{offerDate},'yyyy-MM-dd') + 1
+		</if>
+		<if test="startOfferDate != null ">
+			and o.offer_date >= to_date(#{startOfferDate},'yyyy-MM-dd')
+		</if>
+		<if test="endOfferDate != null ">
+			and o.offer_date &lt; to_date(#{endOfferDate},'yyyy-MM-dd') + 1
+		</if>
+		<if test="state != null ">
+			<choose>
+				<when test="state =='已回盘'">
+					and o.state in ('已回盘全额','已回盘非全额')
+				</when>
+				<otherwise>
+					and o.state = #{state}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="teller != null ">
+			and o.teller = #{teller}
+		</if>
+		<if test="isSuc !=null">
+			<!-- 扣款成功 -->
+			<if test="isSuc == 1">
+				and o.state = '已回盘全额'
+			</if>
+			<!-- 扣款失败 -->
+			<if test="isSuc == 2">
+				and o.state in ('已回盘非全额','已关闭')
+			</if>
+		</if>
+		<if test="loanBelong !=null and loanBelong !=''">
+			and l.loan_belong = #{loanBelong}
+		</if>
+		<if test="bankCode !=null and bankCode !=''">
+			and o.bank_code = #{bankCode}
+		</if>
+		<if test="fundsSourcesList != null">
+			and l.funds_sources in
+			<foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+				#{fundsSource}
+			</foreach>
+		</if>
+		) ot
+		<where>
+			<if test="startBackOfferDate !=null">
+	        	and ot.rdo_time >= to_date(#{startBackOfferDate}, 'yyyy-MM-dd')
+	        </if>
+	        <if test="endBackOfferDate !=null">
+	        	and ot.rdo_time &lt; to_date(#{endBackOfferDate}, 'yyyy-MM-dd') + 1
+	        </if>
+		</where>
+	</sql>
+	
+	<sql id="thirdOfferSelect">
+      select * from (
+      	select o.id,
+		       o.acct_type,
+		       o.amount,
+		       o.offer_amount,
+		       o.actual_amount,
+		       o.ACCT_NO as bank_acct,
+		       o.bank_code,
+		       o.bank_name,
+		       '' as cause,
+		       '' as currency_type,
+		       '' as cust_id,
+		       o.ID_NO as idnum,
+		       o.loan_id,
+		       o.memo,
+		       o.CUST_NAME as name,
+		       '' as offer_no,
+		       o.offer_date,
+		       0 as offer_file_id,
+		       '' as organ,
+		       '' as protocol,
+		       '' as protocol_cust,
+				(case
+                         when (select count(1)
+                                 from debit_transaction t
+                                where t.debit_id = o.id) > 0 then
+                          (select 
+                               case ot.state
+                                  when '扣款成功' then
+                                        '扣款成功'
+                                 when '扣款失败' then
+                                  '扣款失败'                                 
+                                 else
+                                  ''
+                                  end as return_code 
+                             from debit_transaction ot
+                            where ot.id = (select max(t.id)
+                                             from debit_transaction t
+                                            where t.debit_id = o.id))
+                         else
+                          ''
+                       end) as return_code ,
+		       0 as return_file_id,
+		       case o.state
+		         when '已回盘全额' then
+		          '已回盘'
+		         when '已回盘非全额' then
+		          '已回盘'
+		         when '未报盘' then
+		          '未报盘'
+		         when '已报盘' then
+		          '已报盘'
+		         when '已关闭' then
+		          '已关闭'
+		         else
+		          ''
+		       end as state,
+		       '' as tel,
+		       '' as teller,
+		       o.create_time,
+		       o.update_time,
+		       '' as tpp_type,
+		       o.type,
+		       0 as priority,
+		       '' as tpp_sys_num,
+		       '' as info_category_code,
+		       '' as biz_sys_no,
+		       o.pay_sys_no,
+		       l.funds_sources,
+		       o.state as oldState,
+		       <!-- 回盘时间 -->
+		       (case when (select count(1) from debit_transaction t where t.debit_id = o.id) > 0 then
+				   (select ot.RES_TIME from debit_transaction ot where ot.id = (select max(t.id) from debit_transaction t where t.debit_id = o.id))
+		       else
+		       	null
+		       end) as rdo_time,
+		       <!-- 备注 -->
+		       (case when (select count(1) from debit_transaction t where t.debit_id = o.id) > 0 then
+				   (select ot.rtn_info from debit_transaction ot where ot.id = (select max(t.id) from debit_transaction t where t.debit_id = o.id))
+		       else
+		       	null
+		       end) as rtn_info,
+		       'T' as isThird,
+		       o.creator
+		      
+		  from debit_base_info o, v_loan_info l, com_organization c
+		 where o.loan_id = l.id
+		   and l.sales_department_id = c.id
+		<if test="orgCode != null ">
+			and c.org_code like #{orgCode} || '%'
+		</if>
+		<if test="fundsSource != null ">
+			and l.funds_sources = #{fundsSource}
+		</if>
+		<if test="isEdit != null ">
+			<!-- 应报金额等于实报金额 -->
+			<if test="isEdit == 1">
+				and o.amount = o.offer_amount
+			</if>
+			<!-- 应报金额不等于实报金额 -->
+			<if test="isEdit == 2">
+				and o.amount &lt;&gt; o.offer_amount
+			</if>
+		</if> 
+		<if test="name != null ">
+			and o.CUST_NAME like #{name} || '%'
+		</if>
+		<if test="idNum != null ">
+			and o.id_no = #{idNum}
+		</if>
+		<if test="contractNum != null and contractNum !=''">
+			and l.contract_num = #{contractNum,jdbcType=VARCHAR}
+		</if>	
+		<if test="paySysNo != null and paySysNo !=''">
+			and o.pay_sys_no = #{paySysNo,jdbcType=VARCHAR}
+		</if>	
+		<if test="offerDate != null ">
+			and o.offer_date >= to_date(#{offerDate},'yyyy-MM-dd')
+			and o.offer_date &lt; to_date(#{offerDate},'yyyy-MM-dd') + 1
+		</if>
+		<if test="startOfferDate != null ">
+			and o.offer_date >= to_date(#{startOfferDate},'yyyy-MM-dd')
+		</if>
+		<if test="endOfferDate != null ">
+			and o.offer_date &lt; to_date(#{endOfferDate},'yyyy-MM-dd') + 1
+		</if>
+		<if test="state != null ">
+			<choose>
+				<when test="state =='已回盘'">
+					and o.state in ('已回盘全额','已回盘非全额')
+				</when>
+				<otherwise>
+					and o.state = #{state}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="isSuc !=null">
+			<!-- 扣款成功 -->
+			<if test="isSuc == 1">
+				and o.state = '已回盘全额'
+			</if>
+			<!-- 扣款失败 -->
+			<if test="isSuc == 2">
+				and o.state in ('已回盘非全额','已关闭')
+			</if>
+		</if>
+		<if test="loanBelong !=null and loanBelong !=''">
+			and l.loan_belong = #{loanBelong}
+		</if>
+		<if test="bankCode !=null and bankCode !=''">
+			and o.bank_code = #{bankCode}
+		</if>
+		<if test="fundsSourcesList != null">
+			and l.funds_sources in
+			<foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+				#{fundsSource}
+			</foreach>
+		</if>
+		) ot
+		<where>
+			<if test="startBackOfferDate !=null">
+	        	and ot.rdo_time >= to_date(#{startBackOfferDate}, 'yyyy-MM-dd')
+	        </if>
+	        <if test="endBackOfferDate !=null">
+	        	and ot.rdo_time &lt; to_date(#{endBackOfferDate}, 'yyyy-MM-dd') + 1
+	        </if>
+		</where>
+	</sql>
+	
+	<select id="findWithPGByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select * from (
+		<include refid="offerSelect"></include>
+		union all
+		<include refid="thirdOfferSelect"></include>
+		) t <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="countByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="offerSelect" />
+		union all
+		<include refid="thirdOfferSelect"/>
+		)
+	</select>
+	
+	<!-- 委托代扣报盘查询 -->
+	<select id="findOfferReturnList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from (
+			<include refid="offerSelect" />
+			order by ot.id desc
+			)
+		where rownum &lt;= #{max}
+	</select>
+	
+	
+	<!-- 查询当天待划扣的报盘文件信息 -->
+    <select id="queryTodayNeedSendOfferList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select t1.*
+          from offer_info t1
+        <where>
+            <if test="loanId != null ">
+                and t1.loan_id = #{loanId}
+           </if>
+           <if test="states != null ">
+                and t1.state in
+                <foreach item="state" index="index" collection="states" open="(" separator="," close=")">
+                    #{state}
+                </foreach>
+           </if>
+           <if test="type != null and type != ''">
+                and t1.type = #{type}
+           </if>
+           <if test="offerDate != null">
+                and t1.offer_date = trunc(#{offerDate})
+           </if>
+           <if test="debitTypes != null ">
+                and t1.offer_range in
+                <foreach item="debitType" index="index" collection="debitTypes" open="(" separator="," close=")">
+                    #{debitType}
+                </foreach>
+           </if>
+           <if test="fundsSourcesList != null ">
+                and t1.funds_sources in
+                <foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+                    #{fundsSource}
+                </foreach>
+           </if>
+        </where>
+    </select>
+    
+    <!-- 根据债权编号查询报盘划扣类型 -->
+    <select id="queryDebitTypeByLoanId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select t.debit_type from v_offer_debit_type_pool t where t.loan_id = #{loanId}
+    </select>
+    
+    <!-- 查询线下还款报盘 -->
+    <resultMap id="offLineOfferInfoMap" type="java.util.Map">
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="OFFER_ID" property="offerId" jdbcType="DECIMAL" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="BANK_TYPE" property="bankType" jdbcType="VARCHAR" />
+        <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+        <result column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="OFFER_AMOUNT" property="offerAmount" jdbcType="DECIMAL" />
+    </resultMap>
+    
+    <!-- 查询线下还款报盘文件 -->
+    <select id="queryOffLineOfferInfo" parameterType="java.util.Map" resultMap="offLineOfferInfoMap">
+        select t3.id,
+               t1.id as offer_id,
+               t1.loan_id,
+               t2.contract_num,
+               t6.bank_type,
+               t6.bank_no,
+               t1.bank_acct,
+               t1.name,
+               t1.offer_amount
+          from offer_info              t1,
+               v_loan_info             t2,
+               offer_transaction       t3,
+               loan_bank               t4,
+               loan_bank_ext           t5,
+               off_line_offer_bank_dic t6
+         where t1.loan_id = t2.id
+           and t1.id = t3.offer_id
+           and t2.GIVE_BACK_BANK_ID = t4.id
+           and t4.id = t5.loan_bank_id
+           and t5.offer_bank_id = t6.id
+           and t3.trx_state = '已发送'
+           and not exists (select 1 from offer_export_record e where e.trans_id = t3.id)
+            <if test="name != null ">
+                and t1.name like #{name} || '%'
+            </if>
+            <if test="idNum != null ">
+                and t1.idnum = #{idNum}
+            </if>
+            <if test="paySysNo != null and paySysNo !=''">
+                and t1.pay_sys_no = #{paySysNo,jdbcType=VARCHAR}
+            </if>    
+            <if test="offerDate != null and offerDate != ''">
+                and t1.offer_date >= to_date(#{offerDate},'yyyy-MM-dd')
+                and t1.offer_date &lt; to_date(#{offerDate},'yyyy-MM-dd') + 1
+            </if>
+            <if test="startOfferDate != null and startOfferDate != ''">
+                and t1.offer_date >= to_date(#{startOfferDate},'yyyy-MM-dd')
+            </if>
+            <if test="endOfferDate != null and endOfferDate != ''">
+                and t1.offer_date &lt; to_date(#{endOfferDate},'yyyy-MM-dd') + 1
+            </if>
+            <if test="state != null and state != ''">
+                <choose>
+                    <when test="state =='已回盘'">
+                        and t1.state in ('已回盘全额','已回盘非全额')
+                    </when>
+                    <otherwise>
+                        and t1.state = #{state}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="bankCode !=null and bankCode !=''">
+                and t1.bank_code = #{bankCode}
+            </if>
+            <if test="contractNum != null and contractNum !=''">
+                and t2.contract_num = #{contractNum,jdbcType=VARCHAR}
+            </if>
+            <if test="fundsSource != null ">
+                and t2.funds_sources = #{fundsSource}
+            </if>
+            <if test="fundsSourcesList != null">
+                and t2.funds_sources in
+                <foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+                    #{fundsSource}
+                </foreach>
+            </if>
+            <if test="orgCode != null and orgCode != ''">
+                and exists (select 1 from com_organization c where c.id = t2.sales_department_id and c.org_code like #{orgCode} || '%')
+            </if>
+    </select>
+</mapper>

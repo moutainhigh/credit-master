@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.credit.system.domain.ComEmployeeRoleMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.ComEmployeeRole">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="EMPLOYEE_ID" jdbcType="DECIMAL" property="employeeId" />
+		<result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="SP1" jdbcType="VARCHAR" property="sp1" />
+	</resultMap>
+
+	<select id="selectByPrimaryKey" parameterType="java.math.BigDecimal"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from COM_EMPLOYEE_ROLE
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.ComEmployeeRole">
+		insert into COM_EMPLOYEE_ROLE (ID, EMPLOYEE_ID, ROLE_ID,
+		CREATOR, CREATE_TIME, SP1
+		)
+		values (#{id,jdbcType=DECIMAL}, #{employeeId,jdbcType=DECIMAL},
+		#{roleId,jdbcType=DECIMAL},
+		#{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{sp1,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.ComEmployeeRole">
+		update COM_EMPLOYEE_ROLE
+		<set>
+			<if test="employeeId != null">
+				EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="roleId != null">
+				ROLE_ID = #{roleId,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sp1 != null">
+				SP1 = #{sp1,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+
+	<sql id="Base_Column_List">
+		ID, EMPLOYEE_ID, ROLE_ID, CREATOR, CREATE_TIME, SP1
+	</sql>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from COM_EMPLOYEE_ROLE
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.ComEmployeeRole">
+		insert into COM_EMPLOYEE_ROLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="employeeId != null">
+				EMPLOYEE_ID,
+			</if>
+			<if test="roleId != null">
+				ROLE_ID,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="sp1 != null">
+				SP1,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sp1 != null">
+				#{sp1,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByIdList" parameterType="com.zdmoney.credit.system.domain.ComEmployeeRole">
+		delete from
+		COM_EMPLOYEE_ROLE
+		where EMPLOYEE_ID=#{employeeId,jdbcType=DECIMAL}
+	</delete>
+
+	<delete id="deleteByRoleIdList" parameterType="com.zdmoney.credit.system.domain.ComEmployeeRole">
+		delete from
+		COM_EMPLOYEE_ROLE
+		where EMPLOYEE_ID=#{employeeId,jdbcType=DECIMAL}
+	</delete>
+	<sql id="comEmployeeRoleSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_EMPLOYEE_ROLE
+	</sql>
+
+	<sql id="comEmployeeRoleConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND COM_EMPLOYEE_ROLE.ID= #{id}
+			</if>
+			<if test="employeeId != null and employeeId  != ''">
+				AND COM_EMPLOYEE_ROLE.EMPLOYEE_ID = #{employeeId}
+			</if>
+			<if test="roleId != null and roleId  != ''">
+				AND COM_EMPLOYEE_ROLE.ROLE_ID = #{roleId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.ComEmployeeRole"
+		resultMap="BaseResultMap">
+		<include refid="comEmployeeRoleSelective" />
+		<include refid="comEmployeeRoleConditions" />
+	</select>
+
+	<select id="findComEmployeeRoleListByEmpId" parameterType="com.zdmoney.credit.system.domain.ComEmployeeRole"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_EMPLOYEE_ROLE
+		e where e.employee_id=#{employeeId}
+	</select>
+
+	<select id="findComEmployeeRoleByUserCodeAndRoleName" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM COM_EMPLOYEE E INNER JOIN COM_EMPLOYEE_ROLE ER ON E.ID=ER.EMPLOYEE_ID INNER JOIN COM_ROLE R ON R.ID=ER.ROLE_ID
+		WHERE 1=1
+		<if test=" usercode != null">
+			AND E.USERCODE = #{usercode}
+		</if>
+		<if test=" roleName != null">
+			AND R.ROLE_NAME = #{roleName}
+		</if>
+	</select>
+
+</mapper>

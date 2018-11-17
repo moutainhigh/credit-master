@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.debit.domain.DebitBaseInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.debit.domain.DebitBaseInfo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+    <result column="PACT_NO" jdbcType="VARCHAR" property="pactNo" />
+    <result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
+    <result column="ID_NO" jdbcType="VARCHAR" property="idNo" />
+    <result column="CUST_NAME" jdbcType="VARCHAR" property="custName" />
+    <result column="OFFER_DATE" jdbcType="TIMESTAMP" property="offerDate" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="OFFER_AMOUNT" jdbcType="DECIMAL" property="offerAmount" />
+    <result column="ACTUAL_AMOUNT" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="ACCT_NO" jdbcType="VARCHAR" property="acctNo" />
+    <result column="ACCT_TYPE" jdbcType="VARCHAR" property="acctType" />
+    <result column="ACCT_NAME" jdbcType="VARCHAR" property="acctName" />
+    <result column="BANK_CODE" jdbcType="VARCHAR" property="bankCode" />
+    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+    <result column="PAY_SYS_NO" jdbcType="VARCHAR" property="paySysNo" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATOR" jdbcType="VARCHAR" property="updator" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOAN_ID, PACT_NO, ID_TYPE, ID_NO, CUST_NAME, OFFER_DATE, AMOUNT, OFFER_AMOUNT, 
+    ACTUAL_AMOUNT, ACCT_NO, ACCT_TYPE, ACCT_NAME, BANK_CODE, BANK_NAME, PAY_SYS_NO, TYPE, STATE, 
+    MEMO, CREATE_TIME, CREATOR, UPDATE_TIME, UPDATOR
+  </sql>
+  <select id="get" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DEBIT_BASE_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="delete" parameterType="java.math.BigDecimal">
+    delete from DEBIT_BASE_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.debit.domain.DebitBaseInfo">
+    update DEBIT_BASE_INFO
+    <set>
+      <if test="loanId != null">
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="pactNo != null">
+        PACT_NO = #{pactNo,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        ID_TYPE = #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null">
+        ID_NO = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null">
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="offerDate != null">
+        OFFER_DATE = #{offerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null">
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="offerAmount != null">
+        OFFER_AMOUNT = #{offerAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualAmount != null">
+        ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="acctNo != null">
+        ACCT_NO = #{acctNo,jdbcType=VARCHAR},
+      </if>
+      <if test="acctType != null">
+        ACCT_TYPE = #{acctType,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null">
+        ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null">
+        BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="paySysNo != null">
+        PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.debit.domain.DebitBaseInfo">
+    update DEBIT_BASE_INFO
+    set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      PACT_NO = #{pactNo,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=VARCHAR},
+      ID_NO = #{idNo,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=VARCHAR},
+      OFFER_DATE = #{offerDate,jdbcType=TIMESTAMP},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      OFFER_AMOUNT = #{offerAmount,jdbcType=DECIMAL},
+      ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      ACCT_NO = #{acctNo,jdbcType=VARCHAR},
+      ACCT_TYPE = #{acctType,jdbcType=VARCHAR},
+      ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+      BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATOR = #{updator,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="selectConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null ">
+				AND ID = #{id , jdbcType=DECIMAL}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_ID = #{loanId , jdbcType=DECIMAL}
+			</if>
+			<if test="pactNo != null  ">
+				AND PACT_NO = #{pactNo , jdbcType=VARCHAR}
+			</if>
+			<if test="idType != null  ">
+				AND ID_TYPE = #{idType , jdbcType=VARCHAR}
+			</if>
+			<if test="idNo != null ">
+				AND ID_NO = #{idNo , jdbcType=VARCHAR}
+			</if>
+			<if test="custName != null  ">
+				AND CUST_NAME = #{custName , jdbcType=VARCHAR}
+			</if>
+			<if test="offerDate != null ">
+				AND OFFER_DATE = #{offerDate , jdbcType=VARCHAR}
+			</if>
+			<if test="amount != null ">
+				AND AMOUNT = #{amount , jdbcType=DECIMAL}
+			</if>
+			<if test="offerAmount != null ">
+				AND OFFER_AMOUNT = #{offerAmount , jdbcType=DECIMAL}
+			</if>
+			<if test="bankCode != null  ">
+				AND BANK_CODE = #{bankCode , jdbcType=VARCHAR}
+			</if>
+			<if test="paySysNo != null  ">
+				AND PAY_SYS_NO = #{paySysNo , jdbcType=VARCHAR}
+			</if>
+			<if test="type != null ">
+				AND TYPE = #{type , jdbcType=VARCHAR}
+			</if>
+			<if test="actualAmount != null ">
+				AND ACTUAL_AMOUNT = #{actualAmount , jdbcType=DECIMAL}
+			</if>
+			<if test="acctNo != null  ">
+				AND ACCT_NO = #{acctNo , jdbcType=VARCHAR}
+			</if>
+			<if test="acctType != null  ">
+				AND ACCT_TYPE = #{acctType , jdbcType=VARCHAR}
+			</if>
+			<if test="acctName != null  ">
+				AND ACCT_NAME = #{acctName , jdbcType=VARCHAR}
+			</if>
+			<if test="state != null ">
+				AND STATE = #{state , jdbcType=VARCHAR}
+			</if>
+			<if test="memo != null ">
+				AND MEMO = #{memo , jdbcType=VARCHAR}
+			</if>
+			<if test="createTime != null ">
+				AND CREATE_TIME = #{createTime , jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateTime != null ">
+				AND UPDATE_TIME = #{updateTime , jdbcType=TIMESTAMP}
+			</if>
+			<if test="creator != null ">
+				AND CREATOR = #{CREATOR , jdbcType=VARCHAR}
+			</if>
+			<if test="updator != null  ">
+				AND UPDATOR = #{updator , jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+	
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_ID = #{loanId}
+			</if>
+			<if test="offerDate != null ">
+				AND OFFER_DATE = trunc(#{offerDate})
+			</if>
+			<if test="type != null ">
+				AND TYPE = #{type}
+			</if>
+			<if test="state != null ">
+				AND STATE = #{state}
+			</if>
+			<if test="offerInfoTypes != null ">
+				AND TYPE IN
+				<foreach item="typeTmp" index="index" collection="offerInfoTypes"
+					open="(" separator="," close=")">
+					#{typeTmp}
+				</foreach>
+			</if>
+			<if test="offerInfoStates != null ">
+				AND STATE IN
+				<foreach item="stateTmp" index="index" collection="offerInfoStates"
+					open="(" separator="," close=")">
+					#{stateTmp}
+				</foreach>
+			</if>
+		</trim>
+	</sql>
+	
+	<insert id="insert" parameterType="com.zdmoney.credit.debit.domain.DebitBaseInfo" >
+	    insert into DEBIT_BASE_INFO
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        ID,
+	      </if>
+	      <if test="loanId != null" >
+	        LOAN_ID,
+	      </if>
+	      <if test="pactNo != null" >
+	        PACT_NO,
+	      </if>
+	      <if test="idType != null" >
+	        ID_TYPE,
+	      </if>
+	      <if test="idNo != null" >
+	        ID_NO,
+	      </if>
+	      <if test="custName != null" >
+	        CUST_NAME,
+	      </if>
+	      <if test="offerDate != null" >
+	        OFFER_DATE,
+	      </if>
+	      <if test="amount != null" >
+	        AMOUNT,
+	      </if>
+	      <if test="offerAmount != null" >
+	        OFFER_AMOUNT,
+	      </if>
+	      <if test="actualAmount != null" >
+	        ACTUAL_AMOUNT,
+	      </if>
+	      <if test="acctNo != null" >
+	        ACCT_NO,
+	      </if>
+	      <if test="acctType != null" >
+	        ACCT_TYPE,
+	      </if>
+	      <if test="acctName != null" >
+	        ACCT_NAME,
+	      </if>
+	      <if test="bankCode != null" >
+	        BANK_CODE,
+	      </if>
+	      <if test="paySysNo != null" >
+	        PAY_SYS_NO,
+	      </if>
+	      <if test="type != null" >
+	        TYPE,
+	      </if>
+	      <if test="state != null" >
+	        STATE,
+	      </if>
+	      <if test="memo != null" >
+	        MEMO,
+	      </if>
+	      <if test="createTime != null" >
+	        CREATE_TIME,
+	      </if>
+	      <if test="creator != null" >
+	        CREATOR,
+	      </if>
+	      <if test="updateTime != null" >
+	        UPDATE_TIME,
+	      </if>
+	      <if test="updator != null" >
+	        UPDATOR,
+	      </if>
+	      <if test="bankName != null" >
+	        BANK_NAME,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        #{id,jdbcType=DECIMAL},
+	      </if>
+	      <if test="loanId != null" >
+	        #{loanId,jdbcType=DECIMAL},
+	      </if>
+	      <if test="pactNo != null" >
+	        #{pactNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="idType != null" >
+	        #{idType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="idNo != null" >
+	        #{idNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="custName != null" >
+	        #{custName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="offerDate != null" >
+	        #{offerDate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="amount != null" >
+	        #{amount,jdbcType=DECIMAL},
+	      </if>
+	      <if test="offerAmount != null" >
+	        #{offerAmount,jdbcType=DECIMAL},
+	      </if>
+	      <if test="actualAmount != null" >
+	        #{actualAmount,jdbcType=DECIMAL},
+	      </if>
+	      <if test="acctNo != null" >
+	        #{acctNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="acctType != null" >
+	        #{acctType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="acctName != null" >
+	        #{acctName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="bankCode != null" >
+	        #{bankCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="paySysNo != null" >
+	        #{paySysNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="type != null" >
+	        #{type,jdbcType=VARCHAR},
+	      </if>
+	      <if test="state != null" >
+	        #{state,jdbcType=VARCHAR},
+	      </if>
+	      <if test="memo != null" >
+	        #{memo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createTime != null" >
+	        #{createTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="creator != null" >
+	        #{creator,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateTime != null" >
+	        #{updateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="updator != null" >
+	        #{updator,jdbcType=VARCHAR},
+	      </if>
+	      <if test="bankName != null" >
+	        #{bankName,jdbcType=VARCHAR},
+	      </if>
+	    </trim>
+	  </insert>
+	
+	<select id="findListByVO" parameterType="com.zdmoney.credit.debit.domain.DebitBaseInfo" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM DEBIT_BASE_INFO
+		<include refid="selectConditions"/>
+	</select>
+	
+	<select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM DEBIT_BASE_INFO
+		<include refid="comPermissionConditions"/>
+	</select>
+	
+	<update id="update" parameterType="com.zdmoney.credit.debit.domain.DebitBaseInfo">
+	    update  debit_base_info
+	      <set>
+            <if test="id != null ">
+				ID = #{id , jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null ">
+				LOAN_ID = #{loanId , jdbcType=DECIMAL},
+			</if>
+			<if test="pactNo != null  ">
+				PACT_NO = #{pactNo , jdbcType=VARCHAR},
+			</if>
+			<if test="idType != null  ">
+				ID_TYPE = #{idType , jdbcType=VARCHAR},
+			</if>
+			<if test="idNo != null  ">
+				ID_NO = #{idNo , jdbcType=VARCHAR},
+			</if>
+			<if test="custName != null  ">
+				CUST_NAME = #{custName , jdbcType=VARCHAR},
+			</if>
+			<if test="offerDate != null ">
+				OFFER_DATE = #{offerDate , jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null ">
+				AMOUNT = #{amount , jdbcType=DECIMAL},
+			</if>
+			<if test="offerAmount != null ">
+				OFFER_AMOUNT = #{offerAmount , jdbcType=DECIMAL},
+			</if>
+			<if test="bankCode != null  ">
+				BANK_CODE = #{bankCode , jdbcType=VARCHAR},
+			</if>
+			<if test="paySysNo != null  ">
+				PAY_SYS_NO = #{paySysNo , jdbcType=VARCHAR},
+			</if>
+			<if test="type != null and type != '' ">
+				TYPE = #{type , jdbcType=VARCHAR},
+			</if>
+			<if test="actualAmount != null ">
+				ACTUAL_AMOUNT = #{actualAmount , jdbcType=DECIMAL},
+			</if>
+			<if test="acctNo != null ">
+				ACCT_NO = #{acctNo , jdbcType=VARCHAR},
+			</if>
+			<if test="acctType != null  ">
+				ACCT_TYPE = #{acctType , jdbcType=VARCHAR},
+			</if>
+			<if test="acctName != null  ">
+				ACCT_NAME = #{acctName , jdbcType=VARCHAR},
+			</if>
+			<if test="state != null ">
+				STATE = #{state , jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null and memo != '' ">
+				MEMO = #{memo , jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null ">
+				CREATE_TIME = #{createTime , jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null ">
+				UPDATE_TIME = #{updateTime , jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null  ">
+				CREATOR = #{creator , jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null  ">
+				UPDATOR = #{updator , jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null and bankName != ''">
+				BANK_NAME = #{bankName,jdbcType=VARCHAR},
+			</if>
+		</set>	
+	 where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<select id="getOfferCountForYet3Deduct" parameterType="com.zdmoney.credit.debit.domain.DebitBaseInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM DEBIT_BASE_INFO
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanId != null ">
+				AND LOAN_ID = #{loanId}
+			</if>
+			<if test="type != null ">
+				AND TYPE = #{type}
+			</if>
+			<if test="offerDate != null ">
+				AND OFFER_DATE =#{offerDate}
+			</if>
+			<if test="state != null ">
+				AND STATE != #{state}
+			</if>
+		</trim>
+	</select>
+</mapper>

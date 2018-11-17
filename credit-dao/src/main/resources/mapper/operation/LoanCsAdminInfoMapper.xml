@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.operation.domain.LoanCsAdminInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.operation.domain.LoanCsAdminInfo" >
+    <result column="LOAN_ID"         property="loanId"        jdbcType="DECIMAL" />
+    <result column="NAME"            property="name"          jdbcType="VARCHAR" />
+    <result column="IDNUM"           property="idNum"         jdbcType="VARCHAR" />
+    <result column="LOAN_TYPE"       property="loanType"      jdbcType="VARCHAR" />
+    <result column="REQUEST_MONEY"   property="requestMoney"  jdbcType="DECIMAL" />
+    <result column="MONEY"           property="money"         jdbcType="DECIMAL" />
+    <result column="PACT_MONEY"      property="pactMoney"     jdbcType="DECIMAL" />
+    <result column="GRANT_MONEY"     property="grantMoney"    jdbcType="DECIMAL" />
+    <result column="TIME"            property="time"          jdbcType="DECIMAL" />
+    <result column="REQUEST_DATE"    property="requestDate"   jdbcType="VARCHAR" />
+    <result column="LOAN_STATE"      property="loanState"     jdbcType="VARCHAR" />
+    <result column="CRM_ID"          property="crmId"         jdbcType="DECIMAL" />
+    <result column="CRM_NAME"        property="crmName"       jdbcType="VARCHAR" />
+    <result column="IN_ACTIVE"       property="inActive"      jdbcType="VARCHAR" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+    <result column="ORG_NAME" property="orgName" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <resultMap id="optionInfoMap" type="java.util.Map" >
+    <result property="id"   column="ID"    jdbcType="DECIMAL" />
+    <result property="name" column="NAME"  jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T1.ID AS LOAN_ID,
+    T2.NAME,
+    T2.IDNUM,
+    T1.LOAN_TYPE,
+    T1.REQUEST_MONEY,
+    T1.MONEY,
+    T1.PACT_MONEY,
+    T1.GRANT_MONEY,
+    T1.TIME,
+    TO_CHAR(T1.REQUEST_DATE,'yyyy-MM-dd') AS REQUEST_DATE,
+    T1.LOAN_STATE,
+    T1.CRM_ID,
+    T4.NAME AS CRM_NAME,
+    TRIM(T4.IN_ACTIVE) AS IN_ACTIVE,
+    T1.CONTRACT_NUM,
+    T3.NAME AS ORG_NAME
+  </sql>
+  
+   <!-- 查询主体 -->
+  <sql id="LoanCsAdminInfoSelective">
+    SELECT 
+        <include refid = "Base_Column_List"/>
+      FROM  V_LOAN_INFO T1,
+            PERSON_INFO T2,
+            COM_ORGANIZATION T3,
+            COM_EMPLOYEE T4 ,
+            (select id loan_id from V_LOAN_INFO where LOAN_STATE ='正常'  
+            UNION
+            select loan_id from V_COLLECTION_T1_CASE_POOL_CORE) T5            
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="LoanCsAdminInfoConditions">
+     <trim prefix="where" prefixOverrides="and">
+        AND T1.BORROWER_ID = T2.ID
+           AND T1.SALES_DEPARTMENT_ID = T3.ID
+           AND T1.CRM_ID = T4.ID
+           AND T1.ID = T5.loan_id
+        <if test="name != null and name !=''">
+            AND T2.NAME LIKE #{name} || '%'
+        </if>
+        <if test="mobile != null and mobile !=''">
+            AND T2.MPHONE = #{mobile}
+        </if>
+        <if test="idNum != null and idNum !=''">
+            AND T2.IDNUM = #{idNum}
+        </if>
+        <if test="crmId != null and crmId !=''">
+            AND T1.CRM_ID = #{crmId}
+        </if>
+        <if test="loanState != null and loanState !=''">
+            AND T1.LOAN_STATE = #{loanState}
+        </if>
+        <if test="contractNum != null and contractNum!=''">
+			AND T1.CONTRACT_NUM=#{contractNum}
+		</if>
+        AND T3.id in (select org_id from com_org_type org where type=1)
+        <if test="orgId != null and orgId!=''">
+        AND T3.id =#{orgId}
+        </if>
+        AND T1.LOAN_STATE IN 
+        <foreach collection="loanStates" item="loanStatus" index="index" open="(" close=")" separator=",">
+                #{loanStatus}
+        </foreach>
+        <!-- AND T1.LOAN_STATE IN ('拒绝','通过','正常','逾期','结清','预结清','坏账') -->
+        <!-- AND T4.DEPARTMENT_TYPE IN ('渠道', '个贷', '互联网', '电销', '渠道2') -->
+     </trim>
+  </sql>
+  
+  <!-- 排序条件 -->
+  <sql id="orderConditions">
+      ORDER BY T1.ID DESC
+  </sql>
+  
+  <sql id="findListByConditions">
+        <include refid="LoanCsAdminInfoSelective" />
+        <include refid="LoanCsAdminInfoConditions" />
+        <include refid="orderConditions" />
+  </sql>
+  
+  <!-- 查询借款合同客服信息 -->
+  <select id="findListByVO" parameterType="com.zdmoney.credit.operation.domain.LoanCsAdminInfo" resultMap="BaseResultMap">
+      SELECT * FROM (<include refid="findListByConditions" />)
+      WHERE ROWNUM &lt;= #{max}
+  </select>
+  
+  <!-- 分页查询 -->
+  <select id="findWithPG" parameterType="com.zdmoney.credit.operation.domain.LoanCsAdminInfo" resultMap="BaseResultMap">
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+      <include refid="findListByConditions" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+  <!-- 查询总件数 -->
+  <select id="count" parameterType="com.zdmoney.credit.operation.domain.LoanCsAdminInfo" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (<include refid="findListByConditions" />)
+  </select>
+  
+  <!-- 分页查询 -->
+  <select id="findWithPGByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+      <include refid="findListByConditions" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+  <!-- 查询总件数 -->
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (<include refid="findListByConditions" />)
+  </select>
+  
+  <!-- 查询当前用户所属机构下的客服信息 -->
+  <select id="getCrmOptionInfo" parameterType="java.util.Map" resultMap="optionInfoMap">
+    SELECT T1.ID, T1.NAME
+      FROM COM_EMPLOYEE      T1,
+           COM_ORGANIZATION  T2
+     WHERE T1.ORG_ID = T2.ID
+       <if test="inActive !=null and inActive !=''">
+         AND TRIM(T1.IN_ACTIVE) = #{inActive}
+       </if>
+       <if test="roleNames !=null">
+           AND T1.EMPLOYEE_TYPE IN 
+           <foreach collection="roleNames" item="roleName" index="index" open="(" close=")" separator=",">
+                #{roleName}
+           </foreach>
+       </if>
+       AND T2.ORG_CODE LIKE #{empNum} || '%'
+       <!-- AND T2.DEPARTMENT_TYPE IN ('渠道', '个贷', '互联网', '电销', '渠道2') -->
+     ORDER BY T1.NAME ASC
+  </select>
+  <!-- 查询所有催收管理室员工-->
+  <select id="getCollectors" parameterType="map" resultType="map">
+  		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+  		SELECT DISTINCT(T1.id) "id",
+		  T1.NAME "name",
+		  T1.USERCODE "userCode",
+		  T4.name "orgName",
+		  T4.ORG_CODE "orgCode",
+		  T1.ORG_ID "orgId",
+		  T1.ACCEPT_AUDIT_TASK "acceptAuditTask"
+		FROM COM_EMPLOYEE T1,
+		  com_role T2,
+		  COM_EMPLOYEE_ROLE T3,
+		  COM_ORGANIZATION T4
+		WHERE T1.ID       =T3.EMPLOYEE_ID
+		AND T1.ORG_ID     =T4.ID
+		AND T2.ID         =T3.ROLE_ID
+		AND T1.IN_ACTIVE ='t'
+		AND T2.ROLE_NAME in ('催收管理室-员工','催收管理室-管理人员')
+		<if test="name != null and name !=''">
+			AND T1.NAME LIKE #{name} || '%'
+		</if>
+		<if test="userCode != null and userCode !=''">
+			AND T1.USERCODE = #{userCode}
+		</if>
+	    <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  <select id="countByCollectorsMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (SELECT DISTINCT(T1.id),
+		  T1.NAME,
+		  T1.USERCODE,
+		  T4.name org_Name,
+		  T4.ORG_CODE,
+		  T4.id org_id
+		FROM COM_EMPLOYEE T1,
+		  com_role T2,
+		  COM_EMPLOYEE_ROLE T3,
+		  COM_ORGANIZATION T4
+		WHERE T1.ID       =T3.EMPLOYEE_ID
+		AND T1.ORG_ID     =T4.ID
+		AND T2.ID         =T3.ROLE_ID
+		AND T1.IN_ACTIVE ='t'
+		AND T2.ROLE_NAME in ('催收管理室-员工','催收管理室-管理人员')
+		<if test="name != null and name !=''">
+			AND T1.NAME LIKE #{name} || '%'
+		</if>
+		<if test="userCode != null and userCode !=''">
+			AND T1.USERCODE = #{userCode}
+		</if>)
+  </select>
+</mapper>

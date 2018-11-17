@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanManageSalesDepLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanManageSalesDepLog" >
+    <id     column="ID"           property="id" jdbcType="DECIMAL" />
+    <result column="BEGIN_DATE"   property="beginDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE"     property="endDate" jdbcType="TIMESTAMP" />
+    <result column="LOAN_ID"      property="loanId" jdbcType="DECIMAL" />
+    <result column="NEW_CRM_ID"   property="newCrmId" jdbcType="DECIMAL" />
+    <result column="OLD_CRM_ID"   property="oldCrmId" jdbcType="DECIMAL" />
+    <result column="OPERATOR_ID"  property="operatorId" jdbcType="DECIMAL" />
+    <result column="SALES_DEP_ID" property="salesDepId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME"  property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME"  property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR"      property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATOR"      property="updator" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id = "Base_Column_List">
+      ID,
+      BEGIN_DATE,
+      END_DATE,
+      LOAN_ID,
+      NEW_CRM_ID,
+      OLD_CRM_ID,
+      OPERATOR_ID,
+      SALES_DEP_ID,
+      CREATE_TIME,
+      UPDATE_TIME,
+      CREATOR,
+      UPDATOR
+  </sql>
+  
+  <!-- 查询主体 -->
+  <sql id="loanManageSalesDepLogSelective">
+    SELECT 
+        <include refid = "Base_Column_List"/>
+      FROM LOAN_MANAGE_SALES_DEP_LOG
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="loanManageSalesDepLogConditions">
+     <trim prefix="where" prefixOverrides="and">
+         <if test="loanId != null and loanId !=''">
+             AND LOAN_ID= #{loanId,jdbcType = DECIMAL}
+         </if>
+         <if test="newCrmId != null and newCrmId  != ''">
+             AND NEW_CRM_ID = #{newCrmId,jdbcType = DECIMAL}
+         </if>
+         <if test="salesDepId != null and salesDepId  != ''">
+             AND SALES_DEP_ID = #{salesDepId,jdbcType = DECIMAL}
+         </if>
+     </trim>
+  </sql>
+  
+  <select id="get" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    SELECT 
+        <include refid = "Base_Column_List"/>
+      FROM LOAN_MANAGE_SALES_DEP_LOG
+     WHERE ID = #{id, jdbcType = DECIMAL}
+  </select>
+  
+  <select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanManageSalesDepLog" resultMap="BaseResultMap">
+        <include refid="loanManageSalesDepLogSelective" />
+        <include refid="loanManageSalesDepLogConditions" />
+  </select>
+  
+  <delete id="delete" parameterType="java.math.BigDecimal" >
+    DELETE FROM LOAN_MANAGE_SALES_DEP_LOG WHERE ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanManageSalesDepLog" >
+    INSERT INTO LOAN_MANAGE_SALES_DEP_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="beginDate != null">
+        BEGIN_DATE,
+      </if>
+      <if test="endDate != null">
+        END_DATE,
+      </if>
+      <if test="loanId != null">
+        LOAN_ID,
+      </if>
+      <if test="newCrmId != null">
+        NEW_CRM_ID,
+      </if>
+      <if test="oldCrmId != null">
+        OLD_CRM_ID,
+      </if>
+      <if test="operatorId != null">
+        OPERATOR_ID,
+      </if>
+      <if test="salesDepId != null">
+        SALES_DEP_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="updator != null">
+        UPDATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="beginDate != null">
+        #{beginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanId != null">
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="newCrmId != null">
+        #{newCrmId,jdbcType=VARCHAR},
+      </if>
+      <if test="oldCrmId != null">
+        #{oldCrmId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=DECIMAL},
+      </if>
+      <if test="salesDepId != null">
+        #{salesDepId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanManageSalesDepLog" >
+    UPDATE LOAN_MANAGE_SALES_DEP_LOG
+    <set >
+      <if test="beginDate != null and beginDate !=''" >
+        BEGIN_DATE = #{beginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null and endDate !=''" >
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanId != null and loanId !=''" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="newCrmId != null and newCrmId !=''" >
+        NEW_CRM_ID = #{newCrmId,jdbcType=DECIMAL},
+      </if>
+      <if test="oldCrmId != null and oldCrmId !=''" >
+        OLD_CRM_ID = #{oldCrmId,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorId != null and operatorId !=''" >
+        OPERATOR_ID = #{operatorId,jdbcType=DECIMAL},
+      </if>
+      <if test="salesDepId != null and salesDepId !=''" >
+        SALES_DEP_ID = #{salesDepId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null">
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    WHERE ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateLastManageSalesDeptLog" parameterType="com.zdmoney.credit.loan.domain.LoanManageSalesDepLog">
+    UPDATE LOAN_MANAGE_SALES_DEP_LOG O
+       <set >
+          <if test="endDate != null">
+            O.END_DATE = #{endDate,jdbcType=TIMESTAMP},
+          </if>
+           <if test="updateTime != null">
+            O.UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updator != null">
+            O.UPDATOR = #{updator,jdbcType=VARCHAR},
+          </if>
+       </set>
+     WHERE O.ID = (SELECT L.ID FROM (SELECT T.ID FROM LOAN_MANAGE_SALES_DEP_LOG T WHERE T.LOAN_ID = #{loanId,jdbcType=DECIMAL} ORDER BY T.ID DESC) L WHERE ROWNUM = 1)
+  </update>
+  
+</mapper>

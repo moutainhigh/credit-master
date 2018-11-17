@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.SysParamDefineMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.SysParamDefine">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PARAM_KEY" property="paramKey" jdbcType="VARCHAR" />
+		<result column="MAGIC_TYPE" property="magicType" jdbcType="VARCHAR" />
+		<result column="PARAM_NAME" property="paramName" jdbcType="VARCHAR" />
+		<result column="PARAM_VALUE" property="paramValue" jdbcType="VARCHAR" />
+		<result column="PARAM_DESC" property="paramDesc" jdbcType="VARCHAR" />
+		<result column="CREATE_USER_ID" property="createUserId"
+			jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_USER_ID" property="updateUserId"
+			jdbcType="DECIMAL" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, PARAM_KEY, MAGIC_TYPE, PARAM_NAME, PARAM_VALUE, PARAM_DESC,
+		CREATE_USER_ID, CREATE_TIME,
+		UPDATE_USER_ID, UPDATE_TIME, MEMO
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from SYS_PARAM_DEFINE
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from SYS_PARAM_DEFINE
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.SysParamDefine">
+		insert into SYS_PARAM_DEFINE (ID, PARAM_KEY, MAGIC_TYPE,
+		PARAM_NAME, PARAM_VALUE, PARAM_DESC,
+		CREATE_USER_ID, CREATE_TIME, UPDATE_USER_ID,
+		UPDATE_TIME, MEMO)
+		values (#{id,jdbcType=DECIMAL}, #{paramKey,jdbcType=VARCHAR},
+		#{magicType,jdbcType=VARCHAR},
+		#{paramName,jdbcType=VARCHAR}, #{paramValue,jdbcType=VARCHAR}, #{paramDesc,jdbcType=VARCHAR},
+		#{createUserId,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateUserId,jdbcType=DECIMAL},
+		#{updateTime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.SysParamDefine">
+		insert into SYS_PARAM_DEFINE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="paramKey != null">
+				PARAM_KEY,
+			</if>
+			<if test="magicType != null">
+				MAGIC_TYPE,
+			</if>
+			<if test="paramName != null">
+				PARAM_NAME,
+			</if>
+			<if test="paramValue != null">
+				PARAM_VALUE,
+			</if>
+			<if test="paramDesc != null">
+				PARAM_DESC,
+			</if>
+			<if test="createUserId != null">
+				CREATE_USER_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateUserId != null">
+				UPDATE_USER_ID,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="paramKey != null">
+				#{paramKey,jdbcType=VARCHAR},
+			</if>
+			<if test="magicType != null">
+				#{magicType,jdbcType=VARCHAR},
+			</if>
+			<if test="paramName != null">
+				#{paramName,jdbcType=VARCHAR},
+			</if>
+			<if test="paramValue != null">
+				#{paramValue,jdbcType=VARCHAR},
+			</if>
+			<if test="paramDesc != null">
+				#{paramDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				#{updateUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.SysParamDefine">
+		update SYS_PARAM_DEFINE
+
+		<set>
+			<if test="paramKey != null">
+				PARAM_KEY = #{paramKey,jdbcType=VARCHAR},
+			</if>
+			<if test="magicType != null">
+				MAGIC_TYPE = #{magicType,jdbcType=VARCHAR},
+			</if>
+			<if test="paramName != null">
+				PARAM_NAME = #{paramName,jdbcType=VARCHAR},
+			</if>
+			<if test="paramValue != null">
+				PARAM_VALUE = #{paramValue,jdbcType=VARCHAR},
+			</if>
+			<if test="paramDesc != null">
+				PARAM_DESC = #{paramDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				CREATE_USER_ID = #{createUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				UPDATE_USER_ID = #{updateUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+		</set>
+
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.SysParamDefine">
+		update SYS_PARAM_DEFINE
+		set PARAM_KEY = #{paramKey,jdbcType=VARCHAR},
+		MAGIC_TYPE = #{magicType,jdbcType=VARCHAR},
+		PARAM_NAME = #{paramName,jdbcType=VARCHAR},
+		PARAM_VALUE = #{paramValue,jdbcType=VARCHAR},
+		PARAM_DESC = #{paramDesc,jdbcType=VARCHAR},
+		CREATE_USER_ID = #{createUserId,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_USER_ID = #{updateUserId,jdbcType=DECIMAL},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		MEMO = #{memo,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_PARAM_DEFINE
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND SYS_PARAM_DEFINE.ID= #{id}
+			</if>
+			<if test="magicType != null ">
+				AND SYS_PARAM_DEFINE.MAGIC_TYPE = #{magicType}
+			</if>
+			<if test="paramKey != null ">
+				AND SYS_PARAM_DEFINE.PARAM_KEY = #{paramKey}
+			</if>
+
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.SysParamDefine"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+	</select>
+
+	<update id="updateByMagictypeAndKey" parameterType="com.zdmoney.credit.system.domain.SysParamDefine">
+		update SYS_PARAM_DEFINE
+		<set>
+			<if test="paramName != null">
+				PARAM_NAME = #{paramName,jdbcType=VARCHAR},
+			</if>
+			<if test="paramValue != null">
+				PARAM_VALUE = #{paramValue,jdbcType=VARCHAR},
+			</if>
+			<if test="paramDesc != null">
+				PARAM_DESC = #{paramDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				CREATE_USER_ID = #{createUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				UPDATE_USER_ID = #{updateUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where PARAM_KEY = #{paramKey,jdbcType=VARCHAR}
+		and MAGIC_TYPE = #{magicType,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.credit.fee.domain.OfferFeeFlowMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.fee.domain.OfferFeeFlow">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ACCT_TITLE" jdbcType="VARCHAR" property="acctTitle" />
+    <result column="APPO_ACCT" jdbcType="VARCHAR" property="appoAcct" />
+    <result column="APPO_ACCT_TITLE" jdbcType="VARCHAR" property="appoAcctTitle" />
+    <result column="APPO_DORC" jdbcType="VARCHAR" property="appoDorc" />
+    <result column="DORC" jdbcType="VARCHAR" property="dorc" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="MEMO2" jdbcType="VARCHAR" property="memo2" />
+    <result column="MEMO3" jdbcType="VARCHAR" property="memo3" />
+    <result column="TRADE_AMOUNT" jdbcType="DECIMAL" property="tradeAmount" />
+    <result column="TRADE_CODE" jdbcType="VARCHAR" property="tradeCode" />
+    <result column="TRADE_DATE" jdbcType="TIMESTAMP" property="tradeDate" />
+    <result column="TRADE_KIND" jdbcType="VARCHAR" property="tradeKind" />
+    <result column="SERIAL_NO" jdbcType="VARCHAR" property="serialNo" />
+    <result column="TRADE_TYPE" jdbcType="VARCHAR" property="tradeType" />
+    <result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+    <result column="FEE_ID" jdbcType="DECIMAL" property="feeId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ACCT_TITLE, APPO_ACCT, APPO_ACCT_TITLE, APPO_DORC, DORC, MEMO, MEMO2, MEMO3, 
+    TRADE_AMOUNT, TRADE_CODE, TRADE_DATE, TRADE_KIND, SERIAL_NO, TRADE_TYPE, LOAN_ID, 
+    FEE_ID, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from OFFER_FEE_FLOW
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from OFFER_FEE_FLOW
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.fee.domain.OfferFeeFlow">
+    insert into OFFER_FEE_FLOW
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="acctTitle != null">
+        ACCT_TITLE,
+      </if>
+      <if test="appoAcct != null">
+        APPO_ACCT,
+      </if>
+      <if test="appoAcctTitle != null">
+        APPO_ACCT_TITLE,
+      </if>
+      <if test="appoDorc != null">
+        APPO_DORC,
+      </if>
+      <if test="dorc != null">
+        DORC,
+      </if>
+      <if test="memo != null">
+        MEMO,
+      </if>
+      <if test="memo2 != null">
+        MEMO2,
+      </if>
+      <if test="memo3 != null">
+        MEMO3,
+      </if>
+      <if test="tradeAmount != null">
+        TRADE_AMOUNT,
+      </if>
+      <if test="tradeCode != null">
+        TRADE_CODE,
+      </if>
+      <if test="tradeDate != null">
+        TRADE_DATE,
+      </if>
+      <if test="tradeKind != null">
+        TRADE_KIND,
+      </if>
+      <if test="serialNo != null">
+        SERIAL_NO,
+      </if>
+      <if test="tradeType != null">
+        TRADE_TYPE,
+      </if>
+      <if test="loanId != null">
+        LOAN_ID,
+      </if>
+      <if test="feeId != null">
+        FEE_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="acctTitle != null">
+        #{acctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="appoAcct != null">
+        #{appoAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="appoAcctTitle != null">
+        #{appoAcctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="appoDorc != null">
+        #{appoDorc,jdbcType=VARCHAR},
+      </if>
+      <if test="dorc != null">
+        #{dorc,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="memo3 != null">
+        #{memo3,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAmount != null">
+        #{tradeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeCode != null">
+        #{tradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null">
+        #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeKind != null">
+        #{tradeKind,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="loanId != null">
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="feeId != null">
+        #{feeId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.fee.domain.OfferFeeFlow">
+    update OFFER_FEE_FLOW
+    <set>
+      <if test="acctTitle != null">
+        ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="appoAcct != null">
+        APPO_ACCT = #{appoAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="appoAcctTitle != null">
+        APPO_ACCT_TITLE = #{appoAcctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="appoDorc != null">
+        APPO_DORC = #{appoDorc,jdbcType=VARCHAR},
+      </if>
+      <if test="dorc != null">
+        DORC = #{dorc,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        MEMO2 = #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="memo3 != null">
+        MEMO3 = #{memo3,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAmount != null">
+        TRADE_AMOUNT = #{tradeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeCode != null">
+        TRADE_CODE = #{tradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null">
+        TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeKind != null">
+        TRADE_KIND = #{tradeKind,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null">
+        SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="loanId != null">
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="feeId != null">
+        FEE_ID = #{feeId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

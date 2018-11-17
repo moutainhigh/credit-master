@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.xintuo.domain.XintuoDataDomainMapper">
+	<resultMap id="xintuoDataDomainResultMap"
+		type="com.zdmoney.credit.xintuo.domain.XintuoDataDomain">
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getXintuoDataJob" resultMap="xintuoDataDomainResultMap"
+		parameterType="java.util.Map">
+		SELECT c.borrower_name as name,
+		p.idnum as idnum,
+		p.mphone as phone,
+		c.account as account
+		/*, p.created_date*/
+		FROM v_loan_info l, loan_process_history l_log, loan_contract c,
+		person_info p
+		where l.id = c.loan_id
+		and l.borrower_id = p.id
+		and l.id = l_log.loan_id
+		and l_log.loan_flow_state = '财务审核'
+		and l_log.loan_state = '通过'
+		and l.funds_sources = '华澳信托'
+		and l_log.CREATE_TIME BETWEEN to_date(#{startDate, jdbcType=VARCHAR},
+		'yyyy-MM-dd hh24:mi:ss')
+		and to_date(#{endTime, jdbcType=TIMESTAMP}, 'yyyy-MM-dd hh24:mi:ss')
+	</select>
+
+</mapper>

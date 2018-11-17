@@ -1,0 +1,40 @@
+.layout-body {
+    background-color: #f5f5f5;
+}
+.datagrid-body {
+  background-color: #f5f5f5;
+}
+.datagrid-toolbar {
+  background-color: #f5f5f5;
+}
+.datagrid-header {
+	background-color: #f5f5f5;
+}
+.datagrid .datagrid-pager {
+	background-color: #f5f5f5;
+}
+.datagrid-htable, .datagrid-btable, .datagrid-ftable{
+	background-color: #f5f5f5;
+}
+.textbox-text {
+	
+}
+.panel-body {
+    background-color: #f5f5f5;
+}
+.pagination-page-list, .pagination .pagination-num {
+	background-color: #f5f5f5;
+}
+
+/** DataGrid 奇数行 **/
+.datagrid-row-odd {
+	
+}
+/** DataGrid 偶数行 **/
+.datagrid-row-even {
+	background-color: #c7eac7;
+}
+
+.datagrid-row-selected {
+  background: #0092DC !important;
+}

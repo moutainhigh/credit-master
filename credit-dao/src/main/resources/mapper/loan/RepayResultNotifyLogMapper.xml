@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.zdmoney.credit.loan.domain.RepayResultNotifyLogMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.RepayResultNotifyLog">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="BANK_CARD_NO" property="bankCardNo" jdbcType="VARCHAR" />
+		<result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+		<result column="PERIOD" property="period"	jdbcType="INTEGER" />
+		<result column="SCHEDULE_DATE" property="scheduleDate" jdbcType="VARCHAR" />
+		<result column="PAY_RESULT" property="payResult" jdbcType="VARCHAR" />
+		<result column="FAIL_REASON" property="failReason" jdbcType="VARCHAR" />
+		<result column="TOTALAMT" property="totalamt" jdbcType="DECIMAL" />
+		<result column="STATE" property="state"  jdbcType="VARCHAR" />
+		<result column="DEAL_STATE" property="dealState"  jdbcType="VARCHAR" />
+		<result column="REPAY_BUS_NUMBER" property="repayBusNumber"  jdbcType="VARCHAR" />
+		<result column="RESPCD" property="respcd"  jdbcType="VARCHAR" />
+		<result column="RESPTX" property="resptx"  jdbcType="VARCHAR" />
+		<result column="NOTIFY_TYPE" property="notifyType"  jdbcType="VARCHAR" />
+		<result column="DEDUCT_STATE" property="deductState"  jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID,LOAN_ID,BANK_CARD_NO,CURRENCY,ORDER_NO,PERIOD,
+		SCHEDULE_DATE,PAY_RESULT,FAIL_REASON,TOTALAMT,STATE,DEAL_STATE,REPAY_BUS_NUMBER,RESPCD,RESPTX,NOTIFY_TYPE,DEDUCT_STATE, 
+		UPDATE_TIME,CREATE_TIME
+	</sql>
+	
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from REPAY_RESULT_NOTIFY_LOG
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		DELETE FROM REPAY_RESULT_NOTIFY_LOG
+		WHERE ID
+		= #{id,jdbcType=DECIMAL}
+	</delete>
+	
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.RepayResultNotifyLog">
+		INSERT INTO REPAY_RESULT_NOTIFY_LOG(ID,LOAN_ID,BANK_CARD_NO,CURRENCY,ORDER_NO,PERIOD,
+		SCHEDULE_DATE,PAY_RESULT,FAIL_REASON,TOTALAMT,STATE,DEAL_STATE,REPAY_BUS_NUMBER,RESPCD,RESPTX,NOTIFY_TYPE,DEDUCT_STATE,CREATE_TIME,UPDATE_TIME)
+		values
+		(#{id,jdbcType=DECIMAL},#{loanId,jdbcType=DECIMAL}, #{bankCardNo,jdbcType=VARCHAR},
+		#{currency,jdbcType=VARCHAR},#{orderNo,jdbcType=VARCHAR},
+		#{period,jdbcType=INTEGER}, #{scheduleDate,jdbcType=VARCHAR},
+		#{payResult,jdbcType=VARCHAR}, #{failReason,jdbcType=VARCHAR},
+		#{totalamt,jdbcType=DECIMAL},#{state,jdbcType=VARCHAR},#{dealState,jdbcType=VARCHAR},
+		#{repayBusNumber,jdbcType=VARCHAR},#{respcd,jdbcType=VARCHAR},#{resptx,jdbcType=VARCHAR},
+		#{notifyType,jdbcType=VARCHAR},#{deductState,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.RepayResultNotifyLog">
+		UPDATE REPAY_RESULT_NOTIFY_LOG
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="bankCardNo != null">
+				BANK_CARD_NO = #{bankCardNo,jdbcType=VARCHAR},
+			</if>
+			<if test="currency != null">
+				CURRENCY = #{currency,jdbcType=VARCHAR},
+			</if>
+			<if test="orderNo != null">
+				ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="period != null">
+				PERIOD = #{period,jdbcType=INTEGER},
+			</if>
+			<if test="scheduleDate != null">
+				SCHEDULE_DATE = #{scheduleDate,jdbcType=VARCHAR},
+			</if>
+			<if test="payResult != null">
+				PAY_RESULT = #{payResult,jdbcType=VARCHAR},
+			</if>
+			<if test="failReason != null">
+				FAIL_REASON = #{failReason,jdbcType=VARCHAR},
+			</if>
+			<if test="totalamt != null">
+				TOTALAMT = #{totalamt,jdbcType=DECIMAL},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="dealState != null">
+                DEAL_STATE = #{dealState,jdbcType=VARCHAR},
+            </if>
+			<if test="repayBusNumber != null">
+				REPAY_BUS_NUMBER = #{repayBusNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="respcd != null">
+				RESPCD = #{respcd,jdbcType=VARCHAR},
+			</if>
+			<if test="resptx != null">
+				RESPTX = #{resptx,jdbcType=VARCHAR},
+			</if>
+			<if test="notifyType != null">
+				NOTIFY_TYPE = #{notifyType,jdbcType=VARCHAR},
+			</if>
+			<if test="deductState != null">
+				DEDUCT_STATE = #{deductState,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findListByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM REPAY_RESULT_NOTIFY_LOG A 
+		WHERE 1=1 
+		<if test="loanId != null">
+			AND A.LOAN_ID = #{loanId,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderNo != null">
+			AND A.ORDER_NO=#{orderNo,jdbcType=VARCHAR}
+		</if>
+		<if test="state != null">
+			AND A.STATE=#{state,jdbcType=VARCHAR}
+		</if>
+		<if test="dealState != null">
+            AND A.DEAL_STATE=#{dealState,jdbcType=VARCHAR}
+        </if>
+		<if test="repayBusNumber != null">
+			AND A.REPAY_BUS_NUMBER=#{repayBusNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="notifyType != null">
+			AND A.NOTIFY_TYPE=#{notifyType,jdbcType=VARCHAR}
+		</if>
+		<if test="deductState != null">
+			AND A.DEDUCT_STATE=#{deductState,jdbcType=VARCHAR}
+		</if>
+		<if test="period != null">
+			AND A.PERIOD=#{period,jdbcType=INTEGER}
+		</if>
+		<if test="scheduleDate != null">
+			AND A.SCHEDULE_DATE=#{scheduleDate,jdbcType=VARCHAR}
+		</if>
+		ORDER BY A.ID
+	</select>
+	
+	<select id="getMaxId" resultType="java.lang.Long">
+	  select max(t.id) from repay_result_notify_log t
+	</select>
+</mapper>

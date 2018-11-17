@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanRepaymentLevelHisMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanRepaymentLevelHis" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="BIGINT" />
+    <result column="CURRENT_TERM" property="currentTerm" jdbcType="VARCHAR" />
+    <result column="REPAY_LEVEL" property="repayLevel" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_CFIC_FOR_WEB_PAGE" property="accountClassificationForWebpage" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_CFIC_FOR_REPOR_SYSTEMS" property="accountClassificationForReportingSystems" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_LEVEL" property="customerLevel" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, LOAN_ID, CURRENT_TERM, REPAY_LEVEL,
+    ACCOUNT_CFIC_FOR_WEB_PAGE,ACCOUNT_CFIC_FOR_REPOR_SYSTEMS,CUSTOMER_LEVEL
+    CREATE_TIME, UPDATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_REPAYMENT_LEVEL_HIS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentLevelHis" >
+      <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE">
+		select
+		SEQ_LOAN_REPAYMENT_LEVEL_HIS.NEXTVAL
+		from
+		dual
+	  </selectKey>
+      <!-- insert into LOAN_REPAYMENT_LEVEL_HIS (
+        ID, LOAN_ID, CURRENT_TERM, REPAY_LEVEL, CREATE_TIME, UPDATE_TIME)
+      values (
+        #{id,jdbcType=DECIMAL}, 
+        #{loanId,jdbcType=BIGINT}, 
+        #{currentTerm,jdbcType=VARCHAR},
+        #{repayLevel,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}) -->
+        MERGE INTO LOAN_REPAYMENT_LEVEL_HIS  T
+		USING DUAL
+		ON(T.LOAN_ID = #{loanId,jdbcType=BIGINT} and T.CURRENT_TERM = #{currentTerm,jdbcType=VARCHAR})
+		WHEN not MATCHED THEN
+	    	INSERT (ID, LOAN_ID, CURRENT_TERM, REPAY_LEVEL, 
+	    	          ACCOUNT_CFIC_FOR_WEB_PAGE,ACCOUNT_CFIC_FOR_REPOR_SYSTEMS,CUSTOMER_LEVEL,
+	    	          CREATE_TIME, UPDATE_TIME)
+	    	VALUES (#{id,jdbcType=DECIMAL}, 
+        			#{loanId,jdbcType=BIGINT}, 
+        			#{currentTerm,jdbcType=VARCHAR},
+        			#{repayLevel,jdbcType=VARCHAR},
+        			#{accountClassificationForWebpage,jdbcType=VARCHAR},
+        			#{accountClassificationForReportingSystems,jdbcType=VARCHAR},
+        			#{customerLevel,jdbcType=VARCHAR},
+        			#{createTime,jdbcType=TIMESTAMP},
+        			#{updateTime,jdbcType=TIMESTAMP})
+     	WHEN MATCHED THEN  
+     		UPDATE set 
+     		REPAY_LEVEL = #{repayLevel,jdbcType=VARCHAR}, 
+     		ACCOUNT_CFIC_FOR_WEB_PAGE = #{accountClassificationForWebpage,jdbcType=VARCHAR}, 
+     		ACCOUNT_CFIC_FOR_REPOR_SYSTEMS = #{accountClassificationForReportingSystems,jdbcType=VARCHAR}, 
+     		CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR}, 
+     		UPDATE_TIME =SYSDATE
+     		WHERE T.LOAN_ID = #{loanId,jdbcType=BIGINT} 
+     		AND T.CURRENT_TERM = #{currentTerm,jdbcType=VARCHAR}
+  </insert>
+  
+  <update id="updateByLoanIdAndCTerm" parameterType="com.zdmoney.credit.loan.domain.LoanRepaymentLevelHis" >
+    update LOAN_REPAYMENT_LEVEL_HIS
+    set REPAY_LEVEL = #{repayLevel,jdbcType=VARCHAR},
+        ACCOUNT_CFIC_FOR_WEB_PAGE = #{accountClassificationForWebpage,jdbcType=VARCHAR}, 
+        ACCOUNT_CFIC_FOR_REPOR_SYSTEMS = #{accountClassificationForReportingSystems,jdbcType=VARCHAR}, 
+        CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},   
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where LOAN_ID = #{loanId,jdbcType=INTEGER}
+    and CURRENT_TERM = #{currentTerm,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

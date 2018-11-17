@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.offer.domain.OfferTransactionMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.offer.domain.OfferTransaction">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TRX_CODE" property="trxCode" jdbcType="VARCHAR" />
+		<result column="BATCH_SERIAL_NO" property="batchSerialNo"
+			jdbcType="VARCHAR" />
+		<result column="TRX_SERIAL_NO" property="trxSerialNo" jdbcType="VARCHAR" />
+		<result column="REQ_TIME" property="reqTime" jdbcType="TIMESTAMP" />
+		<result column="OTRX_SERIAL_NO" property="otrxSerialNo"
+			jdbcType="VARCHAR" />
+		<result column="OTRX_CODE" property="otrxCode" jdbcType="VARCHAR" />
+		<result column="TRX_STATE" property="trxState" jdbcType="VARCHAR" />
+		<result column="RTN_CODE" property="rtnCode" jdbcType="VARCHAR" />
+		<result column="RTN_INFO" property="rtnInfo" jdbcType="VARCHAR" />
+		<result column="RDO_TIME" property="rdoTime" jdbcType="TIMESTAMP" />
+		<result column="REQ_SENDER" property="reqSender" jdbcType="VARCHAR" />
+		<result column="REQ_RECEIVER" property="reqReceiver" jdbcType="VARCHAR" />
+		<result column="PAY_AMOUNT" property="payAmount" jdbcType="DECIMAL" />
+		<result column="ACTUAL_AMOUNT" property="actualAmount"
+			jdbcType="DECIMAL" />
+		<result column="SPT1" property="spt1" jdbcType="VARCHAR" />
+		<result column="TRX_CALLBACK_URL" property="trxCallbackUrl"
+			jdbcType="VARCHAR" />
+		<result column="RSP_RECEIVE_TIME" property="rspReceiveTime"
+			jdbcType="TIMESTAMP" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="OFFER_ID" property="offerId" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="REQ_LOG_ID" property="reqLogId" jdbcType="DECIMAL" />
+		<result column="RSP_LOG_ID" property="rspLogId" jdbcType="DECIMAL" />
+		<result column="MER_ID" property="merId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 代扣回盘 -->
+	<resultMap id="offerReturnVoMap" type="com.zdmoney.credit.offer.vo.OfferReturnVo">
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="REQ_TIME" property="reqTime" jdbcType="TIMESTAMP" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ID_NUM" property="idNum" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+		<result column="PAY_AMOUNT" property="payAmount" jdbcType="DECIMAL" />
+		<result column="ACTUAL_AMOUNT" property="actualAmount" jdbcType="DECIMAL" />
+		<result column="RSP_RECEIVE_TIME" property="rspReceiveTime" jdbcType="TIMESTAMP" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="TRX_STATE" property="trxState" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="PAY_SYS_NO_REAL" property="paySysNo" jdbcType="VARCHAR" />
+		<result column="FUNDS_SOURCES" property="fundsSources" jdbcType="VARCHAR" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+		<result column="RTN_CODE" property="rtnCode" jdbcType="VARCHAR" />
+		<result column="LOAN_BELONG" property="loanBelong" jdbcType="VARCHAR" />
+		<result column="ORG_MEMO" property="orgMemo" jdbcType="VARCHAR" />
+		<result column="MER_ID" property="merId" jdbcType="VARCHAR" />
+		<result column="BUY_BACK_TIME" property="buybackTime" jdbcType="VARCHAR" />
+		<result column="TRANSFER_BATCH" property="transferBatch" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 代扣回盘 -->
+	
+	<sql id="Base_Column_List">
+		ID, TRX_CODE, BATCH_SERIAL_NO, TRX_SERIAL_NO, REQ_TIME, OTRX_SERIAL_NO,
+		OTRX_CODE,
+		TRX_STATE, RTN_CODE, RTN_INFO, RDO_TIME, REQ_SENDER, REQ_RECEIVER, PAY_AMOUNT,
+		ACTUAL_AMOUNT,
+		SPT1, TRX_CALLBACK_URL, RSP_RECEIVE_TIME, MEMO, CREATE_TIME, UPDATE_TIME,
+		OFFER_ID,
+		LOAN_ID, REQ_LOG_ID, RSP_LOG_ID
+	</sql>
+	
+	<sql id="Third_Base_Column_List">
+		ID, '' as TRX_CODE, bat_no as BATCH_SERIAL_NO, serial_no as TRX_SERIAL_NO, REQ_TIME, '' as OTRX_SERIAL_NO,
+	    '' as OTRX_CODE,
+	    state as TRX_STATE, RTN_CODE, RTN_INFO, res_time as RDO_TIME, '' as REQ_SENDER, '' as REQ_RECEIVER, PAY_AMOUNT,
+	    ACTUAL_AMOUNT,
+	    '' as SPT1, '' as TRX_CALLBACK_URL, sysdate as RSP_RECEIVE_TIME, MEMO, CREATE_TIME, UPDATE_TIME,
+	    debit_id as OFFER_ID,
+	    LOAN_ID, 0 as REQ_LOG_ID, 0 as RSP_LOG_ID
+	</sql>
+	
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_TRANSACTION
+		where ID = #{id,jdbcType=DECIMAL}
+		
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_TRANSACTION
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from OFFER_TRANSACTION
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.offer.domain.OfferTransaction">
+		insert into OFFER_TRANSACTION (ID, TRX_CODE, BATCH_SERIAL_NO,
+		TRX_SERIAL_NO, REQ_TIME, OTRX_SERIAL_NO,
+		OTRX_CODE, TRX_STATE, RTN_CODE,
+		RTN_INFO, RDO_TIME, REQ_SENDER,
+		REQ_RECEIVER, PAY_AMOUNT, ACTUAL_AMOUNT,
+		SPT1, TRX_CALLBACK_URL, RSP_RECEIVE_TIME,
+		MEMO, CREATE_TIME, UPDATE_TIME,
+		OFFER_ID, LOAN_ID, REQ_LOG_ID,
+		RSP_LOG_ID)
+		values (#{id,jdbcType=DECIMAL}, #{trxCode,jdbcType=VARCHAR},
+		#{batchSerialNo,jdbcType=VARCHAR},
+		#{trxSerialNo,jdbcType=VARCHAR}, #{reqTime,jdbcType=TIMESTAMP}, #{otrxSerialNo,jdbcType=VARCHAR},
+		#{otrxCode,jdbcType=VARCHAR}, #{trxState,jdbcType=VARCHAR},
+		#{rtnCode,jdbcType=VARCHAR},
+		#{rtnInfo,jdbcType=VARCHAR}, #{rdoTime,jdbcType=TIMESTAMP}, #{reqSender,jdbcType=VARCHAR},
+		#{reqReceiver,jdbcType=VARCHAR}, #{payAmount,jdbcType=DECIMAL},
+		#{actualAmount,jdbcType=DECIMAL},
+		#{spt1,jdbcType=VARCHAR}, #{trxCallbackUrl,jdbcType=VARCHAR},
+		#{rspReceiveTime,jdbcType=TIMESTAMP},
+		#{memo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{offerId,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{reqLogId,jdbcType=DECIMAL},
+		#{rspLogId,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.offer.domain.OfferTransaction">
+		insert into OFFER_TRANSACTION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="trxCode != null">
+				TRX_CODE,
+			</if>
+			<if test="batchSerialNo != null">
+				BATCH_SERIAL_NO,
+			</if>
+			<if test="trxSerialNo != null">
+				TRX_SERIAL_NO,
+			</if>
+			<if test="reqTime != null">
+				REQ_TIME,
+			</if>
+			<if test="otrxSerialNo != null">
+				OTRX_SERIAL_NO,
+			</if>
+			<if test="otrxCode != null">
+				OTRX_CODE,
+			</if>
+			<if test="trxState != null">
+				TRX_STATE,
+			</if>
+			<if test="rtnCode != null">
+				RTN_CODE,
+			</if>
+			<if test="rtnInfo != null">
+				RTN_INFO,
+			</if>
+			<if test="rdoTime != null">
+				RDO_TIME,
+			</if>
+			<if test="reqSender != null">
+				REQ_SENDER,
+			</if>
+			<if test="reqReceiver != null">
+				REQ_RECEIVER,
+			</if>
+			<if test="payAmount != null">
+				PAY_AMOUNT,
+			</if>
+			<if test="actualAmount != null">
+				ACTUAL_AMOUNT,
+			</if>
+			<if test="spt1 != null">
+				SPT1,
+			</if>
+			<if test="trxCallbackUrl != null">
+				TRX_CALLBACK_URL,
+			</if>
+			<if test="rspReceiveTime != null">
+				RSP_RECEIVE_TIME,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="offerId != null">
+				OFFER_ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="reqLogId != null">
+				REQ_LOG_ID,
+			</if>
+			<if test="rspLogId != null">
+				RSP_LOG_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="trxCode != null">
+				#{trxCode,jdbcType=VARCHAR},
+			</if>
+			<if test="batchSerialNo != null">
+				#{batchSerialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="trxSerialNo != null">
+				#{trxSerialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="reqTime != null">
+				#{reqTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="otrxSerialNo != null">
+				#{otrxSerialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="otrxCode != null">
+				#{otrxCode,jdbcType=VARCHAR},
+			</if>
+			<if test="trxState != null">
+				#{trxState,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnCode != null">
+				#{rtnCode,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnInfo != null">
+				#{rtnInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="rdoTime != null">
+				#{rdoTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reqSender != null">
+				#{reqSender,jdbcType=VARCHAR},
+			</if>
+			<if test="reqReceiver != null">
+				#{reqReceiver,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null">
+				#{payAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualAmount != null">
+				#{actualAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="spt1 != null">
+				#{spt1,jdbcType=VARCHAR},
+			</if>
+			<if test="trxCallbackUrl != null">
+				#{trxCallbackUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="rspReceiveTime != null">
+				#{rspReceiveTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="offerId != null">
+				#{offerId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="reqLogId != null">
+				#{reqLogId,jdbcType=DECIMAL},
+			</if>
+			<if test="rspLogId != null">
+				#{rspLogId,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.offer.domain.OfferTransaction">
+		update OFFER_TRANSACTION
+		<set>
+			<if test="trxCode != null">
+				TRX_CODE = #{trxCode,jdbcType=VARCHAR},
+			</if>
+			<if test="batchSerialNo != null">
+				BATCH_SERIAL_NO = #{batchSerialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="trxSerialNo != null">
+				TRX_SERIAL_NO = #{trxSerialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="reqTime != null">
+				REQ_TIME = #{reqTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="otrxSerialNo != null">
+				OTRX_SERIAL_NO = #{otrxSerialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="otrxCode != null">
+				OTRX_CODE = #{otrxCode,jdbcType=VARCHAR},
+			</if>
+			<if test="trxState != null">
+				TRX_STATE = #{trxState,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnCode != null">
+				RTN_CODE = #{rtnCode,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnInfo != null">
+				RTN_INFO = #{rtnInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="rdoTime != null">
+				RDO_TIME = #{rdoTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reqSender != null">
+				REQ_SENDER = #{reqSender,jdbcType=VARCHAR},
+			</if>
+			<if test="reqReceiver != null">
+				REQ_RECEIVER = #{reqReceiver,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null">
+				PAY_AMOUNT = #{payAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualAmount != null">
+				ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="spt1 != null">
+				SPT1 = #{spt1,jdbcType=VARCHAR},
+			</if>
+			<if test="trxCallbackUrl != null">
+				TRX_CALLBACK_URL = #{trxCallbackUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="rspReceiveTime != null">
+				RSP_RECEIVE_TIME = #{rspReceiveTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="offerId != null">
+				OFFER_ID = #{offerId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="reqLogId != null">
+				REQ_LOG_ID = #{reqLogId,jdbcType=DECIMAL},
+			</if>
+			<if test="rspLogId != null">
+				RSP_LOG_ID = #{rspLogId,jdbcType=DECIMAL},
+			</if>
+			<if test="merId != null">
+				MER_ID = #{merId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.offer.domain.OfferTransaction">
+		update OFFER_TRANSACTION
+		set TRX_CODE = #{trxCode,jdbcType=VARCHAR},
+		BATCH_SERIAL_NO = #{batchSerialNo,jdbcType=VARCHAR},
+		TRX_SERIAL_NO = #{trxSerialNo,jdbcType=VARCHAR},
+		REQ_TIME = #{reqTime,jdbcType=TIMESTAMP},
+		OTRX_SERIAL_NO = #{otrxSerialNo,jdbcType=VARCHAR},
+		OTRX_CODE = #{otrxCode,jdbcType=VARCHAR},
+		TRX_STATE = #{trxState,jdbcType=VARCHAR},
+		RTN_CODE = #{rtnCode,jdbcType=VARCHAR},
+		RTN_INFO = #{rtnInfo,jdbcType=VARCHAR},
+		RDO_TIME = #{rdoTime,jdbcType=TIMESTAMP},
+		REQ_SENDER = #{reqSender,jdbcType=VARCHAR},
+		REQ_RECEIVER = #{reqReceiver,jdbcType=VARCHAR},
+		PAY_AMOUNT = #{payAmount,jdbcType=DECIMAL},
+		ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+		SPT1 = #{spt1,jdbcType=VARCHAR},
+		TRX_CALLBACK_URL = #{trxCallbackUrl,jdbcType=VARCHAR},
+		RSP_RECEIVE_TIME = #{rspReceiveTime,jdbcType=TIMESTAMP},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		OFFER_ID = #{offerId,jdbcType=DECIMAL},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		REQ_LOG_ID = #{reqLogId,jdbcType=DECIMAL},
+		RSP_LOG_ID = #{rspLogId,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_TRANSACTION
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND OFFER_TRANSACTION.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND OFFER_TRANSACTION.LOAN_ID = #{loanId}
+			</if>
+			<if test="trxState != null ">
+				AND OFFER_TRANSACTION.TRX_STATE = #{trxState}
+			</if>
+			<if test="trxSerialNo != null ">
+				AND OFFER_TRANSACTION.TRX_SERIAL_NO = #{trxSerialNo}
+			</if>
+			<if test="offerId != null and offerId !=''">
+				AND OFFER_TRANSACTION.offer_id = #{offerId}
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.offer.domain.OfferTransaction"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+		ORDER BY ID DESC
+	</select>
+	
+    <sql id="findDebitDetailResult">
+    select
+         T.ID,
+         '' AS TRX_CODE,
+         '' AS BATCH_SERIAL_NO,
+         T.SERIAL_NO AS TRX_SERIAL_NO, 
+         T.REQ_TIME ,
+         '' AS OTRX_SERIAL_NO,
+         '' AS OTRX_CODE,
+         T.STATE AS TRX_STATE,
+         T.RTN_CODE, 
+         T.RTN_INFO, 
+         T.RES_TIME AS RDO_TIME, 
+         '' AS REQ_SENDER,
+         '' AS REQ_RECEIVER,
+         T.PAY_AMOUNT AS PAY_AMOUNT,
+         T.ACTUAL_AMOUNT AS ACTUAL_AMOUNT,
+         '' AS SPT1, 
+         '' AS TRX_CALLBACK_URL,
+         T.RES_TIME AS RSP_RECEIVE_TIME,
+         T.MEMO, 
+         T.CREATE_TIME, 
+         T.UPDATE_TIME, 
+         T.DEBIT_ID  AS OFFER_ID,
+         T.LOAN_ID, 
+         null  AS REQ_LOG_ID,
+         null AS RSP_LOG_ID
+     FROM DEBIT_TRANSACTION T ,V_LOAN_INFO V
+     WHERE 
+          V.ID=T.LOAN_ID
+        <if test="offerId !=null and offerId !=''">
+	     AND T.DEBIT_ID=#{offerId}
+	    </if>
+        <if test="fundsSources !=null and fundsSources !=''">
+		 AND V.FUNDS_SOURCES=#{fundsSources}
+		</if>
+    </sql>
+    
+    <!-- 委托代购回盘  查看 报盘信息-->
+	<sql id="offerTractionSelect">
+	SELECT
+	     T.ID,
+	     T.TRX_CODE, 
+	     T.BATCH_SERIAL_NO, 
+	     T.TRX_SERIAL_NO, 
+	     T.REQ_TIME, 
+	     T.OTRX_SERIAL_NO,
+	     T.OTRX_CODE,
+	     T.TRX_STATE, 
+	     T.RTN_CODE, 
+	     T.RTN_INFO, 
+	     T.RDO_TIME, 
+	     T.REQ_SENDER, 
+	     T.REQ_RECEIVER, 
+	     T.PAY_AMOUNT,
+	     T.ACTUAL_AMOUNT,
+	     T.SPT1, 
+	     T.TRX_CALLBACK_URL, 
+	     T.RSP_RECEIVE_TIME, 
+	     T.MEMO, 
+	     T.CREATE_TIME, 
+	     T.UPDATE_TIME,
+	     T.OFFER_ID,
+	     T.LOAN_ID, 
+	     T.REQ_LOG_ID, 
+	     T.RSP_LOG_ID
+	FROM OFFER_TRANSACTION T ,V_LOAN_INFO V
+     WHERE 
+          V.ID=T.LOAN_ID
+        <if test="offerId !=null and offerId !=''">
+	     AND T.OFFER_ID=#{offerId}
+	    </if>
+		<if test="fundsSources !=null and fundsSources !=''">
+		AND V.FUNDS_SOURCES=#{fundsSources}
+		</if>
+		<if test="isThird != null ">
+			AND 'F' = #{isThird}
+		</if>
+	</sql>
+	
+	<sql id="thirdOfferTractionSelect">
+		select
+		<include refid="Third_Base_Column_List" />
+		from debit_transaction t where t.debit_id= #{offerId}
+		<if test="isThird != null ">
+			AND 'T' = #{isThird}
+		</if>
+	</sql>
+
+	<select id="findWithPG" parameterType="com.zdmoney.credit.offer.domain.OfferTransaction"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<if test='isThird == "F" '>
+			<include refid="offerTractionSelect"></include>
+		</if>
+		<if test='isThird == "T" '>
+			<include refid="thirdOfferTractionSelect"></include>
+		</if>
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+
+	<select id="count" parameterType="com.zdmoney.credit.system.domain.BaseMessage"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="offerTractionSelect"></include>
+		union all
+		<include refid="thirdOfferTractionSelect"></include>
+		)
+	</select>
+	
+	<!-- 非外贸3的回盘信息查询SQL  -->
+	<sql id="searchOfferTransactionInfoSqlNOWM3">
+		SELECT    T1.ID,
+		          T2.LOAN_ID,
+				  T1.REQ_TIME,
+			      T4.NAME,
+			      T4.IDNUM,
+			      T2.BANK_NAME,
+			      T2.BANK_ACCT,
+			      T1.PAY_AMOUNT,
+			      T1.ACTUAL_AMOUNT,
+			      T1.RSP_RECEIVE_TIME,
+			      T1.MEMO,
+			      T1.TRX_STATE,
+			      T1.RTN_CODE,
+			      T2.TYPE,
+			      T3.FUNDS_SOURCES,
+			      T3.CONTRACT_NUM,
+			      T2.PAY_SYS_NO_REAL,
+			      T3.LOAN_BELONG,
+			      t6.memo org_memo,
+				  TO_CHAR(T7.BUY_BACK_TIME,'yyyy-mm-dd') AS BUY_BACK_TIME,
+			      T1.MER_ID,
+			      T8.TRANSFER_BATCH
+			 FROM OFFER_TRANSACTION T1, OFFER_INFO T2, V_LOAN_INFO T3, PERSON_INFO T4,COM_ORGANIZATION T5,COM_ORGANIZATION T6,LOAN_RETURN_RECORD T7,loan_transfer_info t8
+			 WHERE T1.OFFER_ID = T2.ID
+			    AND T2.LOAN_ID = T3.ID
+			    AND T3.BORROWER_ID = T4.ID
+			    AND T3.SALES_DEPARTMENT_ID = T5.ID
+			    AND T3.SIGN_SALES_DEP_ID = T6.ID
+				AND T2.LOAN_ID = T7.LOAN_ID(+)
+				AND T2.LOAN_ID = T8.LOAN_ID(+)
+		<if test="memo != null and memo !=''">
+				<if test="memo == 1">
+					AND t6.memo ='速贷'
+				</if>
+				<if test="memo == 2">
+					AND(t6.memo !='速贷'
+					OR t6.memo is null)					
+				</if>
+			</if>
+			   
+			<if test="orgCode != null and orgCode !=''">
+				AND T5.ORG_CODE LIKE #{orgCode} || '%'
+			</if>
+			<if test="fundsSource != null and fundsSource !=''">
+				AND T3.FUNDS_SOURCES = #{fundsSource}
+			</if>
+			<if test="name != null and name !=''">
+				AND T4.NAME LIKE #{name} || '%'
+			</if>
+			<if test="idNum != null and idNum !=''">
+				AND T4.IDNUM = #{idNum}
+			</if>
+			<if test="contractNum != null and contractNum !=''">
+				AND T3.CONTRACT_NUM=#{contractNum}
+			</if>
+			<if test="paySysNo != null and paySysNo !=''">
+				AND T2.PAY_SYS_NO_REAL=#{paySysNo}
+			</if>
+			<if test="startOfferDate != null ">
+				AND T1.REQ_TIME >= to_date(#{startOfferDate},'yyyy-MM-dd')
+			</if>
+			<if test="endOfferDate != null ">
+				AND T1.REQ_TIME &lt; to_date(#{endOfferDate},'yyyy-MM-dd') + 1
+			</if>
+			<if test="startReceiveDate != null ">
+				AND T1.RSP_RECEIVE_TIME >= to_date(#{startReceiveDate},'yyyy-MM-dd')
+			</if>
+			<if test="endReceiveDate != null ">
+				AND T1.RSP_RECEIVE_TIME &lt; to_date(#{endReceiveDate},'yyyy-MM-dd') + 1
+			</if>
+			<if test="teller != null and teller !=''">
+				AND T2.TELLER = #{teller}
+			</if>
+			<if test="returnCode != null and returnCode !=''">
+			<if test="returnCode == 'sending'.toString()">
+				AND T1.RTN_CODE IS NULL AND T1.TRX_STATE = '已发送'
+			</if>
+			<if test="returnCode != 'sending'.toString()">
+				AND T1.RTN_CODE = #{returnCode}
+			</if>
+			</if>
+			<if test="bankCode != null and bankCode !=''">
+				AND T2.BANK_CODE = #{bankCode}
+			</if>
+			<if test="loanBelong != null and loanBelong !=''">
+				AND T3.LOAN_BELONG = #{loanBelong}
+			</if>
+			<if test="fundsSourcesList != null">
+				AND T3.FUNDS_SOURCES IN
+				<foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+					#{fundsSource}
+				</foreach>
+			</if>
+			<if test="merId != null and merId !=''">
+				AND T1.MER_ID = #{merId}
+			</if>
+			<if test="transferBatch != null and transferBatch!=''">
+				and t8.transfer_batch ='${transferBatch}'
+			</if>
+	</sql>
+	
+	<!-- 外贸3回盘信息查询SQL -->
+	<sql id="searchOfferTransactionInfoSqlWM3">
+		SELECT T1.ID,
+		       T2.LOAN_ID,
+		       T1.REQ_TIME,
+		       T4.NAME,
+		       T4.IDNUM,
+		       T7.BANK_NAME,
+		       T2.ACCT_NO AS BANK_ACCT,
+		       T1.PAY_AMOUNT,
+		       T1.ACTUAL_AMOUNT,
+		       T1.RES_TIME AS RSP_RECEIVE_TIME,
+		       T1.MEMO,
+		       T1.STATE AS TRX_STATE,
+		       T1.RTN_CODE,
+		       T2.TYPE,
+		       T3.FUNDS_SOURCES,
+		       T3.CONTRACT_NUM,
+		       T2.PAY_SYS_NO AS PAY_SYS_NO_REAL,
+		       T3.LOAN_BELONG,
+		       T6.MEMO AS ORG_MEMO,
+			   TO_CHAR(T8.BUY_BACK_TIME,'yyyy-mm-dd') AS BUY_BACK_TIME,
+		       '' MER_ID,
+		       t9.transfer_batch
+		  FROM DEBIT_TRANSACTION T1,
+		       DEBIT_BASE_INFO   T2,
+		       V_LOAN_INFO       T3,
+		       PERSON_INFO       T4,
+		       COM_ORGANIZATION  T5,
+		       COM_ORGANIZATION  T6,
+		       LOAN_BANK         T7,
+			   LOAN_RETURN_RECORD T8,
+			   loan_transfer_info t9
+		 WHERE T1.DEBIT_ID = T2.ID
+		   AND T2.LOAN_ID = T3.ID
+		   AND T3.BORROWER_ID = T4.ID
+		   AND T3.SALES_DEPARTMENT_ID = T5.ID
+		   AND T3.SIGN_SALES_DEP_ID = T6.ID
+		   AND T3.GIVE_BACK_BANK_ID = T7.ID
+		   AND T2.LOAN_ID = T8.LOAN_ID(+)
+		   AND T2.LOAN_ID = T9.LOAN_ID(+)
+		<if test="memo != null and memo !=''">
+				<if test="memo == 1">
+					AND t6.memo ='速贷'
+				</if>
+				<if test="memo == 2">
+					AND(t6.memo !='速贷'
+					OR t6.memo is null)					
+				</if>
+			</if>
+			   
+			<if test="orgCode != null and orgCode !=''">
+				AND T5.ORG_CODE LIKE #{orgCode} || '%'
+			</if>
+			<if test="fundsSource != null and fundsSource !=''">
+				AND T3.FUNDS_SOURCES = #{fundsSource}
+			</if>
+			<if test="name != null and name !=''">
+				AND T4.NAME LIKE #{name} || '%'
+			</if>
+			<if test="idNum != null and idNum !=''">
+				AND T4.IDNUM = #{idNum}
+			</if>
+			<if test="contractNum != null and contractNum !=''">
+				AND T3.CONTRACT_NUM=#{contractNum}
+			</if>
+			<if test="paySysNo != null and paySysNo !=''">
+				AND T2.PAY_SYS_NO=#{paySysNo}
+			</if>
+			<if test="startOfferDate != null ">
+				AND T1.REQ_TIME >= to_date(#{startOfferDate},'yyyy-MM-dd')
+			</if>
+			<if test="endOfferDate != null ">
+				AND T1.REQ_TIME &lt; to_date(#{endOfferDate},'yyyy-MM-dd') + 1
+			</if>
+			<if test="startReceiveDate != null ">
+				AND T1.RES_TIME >= to_date(#{startReceiveDate},'yyyy-MM-dd')
+			</if>
+			<if test="endReceiveDate != null ">
+				AND T1.RES_TIME &lt; to_date(#{endReceiveDate},'yyyy-MM-dd') + 1
+			</if>
+			<if test="returnCode != null and returnCode !=''">
+				<if test="returnCode == 'sending'.toString()">
+					AND T1.RTN_CODE IS NULL AND T1.STATE = '已发送'
+				</if>
+				<if test="returnCode != 'sending'.toString()">
+					AND T1.RTN_CODE = #{returnCode}
+				</if>
+			</if>
+			<if test="bankCode != null and bankCode !=''">
+				AND T2.BANK_CODE = #{bankCode}
+			</if>
+			<if test="loanBelong != null and loanBelong !=''">
+				AND T3.LOAN_BELONG = #{loanBelong}
+			</if>
+			<if test="fundsSourcesList != null">
+				AND T3.FUNDS_SOURCES IN
+				<foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+					#{fundsSource}
+				</foreach>
+			</if>
+			<if test="transferBatch != null and transferBatch!=''">
+				and t9.transfer_batch ='${transferBatch}'
+			</if>
+	</sql>
+	
+	<!-- 代扣回盘 -->
+	<sql id="searchOfferTransactionInfoSql">
+		<include refid="searchOfferTransactionInfoSqlNOWM3"/>
+		UNION ALL
+		<include refid="searchOfferTransactionInfoSqlWM3"/>
+	</sql>		
+	
+	<select id="searchOfferTransactionInfoWithPg" parameterType="java.util.Map"
+		resultMap="offerReturnVoMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		select * from (
+		<include refid="searchOfferTransactionInfoSql"></include>
+		) t ORDER BY REQ_TIME ASC 
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+	<select id="searchOfferTransactionInfoWithPgCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="searchOfferTransactionInfoSql" />
+		)
+	</select>
+	<!-- 代扣回盘 -->
+	
+    <!-- 查询线下还款已发送且已导出的报盘流水信息 -->
+    <select id="queryOffLineOfferTransaction" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select t2.*
+          from v_loan_info t1, offer_transaction t2
+         where t1.id = t2.loan_id
+           and t2.trx_state = '已发送'
+           and exists (select 1 from offer_export_record e where e.trans_id = t2.id)
+           <if test="contractNum != null and contractNum !=''">
+                and t1.contract_num = #{contractNum}
+           </if>
+           <if test="fundsSource != null and fundsSource !=''">
+                and t1.funds_sources = #{fundsSource}
+           </if>
+           <if test="fundsSourcesList != null">
+               and t1.funds_sources in
+              <foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+                  #{fundsSource}
+              </foreach>
+           </if>
+           and rownum = 1
+    </select>
+    
+    <!-- 查询线下还款已发送且已导出的报盘流水信息 -->
+    <select id="findOfferTranscationByBankAcct" parameterType="java.util.Map" resultMap="BaseResultMap">
+           select t2.*
+  			from v_loan_info t1, offer_transaction t2, loan_bank t3
+			where t1.id = t2.loan_id
+ 			and t1.give_back_bank_id = t3.id
+		   	and t2.trx_state = '已发送'
+		   	and t1.loan_state in ('正常','逾期')
+		   	and exists
+ 			(select 1 from offer_export_record e where e.trans_id = t2.id)
+           <if test="bankAcct != null and bankAcct !=''">
+                and t3.account = #{bankAcct}
+           </if>
+    </select>
+</mapper>

@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.grant.domain.LoanBaseGrantMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.credit.grant.domain.LoanBaseGrant" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="GRANT_APPLY_DATE" property="grantApplyDate" jdbcType="TIMESTAMP" />
+        <result column="GRANT_APPLY_FINISH_DATE" property="grantApplyFinishDate" jdbcType="TIMESTAMP" />
+        <result column="GRANT_STATE" property="grantState" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+        <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+        <result column="PROPOSER_ID" property="proposerId" jdbcType="DECIMAL" />
+        <result column="APP_NO" property="appNo" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="PORT_BATNO" property="portBatNo" jdbcType="VARCHAR" />
+        <result column="RESP_STATUS" property="respStatus" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="grantQueryResultMap" type="com.zdmoney.credit.grant.vo.LoanBaseGrantVo">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="APP_NO" property="appNo" jdbcType="VARCHAR" />
+        <result column="GRANT_APPLY_DATE" property="grantApplyDate"
+            jdbcType="TIMESTAMP" />
+        <result column="GRANT_APPLY_FINISH_DATE" property="grantApplyFinishDate"
+            jdbcType="TIMESTAMP" />
+        <result column="GRANT_STATE" property="grantState" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+        <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+        <result column="FUNDS_SOURCES" property="founsSource" jdbcType="VARCHAR" />
+        <result column="PACT_MONEY" property="pactMoney" jdbcType="VARCHAR" />
+        <result column="GRANT_MONEY" property="grantMoney" jdbcType="VARCHAR" />
+        <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+        <result column="FULL_NAME" property="branchBankName" jdbcType="VARCHAR" />
+        <result column="ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+        <result column="MANAGE_RATE_FOR_PARTY_C" property="manageRateForPartyc" jdbcType="VARCHAR" />
+        <result column="MANAGE_RATE_FOR_PARTY_D" property="manageRateForPartyd" jdbcType="VARCHAR" />
+        <result column="EVAL_RATE" property="evalRate" jdbcType="VARCHAR" />
+        <result column="RATE_SUM" property="rateSum" jdbcType="VARCHAR" />
+        <result column="RISK" property="risk" jdbcType="VARCHAR" />
+        <result column="STARTRDATE" property="starTrDate" jdbcType="TIMESTAMP" />
+        <result column="ENDRDATE" property="endrDate" jdbcType="TIMESTAMP" />
+        <result column="REFER_RATE" property="referRate" jdbcType="VARCHAR" />
+        <result column="MANAGE_RATE" property="manageRate" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="GRANT_APPLY_DATE" property="grantApplyDate" jdbcType="TIMESTAMP" />
+        <result column="SIGN_SALES_DEP_NAME" property="signSalesDepName" jdbcType="VARCHAR" />
+        <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+        <result column="TIME" property="time" jdbcType="VARCHAR" />
+        <result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP" />
+        <result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ID, LOAN_ID, GRANT_APPLY_DATE, GRANT_APPLY_FINISH_DATE, GRANT_STATE, CREATE_TIME,
+    UPDATE_TIME, REMARK, CREATOR, UPDATOR, PROPOSER_ID, APP_NO, CONTRACT_NUM,PORT_BATNO,RESP_STATUS
+  </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal">
+        select
+        <include refid="Base_Column_List" />
+        from LOAN_BASE_GRANT
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+        delete from LOAN_BASE_GRANT
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+
+    <insert id="insert" parameterType="com.zdmoney.credit.grant.domain.LoanBaseGrant">
+        insert into LOAN_BASE_GRANT
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                ID,
+            </if>
+            <if test="loanId != null" >
+                LOAN_ID,
+            </if>
+            <if test="grantApplyDate != null" >
+                GRANT_APPLY_DATE,
+            </if>
+            <if test="grantApplyFinishDate != null" >
+                GRANT_APPLY_FINISH_DATE,
+            </if>
+            <if test="grantState != null" >
+                GRANT_STATE,
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null" >
+                UPDATE_TIME,
+            </if>
+            <if test="remark != null" >
+                REMARK,
+            </if>
+            <if test="creator != null" >
+                CREATOR,
+            </if>
+            <if test="updator != null" >
+                UPDATOR,
+            </if>
+            <if test="proposerId != null" >
+                PROPOSER_ID,
+            </if>
+            <if test="appNo != null" >
+                APP_NO,
+            </if>
+            <if test="contractNum != null" >
+                CONTRACT_NUM,
+            </if>
+            <if test="portBatNo != null" >
+                PORT_BATNO,
+            </if>
+            <if test="respStatus != null" >
+                RESP_STATUS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="loanId != null" >
+                #{loanId,jdbcType=DECIMAL},
+            </if>
+            <if test="grantApplyDate != null" >
+                #{grantApplyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="grantApplyFinishDate != null" >
+                #{grantApplyFinishDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="grantState != null" >
+                #{grantState,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null" >
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null" >
+                #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="proposerId != null" >
+                #{proposerId,jdbcType=DECIMAL},
+            </if>
+            <if test="appNo != null" >
+                #{appNo,jdbcType=VARCHAR},
+            </if>
+            <if test="contractNum != null" >
+                #{contractNum,jdbcType=VARCHAR},
+            </if>
+            <if test="portBatNo != null" >
+                #{portBatNo,jdbcType=VARCHAR},
+            </if>
+            <if test="respStatus != null" >
+                #{respStatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zdmoney.credit.grant.domain.LoanBaseGrant">
+        update LOAN_BASE_GRANT
+        <set >
+            <if test="loanId != null" >
+                LOAN_ID = #{loanId,jdbcType=DECIMAL},
+            </if>
+            <if test="grantApplyDate != null" >
+                GRANT_APPLY_DATE = #{grantApplyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="grantApplyFinishDate != null" >
+                GRANT_APPLY_FINISH_DATE = #{grantApplyFinishDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="grantState != null" >
+                GRANT_STATE = #{grantState,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null" >
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="updator != null" >
+                UPDATOR = #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="proposerId != null" >
+                PROPOSER_ID = #{proposerId,jdbcType=DECIMAL},
+            </if>
+            <if test="appNo != null" >
+                APP_NO = #{appNo,jdbcType=VARCHAR},
+            </if>
+            <if test="contractNum != null" >
+                CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR},
+            </if>
+            <if test="portBatNo != null" >
+                PORT_BATNO = #{portBatNo,jdbcType=VARCHAR},
+            </if>
+            <if test="respStatus != null" >
+                RESP_STATUS = #{respStatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    
+    <sql id="findListByMapSelective">
+        select
+        <include refid="Base_Column_List" />
+        from loan_base_grant
+    </sql>
+
+  <sql id="findListByMapConditions">
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="loanId != null">
+        and loan_id = #{loanId}
+      </if>
+      <if test="appNo != null and appNo != ''">
+          and APP_NO = #{appNo}
+      </if>
+      <if test=" grantState != null and grantState != ''">
+        and grant_state = #{grantState}
+      </if>
+      <if test="contractNum != null and contractNum != '' ">
+         and contract_num = #{contractNum}
+      </if>
+      <if test="grantApplyDateStart != null and grantApplyDateStart != ''">
+      	and grant_apply_date >= to_date(#{grantApplyDateStart},'yyyy-MM-dd')
+      </if>
+      <if test="grantApplyFinishDate != null and grantApplyFinishDate != ''">
+      	and TO_CHAR(grant_apply_finish_date,'YYYY-MM-DD') = #{grantApplyFinishDate}
+      </if>
+      <if test="respStatus != null and respStatus != ''">
+      	and resp_status = #{respStatus}
+      </if>
+      <if test="respStatusList != null">
+      	and resp_status in 
+      	<foreach collection="respStatusList" open="(" separator="," close=")" item="reStatus">
+      		#{reStatus}
+      	</foreach>
+      </if>
+    </trim>
+  </sql>
+    <sql id="findListByMapOrderBy">
+        <if test="sort != null and  sort != ''">
+            ORDER BY ${sort}
+        </if>
+    </sql>
+
+    <select id="findListByVO" parameterType="com.zdmoney.credit.grant.domain.LoanBaseGrant" resultMap="BaseResultMap">
+        <include refid="findListByMapSelective" />
+        <include refid="findListByMapConditions" />
+    </select>
+
+    <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        <include refid="findListByMapSelective" />
+        <include refid="findListByMapConditions" />
+        <include refid="findListByMapOrderBy" />
+    </select>
+
+    <sql id="queryFinanceGrantContions">
+        <where>
+            <if test="loanId != null and loanId != ''">
+                and t1.id =#{loanId}
+            </if>
+            <if test="founsSources != null">
+                and t1.funds_sources in
+                <foreach item="fs" index="index" collection="founsSources"
+                    open="(" separator="," close=")">
+                    #{fs}
+                </foreach>
+            </if>
+            <if test="founsSource != null and founsSource != ''">
+                and t1.funds_sources = #{founsSource}
+            </if>
+            <!-- <if test="loanFlowState != null and loanFlowState != ''"> and t1.loan_flow_state 
+                = #{loanFlowState} </if> -->
+            <if test="loanFlowStates != null">
+                and t1.loan_flow_state in
+                <foreach item="loanFlowState" index="index" collection="loanFlowStates"
+                    open="(" separator="," close=")">
+                    #{loanFlowState}
+                </foreach>
+            </if>
+            <!-- <if test="loanState != null and loanState != ''"> and t1.loan_state 
+                = #{loanState} </if> -->
+            <if test="loanStates != null">
+                and t1.loan_state in
+                <foreach item="loanState" index="index" collection="loanStates"
+                    open="(" separator="," close=")">
+                    #{loanState}
+                </foreach>
+            </if>
+            <if test="beginDate != null and beginDate != ''">
+                and t3.grant_apply_date &gt;= to_date(#{beginDate},'yyyy-MM-dd')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and t3.grant_apply_date &lt; to_date(#{endDate},'yyyy-MM-dd') + 1
+            </if>
+            <!-- grantStates 不允许包含有未放款的状态 -->
+            <if test="grantStates != null">
+                and t3.grant_state in
+                <foreach item="grantState" index="index" collection="grantStates"
+                    open="(" separator="," close=")">
+                    #{grantState}
+                </foreach>
+            </if>
+            <if test="grantState != null  and grantState != '' and grantState != '00'">
+                and t3.grant_state = #{grantState}
+            </if>
+            <if test="grantState == '00'">
+                and (t3.grant_state is null or t3.grant_state = #{grantState})
+            </if>
+            <if test="idNum != null and idNum != ''">
+                and t4.idnum = #{idNum}
+            </if>
+            <if test="name != null and name != ''">
+                and t4.name = #{name}
+            </if>
+            <if test="contractNum != null and contractNum != ''">
+                and t1.contract_num = #{contractNum}
+            </if>
+            <if test="appNo != null and appNo != ''">
+                and t1.app_no = #{appNo}
+            </if>
+            <if test="appNo != null and appNo != ''">
+                and t1.app_no = #{appNo}
+            </if>
+            <if test="batchNum != null and batchNum != ''">
+                and t1.batch_num = #{batchNum}
+            </if>
+        </where>
+    </sql>
+    <sql id="queryFinanceGrantInfos">
+        SELECT
+        (select a.name from com_organization a where a.id = T1.SIGN_SALES_DEP_ID) as signSalesDepName,
+        T1.LOAN_TYPE ,/*借款产品*/
+        T1.TIME,/*借款期限*/
+        T1.SIGN_DATE,/*签约日期*/
+        T4.NAME,
+        T4.IDNUM,
+        T1.FUNDS_SOURCES,
+        T1.PACT_MONEY,
+        T1.GRANT_MONEY,
+        T1.ID AS LOAN_ID,
+        T1.APP_NO,
+        T2.BANK_NAME,
+        T2.FULL_NAME,
+        T2.ACCOUNT,
+        T3.GRANT_APPLY_DATE,
+        T3.GRANT_APPLY_FINISH_DATE,
+        T3.ID,
+        CASE
+        WHEN T3.GRANT_STATE = '00' THEN
+        '未放款'
+        WHEN T3.GRANT_STATE = '01' THEN
+        '申请中'
+        WHEN T3.GRANT_STATE = '02' THEN
+        '放款成功'
+        WHEN T3.GRANT_STATE = '03' THEN
+        '放款失败'
+        WHEN T3.GRANT_STATE = '04' THEN
+        '关闭'
+        ELSE
+        '未放款'
+        END AS GRANT_STATE,
+        T1.MANAGE_RATE_FOR_PARTY_C,
+        0 AS MANAGE_RATE_FOR_PARTY_D,
+        T1.EVAL_RATE,
+        T1.RATE_SUM,
+        T1.RISK,
+        T1.STARTRDATE,
+        T1.ENDRDATE,
+        T1.REFER_RATE,
+        T1.MANAGE_RATE,
+        T1.CONTRACT_NUM,
+        T1.BATCH_NUM
+        FROM V_LOAN_INFO T1
+        LEFT JOIN LOAN_BANK T2
+        ON T1.GRANT_BANK_ID = T2.ID
+        LEFT JOIN (SELECT T.*,
+        ROW_NUMBER() OVER(PARTITION BY T.LOAN_ID ORDER BY T.GRANT_APPLY_DATE DESC) AS
+        RANK_NO
+        FROM LOAN_BASE_GRANT T) T3
+        ON T1.ID = T3.LOAN_ID
+        AND T3.RANK_NO = 1
+        LEFT JOIN PERSON_INFO T4
+        ON T1.BORROWER_ID = T4.ID
+        <include refid="queryFinanceGrantContions" />
+        ORDER BY T1.ID DESC
+    </sql>
+    <select id="queryFinanceGrantInfosDetail" parameterType="java.util.Map"
+        resultMap="grantQueryResultMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="queryFinanceGrantInfos" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <select id="queryFinanceGrantInfosCount" parameterType="java.util.Map"
+        resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+        <include refid="queryFinanceGrantInfos" />
+        )
+    </select>
+
+    <select id="exportFinanceGrantInfos" parameterType="java.util.Map"
+        resultMap="grantQueryResultMap">
+        <include refid="queryFinanceGrantInfos" />
+    </select>
+
+    <select id="getFinanceGrantApplyVo" parameterType="java.util.Map" resultType="com.zdmoney.credit.grant.vo.GrantApplyVo">
+    select 'A02' as sysSource,/*合作机构号*/
+        t1.CONTRACT_NUM as pactNo,/*合同号码*/
+        '05901' as projNo,/*信托项目编号*/
+        case
+         when t1.LOAN_TYPE = '保单贷' then
+          '500001 '
+         when t1.LOAN_TYPE = '卡友贷' then
+          '500004 '
+         when t1.LOAN_TYPE = '网购达人贷A' then
+          '500003 '
+         when t1.LOAN_TYPE = '随车贷' then
+          '500002 '
+         else
+          ''
+        end as prdtNo, /*产品号*/
+        t1.PACT_MONEY as pactAmt,/*合同金额*/
+        '0' as feeTotal,/*趸交费总额*/
+        t1.RATEEM as lnRate,/*利率（月）*/
+        (select decode(bco.code,null,'000000',bco.code) from com_organization co,BHXT_CITY_ORG bco where co.id =
+        t1.SALES_DEPARTMENT_ID and co.parent_id = bco.org_id and rownum = 1) as appArea,
+        case
+         when t1.purpose = '资金周转' then
+          '00001'
+         when t1.purpose = '扩大经营' then
+          '00002'
+         when t1.purpose = '购生活品' then
+          '00003'
+         when t1.purpose = '购原材料' then
+          '00004'
+         when t1.purpose = '购设备' then
+          '00005'
+         when t1.purpose = '教育支出' then
+          '00006'
+         when t1.purpose = '装修家居' then
+          '00007'
+         when t1.purpose = '医疗' then
+          '00008'
+         when t1.purpose = '旅游' then
+          '00009'
+         when t1.purpose = '购买' then
+          '00010'
+         else
+          '00011'
+        end as appUse,
+        t1.TIME as termMon,/*合同期限（月）*/
+        '0' as termDay,/*合同期限（日）*/
+        to_char(t1.ENDRDATE,'yyyyMMDdd') as endDate,/*到期日期*/
+        '02' as payType,/*扣款日类型*/
+        t1.PROMISE_RETURN_DATE as payDay ,/*扣款日期*/
+        '0' as vouAmt ,/*期缴（保）费金额*/
+        t1.LOAN_STATE as loanState ,/*借款状态*/
+        t1.LOAN_FLOW_STATE as loanFlowState ,/*借款流程状态*/
+        (select co.name from com_organization co where co.id =
+        t1.SALES_DEPARTMENT_ID) as salesDepartmentId,/*所属网点(管理营业部)*/
+        (select co.name from com_organization co where co.id = t1.SIGN_SALES_DEP_ID)
+        as signSalesDepId,/*所属网点(放款营业部)*/
+        (select co.name from com_organization co where co.id = t1.APPLY_SALES_DEP_ID)
+        as applySalesDepId,/*申请营业部*/
+        t1.FUNDS_SOURCES as fundsSources,/*资金来源*/
+        t1.LOAN_BELONG as loanBelong,/*债权归属*/
+        t1.MONEY as money,/*审批金额*/
+        t1.PURPOSE as purpose,/*借款目的*/
+        to_char(t1.REQUEST_DATE,'yyyyMMDdd') as requestDate,/*申请日期*/
+        t1.RESTOREEM as restoreem,/*月还款能力*/
+        t1.AUDITING_MONEY as auditingMoney,/*审核金额*/
+        t1.REQUEST_MONEY as requestMoney,/*申请金额*/
+        to_char(t1.GRANT_MONEY_DATE,'yyyyMMDdd') as grantMoneyDate,/*放款时间*/
+        to_char(t1.SIGN_DATE,'yyyyMMDdd') as signDate,/*签约日期*/
+        t1.REQUEST_TIME as requestTime,/*申请期限*/
+        '' as auditDate,/*审批日期*/
+        t1.APPROVE_MONEY as approveMoney ,/*审批金额*/
+        t1.APPROVE_TIME as approveTime,/*审批期数*/
+        to_char(t1.CONTRACT_DATE,'yyyyMMDdd') as contractDate,/*合同确认日期*/
+        to_char(t1.STARTRDATE,'yyyyMMDdd') as startrdate ,/*开始还款日期*/
+        to_char(t1.ENDRDATE,'yyyyMMDdd') as endrdate ,/*结束还款日期*/
+        t1.RATEEM*12 as rateey ,/*年化利率*/
+        t1.TIME as loanTime,/*借款期限*/
+        t1.GRANT_MONEY as grantMoney,/*放款金额*/
+        t1.RISK as riskMoney,/*风险金*/
+        t1.PENALTY_RATE as penaltyRate,/*罚息比率*/
+        t1.residual_pact_money as residualPactMoney,/*剩余本金*/
+        '0' as accrualem,/*银行年利率均化到每月的利率,即平均每月利息*/
+        '0' as advance,/*预收的款项*/
+        '0' as rate,/*实际到账利率*/
+        '' as bank,/*银行名称*/
+        '1' as ifPact,/*是否签订合同*/
+        t1.app_no as prePactNo,/*预审批ID*/
+        '' as czPactNo,/*查证流水号*/
+        '' as workSts,/*工作状态*/
+        t1.LOAN_TYPE as prdtName,/*产品名称*/
+        'CL0001' as cardChn,/*虚拟账户渠道*/
+        '01' as repayType,/*还款方式*/
+        t1.BORROWER_ID as borrowerId
+        from v_loan_info t1
+        where t1.id = #{loanId}
+    </select>
+
+    <select id="getFinanceGrantAccountVo" parameterType="java.util.Map"
+        resultType="com.zdmoney.credit.grant.vo.GrantAccountVo">
+        select '1' as acUse,/*账户用途*/
+        0 as acAmt,/*放款金额*/
+        '11' as acType,/*账户类型*/
+        t1.account as acno,/*账户号*/
+        t3.name as acName,/*账户户名*/
+        (select w.code from wm2_bank_config w where t1.bank_code = w.bank_code and rownum =1) as bankCode,/*银行代码*/
+        '' as bankProv,/*账户开户省*/
+        '' as bankCity,/*账户开户市*/
+        '' as bankSite,/*开户银行网点*/
+        '0' as idType,/*个人证件类型*/
+        t3.idnum as idNo,/*证件号码*/
+        t3.mphone as phoneNo,/*银行预留手机号*/
+        '' as validDate,/*信用卡有效期*/
+        '' as cvvNo/*信用卡CVV2码*/
+        from loan_bank t1 ,v_loan_info t2 ,person_info t3
+        where t1.id = t2.give_back_bank_id and t2.borrower_id = t3.id
+        and t2.id = #{loanId}
+        union all
+        select '2' as acUse,/*账户用途*/
+        t2.money as acAmt,/*放款金额*/
+        '11' as acType,/*账户类型*/
+        t1.account as acno,/*账户号*/
+        t3.name as acName,/*账户户名*/
+        (select w.code from wm2_bank_config w where t1.bank_code = w.bank_code and rownum =1) as bankCode,/*银行代码*/
+        '' as bankProv,/*账户开户省*/
+        '' as bankCity,/*账户开户市*/
+        '' as bankSite,/*开户银行网点*/
+        '0' as idType,/*个人证件类型*/
+        t3.idnum as idNo,/*证件号码*/
+        t3.mphone as phoneNo,/*银行预留手机号*/
+        '' as validDate,/*信用卡有效期*/
+        '' as cvvNo/*信用卡CVV2码*/
+        from loan_bank t1 ,v_loan_info t2 ,person_info t3
+        where t1.id = t2.grant_bank_id and t2.borrower_id = t3.id
+        and t2.id = #{loanId}
+    </select>
+
+    <select id="findApplyAccount4Wm3" parameterType="java.util.Map"
+        resultType="com.zdmoney.credit.framework.vo.wm3.entity.ApplyAccountWm3Entity">
+        select '1' as acUse,/*账户用途*/
+        0 as acAmt,/*放款金额*/
+        '11' as acType,/*账户类型*/
+        t1.account as acno,/*账户号*/
+        t3.name as acName,/*账户户名*/
+        (select w.code from wm2_bank_config w where t1.bank_code = w.bank_code and rownum =1) as bankCode,/*银行代码*/
+        '' as bankProv,/*账户开户省*/
+        '' as bankCity,/*账户开户市*/
+        '' as bankSite,/*开户银行网点*/
+        '0' as idType,/*个人证件类型*/
+        t3.idnum as idNo,/*证件号码*/
+        t3.mphone as phoneNo,/*银行预留手机号*/
+        '' as validDate,/*信用卡有效期*/
+        '' as cvvNo/*信用卡CVV2码*/
+        from loan_bank t1 ,v_loan_info t2 ,person_info t3
+        where t1.id = t2.give_back_bank_id and t2.borrower_id = t3.id
+        and t2.id = #{loanId}
+        union all
+        select '2' as acUse,/*账户用途*/
+        t2.PACT_MONEY as acAmt,/*放款金额*/
+        '11' as acType,/*账户类型*/
+        t1.account as acno,/*账户号*/
+        t3.name as acName,/*账户户名*/
+        (select w.code from wm2_bank_config w where t1.bank_code = w.bank_code and rownum =1) as bankCode,/*银行代码*/
+        '' as bankProv,/*账户开户省*/
+        '' as bankCity,/*账户开户市*/
+        '' as bankSite,/*开户银行网点*/
+        '0' as idType,/*个人证件类型*/
+        t3.idnum as idNo,/*证件号码*/
+        t3.mphone as phoneNo,/*银行预留手机号*/
+        '' as validDate,/*信用卡有效期*/
+        '' as cvvNo/*信用卡CVV2码*/
+        from loan_bank t1 ,v_loan_info t2 ,person_info t3
+        where t1.id = t2.grant_bank_id and t2.borrower_id = t3.id
+        and t2.id = #{loanId}
+    </select>
+    
+    <select id="getFinanceGrantBorrowPersonVo" parameterType="java.util.Map"
+        resultType="com.zdmoney.credit.grant.vo.GrantBorrowPersonVo">
+        select t1.name as comName, /*借款人名称*/
+        '0' as comIdtype,/*证件类型*/
+        t1.idnum as comIdno,/*证件号码*/
+        t1.mphone as comTel/*联系电话*/
+        from person_info t1
+        where t1.id = #{borrowerId}
+    </select>
+    
+   	<select id="findApplyBorrower4WM3" parameterType="java.util.Map"
+        resultType="com.zdmoney.credit.framework.vo.wm3.entity.ApplyBorrowerWm3Entity">
+        select t1.name as comName, /*借款人名称*/
+        '0' as comIdtype,/*证件类型*/
+        t1.idnum as comIdno,/*证件号码*/
+        t1.mphone as comTel/*联系电话*/
+        from person_info t1
+        where t1.id = #{borrowerId}
+    </select>
+
+    <select id="getFinanceGrantBorRelaPerVo" parameterType="java.util.Map"
+        resultType="com.zdmoney.credit.grant.vo.GrantBorRelaPerVo">
+        select t1.name as relName, /*借款人名称*/
+        '0' as relIdtype,/*证件类型*/
+        t1.idnum as relIdno,/*证件号码*/
+        t1.mphone as relTel/*联系电话*/
+        from person_info t1
+        where t1.id = #{borrowerId}
+    </select>
+
+    <select id="findApplyRelation4Wm3" parameterType="java.util.Map"
+        resultType="com.zdmoney.credit.framework.vo.wm3.entity.ApplyRelationWm3Entity">
+        select t1.name as relName, /*借款人名称*/
+        '0' as relIdtype,/*证件类型*/
+        t1.id_card as relIdno,/*证件号码*/
+        nvl(nvl(t1.mphone,t1.tel),t1.ctel) as relTel/*联系电话*/
+        from person_contact_info t1
+        where t1.person_id = #{borrowerId}
+    </select>
+    
+    <select id="getFinanceGrantRepaymentDetailVo" parameterType="java.util.Map" resultType="com.zdmoney.credit.grant.vo.GrantRepaymentDetailVo">
+        select t1.current_accrual as currentAccrual,/*当期利息*/
+        t1.current_term as currentTerm ,/*当前期数*/
+        t1.principal_balance as principalBalance ,/*本金余额*/
+        t1.repayment_all as repaymentAll,/*一次性还款金额*/
+        to_char(t1.return_date,'yyyyMMdd') as returnDate,/*还款日期*/
+        t1.deficit as deficit,/*剩余欠款,用于记录不足额部分*/
+        case t1.repayment_state when '结清' then '02'
+        else '01' end as repaymentState,/*当前还款状态*/
+        decode(t1.fact_return_date,null,to_char(t1.return_date,'yyyyMMdd'),to_char(t1.fact_return_date,'yyyyMMdd')) as factreturnDate,/*结清日期*/
+        to_char(t1.penalty_date,'yyyyMMdd') as penaltyDate,/*罚息起算日期*/
+        t1.returneterm as returneterm, /*每期还款金额*/
+        to_char(t1.return_date,'yyyyMMdd') as endDate, /*账单日*/
+        t1.returneterm - t1.current_accrual as prcpAmt/*当期本金*/
+        from loan_repayment_detail t1
+        where t1.loan_id = #{loanId}
+    </select>
+
+    <select id="queryLoanGrantBaseRelateVloanInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select t1.*
+        from loan_base_grant t1
+        where 1 = 1
+        <if test="grantState != null and grantState != '' ">
+            and t1.grant_state = #{grantState}
+        </if>
+        <if test="contractNum != null and contractNum != '' ">
+            and t1.contract_num = #{contractNum}
+        </if>
+    </select>
+    
+    <!-- 查询放款申请记录信息 -->
+    <sql id="queryLoanBaseGrant">
+        <include refid="findListByMapSelective" />
+        <include refid="findListByMapConditions" />
+    </sql>
+
+    <!-- 分页查询放款申请记录信息 -->
+    <select id="queryLoanBaseGrantDetail" parameterType="java.util.Map" resultMap="grantQueryResultMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="queryLoanBaseGrant" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <!-- 分页查询放款申请记录件数 -->
+    <select id="queryLoanBaseGrantCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (<include refid="queryLoanBaseGrant" />)
+    </select>
+    <!-- 查询待上传的影像资料信息 -->
+    <select id="findAbsData2Upload" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from loan_base_grant g
+        <trim prefix="where" prefixOverrides="and | or">
+	      <if test="grantApplyDate != null and grantApplyDate != ''">
+	      	and grant_apply_date >= to_date(#{grantApplyDate},'yyyy-MM-dd')
+	      </if>
+	      <if test="grantStatus != null and grantStatus != ''">
+	      	and grant_state = #{grantStatus}
+	      </if>
+	       and not exists (select 1 from upload_ftp_file_log l where l.contract_num = g.contract_num and l.upload_address = 'abs')
+    	</trim>	
+    </select>
+    
+    <!-- 外贸3 申请放款信息 -->
+    <select id="findApplyLoanInfo4WM3" parameterType="java.util.Map" resultType="com.zdmoney.credit.framework.vo.wm3.entity.ApplyLoanWm3Entity">
+      select 
+      v.CONTRACT_NUM as "pactNo", /**合同号码**/
+      p.name as "custName", /**客户名称**/
+      p.id as "borrowerId", /**客户编号**/
+      '0' as "idType",/**证件类型**/
+      p.idnum as "idNo",/**证件类型**/
+      case
+        when p.profession = '学生' then
+          '04'
+        when p.profession = '自营' then
+          '03'
+        when p.profession = '白领' then
+          '02'
+        when p.profession = '工薪' then
+          '02'
+        else
+          '99'
+      end as "custType",/**客户类型**/
+      case
+        when p.sex = '男' then
+          '1'
+        when p.sex = '女' then
+          '2'
+        else 
+          '9'
+      end as "sex",/**性别**/
+      to_char(p.birthday,'yyyymmdd') as "birth",/**出生日期**/
+      case
+        when p.married = '未婚' then
+          '10'
+        when p.married = '已婚' then
+          '20'
+        when p.married = '离异' then
+          '40'
+        else
+          '90'
+      end as "marriage",/**婚姻状况**/
+      '' as "children",/**是否有子女**/
+      case
+        when p.ed_level = '初中及以下' then
+          '70'
+        when p.ed_level = '高中' then
+          '60'
+        when p.ed_level = '中专' then
+          '40'
+        when p.ed_level = '大专' then
+          '30'
+        when p.ed_level = '本科' then
+          '20'
+        when p.ed_level = '硕士及以上' then
+          '10'
+        else
+          '99'
+      end as "edu",/**最高学历**/
+      case
+        when p.ed_level = '本科' then
+          '4'
+        when p.ed_level = '硕士及以上' then
+          '3'
+        else
+          '9'
+      end as "degree",/**最高学位*/
+      nvl(p.tel,p.mphone) as "telNo",/**联系电话**/
+      p.mphone as "phoneNo",/**手机号码**/
+      p.postcode as "postCode",/**通讯邮编**/
+      p.address as "postAddr",/**通讯地址**/
+      nvl((select bco.code from BHXT_CITY_ORG bco where o.parent_id = bco.org_id and rownum =1),'000000') as "homeArea",/**户籍归属地**/
+      '' as "homeTel",/**住宅电话**/
+      '' as "homeCode",/**住宅邮编**/
+      '' as "homeAddr",/**住宅地址**/
+      '' as "homeSts",/**居住状况**/
+      p.total_monthly_income as "income",/**月收入（元）**/
+      '' as "mateName",/**配偶名称**/
+      '' as "mateIdtype",/**配偶证件类型**/
+      '' as "mateIdno",/**配偶证件号码**/
+      '' as "mateWork",/**配偶工作单位**/
+      '' as "mateTel",/**配偶联系电话**/
+      '30213' as "projNo",/**信托项目编号 **/
+      case
+		when v.LOAN_TYPE = '保单贷' then
+		'500001'
+		when v.LOAN_TYPE = '随车贷' then
+		'500002'
+		when v.LOAN_TYPE = '网购达人贷A' then
+		'500003'
+		when v.LOAN_TYPE = '卡友贷' then
+		'500004'
+		when v.LOAN_TYPE = '网购达人贷B' then
+		'500005'
+		when v.LOAN_TYPE = '随薪贷' then
+		'500006'
+		when v.LOAN_TYPE = '随意贷' then
+		'500007'
+		when v.LOAN_TYPE = '随房贷' then
+		'500008'
+		when v.LOAN_TYPE = '助学贷' then
+		'500009'
+		when v.LOAN_TYPE = '车贷' then
+		'500010'
+		when v.LOAN_TYPE = '薪生贷' then
+		'500011'
+		when v.LOAN_TYPE = '随房贷A' then
+		'500012'
+		when v.LOAN_TYPE = '随房贷B' then
+		'500013'
+		when v.LOAN_TYPE = '公积金贷' then
+		'500014'
+		when v.LOAN_TYPE = '淘宝商户贷' then
+		'500015'
+		when v.LOAN_TYPE = '学历贷' then
+		'500016'
+		when v.LOAN_TYPE = '随意贷A' then
+		'500017'
+		when v.LOAN_TYPE = '随意贷B' then
+		'500018'
+		when v.LOAN_TYPE = '随意贷C' then
+		'500019'
+      else
+      ''
+      end as "prdtNo", /*产品号*/
+      v.PACT_MONEY as "pactAmt",/**合同金额**/
+      0.00 as "feeTotal",/**趸交费总额**/
+      '' as "premNo",/**保单编号**/
+      0.00 as "premRate",/**保费费率**/
+      v.RATEEM as "lnRate",/**利率（月）**/
+      nvl((select bco.code from BHXT_CITY_ORG bco where o.parent_id = bco.org_id and rownum =1),'000000') as "appArea",/**申请地点**/
+     v.purpose  as "appUse",/**申请用途 **/
+      v.TIME as "termMon",/**合同期限（月）**/
+      '0' as "termDay",/**合同期限（日）**/
+      '4' as "vouType",/**担保方式**/
+      to_char(v.ENDRDATE,'yyyymmdd') as "endDate",/**到期日期**/
+      '02' as "payType",/**扣款日类型**/
+      v.PROMISE_RETURN_DATE as "payDay",/**扣款日期**/
+      0.00 as "vouAmt",/**期缴（保）费金额**/
+      '' as "workType",/**职业**/
+      '' as "workName",/**工作单位名称**/
+      '' as "workWay",/**工作单位所属行业**/
+      '' as "workCode",/**工作单位邮编**/
+      '' as "workAddr",/**工作单位地址**/
+      '' as "workDuty",/**职务**/
+      '' as "workTitle",/**职称**/
+      '' as "workYear",/**工作起始年份**/
+      case
+        when (select count(1) from person_car_info c where c.person_id = p.id)>0 then
+          '1'
+        else
+          '0'
+      end as "ifCar",/**是否有车**/
+      case
+        when (select c.has_loan from person_car_info c where c.person_id = p.id and rownum = 1) ='t' then
+          '1'
+        else
+          '0'
+      end as "ifCarCred",/**是否有按揭车贷**/
+      case
+        when (select count(1) from person_house_info h where h.person_id = p.id)>0 then 
+          '1'
+        else
+          '0'
+      end as "ifRoom",/**是否有房**/
+      case
+        when (select h.has_loan from person_house_info h where h.person_id = p.id and rownum = 1) = 't' then
+          '1'
+        else
+          '0'
+      end as "ifMort",/**是否有按揭房贷**/
+      case
+        when p.has_credit_card = 't' then
+          '1'
+        else 
+          '0'
+      end as "ifCard",/**是否有贷记卡**/
+      0.00 as "cardAmt",/**贷记卡最低额度**/
+      '1' as "ifApp",/**是否填写申请表**/
+      '1' as "ifId",/**是否有身份证信息**/
+      '1' as "ifPact",/**是否以签订合同**/
+      v.app_no as "prePactNo",/**预审批ID**/
+      '' as "czPactNo",/**查证流水号**/
+      '' as "workSts",/**工作状态**/
+      '' as "cardChn" /**虚拟账户渠道**/
+      from v_loan_info v
+      left join person_info p
+      on v.BORROWER_ID = p.id
+      left join loan_repayment_detail d
+      on d.loan_id = v.ID and d.current_term = v.CURRENT_TERM
+      left join com_organization o 
+      on v.SALES_DEPARTMENT_ID = o.id
+	    <trim prefix="where" prefixOverrides="and">
+	    	<if test="loanId != null">
+	    		and v.id = #{loanId}
+	    	</if>
+	    </trim>
+	</select>
+	
+	 <select id="findHrbhAndBh2Infos" resultMap="BaseResultMap">
+        select t1.* from LOAN_BASE_GRANT t1,loan_base t2 where t1.loan_id=t2.id and t2.funds_sources in ('华瑞渤海','渤海2') and t1.grant_state='02'
+    </select>
+</mapper>

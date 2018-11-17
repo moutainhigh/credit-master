@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.BaseRepayRemindMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.BaseRepayRemind">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="DELIVER_STATE" property="deliverState"
+			jdbcType="VARCHAR" />
+		<result column="DELIVER_STATE_REMARK" property="deliverStateRemark"
+			jdbcType="VARCHAR" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="LOAN_STATE" property="loanState" jdbcType="VARCHAR" />
+		<result column="MPHONE" property="mphone" jdbcType="VARCHAR" />
+		<result column="REPAY_DATE" property="repayDate" jdbcType="TIMESTAMP" />
+		<result column="SEND_STATE" property="sendState" jdbcType="VARCHAR" />
+		<result column="SEND_STATE_REMARK" property="sendStateRemark"
+			jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, AMOUNT, DELIVER_STATE, DELIVER_STATE_REMARK, LOAN_ID, LOAN_STATE,
+		MPHONE, REPAY_DATE,
+		SEND_STATE, SEND_STATE_REMARK, TYPE, CREATE_TIME, UPDATE_TIME, CONTENT
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from BASE_REPAY_REMIND
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from BASE_REPAY_REMIND
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.BaseRepayRemind">
+		insert into BASE_REPAY_REMIND (ID, AMOUNT, DELIVER_STATE,
+		DELIVER_STATE_REMARK, LOAN_ID, LOAN_STATE,
+		MPHONE, REPAY_DATE, SEND_STATE,
+		SEND_STATE_REMARK, TYPE, CREATE_TIME,
+		UPDATE_TIME, CONTENT)
+		values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL},
+		#{deliverState,jdbcType=VARCHAR},
+		#{deliverStateRemark,jdbcType=VARCHAR}, #{loanId,jdbcType=DECIMAL},
+		#{loanState,jdbcType=VARCHAR},
+		#{mphone,jdbcType=VARCHAR}, #{repayDate,jdbcType=TIMESTAMP}, #{sendState,jdbcType=VARCHAR},
+		#{sendStateRemark,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.BaseRepayRemind">
+		insert into BASE_REPAY_REMIND
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="deliverState != null">
+				DELIVER_STATE,
+			</if>
+			<if test="deliverStateRemark != null">
+				DELIVER_STATE_REMARK,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="loanState != null">
+				LOAN_STATE,
+			</if>
+			<if test="mphone != null">
+				MPHONE,
+			</if>
+			<if test="repayDate != null">
+				REPAY_DATE,
+			</if>
+			<if test="sendState != null">
+				SEND_STATE,
+			</if>
+			<if test="sendStateRemark != null">
+				SEND_STATE_REMARK,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="deliverState != null">
+				#{deliverState,jdbcType=VARCHAR},
+			</if>
+			<if test="deliverStateRemark != null">
+				#{deliverStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanState != null">
+				#{loanState,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				#{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="repayDate != null">
+				#{repayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sendState != null">
+				#{sendState,jdbcType=VARCHAR},
+			</if>
+			<if test="sendStateRemark != null">
+				#{sendStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<sql id="updateSelective">
+		update BASE_REPAY_REMIND
+		<set>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="deliverState != null">
+				DELIVER_STATE = #{deliverState,jdbcType=VARCHAR},
+			</if>
+			<if test="deliverStateRemark != null">
+				DELIVER_STATE_REMARK = #{deliverStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanState != null">
+				LOAN_STATE = #{loanState,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				MPHONE = #{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="repayDate != null">
+				REPAY_DATE = #{repayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sendState != null">
+				SEND_STATE = #{sendState,jdbcType=VARCHAR},
+			</if>
+			<if test="sendStateRemark != null">
+				SEND_STATE_REMARK = #{sendStateRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content,jdbcType=VARCHAR},
+			</if>
+		</set>
+	</sql>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.BaseRepayRemind">
+		<include refid="updateSelective" />
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<update id="batchUpdateByPrimaryKeySelective" parameterType="java.util.Map">
+		<include refid="updateSelective" />
+		where id in
+		<foreach item="item" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.BaseRepayRemind">
+		update BASE_REPAY_REMIND
+		set AMOUNT = #{amount,jdbcType=DECIMAL},
+		DELIVER_STATE = #{deliverState,jdbcType=VARCHAR},
+		DELIVER_STATE_REMARK = #{deliverStateRemark,jdbcType=VARCHAR},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		LOAN_STATE = #{loanState,jdbcType=VARCHAR},
+		MPHONE = #{mphone,jdbcType=VARCHAR},
+		REPAY_DATE = #{repayDate,jdbcType=TIMESTAMP},
+		SEND_STATE = #{sendState,jdbcType=VARCHAR},
+		SEND_STATE_REMARK = #{sendStateRemark,jdbcType=VARCHAR},
+		TYPE = #{type,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		CONTENT = #{content,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="getAmountList" parameterType="java.util.Map"
+		resultType="java.math.BigDecimal">
+		select amount
+		from base_repay_remind
+		where repay_date = #{repayDate, jdbcType=TIMESTAMP}
+		and loan_state = #{loanState, jdbcType=VARCHAR}
+		and type = #{type, jdbcType=VARCHAR}
+		<choose>
+		<when test="deliverState != null">
+		and deliver_state = #{deliverState, jdbcType=VARCHAR}
+		</when>
+		<otherwise>
+		and deliver_state is null
+		</otherwise>
+		</choose>
+		<if test="sendState != null">
+			and send_state = #{sendState, jdbcType=VARCHAR}
+		</if>
+		group by amount order by amount desc
+	</select>
+
+	<sql id="repayRemindSelective">
+		select
+		<include refid="Base_Column_List" />
+		from BASE_REPAY_REMIND
+	</sql>
+
+	<sql id="repayRemindConditions1">
+		where repay_date = #{repayDate, jdbcType=TIMESTAMP}
+		and loan_state = #{loanState, jdbcType=VARCHAR}
+		and type = #{type, jdbcType=VARCHAR}
+		<choose>
+		<when test="deliverState != null">
+		and deliver_state = #{deliverState, jdbcType=VARCHAR}
+		</when>
+		<otherwise>
+		and deliver_state is null
+		</otherwise>
+		</choose>
+		and amount = #{amount, jdbcType=DECIMAL}
+		<if test="sendState != null">
+			and send_state = #{sendState, jdbcType=VARCHAR}
+		</if>
+	</sql>
+
+	<select id="findWithPGByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="repayRemindSelective" />
+		<include refid="repayRemindConditions1" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<!--当前实现基本同老系统， 这个sql查询方式不太好，严重依赖当前数据结构，只能假设V103到V101都存在， 如果数据有问题，查询很可能出错； 
+		比较好的方式是查询出sales department所在的整条组织架构，按照给定 的v level去找name，但是不能通过一句SQL完成，建议以后改为调用function或者进行拆分实现 -->
+	<select id="getSendResultData" parameterType="java.util.Date"
+		resultType="java.util.Map">
+		select area.name as area,
+		dep.name as sales_dep,
+		p.name,
+		p.idnum,
+		rr.mphone,
+		l.loan_state,
+		rd.returneterm,
+		rr.send_state_remark,
+		rr.deliver_state_remark
+		from base_repay_remind rr
+		left join loan_base l
+		on rr.loan_id = l.id
+		left join person_info p
+		on p.id = l.borrower_id
+		left join com_organization dep /*V104*/
+		on l.sales_department_id = dep.id
+		left join com_organization city /*V103*/
+		on dep.parent_id = city.id
+		left join com_organization hq /*V102*/
+		on city.parent_id = hq.id
+		left join com_organization area /*V101*/
+		on hq.parent_id = area.id
+		left join loan_repayment_detail rd
+		on rd.loan_id = l.id
+		and rd.return_date = #{repayDate, jdbcType=TIMESTAMP}
+		where (1=1)
+		and rr.repay_date = #{repayDate, jdbcType=TIMESTAMP}
+		and (rr.deliver_state <![CDATA[<>]]>
+		'发送成功' or rr.deliver_state is null)
+	</select>
+
+	<select id="getCountByRepayDateAndDeliverState" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(1) from base_repay_remind
+		where repay_date = #{repayDate, jdbcType=TIMESTAMP}
+		<choose>
+		<when test="states != null">
+		and deliver_state in
+			<foreach item="item" index="index" collection="states" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</when>
+		<otherwise>
+		and deliver_state is null
+		</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getCountByRepayDate" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(1) from base_repay_remind
+		where repay_date = #{repayDate, jdbcType=TIMESTAMP}
+	</select>
+
+	<select id="getEmsCount" parameterType="java.util.Date"
+		resultType="java.lang.Integer">
+		select count(1) from base_repay_remind
+		where repay_date = #{repayDate, jdbcType=TIMESTAMP}
+		and ( send_state is not null and send_state <![CDATA[<>]]>
+		'未发送')
+	</select>
+
+	<insert id="emsGenerateData" parameterType="java.util.Map">
+		insert into base_repay_remind
+		(id,
+		CREATE_TIME,
+		UPDATE_TIME,
+		send_state,
+		repay_date,
+		loan_id,
+		mphone,
+		loan_state,
+		type,
+		amount)
+		select SEQ_BASE_REPAY_REMIND.Nextval,
+		#{createDate, jdbcType=TIMESTAMP},
+		#{createDate, jdbcType=TIMESTAMP},
+		'未发送',
+		#{repayDate, jdbcType=TIMESTAMP},
+		t2.loan_id,
+		t2.mphone,
+		t2.loan_state,
+		TYPE,
+		t2.quanbuyinghuan
+		from (select t1.loan_id,
+		t1.mphone,
+		t1.loan_state,
+		T1.department_type AS TYPE,
+		CASE
+		WHEN T1.department_type <![CDATA[<>]]>
+		'渠道' THEN
+		T1.yuqifaxi + T1.benxi - T1.guazhang
+		ELSE
+		T1.dangqiyinghuanbenxi - T1.guazhang
+		END AS quanbuyinghuan
+		FROM (SELECT A.loan_id,
+		p.mphone,
+		ba.department_type,
+		CASE
+		WHEN to_date(#{todayStr, jdbcType=VARCHAR}, 'yyyy-mm-dd') <![CDATA[<=]]>
+		MIN(penalty_date) THEN
+		0
+		ELSE
+		CASE
+		WHEN b.penalty_rate = 0.001 THEN
+		round((SELECT SUM(deficit)
+		FROM loan_repayment_detail
+		WHERE loan_id = A.loan_id
+		AND repayment_State <![CDATA[<>]]>
+		'结清') *
+		(to_date(#{todayStr, jdbcType=VARCHAR}, 'yyyy-mm-dd') - MIN(penalty_date)) *
+		0.001,
+		2)
+		ELSE
+		round(b.residual_pact_money *
+		(to_date(#{todayStr, jdbcType = VARCHAR}, 'yyyy-mm-dd') - MIN(penalty_date)) *
+		b.penalty_rate,
+		2)
+		END
+		END yuqifaxi,
+		SUM(CASE
+		WHEN return_date <![CDATA[>=]]>
+		#{repayDate, jdbcType=TIMESTAMP} THEN
+		deficit
+		ELSE
+		0
+		END) benxi,
+		SUM(CASE
+		WHEN return_date <![CDATA[>=]]>
+		#{repayDate, jdbcType=TIMESTAMP} THEN
+		deficit
+		ELSE
+		0
+		END) dangqiyinghuanbenxi,
+		SUM(CASE
+		WHEN return_date <![CDATA[<]]>
+		#{repayDate,jdbcType=TIMESTAMP} THEN
+		deficit
+		ELSE
+		0
+		END) yuqiyinghuanbenxi,
+		COALESCE((SELECT amount
+		FROM loan_ledger
+		WHERE account = A.loan_id || ''),
+		0) guazhang,
+		b.loan_state,
+		b.plan_id
+		FROM loan_repayment_detail A
+		INNER JOIN v_loan_info b
+		ON A.loan_id = b. ID
+		INNER JOIN com_organization ba
+		on b.sales_department_id = ba.id
+		INNER JOIN person_info p
+		ON b.borrower_id = p.id
+		WHERE b.promise_return_date = #{promiseReturnDay, jdbcType=DECIMAL}
+		AND b.loan_state IN ('正常', '逾期')
+		AND return_date <![CDATA[<=]]>
+		#{repayDate, jdbcType=TIMESTAMP}
+		AND repayment_state IN
+		('未还款', '不足额还款', '不足罚息')
+		GROUP BY A.loan_id,
+		p.mphone,
+		penalty_rate,
+		residual_pact_money,
+		b.loan_state,
+		b.plan_id,
+		ba.department_type) T1
+		where not exists (select 1
+		from base_repay_remind
+		where loan_id = t1.loan_id
+		and repay_date = #{repayDate, jdbcType=TIMESTAMP})
+		order by type desc, t1.loan_state desc, quanbuyinghuan desc) T2
+		where t2.quanbuyinghuan <![CDATA[>]]>
+		0
+
+	</insert>
+	
+	<select id="countByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM (
+			SELECT row_.*, rownum rn
+			FROM (
+		<include refid="repayRemindSelective" />
+		<include refid="repayRemindConditions1" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+</mapper>

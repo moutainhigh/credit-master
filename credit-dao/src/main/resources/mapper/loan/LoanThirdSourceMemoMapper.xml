@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanThirdSourceMemoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanThirdSourceMemo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="OFFER_REPAY_INFO_ID" property="offerRepayInfoId" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, OFFER_REPAY_INFO_ID, MEMO
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_THIRD_SOURCE_MEMO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from LOAN_THIRD_SOURCE_MEMO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanThirdSourceMemo" >
+    insert into LOAN_THIRD_SOURCE_MEMO (ID, OFFER_REPAY_INFO_ID, MEMO
+      )
+    values (#{id,jdbcType=DECIMAL}, #{offerRepayInfoId,jdbcType=DECIMAL}, #{memo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanThirdSourceMemo" >
+    insert into LOAN_THIRD_SOURCE_MEMO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="offerRepayInfoId != null" >
+        OFFER_REPAY_INFO_ID,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="offerRepayInfoId != null" >
+        #{offerRepayInfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanThirdSourceMemo" >
+    update LOAN_THIRD_SOURCE_MEMO
+    <set >
+      <if test="offerRepayInfoId != null" >
+        OFFER_REPAY_INFO_ID = #{offerRepayInfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanThirdSourceMemo" >
+    update LOAN_THIRD_SOURCE_MEMO
+    set OFFER_REPAY_INFO_ID = #{offerRepayInfoId,jdbcType=DECIMAL},
+      MEMO = #{memo,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="findByOfferRepayInfoId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT <include refid="Base_Column_List" />
+    FROM LOAN_THIRD_SOURCE_MEMO
+    WHERE OFFER_REPAY_INFO_ID = #{offerRepayInfoId,jdbcType=DECIMAL}
+  </select>
+</mapper>

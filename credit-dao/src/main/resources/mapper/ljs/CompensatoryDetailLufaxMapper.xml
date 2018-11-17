@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.ljs.domain.CompensatoryDetailLufaxMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.credit.ljs.domain.CompensatoryDetailLufax">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="TERM" property="term" jdbcType="DECIMAL" />
+        <result column="TYPE" property="type" jdbcType="VARCHAR" />
+        <result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+        <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+        <result column="CORPUS_AMOUNT" property="corpusAmount" jdbcType="DECIMAL" />
+        <result column="ACCRUAL_AMOUNT" property="accrualAmount" jdbcType="DECIMAL" />
+        <result column="PENALTY_AMOUNT" property="penaltyAmount" jdbcType="DECIMAL" />
+        <result column="CLEAN_AMOUNT" property="cleanAmount" jdbcType="DECIMAL" />
+        <result column="DEBIT_QUEUE_ID" property="debitQueueId" jdbcType="DECIMAL" />
+        <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        ID, 
+        LOAN_ID, 
+        TERM, TYPE, 
+        TRADE_DATE, 
+        TOTAL_AMOUNT, 
+        CORPUS_AMOUNT,
+        ACCRUAL_AMOUNT,
+        PENALTY_AMOUNT, 
+        CLEAN_AMOUNT, 
+        DEBIT_QUEUE_ID, 
+        MEMO, 
+        CREATE_TIME, 
+        CREATOR
+    </sql>
+    
+    <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from COMPENSATORY_DETAIL_LUFAX
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from COMPENSATORY_DETAIL_LUFAX
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    
+    <insert id="insert" parameterType="com.zdmoney.credit.ljs.domain.CompensatoryDetailLufax">
+        insert into COMPENSATORY_DETAIL_LUFAX
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="loanId != null">
+                LOAN_ID,
+            </if>
+            <if test="term != null">
+                TERM,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="tradeDate != null">
+                TRADE_DATE,
+            </if>
+            <if test="totalAmount != null">
+                TOTAL_AMOUNT,
+            </if>
+            <if test="corpusAmount != null">
+                CORPUS_AMOUNT,
+            </if>
+            <if test="accrualAmount != null">
+                ACCRUAL_AMOUNT,
+            </if>
+            <if test="penaltyAmount != null">
+                PENALTY_AMOUNT,
+            </if>
+            <if test="cleanAmount != null">
+                CLEAN_AMOUNT,
+            </if>
+            <if test="debitQueueId != null">
+                DEBIT_QUEUE_ID,
+            </if>
+            <if test="memo != null">
+                MEMO,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="creator != null">
+                CREATOR,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="loanId != null">
+                #{loanId,jdbcType=DECIMAL},
+            </if>
+            <if test="term != null">
+                #{term,jdbcType=DECIMAL},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeDate != null">
+                #{tradeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="totalAmount != null">
+                #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="corpusAmount != null">
+                #{corpusAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="accrualAmount != null">
+                #{accrualAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="penaltyAmount != null">
+                #{penaltyAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="cleanAmount != null">
+                #{cleanAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="debitQueueId != null">
+                #{debitQueueId,jdbcType=DECIMAL},
+            </if>
+            <if test="memo != null">
+                #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <update id="update" parameterType="com.zdmoney.credit.ljs.domain.CompensatoryDetailLufax">
+        update COMPENSATORY_DETAIL_LUFAX
+        <set>
+            <if test="loanId != null">
+                LOAN_ID = #{loanId,jdbcType=DECIMAL},
+            </if>
+            <if test="term != null">
+                TERM = #{term,jdbcType=DECIMAL},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeDate != null">
+                TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="totalAmount != null">
+                TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="corpusAmount != null">
+                CORPUS_AMOUNT = #{corpusAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="accrualAmount != null">
+                ACCRUAL_AMOUNT = #{accrualAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="penaltyAmount != null">
+                PENALTY_AMOUNT = #{penaltyAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="cleanAmount != null">
+                CLEAN_AMOUNT = #{cleanAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="debitQueueId != null">
+                DEBIT_QUEUE_ID = #{debitQueueId,jdbcType=DECIMAL},
+            </if>
+            <if test="memo != null">
+                MEMO = #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- 查询主体 -->
+    <sql id="compensatoryDetailLufaxSelective">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM COMPENSATORY_DETAIL_LUFAX
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="compensatoryDetailLufaxConditions">
+        <trim prefix="where" prefixOverrides="and">
+            <if test="loanId != null and loanId !=''">
+                AND LOAN_ID = #{loanId,jdbcType=DECIMAL}
+            </if>
+            <if test="term != null">
+                AND TERM = #{term,jdbcType=DECIMAL}
+            </if>
+            <if test="type != null">
+                AND TYPE = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="tradeDate != null">
+                AND TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="totalAmount != null">
+                AND TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL}
+            </if>
+            <if test="corpusAmount != null">
+                AND CORPUS_AMOUNT = #{corpusAmount,jdbcType=DECIMAL}
+            </if>
+            <if test="accrualAmount != null">
+                AND ACCRUAL_AMOUNT = #{accrualAmount,jdbcType=DECIMAL}
+            </if>
+            <if test="penaltyAmount != null">
+                AND PENALTY_AMOUNT = #{penaltyAmount,jdbcType=DECIMAL}
+            </if>
+            <if test="cleanAmount != null">
+                AND CLEAN_AMOUNT = #{cleanAmount,jdbcType=DECIMAL}
+            </if>
+            <if test="debitQueueId != null">
+                AND DEBIT_QUEUE_ID = #{debitQueueId,jdbcType=DECIMAL}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 按查询条件查询表中多条记录 -->
+    <select id="findListByVO" parameterType="com.zdmoney.credit.ljs.domain.CompensatoryDetailLufax" resultMap="BaseResultMap">
+        <include refid="compensatoryDetailLufaxSelective" />
+        <include refid="compensatoryDetailLufaxConditions" />
+    </select>
+
+    <!-- 按查询条件查询表中多条记录 -->
+    <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        <include refid="compensatoryDetailLufaxSelective" />
+        <include refid="compensatoryDetailLufaxConditions" />
+    </select>
+    
+</mapper>

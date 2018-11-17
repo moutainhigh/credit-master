@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.debit.domain.SplitQueueLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.debit.domain.SplitQueueLog" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="SPLIT_NOTIFY_STATE" property="splitNotifyState" jdbcType="VARCHAR" />
+    <result column="SPLIT_RESULT_STATE" property="splitResultState" jdbcType="VARCHAR" />
+    <result column="PAY_OFF_TYPE" property="payOffType" jdbcType="VARCHAR" />
+    <result column="SPLIT_NO" property="splitNo" jdbcType="VARCHAR" />
+    <result column="SPLIT_NOTIFY_DATE" property="splitNotifyDate" jdbcType="TIMESTAMP" />
+    <result column="SPLIT_RESULT_DATE" property="splitResultDate" jdbcType="TIMESTAMP" />
+    <result column="BATCH_ID" property="batchId" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="DEBIT_NO" property="debitNo" jdbcType="VARCHAR" />
+    <result column="FROZEN_AMOUNT" property="frozenAmount" jdbcType="DECIMAL" />
+    <result column="SEND_ENTRUST_FLAG" property="sendEntrustFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="RepaymentResultMap" type="com.zdmoney.credit.ljs.vo.SplitRepaymentVo">
+    <result column="loan_id" property="loanId" jdbcType="DECIMAL" />
+    <result column="current_term" property="currentTerm" jdbcType="DECIMAL" />
+    <result column="capital" property="capital" jdbcType="DECIMAL" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="trade_date" property="tradeDate" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LOAN_ID, TRADE_NO, SPLIT_NOTIFY_STATE, SPLIT_RESULT_STATE, PAY_OFF_TYPE, SPLIT_NO, 
+    SPLIT_NOTIFY_DATE, SPLIT_RESULT_DATE, BATCH_ID, CREATOR, CREATE_TIME, UPDATOR, UPDATE_TIME,DEBIT_NO,FROZEN_AMOUNT
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SPLIT_QUEUE_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from SPLIT_QUEUE_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.debit.domain.SplitQueueLog" >
+    insert into SPLIT_QUEUE_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="tradeNo != null" >
+        TRADE_NO,
+      </if>
+      <if test="splitNotifyState != null" >
+        SPLIT_NOTIFY_STATE,
+      </if>
+      <if test="splitResultState != null" >
+        SPLIT_RESULT_STATE,
+      </if>
+      <if test="payOffType != null" >
+        PAY_OFF_TYPE,
+      </if>
+      <if test="splitNo != null" >
+        SPLIT_NO,
+      </if>
+      <if test="splitNotifyDate != null" >
+        SPLIT_NOTIFY_DATE,
+      </if>
+      <if test="splitResultDate != null" >
+        SPLIT_RESULT_DATE,
+      </if>
+      <if test="batchId != null" >
+        BATCH_ID,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updator != null" >
+        UPDATOR,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="debitNo != null" >
+        DEBIT_NO,
+      </if>
+      <if test="frozenAmount != null" >
+        FROZEN_AMOUNT,
+      </if>
+      <if test="sendEntrustFlag != null" >
+        SEND_ENTRUST_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeNo != null" >
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNotifyState != null" >
+        #{splitNotifyState,jdbcType=VARCHAR},
+      </if>
+      <if test="splitResultState != null" >
+        #{splitResultState,jdbcType=VARCHAR},
+      </if>
+      <if test="payOffType != null" >
+        #{payOffType,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNo != null" >
+        #{splitNo,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNotifyDate != null" >
+        #{splitNotifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="splitResultDate != null" >
+        #{splitResultDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="debitNo != null" >
+        #{debitNo,jdbcType=VARCHAR},
+      </if>
+      <if test="frozenAmount != null" >
+        #{frozenAmount,jdbcType=VARCHAR},
+      </if>
+       <if test="sendEntrustFlag != null" >
+         #{sendEntrustFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.debit.domain.SplitQueueLog" >
+    update SPLIT_QUEUE_LOG
+    <set >
+      <if test="loanId != null" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeNo != null" >
+        TRADE_NO = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNotifyState != null" >
+        SPLIT_NOTIFY_STATE = #{splitNotifyState,jdbcType=VARCHAR},
+      </if>
+      <if test="splitResultState != null" >
+        SPLIT_RESULT_STATE = #{splitResultState,jdbcType=VARCHAR},
+      </if>
+      <if test="payOffType != null" >
+        PAY_OFF_TYPE = #{payOffType,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNo != null" >
+        SPLIT_NO = #{splitNo,jdbcType=VARCHAR},
+      </if>
+      <if test="splitNotifyDate != null" >
+        SPLIT_NOTIFY_DATE = #{splitNotifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="splitResultDate != null" >
+        SPLIT_RESULT_DATE = #{splitResultDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="batchId != null" >
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="debitNo != null" >
+        DEBIT_NO = #{debitNo,jdbcType=VARCHAR},
+      </if>
+      <if test="frozenAmount != null" >
+        FROZEN_AMOUNT = #{frozenAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="sendEntrustFlag != null" >
+        SEND_ENTRUST_FLAG = #{sendEntrustFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  	<sql id="splitQueueLogSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SPLIT_QUEUE_LOG
+	</sql>
+
+	<sql id="splitQueueLogConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_ID = #{loanId}
+			</if>
+			<if test="payOffType != null and payOffType != ''">
+				AND PAY_OFF_TYPE = #{payOffType}
+			</if>
+			<if test="createDate != null and createDate != ''">
+				AND TO_CHAR(CREATE_TIME,'yyyy-MM-dd') = #{createDate}
+			</if>
+			<if test="createTime != null ">
+				AND TRUNC(CREATE_TIME) = TRUNC(#{createTime})
+			</if>
+			<if test="tradeNo != null and tradeNo != ''">
+				AND TRADE_NO = #{tradeNo}
+			</if>
+			<if test="debitNo != null and debitNo != ''">
+				AND DEBIT_NO = #{debitNo}
+			</if>
+			<if test="splitNo != null and splitNo != ''">
+				AND SPLIT_NO = #{splitNo}
+			</if>
+			<if test="splitResultState != null and splitResultState != ''">
+				AND SPLIT_RESULT_STATE = #{splitResultState}
+			</if>
+			<if test="splitResultStates != null ">
+				AND SPLIT_RESULT_STATE IN
+				<foreach collection="splitResultStates" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="splitNotifyState != null and splitNotifyState != ''">
+				AND SPLIT_NOTIFY_STATE = #{splitNotifyState}
+			</if>
+			<if test="splitNotifyStates != null ">
+				AND SPLIT_NOTIFY_STATE IN
+				<foreach collection="splitNotifyStates" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="splitQueueLogSelective" />
+		<include refid="splitQueueLogConditions" />
+	</select>
+	
+	<select id="findListByVO" parameterType="com.zdmoney.credit.debit.domain.SplitQueueLog" resultMap="BaseResultMap">
+		<include refid="splitQueueLogSelective" />
+		<include refid="splitQueueLogConditions" />
+	</select>
+  
+	  <!-- 分页查询分账信息 -->
+	  <sql id="findSplitQueueLogListPager">
+	    	SELECT S.ID splitId,
+		       S.LOAN_ID loanId,
+		       P.NAME name,
+		       P.IDNUM idNum,
+		       L.CONTRACT_NUM contractNum,
+		       S.BATCH_ID batchId,
+		       S.DEBIT_NO debitNo,
+		       S.CREATE_TIME createTime,
+		       S.SPLIT_NOTIFY_STATE splitNotifyState,
+		       S.SPLIT_RESULT_STATE splitResultState,
+		       S.PAY_OFF_TYPE payOffType,
+		       E.REPAY_TYPE repayType,
+		       S.FROZEN_AMOUNT amount
+		  FROM SPLIT_QUEUE_LOG S
+		  LEFT JOIN LOAN_BASE L
+		    ON L.ID = S.LOAN_ID
+		  LEFT JOIN PERSON_INFO P
+		    ON P.ID = L.BORROWER_ID
+		    LEFT JOIN (SELECT T.*,
+                    ROW_NUMBER() OVER(PARTITION BY T.DEBIT_NO ORDER BY T.CREATE_time DESC) AS RANK_NO
+               FROM DEBIT_QUEUE_LOG T) E
+		    ON S.DEBIT_NO = E.DEBIT_NO
+		    AND E.RANK_NO = 1
+	  </sql>
+	  
+	  <sql id="splitQueueLogPagerConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="name != null and name != ''">
+				AND P.NAME LIKE #{name} || '%'
+			</if>
+			<if test="idNum != null and idNum != ''">
+				AND P.IDNUM=#{idNum,jdbcType=VARCHAR}
+			</if>
+			<if test="contractNum != null  and contractNum != ''">
+				AND L.CONTRACT_NUM  = #{contractNum}
+			</if>
+			<if test="startCreateTime != null and startCreateTime != ''">
+				AND TRUNC(S.CREATE_TIME) &gt;= TO_DATE(#{startCreateTime},'yyyy-MM-dd')
+			</if>
+			<if test="endCreateTime != null and endCreateTime != ''">
+				AND TRUNC(S.CREATE_TIME) &lt;= TO_DATE(#{endCreateTime},'yyyy-MM-dd')
+			</if>
+			<if test="splitNotifyState != null and splitNotifyState != ''">
+				AND S.SPLIT_NOTIFY_STATE = #{splitNotifyState}
+			</if>
+			<if test="splitResultState != null and splitResultState != ''">
+				AND S.SPLIT_RESULT_STATE = #{splitResultState}
+			</if>
+			<if test="payOffType != null and payOffType != ''">
+				AND S.PAY_OFF_TYPE = #{payOffType}
+			</if>
+			<if test="repayType != null and repayType != ''">
+				AND E.REPAY_TYPE = #{repayType}
+			</if>
+			<if test="batchId != null and batchId != ''">
+                AND S.BATCH_ID = #{batchId}
+            </if>
+            <if test="debitNo != null and debitNo != ''">
+                AND S.DEBIT_NO = #{debitNo}
+            </if>
+		</trim>
+	</sql>
+	
+	  <!-- 分页查询分账信息 -->
+	  <select id="findWithPGByMap" parameterType="java.util.Map" resultType="com.zdmoney.credit.common.vo.core.SplitQueueManangeVO">
+	      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+	      <include refid="findSplitQueueLogListPager" />
+	      <include refid="splitQueueLogPagerConditions"/>
+	      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+	      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	  </select>
+  
+	  <!-- 查询总件数（查询对公账户明细信息） -->
+	  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+	      SELECT COUNT(*) FROM (
+	      <include refid="findSplitQueueLogListPager" />
+	       <include refid="splitQueueLogPagerConditions"/>
+	      )
+	  </select>
+  
+ 	  <!-- 查询机构还款（委托还款）待推送分账信息 -->
+	  <select id="findRepaymentInfoToLufax" parameterType="java.util.Map" resultType="com.zdmoney.credit.common.vo.core.RepayInfoLufaxVO">
+			 SELECT S.DEBIT_NO debitNo,
+			       MAX(S.ID) splitId,
+			       MAX(S.LOAN_ID) loanId,
+			       MAX(S.BATCH_ID) anshuobatchid,
+			       MAX(S.SPLIT_NO) lufax_repay_req_no,
+			       MAX(F.TRADE_DATE) tradeDate,
+			       MAX(D.REPAY_TYPE) repayType,
+			       MAX(D.PAY_PARTY) payParty,
+			       MAX(D.Debit_Type) debitType,
+			       MAX(D.REPAY_TERM) term,
+			       SUM(CASE
+			             WHEN F.ACCT_TITLE = '211' AND TO_NUMBER(F.MEMO2) >= D.REPAY_TERM THEN
+			              F.TRADE_AMOUNT
+			             ELSE
+			              0
+			           END) AS capital,
+			       SUM(CASE
+			             WHEN F.ACCT_TITLE = '451' AND TO_NUMBER(F.MEMO2) >= D.REPAY_TERM THEN
+			              F.TRADE_AMOUNT
+			             ELSE
+			              0
+			           END) AS aint
+			  FROM SPLIT_QUEUE_LOG S
+				  INNER JOIN DEBIT_QUEUE_LOG D
+				    ON D.DEBIT_NO = S.DEBIT_NO
+				  INNER JOIN OFFER_FLOW F
+				    ON D.TRADE_NO = F.TRADE_NO
+			 <where>
+				<if test="splitResultStates != null ">
+					S.SPLIT_RESULT_STATE IN
+					<foreach collection="splitResultStates" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+				<if test="splitNotifyStates != null ">
+					AND S.SPLIT_NOTIFY_STATE IN
+					<foreach collection="splitNotifyStates" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+				<if test="splitIds != null">
+			   		AND S.ID IN
+						<foreach collection="splitIds" item="splitId" open="(" close=")" separator=",">
+							#{splitId}
+						</foreach>
+				</if>
+			   <if test="acctTitles != null ">
+			   		AND F.ACCT_TITLE IN
+						<foreach collection="acctTitles" item="acctTitle" open="(" close=")" separator=",">
+							#{acctTitle}
+						</foreach>
+				</if>
+				<if test="payParty != null and payParty != ''">
+					AND D.PAY_PARTY = #{payParty}
+				</if>
+				<if test="repayTypes != null ">
+			   		AND D.REPAY_TYPE IN
+						<foreach collection="repayTypes" item="repayType" open="(" close=")" separator=",">
+							#{repayType}
+						</foreach>
+				</if>
+				AND D.REPAY_TERM IS NOT NULL
+			 </where>
+			 GROUP BY S.DEBIT_NO
+		</select>
+
+      <select id="findSplitQueueLogListByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from split_queue_log
+        where id in
+        (select s.id from split_queue_log s, debit_queue_log d
+         where s.debit_no = d.debit_no
+         <if test="repayType != null and repayType != '' ">
+           and d.repay_type = #{repayType}
+         </if>
+         <if test="repayTypes != null ">
+           and d.repay_type in
+           <foreach collection="repayTypes" open="(" close=")" separator="," item="repType">
+             #{repType}
+           </foreach>
+         </if>
+         <if test="splitNotifyState != null and splitNotifyState != '' ">
+           and s.split_notify_state = #{splitNotifyState}
+         </if>
+         <if test="splitResultState != null and splitResultState != '' ">
+           and s.split_result_state = #{splitResultState}
+         </if>
+        <if test="splitResultStates != null">
+          and s.split_result_state IN
+          <foreach collection="splitResultStates" open="(" close=")" separator="," item="resState">
+             #{resState}
+          </foreach>
+        </if>
+         <if test="payOffType != null and payOffType != '' ">
+            and s.pay_off_type = #{payOffType}
+         </if>
+         <if test="loanId != null and loanId != '' ">
+            and s.loan_id = #{loanId}
+         </if>
+        <if test="repayDate != null and repayDate != '' ">
+            and trunc(s.create_time) = to_date(#{repayDate}, 'yyyy-mm-dd')
+        </if>
+        group by s.id)
+        <if test="excludeCompensate != null">
+          and loan_id not in
+          (select distinct s.loan_id
+          from split_queue_log s, debit_queue_log d
+          where s.debit_no = d.debit_no
+          and d.repay_type = '03'
+          and (d.debit_result_state &lt;> 4 or s.pay_off_type = 1))
+        </if>
+        <if test="sendEntrustFlags != null">
+        	and split_queue_log.send_entrust_flag IN
+          	<foreach collection="sendEntrustFlags" open="(" close=")" separator="," item="sendEntrustFlag">
+             	#{sendEntrustFlag}
+          	</foreach>
+        </if>
+        
+      </select>
+
+    <!-- 查询逾期代偿、一次性回购（包含委托还款）待推送分账信息 -->
+    <select id="findRepayInfoLufaxList" parameterType="java.util.Map" resultType="com.zdmoney.credit.common.vo.core.RepayInfoLufaxVO">
+        SELECT S.DEBIT_NO debitNo,
+               max(S.ID) splitId,
+               S.LOAN_ID loanId,
+               max(S.BATCH_ID) anshuobatchid,
+               max(S.SPLIT_NO) lufax_repay_req_no,
+               max(D.REPAY_TYPE) repayType,
+               max(D.PAY_PARTY) payParty,
+               max(F.TRADE_DATE) tradeDate,
+               max(D.DEBIT_TYPE) debitType,
+               sum(F.Clean_Amount + F.CORPUS_AMOUNT) capital,
+               sum(F.ACCRUAL_AMOUNT) aint,
+               max(F.TERM) term
+          FROM SPLIT_QUEUE_LOG S
+         INNER JOIN DEBIT_QUEUE_LOG D
+            ON D.DEBIT_NO = S.DEBIT_NO
+         INNER JOIN COMPENSATORY_DETAIL_LUFAX F
+            ON D.ID = F.DEBIT_QUEUE_ID
+        WHERE S.SPLIT_RESULT_STATE IN ('1','3')
+        	AND D.REPAY_TERM IS NOT NULL
+            <if test="repayTypes != null">
+                AND D.REPAY_TYPE IN
+                <foreach collection="repayTypes" item="repayTypee" open="(" close=")" separator=",">
+                    #{repayTypee}
+                </foreach>
+            </if>
+            <if test="splitIds != null">
+                AND S.ID IN
+                <foreach collection="splitIds" item="splitIdd" open="(" close=")" separator=",">
+                    #{splitIdd}
+                </foreach>
+            </if>
+            <if test="types != null ">
+                AND F.TYPE IN
+                <foreach collection="types" item="typee" open="(" close=")" separator=",">
+                    #{typee}
+                </foreach>
+            </if>
+        GROUP BY S.LOAN_ID, S.DEBIT_NO
+        ORDER BY S.LOAN_ID, S.DEBIT_NO
+    </select>
+      
+  	<select id="findSplitRepayment4Lufax" parameterType="java.util.Map" resultMap="RepaymentResultMap">
+    select A.loan_id as loan_id,
+    a.memo2 as current_term,
+    sum(a.benjin) as capital,
+    sum(a.lixi) as interest,
+    max(a.trade_date) as trade_date
+    from (select t3.loan_id,
+    t3.memo2,
+    case
+    when t3.acct_title = '211' then
+    t3.trade_amount
+    else
+    0
+    end as benjin,
+    case
+    when t3.acct_title = '451' then
+    t3.trade_amount
+    else
+    0
+    end as lixi,
+    t3.trade_date
+    from split_queue_log t1, debit_queue_log t2, offer_flow t3
+    where t1.debit_no = t2.debit_no
+    and t3.trade_no = t2.trade_no
+    and t3.acct_title in ('211', '451')
+    and t3.memo2 = to_char(t2.repay_term)
+    <if test = "debitNo != null ">
+      and t1.debit_no = #{debitNo}
+    </if>
+    <if test="splitResultState != null">
+      and t1.split_result_state = #{splitResultState}
+    </if>
+    <if test = "payOffType != null">
+      and t1.pay_off_type = #{payOffType}
+    </if>
+    <if test = "repayType != null">
+      and t2.repay_type = #{repayType}
+    </if>
+    ) A
+    group by A.loan_id, A.memo2
+  </select>
+
+    <!-- 查询未推送分账信息或推送分账信息失败的记录条数  -->
+    <select id="queryPreSplitCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(T2.ID)
+            FROM DEBIT_QUEUE_LOG T1, SPLIT_QUEUE_LOG T2
+        WHERE T1.DEBIT_NO = T2.DEBIT_NO
+        <if test="loanId != null">
+            AND T1.LOAN_ID = #{loanId}
+        </if>
+        <if test="repayTypes != null ">
+            AND T1.REPAY_TYPE IN
+            <foreach collection="repayTypes" item="repayType" open="(" close=")" separator=",">
+                #{repayType}
+            </foreach>
+        </if>
+        <if test="splitResultStates != null ">
+            AND T2.SPLIT_RESULT_STATE IN
+            <foreach collection="splitResultStates" item="splitResultState" open="(" close=")" separator=",">
+                #{splitResultState}
+            </foreach>
+        </if>
+    </select>
+    
+    <!-- 查询未发送分账的信息  -->
+    <select id="findNotToThirdSplitList" parameterType="java.util.Map" resultType="com.zdmoney.credit.common.vo.core.SplitQueueManangeVO"> 
+	    SELECT DISTINCT S.ID splitId,
+		       S.LOAN_ID loanId,
+		       S.DEBIT_NO debitNo,
+           	   S.CREATE_TIME createTime,
+		       D.REPAY_TYPE repayType
+		  FROM SPLIT_QUEUE_LOG S
+		  LEFT JOIN LOAN_BASE L
+		    ON L.ID = S.LOAN_ID
+		  LEFT JOIN PERSON_INFO P
+		    ON P.ID = L.BORROWER_ID
+		    INNER JOIN   DEBIT_QUEUE_LOG D
+		    ON S.DEBIT_NO = D.DEBIT_NO
+		  <trim prefix="where" prefixOverrides="and">
+		    <if test="splitResultStates != null ">
+				AND S.SPLIT_RESULT_STATE IN
+				<foreach collection="splitResultStates" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="splitNotifyStates != null ">
+				AND S.SPLIT_NOTIFY_STATE IN
+				<foreach collection="splitNotifyStates" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</trim>
+    </select>
+    
+    <!-- 查询一次性回购和逾期代偿的借款信息 -->
+    <select id="findOneBuyBackAndCompensatedRepayInfo" resultType="com.zdmoney.credit.common.vo.core.OneBuyBackCompensatedVO">
+    	SELECT * FROM ( 
+    			   SELECT T1.ID AS loanId,
+			       T1.APP_NO AS appNo,
+			       T2.term term,
+			       T2.TYPE AS type,
+			       T2.TRADE_DATE AS tradeDate,
+			       T2.CORPUS_AMOUNT + T2.CLEAN_AMOUNT AS capital,
+			       T2.ACCRUAL_AMOUNT AS aint,
+			       T2.PENALTY_AMOUNT AS oint,
+			       0 as penalty,
+			       T1.CHANNEL_PUSH_NO AS channelPushNo
+			  FROM V_LOAN_INFO T1, COMPENSATORY_DETAIL_LUFAX T2
+			 WHERE T1.ID = T2.LOAN_ID
+			   AND T1.FUNDS_SOURCES = '陆金所'
+			   AND T1.LOAN_BELONG = '证大P2P'
+			   AND T1.LOAN_STATE = '结清'
+			   AND T2.TYPE = '02'
+			   AND NOT EXISTS (SELECT 1 FROM OPERATE_LOG O WHERE O.OPERATE_TYPE = '08' AND O.LOAN_ID = T1.ID AND O.STATUS = '1')
+				)E ORDER BY E.loanId  
+    </select>
+
+    <!-- 查询逾期还回（委托还款）待推送分账信息 -->
+    <select id="findDebitSplitQueueLogList" parameterType="java.util.Map" resultType="com.zdmoney.credit.common.vo.core.RepayInfoLufaxVO">
+        SELECT * FROM (
+        	SELECT S.DEBIT_NO debitNo,
+               S.ID splitId,
+               S.LOAN_ID loanId,
+               S.BATCH_ID anshuobatchid,
+               S.SPLIT_NO lufax_repay_req_no,
+               D.TRADE_NO tradeNo,
+               D.REPAY_TYPE repayType,
+               D.PAY_PARTY payParty,
+               D.DEBIT_TYPE debitType,
+               D.CREATE_TIME tradeDate,
+               D.REPAY_TERM term,
+               (SELECT NVL(SUM(O.TRADE_AMOUNT), 0)
+                  FROM OFFER_FLOW O
+                 WHERE O.TRADE_NO = D.TRADE_NO
+                   AND O.MEMO2 = TO_CHAR(D.REPAY_TERM)
+                   AND O.TRADE_CODE IN ('1001', '3001')
+                   AND O.ACCT_TITLE = '211') as capital,
+               (SELECT NVL(SUM(O.TRADE_AMOUNT), 0)
+                  FROM OFFER_FLOW O
+                 WHERE O.TRADE_NO = D.TRADE_NO
+                   AND O.MEMO2 = TO_CHAR(D.REPAY_TERM)
+                   AND O.TRADE_CODE IN ('1001', '3001')
+                   AND O.ACCT_TITLE = '451') as aint
+          FROM SPLIT_QUEUE_LOG S
+          LEFT JOIN DEBIT_QUEUE_LOG D
+            ON D.DEBIT_NO = S.DEBIT_NO
+            WHERE D.REPAY_TYPE IN ('06')
+            	 AND S.SPLIT_RESULT_STATE IN ('1', '3')
+            	 AND D.REPAY_TERM IS NOT NULL
+           UNION ALL 
+       	SELECT S.DEBIT_NO debitNo,
+              S.ID splitId,
+              S.LOAN_ID loanId,
+           	  S.BATCH_ID anshuobatchid,
+              S.SPLIT_NO lufax_repay_req_no,
+              D.TRADE_NO tradeNo,
+              '06' repayType,
+              D.PAY_PARTY payParty,
+              D.DEBIT_TYPE debitType,
+              D.CREATE_TIME tradeDate,
+              D.REPAY_TERM term,
+             (SELECT NVL(SUM(O.TRADE_AMOUNT), 0)
+                 FROM OFFER_FLOW O
+                WHERE O.TRADE_NO = D.TRADE_NO
+                  AND O.MEMO2 = TO_CHAR(D.REPAY_TERM)
+                  AND O.TRADE_CODE IN ('1001', '3001')
+                  AND O.ACCT_TITLE = '211') as capital,
+              (SELECT NVL(SUM(O.TRADE_AMOUNT), 0)
+                 FROM OFFER_FLOW O
+                WHERE O.TRADE_NO = D.TRADE_NO
+                  AND O.MEMO2 = TO_CHAR(D.REPAY_TERM)
+                  AND O.TRADE_CODE IN ('1001', '3001')
+                  AND O.ACCT_TITLE = '451') as aint
+         FROM SPLIT_QUEUE_LOG S
+         LEFT JOIN DEBIT_QUEUE_LOG D
+           ON D.DEBIT_NO = S.DEBIT_NO
+           WHERE D.REPAY_TYPE IN ('01')
+            AND S.SEND_ENTRUST_FLAG IN ('0', '2')
+   			AND D.REPAY_TERM IS NOT NULL
+   			) V WHERE
+           <if test="splitIds != null">
+               	  V.splitId IN
+	              <foreach collection="splitIds" index="index" item="spId" open="(" separator="," close=")">
+	                  #{spId}
+	              </foreach>
+        	</if>
+    </select>
+    
+    <!-- 查询逾期还回和委托还款的分账信息 -->
+    <select id="findOverdueEntrustSplitQueueLogList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT A.* FROM (
+	         <include refid="findOverdueSplitQueueLogList"></include>
+	         UNION ALL
+	         <include refid="findEntrustSplitQueueLogList"></include>
+	         )A
+	         WHERE NOT EXISTS
+	 			(SELECT 1 FROM DEBIT_QUEUE_LOG D LEFT JOIN SPLIT_QUEUE_LOG S ON D.DEBIT_NO = S.DEBIT_NO
+	         	WHERE D.LOAN_ID = A.LOAN_ID
+		           AND D.REPAY_TYPE IN ('01', '03') 
+		           AND D.REPAY_TERM = A.REPAY_TERM
+		           AND (S.ID IS NULL OR S.SPLIT_RESULT_STATE  &lt;> '4'))
+      </select>
+      
+      <sql id="findOverdueSplitQueueLogList">
+      	SELECT T1.*,T2.REPAY_TERM
+          FROM SPLIT_QUEUE_LOG T1, DEBIT_QUEUE_LOG T2
+         WHERE T1.DEBIT_NO = T2.DEBIT_NO
+           AND T2.REPAY_TYPE = '06' 
+           <if test="splitResultStates != null">
+	          AND T1.SPLIT_RESULT_STATE  IN
+	          <foreach collection="splitResultStates" open="(" close=")" separator="," item="splitResultState">
+	             #{splitResultState}
+	          </foreach>
+          </if>
+      </sql>
+      <sql id="findEntrustSplitQueueLogList">
+      	SELECT DISTINCT T1.*,T2.REPAY_TERM
+          FROM SPLIT_QUEUE_LOG T1, DEBIT_QUEUE_LOG T2
+         WHERE T1.DEBIT_NO = T2.DEBIT_NO
+           AND T1.SPLIT_RESULT_STATE = '4'
+           AND T2.REPAY_TYPE = '01' 
+           <if test="sendEntrustFlags != null">
+	        	 AND T1.SEND_ENTRUST_FLAG IN 
+	          	<foreach collection="sendEntrustFlags" open="(" close=")" separator="," item="sendEntrustFlag">
+	             	#{sendEntrustFlag}
+	          	</foreach>
+          </if>
+      </sql>
+      
+      <!-- 查询提前结清和委托还款的分账信息 -->
+      <select id="findAdvanceEntrustSplitQueueLogList" parameterType="java.util.Map" resultType="com.zdmoney.credit.common.vo.core.RepayInfoLufaxVO">
+      	 SELECT S.DEBIT_NO debitNo,
+               S.LOAN_ID loanId,
+               MAX(S.ID) splitId,
+               MAX(S.BATCH_ID) anshuobatchid,
+               MAX(S.SPLIT_NO) lufax_repay_req_no,
+               MAX(D.TRADE_NO) tradeNo,
+               MAX(D.REPAY_TYPE) repayType,
+               MAX(D.PAY_PARTY) payParty,
+               MAX(D.DEBIT_TYPE) debitType,
+               MAX(D.CREATE_TIME) tradeDate,
+               MAX(D.REPAY_TERM) term,
+               SUM((SELECT NVL(SUM(O.TRADE_AMOUNT), 0)
+                  FROM OFFER_FLOW O
+                 WHERE O.TRADE_NO = D.TRADE_NO
+                   AND O.MEMO2 = TO_CHAR(D.REPAY_TERM)
+                   AND O.TRADE_CODE IN ('1001', '3001')
+                   AND O.ACCT_TITLE = '211')) as capital,
+               SUM((SELECT NVL(SUM(O.TRADE_AMOUNT), 0)
+                  FROM OFFER_FLOW O
+                 WHERE O.TRADE_NO = D.TRADE_NO
+                   AND O.MEMO2 = TO_CHAR(D.REPAY_TERM)
+                   AND O.TRADE_CODE IN ('1001', '3001')
+                   AND O.ACCT_TITLE = '451')) as aint
+          FROM SPLIT_QUEUE_LOG S
+          JOIN DEBIT_QUEUE_LOG D
+            ON D.DEBIT_NO = S.DEBIT_NO
+            WHERE D.REPAY_TYPE IN ('01','05')
+                AND S.SPLIT_RESULT_STATE IN ('1','3')
+                AND D.REPAY_TERM IS NOT NULL
+                AND EXISTS (SELECT 1  FROM DEBIT_QUEUE_LOG Q  WHERE 
+			 	D.LOAN_ID = Q.LOAN_ID AND D.REPAY_TERM = Q.REPAY_TERM AND Q.REPAY_TYPE = '05')
+            	<if test="splitIds != null">
+	                AND S.ID IN
+	                <foreach collection="splitIds" index="index" item="splitId" open="(" separator="," close=")">
+	                    #{splitId}
+	                </foreach>
+            	</if>
+             GROUP BY S.DEBIT_NO,S.LOAN_ID
+      </select>
+</mapper>

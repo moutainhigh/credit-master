@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.trustOffer.domain.TrustOfferFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.trustOffer.domain.TrustOfferFlow" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+    <result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+    <result column="ACCT_TITLE" property="acctTitle" jdbcType="VARCHAR" />
+    <result column="TRADE_CODE" property="tradeCode" jdbcType="VARCHAR" />
+    <result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="TRADE_MODE" property="tradeMode" jdbcType="VARCHAR" />
+    <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+    <result column="TRADE_AMOUNT" property="tradeAmount" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+<!-- 其他暂收款报表 -->
+    <resultMap id="TemporaryAmountResultMap" type="com.zdmoney.credit.trustOffer.vo.TemporaryAmountVo" >
+          <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="PROJECT_CODE" property="projectCode" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+        <result column="TEMPORARY_INCOME" property="temporaryIncome" jdbcType="DECIMAL" />
+        <result column="TEMPORARY_INTEREST" property="temporaryInterest" jdbcType="DECIMAL" />
+        <result column="TEMPORARY_PENALTY" property="temporaryPenalty" jdbcType="DECIMAL" />
+        <result column="TEMPORARY_OTHER_AMOUNT" property="temporaryOtherAmount" jdbcType="DECIMAL" />
+        <result column="OFF_DATE" property="offDate" jdbcType="TIMESTAMP" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    </resultMap>
+
+  <sql id="Base_Column_List" >
+    ID, LOAN_ID, TRADE_DATE, CURRENT_TERM, ACCT_TITLE, TRADE_CODE, TRADE_NO, TRADE_MODE, 
+    TRADE_TYPE, TRADE_AMOUNT, MEMO, CREATE_TIME, UPDATE_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select
+    <include refid="Base_Column_List" />
+    from TRUST_OFFER_FLOW
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from TRUST_OFFER_FLOW
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="insert" parameterType="com.zdmoney.credit.trustOffer.domain.TrustOfferFlow" >
+    insert into TRUST_OFFER_FLOW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="tradeDate != null" >
+        TRADE_DATE,
+      </if>
+      <if test="currentTerm != null" >
+        CURRENT_TERM,
+      </if>
+      <if test="acctTitle != null" >
+        ACCT_TITLE,
+      </if>
+      <if test="tradeCode != null" >
+        TRADE_CODE,
+      </if>
+      <if test="tradeNo != null" >
+        TRADE_NO,
+      </if>
+      <if test="tradeMode != null" >
+        TRADE_MODE,
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE,
+      </if>
+      <if test="tradeAmount != null" >
+        TRADE_AMOUNT,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeDate != null" >
+        #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentTerm != null" >
+        #{currentTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="acctTitle != null" >
+        #{acctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCode != null" >
+        #{tradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null" >
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeMode != null" >
+        #{tradeMode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAmount != null" >
+        #{tradeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.trustOffer.domain.TrustOfferFlow" >
+    update TRUST_OFFER_FLOW
+    <set >
+      <if test="loanId != null" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeDate != null" >
+        TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentTerm != null" >
+        CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="acctTitle != null" >
+        ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCode != null" >
+        TRADE_CODE = #{tradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null" >
+        TRADE_NO = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeMode != null" >
+        TRADE_MODE = #{tradeMode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAmount != null" >
+        TRADE_AMOUNT = #{tradeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.trustOffer.domain.TrustOfferFlow" >
+    update TRUST_OFFER_FLOW
+    set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+      CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+      ACCT_TITLE = #{acctTitle,jdbcType=VARCHAR},
+      TRADE_CODE = #{tradeCode,jdbcType=VARCHAR},
+      TRADE_NO = #{tradeNo,jdbcType=VARCHAR},
+      TRADE_MODE = #{tradeMode,jdbcType=VARCHAR},
+      TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      TRADE_AMOUNT = #{tradeAmount,jdbcType=DECIMAL},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <select id="getSplitAccountingAmount" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+    SELECT NVL(SUM(TRADE_AMOUNT),0) AS TRADEAMOUNT
+    FROM TRUST_OFFER_FLOW
+    WHERE
+    <if test="loanId != null">
+       LOAN_ID = #{loanId, jdbcType=DECIMAL}
+    </if>
+    <if test="currentTerm != null">
+      AND CURRENT_TERM = #{currentTerm, jdbcType=DECIMAL}
+    </if>
+    <if test="beginTerm != null">
+      AND CURRENT_TERM &gt; #{beginTerm, jdbcType=DECIMAL}
+    </if>
+    <if test="endTerm != null">
+      AND CURRENT_TERM  &lt; #{endTerm, jdbcType=DECIMAL}
+    </if>
+    <if test="acctTitles != null">
+      AND ACCT_TITLE IN
+      <foreach item="acctTitle" index="index" collection="acctTitles"
+               open="(" separator="," close=")">
+        #{acctTitle}
+      </foreach>
+    </if>
+    <if test="tradetypes != null">
+      AND TRADE_TYPE IN
+      <foreach item="tradetype" index="index" collection="tradetypes"
+               open="(" separator="," close=")">
+        #{tradetype}
+      </foreach>
+    </if>
+  </select>
+
+  <!--<select id="getSplitAccountingsByLoanId" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+    <!--SELECT-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--FROM TRUST_OFFER_FLOW-->
+    <!--WHERE-->
+    <!--<if test="loanId != null">-->
+      <!--LOAN_ID = #{loanId, jdbcType=DECIMAL}-->
+    <!--</if>-->
+    <!--<if test="currentTerm != null">-->
+      <!--AND CURRENT_TERM = #{currentTerm, jdbcType=DECIMAL}-->
+    <!--</if>-->
+  <!--</select>-->
+
+  <sql id="findListByMapConditions">
+    <trim prefix="where" prefixOverrides="and">
+      <if test="loanId != null">
+        LOAN_ID = #{loanId, jdbcType=DECIMAL}
+      </if>
+      <if test="currentTerm != null">
+        AND CURRENT_TERM = #{currentTerm, jdbcType=DECIMAL}
+      </if>
+      <if test="tradeTypes != null">
+        AND  TRADE_TYPE IN
+        <foreach item="tradeType" index="index" collection="tradeTypes"
+                 open="(" separator="," close=")">
+          #{tradeType}
+        </foreach>
+      </if>
+     </trim>
+  </sql>
+
+  <sql id="findListByMapOrderBy">
+      ORDER BY ID ASC
+  </sql>
+
+  <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM TRUST_OFFER_FLOW
+    <include refid="findListByMapConditions"/>
+    <include refid="findListByMapOrderBy"/>
+  </select>
+
+  <select id = "queryOneTimeSettlementAccountingFlow" parameterType="java.util.Map" resultType="com.zdmoney.credit.trustOffer.vo.TrustOfferFlowVo">
+    select
+    t1.loan_id as loanId,
+    t1.trade_no as tradeNo,
+    sum(decode(t1.acct_title,'211',t1.trade_amount,0)) principal,
+    sum(decode(t1.acct_title,'451',t1.trade_amount,0)) interest,
+    sum(decode(t1.acct_title,'452',t1.trade_amount,0)) fineInterest,
+    sum(decode(t1.acct_title,'452A',t1.trade_amount,0)) reliefFineInterest,
+    max(t1.current_term) lastTerm,
+    min(t1.current_term) startTerm,
+    sum(case when t1.acct_title = '211' or t1.acct_title = '451' or t1.acct_title = '452' then t1.trade_amount else 0 end ) amount
+    from trust_offer_flow t1, v_loan_info t2
+    where t1.loan_id = t2.ID
+        and t1.trade_code = '3001'
+        <if test="fundsSources != null">
+          and t2.funds_sources in
+          <foreach item="fundsSource" index="index" collection="fundsSources"
+                   open="(" separator="," close=")">
+            #{fundsSource}
+          </foreach>
+        </if>
+        <if test="date != null">
+        and trunc(t1.create_time) = trunc(#{date})
+        </if>
+    group by t1.loan_id,t1.trade_no
+  </select>
+
+    <sql id="queryRefundedOfMoneyConfirmationtConditions">
+        <trim prefix="where" prefixOverrides="and | or">
+            t1.loan_id = t2.id and t2.loan_belong in ('渤海信托','渤海2','华瑞渤海')
+            <if test="loanBelongs != null and loanBelongs !=''">
+                and t2.loan_belong = #{loanBelongs}
+            </if>
+            <if test="tradeBeginDate != null and tradeBeginDate != ''">
+                and t1.trade_date &gt;= to_date(#{tradeBeginDate},'yyyy-mm-dd')
+            </if>
+            <if test="tradeEndDate != null and tradeEndDate != ''">
+                and t1.trade_date &lt; to_date( #{tradeEndDate},'yyyy-mm-dd')
+            </if>
+            <choose>
+                <when test="loanBelongs == '华瑞渤海'">
+                </when>
+                <otherwise>
+                    and t1.trade_type = '通联代扣'
+                </otherwise>
+            </choose>
+        </trim>
+    </sql>
+
+    <sql id="queryHRBHRefundedOfMoneyConfirmationt">
+          select
+        <if test="tradeDate != null and tradeDate != ''">
+            to_date(#{tradeDate},'yyyy-mm-dd') as tradeDate,
+        </if>
+        t2.loan_belong as loanBelongs
+                        from base_public_account_info_wm t1
+                        join loan_base t2
+                        on t1.loan_id = t2.id
+        where 1=1
+        <if test="loanBelongs != null and loanBelongs !=''">
+            and t2.loan_belong = #{loanBelongs}
+        </if>
+        <if test="tradeDate != null and tradeDate != ''">
+            and  trunc(t1.trade_date) = trunc(to_date(#{tradeDate}, 'yyyy-mm-dd'))
+        </if>
+    </sql>
+    <sql id="queryRefundedOfMoneyConfirmationtInfos">
+        select distinct tradeDate, loanBelongs
+        from (
+        select
+        <if test="tradeDate != null and tradeDate != ''">
+            to_date(#{tradeDate},'yyyy-mm-dd') as tradeDate,
+        </if>
+        t2.loan_belong as loanBelongs
+        from offer_repay_info t1, loan_base t2
+        <include refid="queryRefundedOfMoneyConfirmationtConditions"/>
+        <if test="loanBelongs == '华瑞渤海'">
+            union
+            <include refid="queryHRBHRefundedOfMoneyConfirmationt"/>
+        </if>
+        )
+    </sql>
+
+  <select id="queryRefundedOfMoneyConfirmationtInfosDetail" parameterType="java.util.Map" resultType="com.zdmoney.credit.trustOffer.vo.TrustOfferFlowVo">
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+    <include refid="queryRefundedOfMoneyConfirmationtInfos"/>
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+
+    <!-- 回款确认书 其他暂收款 -->
+    <select id="queryTemporaryAmount" parameterType="java.util.Map" resultMap="TemporaryAmountResultMap">
+        SELECT
+        CASE
+        WHEN A.LOAN_BELONG = '渤海2' THEN
+        'ZDCF02'
+        WHEN A.LOAN_BELONG = '华瑞渤海' THEN
+        'ZDCF03'
+        ELSE
+        ''
+        END AS PROJECT_CODE,
+        MAX(A.CONTRACT_NUM) AS CONTRACT_NUM, /** 合同编号**/
+        MAX(A.TRADE_DATE) AS TRADE_DATE, /** 实际还款时间（取实际还款时间的下一个工作日）**/
+        SUM(CASE
+        WHEN A.TRADE_ITEM = '1012' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '1015' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7012' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6031' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6041' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6051' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6052' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6053' THEN
+        -A.TRADE_AMOUNT
+        ELSE
+        0
+        END) AS TEMPORARY_INCOME, /** 其他暂收本金、包含结清本金 **/
+        SUM(CASE
+        WHEN A.TRADE_ITEM = '2012' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7212' THEN
+        -A.TRADE_AMOUNT
+        ELSE
+        0
+        END) AS TEMPORARY_INTEREST, /** 其他暂收利息 **/
+        SUM(CASE
+        WHEN A.TRADE_ITEM = '5011' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '5012' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '5013' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '4000' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7400' THEN
+        -A.TRADE_AMOUNT
+        ELSE
+        0
+        END) AS TEMPORARY_PENALTY, /** 其他暂收罚息 **/
+        0 AS TEMPORARY_OTHER_AMOUNT, /** 其他暂收金额 **/
+        MAX(A.BIZ_DATE) AS OFF_DATE /** 实际分账时间（取实际分账时间的下一个工作日） **/
+        FROM (SELECT T5.LOAN_NUMBER,
+        T1.CONTRACT_NUM,
+        T2.TRADE_DATE,
+        T3.TRADE_SN,
+        T4.BIZ_DATE,
+        T1.LOAN_BELONG,
+        CASE
+        WHEN T5.ITEM_NOTE IS NULL THEN
+        (SELECT C.ITEM_NOTE
+        FROM LOAN_TRADE_CLEAR C
+        WHERE C.LOAN_NUMBER = T5.LOAN_NUMBER
+        AND C.TRADE_ITEM = '4000'
+        AND ROWNUM = 1)
+        ELSE
+        T5.ITEM_NOTE
+        END AS ITEM_NOTE,
+        T5.TRADE_ITEM,
+        T5.TRADE_AMOUNT
+        FROM V_LOAN_INFO T1, /** 债权信息 **/
+        OFFER_REPAY_INFO T2, /** 还款流水 **/
+        LOAN_TRADE_INFO T3, /** 充值记录 **/
+        LOAN_TRADE_INFO T4, /** 待分账记录 **/
+        LOAN_TRADE_CLEAR T5 /** 清分记录 **/
+        WHERE T1.ID = T2.LOAN_ID
+        AND T2.TRADE_NO = T3.TRADE_NO
+        AND T3.TRADE_SN = T4.RELATE_TRADE
+        AND T4.TRADE_SN = T5.TRADE_SN
+        <if test="loanBelong != null and loanBelong != ''">
+            AND T1.LOAN_BELONG = #{loanBelong} /** 查询条件1：债权去向 **/
+        </if>
+        <if test="startDate != null">
+            AND T2.TRADE_DATE &lt; TO_DATE(#{startDate}, 'YYYY-MM-DD') /** 查询条件2 **/
+            AND T4.BIZ_DATE >= TO_DATE(#{startDate}, 'YYYY-MM-DD')/** 查询条件3：上个工作日时间 **/
+        </if>
+        <if test="endDate != null">
+            AND T4.BIZ_DATE &lt; TO_DATE(#{endDate}, 'YYYY-MM-DD') /** 查询条件4：提交日期**/
+        </if>
+        <if test="tradeType != null and tradeType != ''">
+            AND T2.TRADE_TYPE = #{tradeType} /**划扣方式**/
+        </if>
+        <if test="tradeTypes != null and tradeTypes != ''">
+            AND T2.TRADE_TYPE IN
+            <foreach collection="tradeTypes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        AND T3.TRADE_CODE = 'CHAG'
+        AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+        '1015' /** 结清本金 **/,
+        '2012' /** 预收利息 **/,
+        '7112' /** 减免_预收本金 **/,
+        '7212' /** 减免_预收利息 **/,
+        '4000' /** 违约金 **/,
+        '7400' /** 减免_违约金 **/,
+        '6031' /** 退费_咨询费 **/,
+        '6041' /** 退费_评估费 **/,
+        '6051' /** 退费_乙方管理费 **/,
+        '6052' /** 退费_丙方管理费 **/,
+        '6053' /** 退费_丁方管理费 **/,
+        '5011' /** 本金罚息 **/,
+        '5012' /** 利息罚息 **/,
+        '5013' /** 费用罚息 **/)) A
+        GROUP BY A.LOAN_BELONG,A.LOAN_NUMBER, A.TRADE_SN, A.ITEM_NOTE
+        ORDER BY A.LOAN_BELONG,A.LOAN_NUMBER, A.TRADE_SN, A.ITEM_NOTE
+    </select>
+    
+    <select id="queryRefundedOfMoneyConfirmationInfosCount" parameterType="java.util.Map"
+            resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+        <include refid="queryRefundedOfMoneyConfirmationtInfos"/>
+        )
+    </select>
+
+    <select id="getSplitAccountingsByFundSources" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select t1.*
+        from trust_offer_flow t1,loan_base t2
+        <trim prefix="where" prefixOverrides="and | or">
+            t1.loan_id = t2.id
+            <if test="loanBelongs != null and loanBelongs !=''">
+                and t2.loan_belong = #{loanBelongs}
+            </if>
+            <if test="tradeBeginDate != null and tradeBeginDate != ''">
+                and t1.trade_date &gt;= to_date(#{tradeBeginDate},'yyyy-mm-dd')
+            </if>
+            <if test="tradeEndDate != null and tradeEndDate != ''">
+                and t1.trade_date &lt; to_date( #{tradeEndDate},'yyyy-mm-dd')
+            </if>
+            and t1.trade_mode = '通联代扣'
+        </trim>
+    </select>
+
+    <select id="getAlreadySplitAccountingMaxTerm" parameterType="java.util.Map" resultType="java.lang.Long">
+        select nvl(max(a.current_term),1) from trust_offer_flow a where a.loan_id = #{loanId}
+    </select>
+    
+    <!-- 回款确认书 客户资金流入总额 -->
+    <select id="queryRechargeTotalAmount" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+        SELECT NVL(SUM(T3.TRADE_AMOUNT), 0) AS TRADE_AMOUNT
+        FROM V_LOAN_INFO T1, OFFER_REPAY_INFO T2, LOAN_TRADE_INFO T3
+        WHERE T1.ID = T2.LOAN_ID
+        AND T2.TRADE_NO = T3.TRADE_NO
+        <if test="loanBelong != null and loanBelong != ''">
+            AND T1.LOAN_BELONG = #{loanBelong}
+        </if>
+        <if test="tradeBeginDate != null and tradeBeginDate != ''">
+            AND T2.TRADE_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="tradeEndDate != null and tradeEndDate != ''">
+            AND T2.TRADE_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="tradeType != null and tradeType != ''">
+            AND T2.TRADE_TYPE = #{tradeType} /**划扣方式**/
+        </if>
+        <if test="tradeTypes != null and tradeTypes != ''">
+            AND T2.TRADE_TYPE IN
+            <foreach collection="tradeTypes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        AND T3.TRADE_CODE = 'CHAG'
+    </select>
+    
+    <!-- 回款确认书  信托专户的 本金 利息 罚息 总额 -->
+    <select id="queryTrustSubjectAmount" parameterType="java.util.Map" resultType="com.zdmoney.credit.trustOffer.vo.SubjectAmount">
+        SELECT NVL(SUM(CASE
+                         WHEN T5.TRADE_ITEM = '1012' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '1013' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '1014' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '1015' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7112' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7113' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7114' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7115' THEN
+                          -T5.TRADE_AMOUNT
+                         ELSE
+                          0
+                       END),
+                   0) AS principalAmount,
+               NVL(SUM(CASE
+                         WHEN T5.TRADE_ITEM = '2012' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '2013' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '2014' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7212' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7213' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7214' THEN
+                          -T5.TRADE_AMOUNT
+                         ELSE
+                          0
+                       END),
+                   0) AS interestAmount,
+               NVL(SUM(CASE
+                         WHEN T5.TRADE_ITEM = '5011' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '5012' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '5013' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '4000' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7511' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7512' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7513' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7400' THEN
+                          -T5.TRADE_AMOUNT
+                         ELSE
+                          0
+                       END),
+                   0) AS fineInterestAmount
+          FROM V_LOAN_INFO      T1,
+               OFFER_REPAY_INFO T2,
+               LOAN_TRADE_INFO  T3,
+               LOAN_TRADE_INFO  T4,
+               LOAN_TRADE_CLEAR T5
+         WHERE T1.ID = T2.LOAN_ID
+           AND T2.TRADE_NO = T3.TRADE_NO
+           AND T4.RELATE_TRADE = T3.TRADE_SN
+           AND T4.TRADE_SN = T5.TRADE_SN
+           <if test="loanBelong != null and loanBelong != ''">
+               AND T1.LOAN_BELONG = #{loanBelong}
+           </if>
+           <if test="tradeBeginDate != null and tradeBeginDate != ''">
+               AND T2.TRADE_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+               AND T4.BIZ_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+           </if>
+           <if test="tradeEndDate != null and tradeEndDate != ''">
+               AND T2.TRADE_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+               AND T4.BIZ_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+           </if>
+          <if test="tradeType != null and tradeType != ''">
+            AND T2.TRADE_TYPE = #{tradeType} /**划扣方式**/
+          </if>
+           <if test ="tradeTypes != null and tradeTypes != ''">
+            AND T2.TRADE_TYPE IN
+            <foreach collection="tradeTypes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+          </if>
+           AND T3.TRADE_CODE = 'CHAG'
+           AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+                                 '1013' /** 正常本金 **/,
+                                 '1014' /** 逾期本金 **/,
+                                 '1015' /** 结清本金 **/,
+                                 '2012' /** 预收利息 **/,
+                                 '2013' /** 正常利息 **/,
+                                 '2014' /** 逾期利息 **/,
+                                 '5011' /** 本金罚息 **/,
+                                 '5012' /** 利息罚息 **/,
+                                 '5013' /** 费用罚息 **/,
+                                 '4000' /** 违约金 **/,
+                                 '7112' /** 减免_预收本金 **/,
+                                 '7113' /** 减免_正常本金 **/,
+                                 '7114' /** 减免_逾期本金 **/,
+                                 '7115' /** 减免_结清本金 **/,
+                                 '7212' /** 减免_预收利息 **/,
+                                 '7213' /** 减免_正常利息 **/,
+                                 '7214' /** 减免_逾期利息 **/,
+                                 '7511' /** 减免_本金罚息 **/,
+                                 '7512' /** 减免_利息罚息 **/,
+                                 '7513' /** 减免_费用罚息 **/,
+                                 '7400' /** 减免_违约金 **/)
+    </select>
+    
+    <!-- 回款确认书 还款明细 本金 利息 罚息 总额 -->
+    <select id="queryRepaymentSubjectAmount" parameterType="java.util.Map" resultType="com.zdmoney.credit.trustOffer.vo.SubjectAmount">
+        SELECT NVL(SUM(CASE
+                         WHEN T5.TRADE_ITEM = '1012' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '1013' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '1014' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '1015' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7112' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7113' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7114' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7115' THEN
+                          -T5.TRADE_AMOUNT
+                         ELSE
+                          0
+                       END),
+                   0) -
+               NVL(SUM(CASE
+                         WHEN T5.TRADE_ITEM = '6031' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '6041' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '6051' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '6052' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '6053' THEN
+                          T5.TRADE_AMOUNT
+                         ELSE
+                          0
+                       END),
+                   0)AS principalAmount,
+               NVL(SUM(CASE
+                         WHEN T5.TRADE_ITEM = '2012' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '2013' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '2014' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7212' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7213' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7214' THEN
+                          -T5.TRADE_AMOUNT
+                         ELSE
+                          0
+                       END),
+                   0) AS interestAmount,
+               NVL(SUM(CASE
+                         WHEN T5.TRADE_ITEM = '5011' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '5012' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '5013' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '4000' THEN
+                          T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7511' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7512' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7513' THEN
+                          -T5.TRADE_AMOUNT
+                         WHEN T5.TRADE_ITEM = '7400' THEN
+                          -T5.TRADE_AMOUNT
+                         ELSE
+                          0
+                       END),
+                   0) AS fineInterestAmount
+          FROM V_LOAN_INFO      T1,
+               OFFER_REPAY_INFO T2,
+               LOAN_TRADE_INFO  T3,
+               LOAN_TRADE_INFO  T4,
+               LOAN_TRADE_CLEAR T5
+         WHERE T1.ID = T2.LOAN_ID
+           AND T2.TRADE_NO = T3.TRADE_NO
+           AND T4.RELATE_TRADE = T3.TRADE_SN
+           AND T4.TRADE_SN = T5.TRADE_SN
+           <if test="loanBelong != null and loanBelong != ''">
+               AND T1.LOAN_BELONG = #{loanBelong}
+           </if>
+           <if test="tradeBeginDate != null and tradeBeginDate != ''">
+               AND T4.BIZ_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+           </if>
+           <if test="tradeEndDate != null and tradeEndDate != ''">
+               AND T4.BIZ_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+           </if>
+        <if test="tradeType != null and tradeType != ''">
+            AND T2.TRADE_TYPE = #{tradeType} /**划扣方式**/
+        </if>
+        <if test ="tradeTypes != null and tradeTypes != ''">
+            AND T2.TRADE_TYPE IN
+            <foreach collection="tradeTypes" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+           AND T3.TRADE_CODE = 'CHAG'
+           AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+                                 '1013' /** 正常本金 **/,
+                                 '1014' /** 逾期本金 **/,
+                                 '1015' /** 结清本金 **/,
+                                 '2012' /** 预收利息 **/,
+                                 '2013' /** 正常利息 **/,
+                                 '2014' /** 逾期利息 **/,
+                                 '5011' /** 本金罚息 **/,
+                                 '5012' /** 利息罚息 **/,
+                                 '5013' /** 费用罚息 **/,
+                                 '4000' /** 违约金 **/,
+                                 '6031' /** 退费_咨询费 **/,
+                                 '6041' /** 退费_评估费 **/,
+                                 '6051' /** 退费_乙方管理费 **/,
+                                 '6052' /** 退费_丙方管理费 **/,
+                                 '6053' /** 退费_丁方管理费 **/,
+                                 '7112' /** 减免_预收本金 **/,
+                                 '7113' /** 减免_正常本金 **/,
+                                 '7114' /** 减免_逾期本金 **/,
+                                 '7115' /** 减免_结清本金 **/,
+                                 '7212' /** 减免_预收利息 **/,
+                                 '7213' /** 减免_正常利息 **/,
+                                 '7214' /** 减免_逾期利息 **/,
+                                 '7511' /** 减免_本金罚息 **/,
+                                 '7512' /** 减免_利息罚息 **/,
+                                 '7513' /** 减免_费用罚息 **/,
+                                 '7400' /** 减免_违约金 **/)
+    </select>
+    
+    <!--  查询外贸3 已分账的债权 及实扣总金额 -->
+    <select id="findDebitTermInfo4Wm3" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT A.LOAN_ID as "loanId",
+               MAX(A.CONTRACT_NUM) as "contractNum",
+               TO_CHAR(A.TRADE_DATE, 'yyyy-mm-dd') as "tradeDate",
+               sum(a.trade_amount) as "repayAmt"
+                 FROM (SELECT T5.LOAN_NUMBER  AS LOAN_ID,
+                 T1.CONTRACT_NUM,
+               trunc(T5.created_date) AS TRADE_DATE,
+               case when t5.trade_item in ('1012' /** 预收本金 **/,
+                                 '1013' /** 正常本金 **/,
+                                 '1014' /** 逾期本金 **/,
+                                 '1015' /** 结清本金 **/,
+                                 '2012' /** 预收利息 **/,
+                                 '2013' /** 正常利息 **/,
+                                 '2014' /** 逾期利息 **/,
+                                 '5011' /** 本金罚息 **/,
+                                 '5012' /** 利息罚息 **/,
+                                 '5013' /** 费用罚息 **/,
+                                 '4000' /** 违约金 **/) then
+                     t5.trade_amount
+                   when t5.trade_item in ('6031' /** 退费_咨询费 **/,
+                                 '6041' /** 退费_评估费 **/,
+                                 '6051' /** 退费_乙方管理费 **/,
+                                 '6052' /** 退费_丙方管理费 **/,
+                                 '6053' /** 退费_丁方管理费 **/,
+                                 '7112' /** 减免_预收本金 **/,
+                                 '7113' /** 减免_正常本金 **/,
+                                 '7114' /** 减免_逾期本金 **/,
+                                 '7115' /** 减免_结清本金 **/,
+                                 '7212' /** 减免_预收利息 **/,
+                                 '7213' /** 减免_正常利息 **/,
+                                 '7214' /** 减免_逾期利息 **/,
+                                 '7511' /** 减免_本金罚息 **/,
+                                 '7512' /** 减免_利息罚息 **/,
+                                 '7513' /** 减免_费用罚息 **/,
+                                 '7400' /** 减免_违约金 **/ ) then
+                      -t5.trade_amount
+               else 
+                 0
+             end as trade_amount 
+          FROM LOAN_BASE        T1, /** 债权信息**/
+               OFFER_REPAY_INFO T2, /** 还款流水**/
+               LOAN_TRADE_INFO  T3, /** 充值记录**/
+               LOAN_TRADE_INFO  T4, /** 待分账记录**/
+               LOAN_TRADE_CLEAR T5 /** 清分记录**/
+         WHERE T1.ID = T2.LOAN_ID
+           AND T2.TRADE_NO = T3.TRADE_NO
+           AND T3.TRADE_SN = T4.RELATE_TRADE
+           AND T4.TRADE_SN = T5.TRADE_SN
+           <if test="loanBelong != null and loanBelong != ''">
+                 AND T1.LOAN_BELONG = '${loanBelong}'
+           </if>
+           <if test="tradeDateStart != null">
+                AND T5.created_date >= to_date('${tradeDateStart}', 'yyyy-MM-dd') /**查询条件3**/
+           </if>
+           <if test="tradeDateEnd != null">
+                AND T5.created_date &lt; to_date('${tradeDateEnd}', 'yyyy-MM-dd') /**查询条件4**/
+           </if>
+           AND T2.TRADE_CODE IN ('1001', '3001')
+           <if test="lineTradeType != null and lineTradeType == 'online'">
+               AND T2.TRADE_TYPE NOT IN ('现金', '转账')
+           </if>
+           <if test="lineTradeType != null and lineTradeType == 'offline'">
+               AND T2.TRADE_TYPE IN ('现金', '转账')
+           </if>
+           AND T3.TRADE_CODE = 'CHAG'
+           AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+                                 '1013' /** 正常本金 **/,
+                                 '1014' /** 逾期本金 **/,
+                                 '1015' /** 结清本金 **/,
+                                 '2012' /** 预收利息 **/,
+                                 '2013' /** 正常利息 **/,
+                                 '2014' /** 逾期利息 **/,
+                                 '5011' /** 本金罚息 **/,
+                                 '5012' /** 利息罚息 **/,
+                                 '5013' /** 费用罚息 **/,
+                                 '4000' /** 违约金 **/,
+                                 '6031' /** 退费_咨询费 **/,
+                                 '6041' /** 退费_评估费 **/,
+                                 '6051' /** 退费_乙方管理费 **/,
+                                 '6052' /** 退费_丙方管理费 **/,
+                                 '6053' /** 退费_丁方管理费 **/,
+                                 '7112' /** 减免_预收本金 **/,
+                                 '7113' /** 减免_正常本金 **/,
+                                 '7114' /** 减免_逾期本金 **/,
+                                 '7115' /** 减免_结清本金 **/,
+                                 '7212' /** 减免_预收利息 **/,
+                                 '7213' /** 减免_正常利息 **/,
+                                 '7214' /** 减免_逾期利息 **/,
+                                 '7511' /** 减免_本金罚息 **/,
+                                 '7512' /** 减免_利息罚息 **/,
+                                 '7513' /** 减免_费用罚息 **/,
+                                 '7400' /** 减免_违约金 **/)) A
+         GROUP BY A.LOAN_ID, A.TRADE_DATE
+         ORDER BY A.LOAN_ID, A.TRADE_DATE
+    </select>
+    
+    <!-- 获取外贸3 分账信息 -->
+    <select id="findDebitFlowInfo4Wm3" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT A.LOAN_ID as "loanId",
+           TO_CHAR(A.TRADE_DATE,'yyyy-mm-dd') as "tradeDate",
+           A.CURRENT_TERM as "currentTerm",
+           SUM(A."1001") AS "receivePrincipal",
+           SUM(A."1002") AS "receiveInterest",
+           SUM(A."1003") AS "receiveFine",
+           SUM(A."1001"-A."3001"-A."6000") AS "actualPrincipal",
+           SUM(A."1002"-A."3002") AS "actualInterest",
+           SUM(A."1003"-A."3003") AS "actualFine",
+           SUM(A."3001") AS "reducePrincipal",
+           SUM(A."3002") AS "reduceInterest",
+           SUM(A."3003") AS "reduceFine",
+           SUM(A."4000"-A."7400") AS "actualPenalty"
+          FROM (SELECT T5.LOAN_NUMBER AS LOAN_ID,
+                trunc(T5.created_date) AS TRADE_DATE,
+                   CASE
+                     WHEN T5.ITEM_NOTE IS NULL THEN
+                      (SELECT C.ITEM_NOTE
+                         FROM LOAN_TRADE_CLEAR C
+                        WHERE C.LOAN_NUMBER = T5.LOAN_NUMBER
+                          AND C.TRADE_ITEM = '4000'
+                          AND ROWNUM = 1)
+                     ELSE
+                      T5.ITEM_NOTE
+                   END AS CURRENT_TERM,
+                   CASE 
+                     WHEN T5.TRADE_ITEM IN ('1012', '1013', '1014', '1015') THEN
+                       T5.TRADE_AMOUNT
+                     ELSE 0 
+                   END AS  "1001", /** 应收本金 **/
+                   CASE
+                      WHEN T5.TRADE_ITEM IN ('2012', '2013', '2014') THEN
+                        T5.TRADE_AMOUNT
+                      ELSE 0
+                   END AS  "1002",/** 应收利息 **/
+                   CASE 
+                     WHEN T5.TRADE_ITEM IN ('5011', '5012', '5013') THEN
+                       T5.TRADE_AMOUNT
+                      ELSE 0
+                   END AS "1003",/** 应收罚息**/
+                   CASE WHEN T5.TRADE_ITEM IN ('7112', '7113', '7114', '7115') THEN
+                     T5.TRADE_AMOUNT
+                     ELSE 0
+                   END AS  "3001",/** 本金减免**/
+                   CASE WHEN T5.TRADE_ITEM IN ('7212', '7213', '7214') THEN
+                      T5.TRADE_AMOUNT
+                      ELSE 0
+                   END AS "3002",/** 利息减免**/
+                   CASE WHEN T5.TRADE_ITEM IN ('7511', '7512', '7513') THEN
+                      T5.TRADE_AMOUNT
+                      ELSE 0
+                   END AS "3003",/** 罚息减免 **/
+                   CASE WHEN T5.TRADE_ITEM IN ('6031', '6041', '6051', '6052', '6053') THEN
+                      T5.TRADE_AMOUNT
+                      ELSE 0
+                   END AS "6000",/** 退费 **/
+                   CASE WHEN T5.TRADE_ITEM IN ('4000') THEN
+                      T5.TRADE_AMOUNT
+                      ELSE 0
+                   END AS "4000",/** 违约金 **/
+                   CASE WHEN T5.TRADE_ITEM IN ('7400') THEN
+                      T5.TRADE_AMOUNT
+                      ELSE 0
+                   END AS "7400" /** 减免_违约金 **/
+              FROM LOAN_BASE        T1, /** 债权信息**/
+                   OFFER_REPAY_INFO T2, /** 还款流水**/
+                   LOAN_TRADE_INFO  T3, /** 充值记录**/
+                   LOAN_TRADE_INFO  T4, /** 待分账记录**/
+                   LOAN_TRADE_CLEAR T5 /** 清分记录**/
+             WHERE T1.ID = T2.LOAN_ID
+               AND T2.TRADE_NO = T3.TRADE_NO
+               AND T3.TRADE_SN = T4.RELATE_TRADE
+               AND T4.TRADE_SN = T5.TRADE_SN
+               <if test="loanId != null">
+                 AND T1.ID = #{loanId}
+               </if>
+               <if test="loanBelong != null and loanBelong != ''">
+                     AND T1.LOAN_BELONG = '${loanBelong}'
+               </if>
+               <if test="tradeDateStart != null">
+                    AND T5.created_date >= to_date('${tradeDateStart}', 'yyyy-MM-dd') /**查询条件3**/
+               </if>
+               <if test="tradeDateEnd != null">
+                    AND T5.created_date &lt; to_date('${tradeDateEnd}', 'yyyy-MM-dd') /**查询条件4**/
+               </if>
+               AND T2.TRADE_CODE IN ('1001', '3001')
+               AND T2.AMOUNT >= 0
+               <if test="lineTradeType != null and lineTradeType == 'online'">
+                   AND T2.TRADE_TYPE NOT IN ('现金', '转账')
+               </if>
+               <if test="lineTradeType != null and lineTradeType == 'offline'">
+                   AND T2.TRADE_TYPE IN ('现金', '转账')
+               </if>
+               AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+                                     '1013' /** 正常本金 **/,
+                                     '1014' /** 逾期本金 **/,
+                                     '1015' /** 结清本金 **/,
+                                     '2012' /** 预收利息 **/,
+                                     '2013' /** 正常利息 **/,
+                                     '2014' /** 逾期利息 **/,
+                                     '5011' /** 本金罚息 **/,
+                                     '5012' /** 利息罚息 **/,
+                                     '5013' /** 费用罚息 **/,
+                                     '4000' /** 违约金 **/,
+                                     '6031' /** 退费_咨询费 **/,
+                                     '6041' /** 退费_评估费 **/,
+                                     '6051' /** 退费_乙方管理费 **/,
+                                     '6052' /** 退费_丙方管理费 **/,
+                                     '6053' /** 退费_丁方管理费 **/,
+                                     '7112' /** 减免_预收本金 **/,
+                                     '7113' /** 减免_正常本金 **/,
+                                     '7114' /** 减免_逾期本金 **/,
+                                     '7115' /** 减免_结清本金 **/,
+                                     '7212' /** 减免_预收利息 **/,
+                                     '7213' /** 减免_正常利息 **/,
+                                     '7214' /** 减免_逾期利息 **/,
+                                     '7511' /** 减免_本金罚息 **/,
+                                     '7512' /** 减免_利息罚息 **/,
+                                     '7513' /** 减免_费用罚息 **/,
+                                     '7400' /** 减免_违约金 **/)) A
+         <where>
+             <if test="currentTerm != null">
+                 A.CURRENT_TERM = #{currentTerm}
+             </if>
+         </where>
+         GROUP BY A.LOAN_ID, A.TRADE_DATE, A.CURRENT_TERM
+         ORDER BY A.LOAN_ID, A.TRADE_DATE, A.CURRENT_TERM
+     </select>
+     
+	 <select id="queryRepayFlowReportActualRepayTotalAmount" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+      select sum(a.amount) as actualRepayTotalAmount from offer_repay_info  a,loan_base b
+      where
+        a.loan_id = b.id
+        and b.loan_belong = #{loanBelongs}
+        and a.trade_type = #{tradeType}
+        and a.trade_date >= to_date(#{tradeStartDate},'YYYY-MM-DD')
+        and a.trade_date &lt; to_date(#{tradeEndDate},'YYYY-MM-DD')
+        and a.trade_code in ('1001', '1002', '1004', '3001')
+    </select>
+
+    <!-- 回款确认书 对公客户资金流入总额 -->
+    <select id="queryPublicRechargeTotalAmount" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+        select nvl(sum(t1.trade_amount), 0) as trade_amount
+        from base_public_account_info_wm t1
+        where 1=1
+        <if test="loanBelong != null and loanBelong != ''">
+            AND t1.LOAN_BELONG = #{loanBelong}
+        </if>
+        <if test="tradeBeginDate != null and tradeBeginDate != ''">
+            AND t1.TRADE_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="tradeEndDate != null and tradeEndDate != ''">
+            AND t1.TRADE_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+        </if>
+    </select>
+
+    <!-- 回款确认书  对公 信托专户的 本金 利息 罚息 总额 -->
+    <select id="queryPublicTrustSubjectAmount" parameterType="java.util.Map" resultType="com.zdmoney.credit.trustOffer.vo.SubjectAmount">
+        SELECT NVL(SUM(CASE
+        WHEN T5.TRADE_ITEM = '1012' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '1013' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '1014' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '1015' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7112' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7113' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7114' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7115' THEN
+        -T5.TRADE_AMOUNT
+        ELSE
+        0
+        END),
+        0) AS principalAmount,
+        NVL(SUM(CASE
+        WHEN T5.TRADE_ITEM = '2012' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '2013' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '2014' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7212' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7213' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7214' THEN
+        -T5.TRADE_AMOUNT
+        ELSE
+        0
+        END),
+        0) AS interestAmount,
+        NVL(SUM(CASE
+        WHEN T5.TRADE_ITEM = '5011' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '5012' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '5013' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '4000' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7511' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7512' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7513' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7400' THEN
+        -T5.TRADE_AMOUNT
+        ELSE
+        0
+        END),
+        0) AS fineInterestAmount
+        FROM V_LOAN_INFO      T1,
+        OFFER_REPAY_INFO T2,
+        LOAN_TRADE_INFO  T3,
+        LOAN_TRADE_INFO  T4,
+        LOAN_TRADE_CLEAR T5,
+        OFFLINE_REPAY_RELATION T6,
+        BASE_PUBLIC_ACCOUNT_INFO_WM T7
+        WHERE T1.ID = T2.LOAN_ID
+        AND T2.TRADE_NO = T3.TRADE_NO
+        AND T4.RELATE_TRADE = T3.TRADE_SN
+        AND T4.TRADE_SN = T5.TRADE_SN
+        AND T2.TRADE_NO = T6.TRADE_NO
+        AND T6.REPAY_NO = T7.REPAY_NO
+        <if test="loanBelong != null and loanBelong != ''">
+            AND T1.LOAN_BELONG = #{loanBelong}
+        </if>
+        <if test="tradeBeginDate != null and tradeBeginDate != ''">
+            AND T7.TRADE_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+            AND T4.BIZ_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="tradeEndDate != null and tradeEndDate != ''">
+            AND T7.TRADE_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+            AND T4.BIZ_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+        </if>
+        AND T3.TRADE_CODE = 'CHAG'
+        AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+        '1013' /** 正常本金 **/,
+        '1014' /** 逾期本金 **/,
+        '1015' /** 结清本金 **/,
+        '2012' /** 预收利息 **/,
+        '2013' /** 正常利息 **/,
+        '2014' /** 逾期利息 **/,
+        '5011' /** 本金罚息 **/,
+        '5012' /** 利息罚息 **/,
+        '5013' /** 费用罚息 **/,
+        '4000' /** 违约金 **/,
+        '7112' /** 减免_预收本金 **/,
+        '7113' /** 减免_正常本金 **/,
+        '7114' /** 减免_逾期本金 **/,
+        '7115' /** 减免_结清本金 **/,
+        '7212' /** 减免_预收利息 **/,
+        '7213' /** 减免_正常利息 **/,
+        '7214' /** 减免_逾期利息 **/,
+        '7511' /** 减免_本金罚息 **/,
+        '7512' /** 减免_利息罚息 **/,
+        '7513' /** 减免_费用罚息 **/,
+        '7400' /** 减免_违约金 **/)
+    </select>
+
+    <!-- 回款确认书 对公 还款明细 本金 利息 罚息 总额 -->
+    <select id="queryPulicRepaymentSubjectAmount" parameterType="java.util.Map" resultType="com.zdmoney.credit.trustOffer.vo.SubjectAmount">
+        SELECT NVL(SUM(CASE
+        WHEN T5.TRADE_ITEM = '1012' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '1013' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '1014' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '1015' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7112' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7113' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7114' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7115' THEN
+        -T5.TRADE_AMOUNT
+        ELSE
+        0
+        END),
+        0) -
+        NVL(SUM(CASE
+        WHEN T5.TRADE_ITEM = '6031' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '6041' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '6051' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '6052' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '6053' THEN
+        T5.TRADE_AMOUNT
+        ELSE
+        0
+        END),
+        0)AS principalAmount,
+        NVL(SUM(CASE
+        WHEN T5.TRADE_ITEM = '2012' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '2013' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '2014' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7212' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7213' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7214' THEN
+        -T5.TRADE_AMOUNT
+        ELSE
+        0
+        END),
+        0) AS interestAmount,
+        NVL(SUM(CASE
+        WHEN T5.TRADE_ITEM = '5011' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '5012' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '5013' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '4000' THEN
+        T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7511' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7512' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7513' THEN
+        -T5.TRADE_AMOUNT
+        WHEN T5.TRADE_ITEM = '7400' THEN
+        -T5.TRADE_AMOUNT
+        ELSE
+        0
+        END),
+        0) AS fineInterestAmount
+        FROM V_LOAN_INFO      T1,
+        OFFER_REPAY_INFO T2,
+        LOAN_TRADE_INFO  T3,
+        LOAN_TRADE_INFO  T4,
+        LOAN_TRADE_CLEAR T5,
+        OFFLINE_REPAY_RELATION T6,
+        BASE_PUBLIC_ACCOUNT_INFO_WM T7
+        WHERE T1.ID = T2.LOAN_ID
+        AND T2.TRADE_NO = T3.TRADE_NO
+        AND T4.RELATE_TRADE = T3.TRADE_SN
+        AND T4.TRADE_SN = T5.TRADE_SN
+        AND T2.TRADE_NO = T6.TRADE_NO
+        AND T6.REPAY_NO = T7.REPAY_NO
+        <if test="loanBelong != null and loanBelong != ''">
+            AND T1.LOAN_BELONG = #{loanBelong}
+        </if>
+        <if test="tradeBeginDate != null and tradeBeginDate != ''">
+            AND T4.BIZ_DATE >= TO_DATE(#{tradeBeginDate}, 'YYYY-MM-DD')
+        </if>
+        <if test="tradeEndDate != null and tradeEndDate != ''">
+            AND T4.BIZ_DATE &lt; TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD')
+        </if>
+        AND T3.TRADE_CODE = 'CHAG'
+        AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+        '1013' /** 正常本金 **/,
+        '1014' /** 逾期本金 **/,
+        '1015' /** 结清本金 **/,
+        '2012' /** 预收利息 **/,
+        '2013' /** 正常利息 **/,
+        '2014' /** 逾期利息 **/,
+        '5011' /** 本金罚息 **/,
+        '5012' /** 利息罚息 **/,
+        '5013' /** 费用罚息 **/,
+        '4000' /** 违约金 **/,
+        '6031' /** 退费_咨询费 **/,
+        '6041' /** 退费_评估费 **/,
+        '6051' /** 退费_乙方管理费 **/,
+        '6052' /** 退费_丙方管理费 **/,
+        '6053' /** 退费_丁方管理费 **/,
+        '7112' /** 减免_预收本金 **/,
+        '7113' /** 减免_正常本金 **/,
+        '7114' /** 减免_逾期本金 **/,
+        '7115' /** 减免_结清本金 **/,
+        '7212' /** 减免_预收利息 **/,
+        '7213' /** 减免_正常利息 **/,
+        '7214' /** 减免_逾期利息 **/,
+        '7511' /** 减免_本金罚息 **/,
+        '7512' /** 减免_利息罚息 **/,
+        '7513' /** 减免_费用罚息 **/,
+        '7400' /** 减免_违约金 **/)
+    </select>
+
+    <!-- 回款确认书 对公其他暂收款 -->
+    <select id="queryPublicTemporaryAmount" parameterType="java.util.Map" resultMap="TemporaryAmountResultMap">
+        SELECT
+        CASE
+        WHEN A.LOAN_BELONG = '渤海2' THEN
+        'ZDCF02'
+        WHEN A.LOAN_BELONG = '华瑞渤海' THEN
+        'ZDCF03'
+        ELSE
+        ''
+        END AS PROJECT_CODE,
+        MAX(A.CONTRACT_NUM) AS CONTRACT_NUM, /** 合同编号**/
+        MAX(A.TRADE_DATE) AS TRADE_DATE, /** 实际还款时间（取实际还款时间的下一个工作日）**/
+        SUM(CASE
+        WHEN A.TRADE_ITEM = '1012' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '1013' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '1014' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '1015' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7112' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7113' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6031' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6041' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6051' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6052' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '6053' THEN
+        -A.TRADE_AMOUNT
+        ELSE
+        0
+        END) AS TEMPORARY_INCOME, /** 其他暂收本金、包含结清本金 **/
+        SUM(CASE
+        WHEN A.TRADE_ITEM = '2012' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '2013' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '2014' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7212' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7213' THEN
+        -A.TRADE_AMOUNT
+        ELSE
+        0
+        END) AS TEMPORARY_INTEREST, /** 其他暂收利息 **/
+        SUM(CASE
+        WHEN A.TRADE_ITEM = '5011' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '5012' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '5013' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '4000' THEN
+        A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7400' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7511' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7512' THEN
+        -A.TRADE_AMOUNT
+        WHEN A.TRADE_ITEM = '7513' THEN
+        -A.TRADE_AMOUNT
+        ELSE
+        0
+        END) AS TEMPORARY_PENALTY, /** 其他暂收罚息 **/
+        0 AS TEMPORARY_OTHER_AMOUNT, /** 其他暂收金额 **/
+        MAX(A.BIZ_DATE) AS OFF_DATE, /** 实际分账时间（取实际分账时间的下一个工作日） **/
+        'isPublicRepayment' AS MEMO
+        FROM (SELECT T5.LOAN_NUMBER,
+        T1.CONTRACT_NUM,
+        T7.TRADE_DATE,
+        T3.TRADE_SN,
+        T4.BIZ_DATE,
+        T1.LOAN_BELONG,
+        CASE
+        WHEN T5.ITEM_NOTE IS NULL THEN
+        (SELECT C.ITEM_NOTE
+        FROM LOAN_TRADE_CLEAR C
+        WHERE C.LOAN_NUMBER = T5.LOAN_NUMBER
+        AND C.TRADE_ITEM = '4000'
+        AND ROWNUM = 1)
+        ELSE
+        T5.ITEM_NOTE
+        END AS ITEM_NOTE,
+        T5.TRADE_ITEM,
+        T5.TRADE_AMOUNT
+        FROM V_LOAN_INFO T1, /** 债权信息 **/
+        OFFER_REPAY_INFO T2, /** 还款流水 **/
+        LOAN_TRADE_INFO T3, /** 充值记录 **/
+        LOAN_TRADE_INFO T4, /** 待分账记录 **/
+        LOAN_TRADE_CLEAR T5, /** 清分记录 **/
+        OFFLINE_REPAY_RELATION T6,
+        BASE_PUBLIC_ACCOUNT_INFO_WM T7
+        WHERE T1.ID = T2.LOAN_ID
+        AND T2.TRADE_NO = T3.TRADE_NO
+        AND T3.TRADE_SN = T4.RELATE_TRADE
+        AND T4.TRADE_SN = T5.TRADE_SN
+        AND T2.TRADE_NO = T6.TRADE_NO
+        AND T6.REPAY_NO = T7.REPAY_NO
+        <if test="loanBelong != null and loanBelong != ''">
+            AND T1.LOAN_BELONG = #{loanBelong} /** 查询条件1：债权去向 **/
+        </if>
+        <if test="tradeStartDate != null">
+            AND T7.TRADE_DATE &lt; TO_DATE(#{tradeStartDate}, 'YYYY-MM-DD') /** 查询条件2 **/
+            AND T4.BIZ_DATE >= TO_DATE(#{tradeStartDate}, 'YYYY-MM-DD') /** 查询条件3：上个工作日时间 **/
+        </if>
+        <if test="tradeEndDate != null">
+            AND T4.BIZ_DATE &lt;  TO_DATE(#{tradeEndDate}, 'YYYY-MM-DD') /** 查询条件4：提交日期**/
+        </if>
+        AND T3.TRADE_CODE = 'CHAG'
+        AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+        '1014'/**逾期本金**/,
+        '1015' /** 结清本金 **/,
+        '1013'/**正常本金**/,
+        '2012' /** 预收利息 **/,
+        '2013'/**正常利息**/,
+        '2014'/**逾期利息**/,
+        '7112' /** 减免_预收本金 **/,
+        '7212' /** 减免_预收利息 **/,
+        '7113'/**减免_正常本金**/,
+        '7213'/**减免_正常利息**/,
+        '4000' /** 违约金 **/,
+        '7400' /** 减免_违约金 **/,
+        '6031' /** 退费_咨询费 **/,
+        '6041' /** 退费_评估费 **/,
+        '6051' /** 退费_乙方管理费 **/,
+        '6052' /** 退费_丙方管理费 **/,
+        '6053' /** 退费_丁方管理费 **/,
+        '5011' /** 本金罚息 **/,
+        '5012' /** 利息罚息 **/,
+        '5013' /** 费用罚息 **/,
+        '7511' /** 减免_本金罚息 **/,
+        '7512' /** 减免_利息罚息 **/,
+        '7513' /** 减免_费用罚息 **/)) A
+        GROUP BY A.LOAN_BELONG,A.LOAN_NUMBER, A.TRADE_SN, A.ITEM_NOTE
+        ORDER BY A.LOAN_BELONG,A.LOAN_NUMBER, A.TRADE_SN, A.ITEM_NOTE
+    </select>
+</mapper>

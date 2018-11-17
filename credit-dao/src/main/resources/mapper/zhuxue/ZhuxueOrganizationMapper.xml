@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.zhuxue.domain.ZhuxueOrganizationMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.zhuxue.domain.ZhuxueOrganization" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="DATE_SIGNED" property="dateSigned" jdbcType="TIMESTAMP" />
+    <result column="MARGIN_RATE" property="marginRate" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ORG_TYPE" property="orgType" jdbcType="VARCHAR" />
+    <result column="OWNER" property="owner" jdbcType="VARCHAR" />
+    <result column="OWNER_IDNUM" property="ownerIdnum" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="POST_CODE" property="postCode" jdbcType="VARCHAR" />
+    <result column="CONTACT" property="contact" jdbcType="VARCHAR" />
+    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT_TYPE" property="bankAccountType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="AccountCardMap" type="com.zdmoney.credit.zhuxue.vo.ZhuxueOrganizationAccountCardVo" >
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+    <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+    <result column="TRADE_CODE" property="tradeCode" jdbcType="VARCHAR" />
+    <result column="TRADE_AMOUNT" property="tradeAmount" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, ADDRESS, CODE, DATE_SIGNED, MARGIN_RATE, MEMO, NAME, ORG_TYPE, OWNER, OWNER_IDNUM, 
+    TEL, POST_CODE, CONTACT, CONTACT_TEL, BANK_ACCOUNT_TYPE
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ZHUXUE_ORGANIZATION
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from ZHUXUE_ORGANIZATION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueOrganization" >
+    insert into ZHUXUE_ORGANIZATION (ID, ADDRESS, CODE, 
+      DATE_SIGNED, MARGIN_RATE, MEMO, 
+      NAME, ORG_TYPE, OWNER, 
+      OWNER_IDNUM, TEL, POST_CODE, 
+      CONTACT, CONTACT_TEL, BANK_ACCOUNT_TYPE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{dateSigned,jdbcType=TIMESTAMP}, #{marginRate,jdbcType=DECIMAL}, #{memo,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, 
+      #{ownerIdnum,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, #{bankAccountType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueOrganization" >
+    insert into ZHUXUE_ORGANIZATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="dateSigned != null" >
+        DATE_SIGNED,
+      </if>
+      <if test="marginRate != null" >
+        MARGIN_RATE,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="orgType != null" >
+        ORG_TYPE,
+      </if>
+      <if test="owner != null" >
+        OWNER,
+      </if>
+      <if test="ownerIdnum != null" >
+        OWNER_IDNUM,
+      </if>
+      <if test="tel != null" >
+        TEL,
+      </if>
+      <if test="postCode != null" >
+        POST_CODE,
+      </if>
+      <if test="contact != null" >
+        CONTACT,
+      </if>
+      <if test="contactTel != null" >
+        CONTACT_TEL,
+      </if>
+      <if test="bankAccountType != null" >
+        BANK_ACCOUNT_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="dateSigned != null" >
+        #{dateSigned,jdbcType=TIMESTAMP},
+      </if>
+      <if test="marginRate != null" >
+        #{marginRate,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerIdnum != null" >
+        #{ownerIdnum,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountType != null" >
+        #{bankAccountType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueOrganization" >
+    update ZHUXUE_ORGANIZATION
+    <set >
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="dateSigned != null" >
+        DATE_SIGNED = #{dateSigned,jdbcType=TIMESTAMP},
+      </if>
+      <if test="marginRate != null" >
+        MARGIN_RATE = #{marginRate,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        ORG_TYPE = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        OWNER = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerIdnum != null" >
+        OWNER_IDNUM = #{ownerIdnum,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        POST_CODE = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        CONTACT = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountType != null" >
+        BANK_ACCOUNT_TYPE = #{bankAccountType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueOrganization" >
+    update ZHUXUE_ORGANIZATION
+    set ADDRESS = #{address,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      DATE_SIGNED = #{dateSigned,jdbcType=TIMESTAMP},
+      MARGIN_RATE = #{marginRate,jdbcType=DECIMAL},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      ORG_TYPE = #{orgType,jdbcType=VARCHAR},
+      OWNER = #{owner,jdbcType=VARCHAR},
+      OWNER_IDNUM = #{ownerIdnum,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      POST_CODE = #{postCode,jdbcType=VARCHAR},
+      CONTACT = #{contact,jdbcType=VARCHAR},
+      CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      BANK_ACCOUNT_TYPE = #{bankAccountType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="findByPlanId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ZHUXUE_ORGANIZATION o
+		where o.id =(
+		select p.ORGANIZATION_ID
+		from ZHUXUE_PRODUCT_PLAN p
+		where p.id = #{planId,jdbcType=DECIMAL}
+		)
+  </select>
+	
+  <sql id="zhuxueOrganizationSelective">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM ZHUXUE_ORGANIZATION
+  </sql>
+  
+  <sql id="zhuxueOrganizationConditions">
+    <trim prefix="where" prefixOverrides="and">
+      <if test="code != null and code != ''">
+        AND CODE = #{code}
+      </if>
+      <if test="name != null and name != ''">
+        AND NAME LIKE '%' || #{name} || '%'
+      </if>
+      <if test="orgType != null and orgType != ''">
+        AND ORG_TYPE = #{orgType}
+      </if>
+    </trim>
+  </sql>
+  
+  <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <include refid="zhuxueOrganizationSelective" />
+    <include refid="zhuxueOrganizationConditions" />
+  </select>
+  
+  <!-- 通过Map参数集合分页查询 -->
+  <select id="findWithPGByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+    <include refid="zhuxueOrganizationSelective" />
+    <include refid="zhuxueOrganizationConditions" />
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+  <!-- 查询总件数 -->
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM (
+    <include refid="zhuxueOrganizationSelective" />
+    <include refid="zhuxueOrganizationConditions" />
+    )
+  </select>
+  
+  <!-- 这部分是取机构里学生开户和保证金还款的账卡记录 -->
+  <sql id="accountCardQuery1">
+    select D.name,A.trade_date,A.trade_type,A.trade_code,A.trade_amount from offer_flow A,offer_repay_info B,loan_base C, person_info D 
+    where A.trade_no = B.trade_no and B.loan_id = C.id and C.borrower_id = D.id 
+    and ((A.acct_title = #{acctTitle1} and A.dorc = #{dorc1} and A.trade_type = #{tradeType1} and A.account = #{organizationId}) 
+    or ( A.trade_code = #{tradeCode1} and A.acct_title = #{acctTitle2} and A.appo_acct = #{organizationId})) 
+    <if test="startDate != null">
+      and A.trade_date <![CDATA[>=]]> #{startDate}
+    </if>
+    <if test="endDate != null">
+      and A.trade_date <![CDATA[<=]]> #{endDate}
+    </if>
+    <if test="noDate != null and startDate == null and endDate == null" >
+      and A.trade_date <![CDATA[>=]]> to_date(#{noDate}, 'yyyy-MM-dd')
+    </if>
+  </sql>
+  
+  <!-- 这部分是机构存取款 -->
+  <sql id="accountCardQuery2">
+    select null as name, A.trade_date,A.trade_type,A.trade_code,A.trade_amount from offer_flow A 
+    where (A.account = #{organizationId} and A.trade_code in 
+    <if test="tradeCode2 != null">
+      <foreach collection="tradeCode2" item="tradeCode" open="(" separator="," close=")">
+        #{tradeCode}
+      </foreach>
+    </if>
+    )
+    <if test="startDate != null">
+      and A.trade_date <![CDATA[>=]]> #{startDate}
+    </if>
+    <if test="endDate != null">
+      and A.trade_date <![CDATA[<=]]> #{endDate}
+    </if>
+    <if test="noDate != null and startDate == null and endDate == null" >
+      and A.trade_date <![CDATA[>=]]> to_date(#{noDate}, 'yyyy-MM-dd')
+    </if>
+  </sql>
+  
+  <sql id="accountCardQuery3">
+    select C.name,A.trade_date,A.trade_type,A.trade_code,A.trade_amount from offer_flow A,loan_base B,person_info C 
+    where A.appo_acct = trim(to_char(B.id,'999999999999')) and B.borrower_id = C.id and A.account = #{organizationId} and A.trade_code in
+    <if test="tradeCode3 != null">
+      <foreach collection="tradeCode3" item="tradeCode" open="(" separator="," close=")">
+        #{tradeCode}
+      </foreach>
+    </if>
+    <if test="startDate != null">
+      and A.trade_date <![CDATA[>=]]> #{startDate}
+    </if>
+    <if test="endDate != null">
+      and A.trade_date <![CDATA[<=]]> #{endDate}
+    </if>
+    <if test="noDate != null and startDate == null and endDate == null" >
+      and A.trade_date <![CDATA[>=]]> to_date(#{noDate}, 'yyyy-MM-dd')
+    </if>
+  </sql>
+  
+  <sql id="accountCardQuery4">
+    select C.name,A.trade_date,A.trade_type,A.trade_code,A.trade_amount from offer_flow A,loan_base B,person_info C 
+    where A.account = trim(to_char(B.id,'999999999999')) and B.borrower_id = C.id and A.appo_acct = #{organizationId} and A.trade_code  in
+    <if test="tradeCode4 != null">
+      <foreach collection="tradeCode4" item="tradeCode" open="(" separator="," close=")">
+        #{tradeCode}
+      </foreach>
+    </if>
+    <if test="startDate != null">
+      and A.trade_date <![CDATA[>=]]> #{startDate}
+    </if>
+    <if test="endDate != null">
+      and A.trade_date <![CDATA[<=]]> #{endDate}
+    </if>
+    <if test="noDate != null and startDate == null and endDate == null" >
+      and A.trade_date <![CDATA[>=]]> to_date(#{noDate}, 'yyyy-MM-dd')
+    </if>
+  </sql>
+  
+  <select id="findAccountCardPGByMap" parameterType="java.util.Map" resultMap="AccountCardMap">
+    <include refid="accountCardQuery1" />
+    UNION
+    <include refid="accountCardQuery2" />
+    UNION
+    <include refid="accountCardQuery3" />
+    UNION
+    <include refid="accountCardQuery4" />
+    order by trade_date desc
+  </select>
+</mapper>

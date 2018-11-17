@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.credit.riskManage.vo.VPersonVisitMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.riskManage.vo.VPersonVisit">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ADDITIONAL_CHARGES" jdbcType="VARCHAR" property="additionalCharges" />
+    <result column="CHANNEL" jdbcType="VARCHAR" property="channel" />
+    <result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="S_ATTITUDE" jdbcType="VARCHAR" property="sAttitude" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="ADVICE" jdbcType="VARCHAR" property="advice" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATOR_ID" jdbcType="DECIMAL" property="creatorId" />
+  </resultMap>
+  
+  <!-- 查询字段 -->
+  <sql id="Base_Column_List">
+    ID, 
+    TRIM(ADDITIONAL_CHARGES) AS ADDITIONAL_CHARGES, 
+    CHANNEL,
+    LOAN_ID,
+    MEMO,
+    S_ATTITUDE,
+    TEL, 
+    ADVICE,
+    CREATE_TIME,
+    CREATOR,
+    CREATOR_ID
+  </sql>
+  
+  <!-- 查询主体（客户回访记录） -->
+  <sql id="visitSelective">
+    SELECT 
+        <include refid = "Base_Column_List"/>
+      FROM PERSON_VISIT
+  </sql>
+  
+  <!-- 查询条件（客户回访记录） -->
+  <sql id="visitConditions">
+     <trim prefix="where" prefixOverrides="and">
+         <if test="loanId != null and loanId !=''">
+             AND LOAN_ID= #{loanId}
+         </if>
+         <if test="additionalCharges != null and additionalCharges !=''">
+             AND ADDITIONAL_CHARGES = #{additionalCharges,jdbcType=CHAR}
+         </if>
+         <if test="channel != null and channel !=''">
+             AND CHANNEL = #{channel}
+         </if>
+         <if test="sAttitude != null and sAttitude !=''">
+             AND S_ATTITUDE = #{sAttitude}
+         </if>
+         <if test="tel != null and tel !=''">
+             AND TEL = #{tel}
+         </if>
+         <if test="createTime != null">
+             AND CREATE_TIME = #{createTime}
+         </if>
+         <if test="creatorId != null and creatorId !=''">
+             AND CREATOR_ID = #{creatorId}
+         </if>
+     </trim>
+  </sql>
+  
+  <!-- 排序条件（客户回访记录） -->
+  <sql id="visitOrderConditions">
+    ORDER BY CREATE_TIME DESC
+  </sql>
+  
+  <!-- 映射集合（客户回访查询） -->
+  <resultMap id="PersonVisitResultMap" type="com.zdmoney.credit.riskManage.vo.VPersonVisit">
+    <result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+    <result column="SIGNSALESDEP_NAME" jdbcType="VARCHAR" property="signsalesdepName" />
+    <result column="SIGNSALESDEP_CODE" jdbcType="VARCHAR" property="signsalesdepCode" />
+    <result column="SALESDEPARTMENT_NAME" jdbcType="VARCHAR" property="salesdepartmentName" />
+    <result column="BORROWER_ID" jdbcType="DECIMAL" property="borrowerId" />
+    <result column="BORROWER_NAME" jdbcType="VARCHAR" property="borrowerName" />
+    <result column="SALESMAN_NAME" jdbcType="VARCHAR" property="salesmanName" />
+    <result column="LOAN_TYPE" jdbcType="VARCHAR" property="loanType" />
+    <result column="VISIT_DATE" jdbcType="VARCHAR" property="visitDate" />
+    <result column="CHANNEL" jdbcType="VARCHAR" property="channel" />
+    <result column="S_ATTITUDE" jdbcType="VARCHAR" property="sAttitude" />
+    <result column="ADDITIONAL_CHARGES" jdbcType="CHAR" property="additionalCharges" />
+    <result column="ADVICE" jdbcType="VARCHAR" property="advice" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+    <result column="ASSIGN_STATE" property="assignState" jdbcType="VARCHAR" />
+    <result column="TRANSFER_BATCH" property="transferBatch" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 映射集合（回访管理） -->
+  <resultMap id="visitManageResultMap" type="com.zdmoney.credit.riskManage.vo.VPersonVisit">
+    <result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+    <result column="SIGNSALESDEP_NAME" jdbcType="VARCHAR" property="signsalesdepName" />
+    <result column="SIGNSALESDEP_CODE" jdbcType="VARCHAR" property="signsalesdepCode" />
+    <result column="SALESDEPARTMENT_NAME" jdbcType="VARCHAR" property="salesdepartmentName" />
+    <result column="BORROWER_ID" jdbcType="DECIMAL" property="borrowerId" />
+    <result column="BORROWER_NAME" jdbcType="VARCHAR" property="borrowerName" />
+    <result column="SALESMAN_NAME" jdbcType="VARCHAR" property="salesmanName" />
+    <result column="LOAN_TYPE" jdbcType="VARCHAR" property="loanType" />
+    <result column="REQUEST_MONEY" jdbcType="DECIMAL" property="requestMoney" />
+    <result column="REQUEST_TIME" jdbcType="DECIMAL" property="requestTime" />
+    <result column="REQUEST_DATE" jdbcType="TIMESTAMP" property="requestDate" />
+    <result column="SIGN_DATE" jdbcType="TIMESTAMP" property="signDate" />
+    <result column="MONEY" jdbcType="DECIMAL" property="money" />
+    <result column="TIME" jdbcType="DECIMAL" property="time" />
+    <result column="GRANT_MONEY_DATE" jdbcType="TIMESTAMP" property="grantMoneyDate" />
+    <result column="VISIT_NUM" jdbcType="DECIMAL" property="visitNum" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+    <result column="ASSIGN_STATE" property="assignState" jdbcType="VARCHAR" />
+    <result column="TRANSFER_BATCH" property="transferBatch" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 查询主体（客户回访查询） -->
+  <sql id="personVisitSelective">
+    SELECT T2.ID AS LOAN_ID,
+           T5.NAME AS SIGNSALESDEP_NAME,
+           T5.ORG_CODE AS SIGNSALESDEP_CODE,
+           (SELECT C.NAME
+              FROM COM_ORGANIZATION C
+             WHERE C.ID = T2.SALES_DEPARTMENT_ID) AS SALESDEPARTMENT_NAME,
+           T3.ID AS BORROWER_ID,
+           T3.NAME AS BORROWER_NAME,
+           T4.NAME AS SALESMAN_NAME,
+           T2.LOAN_TYPE,
+           TO_CHAR(T1.CREATE_TIME,'yyyy-MM-dd') AS VISIT_DATE,
+           T1.CHANNEL,
+           T1.S_ATTITUDE,
+           TRIM(T1.ADDITIONAL_CHARGES) AS ADDITIONAL_CHARGES,
+           T1.ADVICE,
+           T1.MEMO,
+           T2.CONTRACT_NUM,
+           T6.ASSIGN_STATE,
+           T7.TRANSFER_BATCH
+      FROM PERSON_VISIT     T1,
+           V_LOAN_INFO      T2,
+           PERSON_INFO      T3,
+           COM_EMPLOYEE     T4,
+           COM_ORGANIZATION T5,
+           loan_info_ext t6,
+           LOAN_TRANSFER_INFO t7
+     WHERE T1.LOAN_ID = T2.ID
+       AND T2.BORROWER_ID = T3.ID
+       AND T2.SALESMAN_ID = T4.ID
+       AND T2.SIGN_SALES_DEP_ID = T5.ID
+       and T2.ID=T6.LOAN_ID(+)
+       AND T2.ID = T7.LOAN_ID(+)
+  </sql>
+  
+  <!-- 查询条件（客户回访查询） -->
+  <sql id="personVisitConditions">
+    <if test="loanId != null and loanId !=''">
+        AND T2.ID = #{loanId}
+    </if>
+    <if test="name != null and name != ''">
+        AND T3.NAME LIKE #{name} || '%'
+    </if>
+    <if test="idNum != null and idNum != ''">
+        AND T3.IDNUM = #{idNum}
+    </if>
+    <if test="mobile != null and mobile != ''">
+        AND T3.MPHONE = #{mobile}
+    </if>
+    <if test="startDate != null and startDate !=''">
+        AND T1.CREATE_TIME > TO_DATE(#{startDate},'yyyy-MM-dd')
+    </if>
+    <if test="endDate != null and endDate !=''">
+        AND T1.CREATE_TIME &lt; TO_DATE(#{endDate},'yyyy-MM-dd') + 1
+    </if>
+    <if test="loanType != null and loanType != ''">
+        AND T2.LOAN_TYPE = #{loanType}
+    </if>
+    <if test="contractNum != null and contractNum != ''">
+        AND T2.CONTRACT_NUM = #{contractNum}
+    </if>
+  </sql>
+  
+  <!-- 排序条件（客户回访查询） -->
+  <sql id="orderConditions">
+    ORDER BY T1.CREATE_TIME DESC
+  </sql>
+  
+  <!-- 查询主体（回访管理） -->
+  <sql id="visitManageSelective">
+    SELECT T2.ID AS LOAN_ID,
+           T5.NAME AS SIGNSALESDEP_NAME,
+           T5.ORG_CODE AS SIGNSALESDEP_CODE,
+           (SELECT C.NAME
+              FROM COM_ORGANIZATION C
+             WHERE C.ID = T2.SALES_DEPARTMENT_ID) AS SALESDEPARTMENT_NAME,
+           T3.ID AS BORROWER_ID,
+           T3.NAME AS BORROWER_NAME,
+           T4.NAME AS SALESMAN_NAME,
+           T2.LOAN_TYPE,
+           T2.REQUEST_MONEY,
+           T2.REQUEST_TIME,
+           T2.REQUEST_DATE,
+           T2.SIGN_DATE,
+           T2.MONEY,
+           T2.TIME,
+           T2.GRANT_MONEY_DATE,
+           T2.CONTRACT_NUM,
+           (SELECT COUNT(1) FROM PERSON_VISIT T1 WHERE T1.LOAN_ID = T2.ID) AS VISIT_NUM,
+           T6.ASSIGN_STATE,
+           T7.TRANSFER_BATCH
+      FROM V_LOAN_INFO T2, PERSON_INFO T3, COM_EMPLOYEE T4, COM_ORGANIZATION T5,loan_info_ext t6,LOAN_TRANSFER_INFO T7
+     WHERE T2.BORROWER_ID = T3.ID
+       AND T2.SALESMAN_ID = T4.ID
+       AND T2.SIGN_SALES_DEP_ID = T5.ID
+       and T2.ID=T6.LOAN_ID(+)
+       AND T2.ID = T7.LOAN_ID(+)
+  </sql>
+  
+  <!-- 查询条件（回访管理） -->
+  <sql id="visitManageConditions">
+    <if test="loanId != null and loanId !=''">
+        AND T2.ID = #{loanId}
+    </if>
+    <if test="name != null and name != ''">
+        AND T3.NAME LIKE #{name} || '%'
+    </if>
+    <if test="idNum != null and idNum != ''">
+        AND T3.IDNUM = #{idNum}
+    </if>
+    <if test="mobile != null and mobile != ''">
+        AND T3.MPHONE = #{mobile}
+    </if>
+    <if test="startDate != null and startDate !=''">
+        AND T2.GRANT_MONEY_DATE > TO_DATE(#{startDate},'yyyy-MM-dd')
+    </if>
+    <if test="endDate != null and endDate !=''">
+        AND T2.GRANT_MONEY_DATE &lt; TO_DATE(#{endDate},'yyyy-MM-dd') + 1
+    </if>
+    <if test="loanType != null and loanType != ''">
+        AND T2.LOAN_TYPE = #{loanType}
+    </if>
+    <if test="loanStates !=null">
+        AND T2.LOAN_STATE IN
+        <foreach collection="loanStates" item="loanState" index="index" open="(" close=")" separator=",">
+            #{loanState}
+        </foreach>
+    </if>
+    <if test="contractNum != null and contractNum!=''">
+		AND T2.CONTRACT_NUM=#{contractNum,jdbcType=VARCHAR}
+	</if>
+  </sql>
+  
+  <!-- 排序条件（回访管理） -->
+  <sql id="visitManageOrderConditions">
+    ORDER BY T2.GRANT_MONEY_DATE DESC
+  </sql>
+  
+  <!-- 按查询条件查询表中多条记录的公用SQL（客户回访查询） -->
+  <sql id="findListByConditions">
+    <include refid="personVisitSelective" />
+    <include refid="personVisitConditions" />
+    <include refid="orderConditions" />
+  </sql>
+  
+  <!-- 按查询条件查询表中多条记录的公用SQL（回访管理） -->
+  <sql id="findVisitManagesByConditions">
+    <include refid="visitManageSelective" />
+    <include refid="visitManageConditions" />
+    <include refid="visitManageOrderConditions" />
+  </sql>
+  
+  <!-- 按主键查询 -->
+  <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM PERSON_VISIT
+    WHERE ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <!-- 按主键删除 -->
+  <delete id="delete" parameterType="java.lang.Long">
+    DELETE FROM PERSON_VISIT WHERE ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- 新增记录 -->
+  <insert id="insert" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit">
+    INSERT INTO PERSON_VISIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="additionalCharges != null">
+        ADDITIONAL_CHARGES,
+      </if>
+      <if test="channel != null">
+        CHANNEL,
+      </if>
+      <if test="loanId != null">
+        LOAN_ID,
+      </if>
+      <if test="memo != null">
+        MEMO,
+      </if>
+      <if test="sAttitude != null">
+        S_ATTITUDE,
+      </if>
+      <if test="tel != null">
+        TEL,
+      </if>
+      <if test="advice != null">
+        ADVICE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="additionalCharges != null">
+        #{additionalCharges,jdbcType=CHAR},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="loanId != null">
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="sAttitude != null">
+        #{sAttitude,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null">
+        #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 更新记录 -->
+  <update id="update" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit">
+    UPDATE PERSON_VISIT
+    <set>
+      <if test="additionalCharges != null">
+        ADDITIONAL_CHARGES = #{additionalCharges,jdbcType=CHAR},
+      </if>
+      <if test="channel != null">
+        CHANNEL = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="loanId != null">
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null">
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="sAttitude != null">
+        S_ATTITUDE = #{sAttitude,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null">
+        ADVICE = #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID = #{creatorId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    WHERE ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- 按指定条件查询客户回访记录 -->
+  <select id="findListByVO" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit" resultMap="BaseResultMap">
+    <include refid="visitSelective" />
+    <include refid="visitConditions" />
+    <include refid="visitOrderConditions" />
+  </select>
+  
+  <!-- 查询回访管理信息 -->
+  <select id="findVisitManagesByVo" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit" resultMap="visitManageResultMap">
+    <include refid="findVisitManagesByConditions"/>
+  </select>
+  
+  <!-- 查询总件数（客户回访查询） -->
+  <select id="count" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (<include refid="findListByConditions" />)
+  </select>
+  
+  <!-- 分页查询（客户回访查询） -->
+  <select id="findWithPG" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit" resultMap="PersonVisitResultMap">
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+      <include refid="findListByConditions" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+  <!-- 查询总件数（回访管理） -->
+  <select id="countVisitManage" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (<include refid="findVisitManagesByConditions" />)
+  </select>
+  
+  <!-- 分页查询（回访管理） -->
+  <select id="findWithPGVisitManage" parameterType="com.zdmoney.credit.riskManage.vo.VPersonVisit" resultMap="visitManageResultMap">
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+      <include refid="findVisitManagesByConditions" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+</mapper>

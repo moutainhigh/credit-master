@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.BaseMessageMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.system.domain.BaseMessage">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SENDER" property="sender" jdbcType="DECIMAL" />
+		<result column="RECEIVER" property="receiver" jdbcType="DECIMAL" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+		<result property="senderName" column="senderName" jdbcType="VARCHAR" />
+		<result property="receiverName" column="receiverName" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, SENDER, RECEIVER, TITLE, CONTENT, STATE, TYPE, SEND_TIME
+	</sql>
+
+
+	<select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		SELECT M.ID,
+		       case
+		         when M.SENDER is null then
+		          (select id from com_employee where usercode = 'admin')
+		         else
+		          M.SENDER
+		       end as SENDER,
+		       M.RECEIVER,
+		       M.CONTENT,
+		       M.TITLE,
+		       M.STATE,
+		       M.TYPE,
+		       M.SEND_TIME,
+		       C.NAME AS RECEIVERNAME,
+		       case
+		         when T.NAME is null then
+		          (select name from com_employee where usercode = 'admin')
+		         else
+		          T.NAME
+		       end as SENDERNAME
+		  FROM BASE_MESSAGE M
+		 INNER JOIN COM_EMPLOYEE C
+		    ON M.RECEIVER = C.ID
+		  left JOIN COM_EMPLOYEE T
+		    ON M.SENDER = T.ID
+		 where M.ID = #{id, jdbcType = DECIMAL}
+	</select>
+
+
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Short">
+		select
+		<include refid="Base_Column_List" />
+		from BASE_MESSAGE
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+		delete from BASE_MESSAGE
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.BaseMessage">
+		insert into BASE_MESSAGE (ID, SENDER, RECEIVER,
+		TITLE, CONTENT, STATE,
+		TYPE, SEND_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{sender,jdbcType=DECIMAL},
+		#{receiver,jdbcType=DECIMAL},
+		#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},
+		#{type,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.BaseMessage">
+		insert into BASE_MESSAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="sender != null">
+				SENDER,
+			</if>
+			<if test="receiver != null">
+				RECEIVER,
+			</if>
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="state != null">
+				STATE,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="sendTime != null">
+				SEND_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="sender != null">
+				#{sender,jdbcType=DECIMAL},
+			</if>
+			<if test="receiver != null">
+				#{receiver,jdbcType=DECIMAL},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="sendTime != null">
+				#{sendTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.BaseMessage">
+		update BASE_MESSAGE
+		<set>
+			<if test="sender != null">
+				SENDER = #{sender,jdbcType=DECIMAL},
+			</if>
+			<if test="receiver != null">
+				RECEIVER = #{receiver,jdbcType=DECIMAL},
+			</if>
+			<if test="title != null">
+				TITLE = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="sendTime != null">
+				SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.BaseMessage">
+		update BASE_MESSAGE
+		set SENDER = #{sender,jdbcType=DECIMAL},
+		RECEIVER = #{receiver,jdbcType=DECIMAL},
+		TITLE = #{title,jdbcType=VARCHAR},
+		CONTENT = #{content,jdbcType=VARCHAR},
+		STATE = #{state,jdbcType=VARCHAR},
+		TYPE = #{type,jdbcType=VARCHAR},
+		SEND_TIME = #{sendTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.BaseMessage"
+		resultMap="BaseResultMap">
+		SELECT M.ID,M.SENDER,M.RECEIVER,M.CONTENT,M.TITLE,M.STATE,M.TYPE,M.SEND_TIME
+		,C.NAME AS RECEIVERNAME,T.NAME AS SENDERNAME
+		FROM BASE_MESSAGE M
+		INNER JOIN
+		COM_EMPLOYEE C
+		ON M.RECEIVER=C.ID
+		INNER JOIN
+		COM_EMPLOYEE T
+		ON M.SENDER=T.ID
+		WHERE M.RECEIVER=23526055
+	</select>
+
+	<sql id="messageSelect">
+		SELECT M.ID,
+		       case
+		         when M.SENDER is null then
+		          (select id from com_employee where usercode = 'admin')
+		         else
+		          M.SENDER
+		       end as SENDER,
+		       M.RECEIVER,
+		       M.CONTENT,
+		       M.TITLE,
+		       M.STATE,
+		       M.TYPE,
+		       M.SEND_TIME,
+		       C.NAME AS RECEIVERNAME,
+		       case
+		         when T.NAME is null then
+		          (select name from com_employee where usercode = 'admin')
+		         else
+		          T.NAME
+		       end as SENDERNAME
+		  FROM BASE_MESSAGE M
+		 INNER JOIN COM_EMPLOYEE C
+		    ON M.RECEIVER = C.ID
+		  left JOIN COM_EMPLOYEE T
+		    ON M.SENDER = T.ID
+		 WHERE M.RECEIVER = #{receiver, jdbcType = DECIMAL}
+		   AND M.STATE in ('0', '1')
+	</sql>
+
+	<select id="findWithPG" parameterType="com.zdmoney.credit.system.domain.BaseMessage"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="messageSelect"></include>
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+
+	<select id="count" parameterType="com.zdmoney.credit.system.domain.BaseMessage"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="messageSelect"></include>
+		)
+	</select>
+
+	<update id="batchUpdateBaseMessageState" parameterType="java.util.List">
+		UPDATE BASE_MESSAGE
+		SET STATE='1',UPDATE_TIME=sysdate
+		WHERE ID IN
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="batchUpdateMessageStateDelete" parameterType="java.util.List">
+		UPDATE BASE_MESSAGE
+		SET STATE='2',UPDATE_TIME=sysdate
+		WHERE ID IN
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<update id="batchUpdateMessageStateView" parameterType="java.util.List">
+		UPDATE BASE_MESSAGE
+		SET STATE='0', UPDATE_TIME=sysdate
+		WHERE ID IN
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+
+	<select id="countNoView" parameterType="com.zdmoney.credit.system.domain.BaseMessage"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM BASE_MESSAGE M WHERE M.STATE ='1' AND
+		M.RECEIVER=#{receiver,jdbcType=DECIMAL}
+	</select>
+
+
+	<select id="rollback_grantloan" statementType="CALLABLE"
+		parameterType="java.util.HashMap">  
+		<![CDATA[  
+		    {call rollback_grantloan (#{loanId,mode=IN,jdbcType=DECIMAL},#{userCode,mode=IN,jdbcType=VARCHAR},#{count,mode=OUT,jdbcType=DECIMAL})}  
+		]]>
+	</select>
+</mapper>

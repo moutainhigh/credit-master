@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.person.domain.PersonBankMapMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.person.domain.PersonBankMap">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PERSON_ID" property="personId" jdbcType="DECIMAL" />
+		<result column="BANK_ID" property="bankId" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, PERSON_ID, BANK_ID, CREATE_TIME, UPDATE_TIME, CREATOR, UPDATOR
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Short">
+		select
+		<include refid="Base_Column_List" />
+		from PERSON_BANK_MAP
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Short">
+		delete from PERSON_BANK_MAP
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.person.domain.PersonBankMap">
+		insert into PERSON_BANK_MAP (ID, PERSON_ID, BANK_ID,
+		CREATE_TIME, UPDATE_TIME, CREATOR,
+		UPDATOR)
+		values (#{id,jdbcType=DECIMAL}, #{personId,jdbcType=DECIMAL},
+		#{bankId,jdbcType=DECIMAL},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR},
+		#{updator,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.person.domain.PersonBankMap">
+		insert into PERSON_BANK_MAP
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="personId != null">
+				PERSON_ID,
+			</if>
+			<if test="bankId != null">
+				BANK_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="updator != null">
+				UPDATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="personId != null">
+				#{personId,jdbcType=DECIMAL},
+			</if>
+			<if test="bankId != null">
+				#{bankId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				#{updator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.person.domain.PersonBankMap">
+		update PERSON_BANK_MAP
+		<set>
+			<if test="personId != null">
+				PERSON_ID = #{personId,jdbcType=DECIMAL},
+			</if>
+			<if test="bankId != null">
+				BANK_ID = #{bankId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.person.domain.PersonBankMap">
+		update PERSON_BANK_MAP
+		set PERSON_ID = #{personId,jdbcType=DECIMAL},
+		BANK_ID = #{bankId,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		CREATOR = #{creator,jdbcType=VARCHAR},
+		UPDATOR = #{updator,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="PersonBankMapSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PERSON_BANK_MAP
+	</sql>
+
+	<sql id="PersonBankMapCount">
+		SELECT COUNT(ID) FROM PERSON_BANK_MAP
+	</sql>
+
+	<sql id="PersonBankMapConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND ID= #{id,jdbcType=DECIMAL}
+			</if>
+			<if test="personId != null">
+				AND PERSON_ID = #{personId,jdbcType=DECIMAL}
+			</if>
+			<if test="bankId != null">
+				AND BANK_ID = #{bankId,jdbcType=DECIMAL}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="exists" parameterType="java.util.Map" resultType="java.lang.Integer">
+		<include refid="PersonBankMapCount" />
+		<include refid="PersonBankMapConditions" />
+	</select>
+
+	<select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="PersonBankMapSelective" />
+		<include refid="PersonBankMapConditions" />
+	</select>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.SysSpecialDayMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.SysSpecialDay">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="SPECAIL_DAY" property="specailDay" jdbcType="TIMESTAMP" />
+		<result column="WORKDAY" property="workday" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SPECAIL_DAY, WORKDAY
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from SYS_SPECIAL_DAY
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from SYS_SPECIAL_DAY
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.SysSpecialDay">
+		insert into SYS_SPECIAL_DAY (ID, SPECAIL_DAY, WORKDAY
+		)
+		values (#{id,jdbcType=DECIMAL}, #{specailDay,jdbcType=TIMESTAMP},
+		#{workday,jdbcType=CHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.SysSpecialDay">
+		insert into SYS_SPECIAL_DAY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="specailDay != null">
+				SPECAIL_DAY,
+			</if>
+			<if test="workday != null">
+				WORKDAY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="specailDay != null">
+				#{specailDay,jdbcType=TIMESTAMP},
+			</if>
+			<if test="workday != null">
+				#{workday,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.SysSpecialDay">
+		update SYS_SPECIAL_DAY
+		<set>
+			<if test="specailDay != null">
+				SPECAIL_DAY = #{specailDay,jdbcType=TIMESTAMP},
+			</if>
+			<if test="workday != null">
+				WORKDAY = #{workday,jdbcType=CHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.SysSpecialDay">
+		update SYS_SPECIAL_DAY
+		set SPECAIL_DAY = #{specailDay,jdbcType=TIMESTAMP},
+		WORKDAY = #{workday,jdbcType=CHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findAllList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_SPECIAL_DAY
+	</select>
+</mapper>

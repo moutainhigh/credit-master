@@ -1,0 +1,1617 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd" >
+  
+<bean autowire="byType" id="realtimeDeductJob" class="com.zdmoney.credit.job.RealtimeDeductJob" />
+<bean autowire="byType" id="taskReminderJob" class="com.zdmoney.credit.job.TaskReminderJob" />
+<bean autowire="byType" id="advanceRepaymentJob" class="com.zdmoney.credit.job.AdvanceRepaymentJob" />
+<bean autowire="byType" id="createOfferJob" class="com.zdmoney.credit.job.CreateOfferJob" />
+<bean autowire="byType" id="endOfMonthNotifyJob" class="com.zdmoney.credit.job.EndOfMonthNotifyJob" />
+<bean autowire="byType" id="fuiouOfferJob" class="com.zdmoney.credit.job.FuiouOfferJob" />
+<bean autowire="byType" id="jimuheziDrawRiskJob" class="com.zdmoney.credit.job.JimuheziDrawRiskJob" />
+<bean autowire="byType" id="jimuheziFillRiskJob" class="com.zdmoney.credit.job.JimuheziFillRiskJob" />
+<bean autowire="byType" id="jimuheziPaymentRisk10AMJob" class="com.zdmoney.credit.job.JimuheziPaymentRisk10AMJob" />
+<bean autowire="byType" id="jimuheziPaymentRisk3PMJob" class="com.zdmoney.credit.job.JimuheziPaymentRisk3PMJob" />
+<bean autowire="byType" id="jimuheziPaymentRisk4PMJob" class="com.zdmoney.credit.job.JimuheziPaymentRisk4PMJob" />
+<bean autowire="byType" id="loanBackUploadJob" class="com.zdmoney.credit.job.LoanBackUploadJob" />
+<bean autowire="byType" id="jimuheziPaymentRisk6PMJob" class="com.zdmoney.credit.job.JimuheziPaymentRisk6PMJob" />
+<bean autowire="byType" id="jimuheziReturnRiskJob" class="com.zdmoney.credit.job.JimuheziReturnRiskJob" />
+<bean autowire="byType" id="loanDistributionJob" class="com.zdmoney.credit.job.LoanDistributionJob" />
+<bean autowire="byType" id="overdueDetailsJob" class="com.zdmoney.credit.job.OverdueDetailsJob" />
+<bean autowire="byType" id="overdueRatioStatJob" class="com.zdmoney.credit.job.OverdueRatioStatJob" />
+<bean autowire="byType" id="overdueStatJob" class="com.zdmoney.credit.job.OverdueStatJob" />	
+<bean autowire="byType" id="syncBlackListJob" class="com.zdmoney.credit.job.SyncBlackListJob" />	
+<bean autowire="byType" id="syncBlackListZSJob" class="com.zdmoney.credit.job.SyncBlackListZSJob" />	
+<bean autowire="byType" id="xintuoguominCustomerInfoMailJob" class="com.zdmoney.credit.job.XintuoguominCustomerInfoMailJob" />	
+<bean autowire="byType" id="xintuojihuaCustomerInfo4PMJob" class="com.zdmoney.credit.job.XintuojihuaCustomerInfo4PMJob" />	
+<!--
+<bean autowire="byType" id="repayRemindEMSJob" class="com.zdmoney.credit.job.RepayRemindEMSJob" />
+<bean autowire="byType" id="CTSBatchInterfaceJob" class="com.zdmoney.credit.job.CTSBatchInterfaceJob" />	 
+-->	
+<bean autowire="byType" id="ResidualPactMoneyDetailJob" class="com.zdmoney.credit.job.ResidualPactMoneyDetailJob" />	
+<bean autowire="byType" id="UpdateOverdueHistoryJob" class="com.zdmoney.credit.job.UpdateOverdueHistoryJob" />
+<bean autowire="byType" id="organizationMarginJob" class="com.zdmoney.credit.job.OrganizationMarginJob" />
+<bean autowire="byType" id="exportLoanStatusDetailJob" class="com.zdmoney.credit.job.ExportLoanStatusDetailJob" />
+<!-- <bean autowire="byType" id="xintuobohaiCustomerInfoMailJob" class="com.zdmoney.credit.job.XintuobohaiCustomerInfoMailJob" />	 -->
+<bean autowire="byType" id="leaveOfficeEmployeeJob" class="com.zdmoney.credit.job.LeaveOfficeEmployeeJob" />
+<bean autowire="byType" id="ftpUploadBorrowerPersonDataJob" class="com.zdmoney.credit.job.FtpUploadBorrowerPersonDataJob"/>
+<bean autowire="byType" id="trustOfferFlowAccountingJob" class="com.zdmoney.credit.job.TrustOfferFlowAccountingJob"/>
+<bean autowire="byType" id="uploadDeductResultJob" class="com.zdmoney.credit.job.UploadDeductResultJob"/>
+<bean autowire="byType" id="ftpUploadLoanData2AbsJob" class="com.zdmoney.credit.job.FtpUploadLoanData2AbsJob"/>
+<bean autowire="byType" id="paidInEntityJob" class="com.zdmoney.credit.job.PaidInEntityJob" />
+<bean autowire="byType" id="applyBsyhDeductJob" class="com.zdmoney.credit.job.ApplyBsyhDeductJob" />
+<!-- 放款申请job，调动包商银行接口 -->
+<bean autowire="byType" id="grantApplyBsJob" class="com.zdmoney.credit.job.GrantApplyBsJob" />
+<bean autowire="byType" id="ftpUploadLoanAgreement2BHXTJob" class="com.zdmoney.credit.job.FtpUploadLoanData2BHXTJob" />
+<!--还款结果处理job  -->
+<bean autowire="byType" id="repayResultDisposeBsyhJob" class="com.zdmoney.credit.job.RepayResultDisposeBsyhJob" />
+<!-- 客户质量追踪job -->
+<bean autowire="byType" id="exportLoanCustomersJob" class="com.zdmoney.credit.job.ExportLoanCustomersJob" />
+<!--外贸3还款计划上传job  -->
+<bean autowire="byType" id="repayPlanUploadJob" class="com.zdmoney.credit.job.RepayPlanUploadJob" />
+<!--外贸3影像资料上传job  -->
+<bean autowire="byType" id="uploadVideoImageJob" class="com.zdmoney.credit.job.UploadVideoImageWm3Job" />
+<!--外贸3放款申请结果查询job  -->
+<bean autowire="byType" id="checkApplyLoanResultWm3Job" class="com.zdmoney.credit.job.CheckApplyLoanResultWm3Job" />
+<!--外贸3溢缴款账户充值结果查询job  -->
+<bean autowire="byType" id="YiJiaoKuanRechargeSearchWm3Job" class="com.zdmoney.credit.job.YiJiaoKuanRechargeSearchWm3Job" />
+<!--外贸3合同信息上传job  -->
+<bean autowire="byType" id="ftpUploadLoanData2WM3Job" class="com.zdmoney.credit.job.FtpUploadLoanData2WM3Job" />
+<!-- 外贸3 扣款分账流水推送JOb -->
+<bean autowire="byType" id="debitOfferFlow4WM3Job" class="com.zdmoney.credit.job.DebitOfferFlow4WM3Job" />
+<!-- 陆金所需求相关定时任务处理类 -->
+<bean autowire="byType" id="lufaxBusinessJob" class="com.zdmoney.credit.job.LufaxBusinessJob" />
+<!-- 关门营业部每日更新状态 -->
+<bean autowire="byType" id="closeBusinessJob" class="com.zdmoney.credit.job.CloseBusinessJob" />
+<!-- 陆金所同步借据信息 -->
+<bean autowire="byType" id="transmitLoanData2LufaxJob" class="com.zdmoney.credit.job.TransmitLoanData2LufaxJob" />
+
+<!-- 陆金所同步正式还款计划借据信息 -->
+<bean autowire="byType" id="pushFormalRepayPlans2LufaxJob" class="com.zdmoney.credit.job.PushFormalRepayPlans2Lufax" />
+
+<!-- 减免申请状态变更 -->
+<bean autowire="byType" id="applyReliefStatusUpdateJob" class="com.zdmoney.credit.job.ApplyReliefStatusUpdateJob" />
+<!-- tpp放款结果查询 -->
+<bean autowire="byType" id="tppGrantResultJob" class="com.zdmoney.credit.job.TppGrantResultJob" />
+<!-- 划扣服务费job -->
+<bean autowire="byType" id="createFeeJob" class="com.zdmoney.credit.job.CreateFeeJob" />
+<!-- 逾期日报job -->
+<bean autowire="byType" id="overdueDailyJob" class="com.zdmoney.credit.job.OverdueDailyJob" />
+<!-- 大额挂账金额提醒job -->
+<bean autowire="byType" id="bigAmountRemindJob" class="com.zdmoney.credit.job.BigAmountRemindJob" />
+
+<!-- 外贸3需求相关定时任务处理类 -->
+<bean autowire="byType" id="wm3BusinessJob" class="com.zdmoney.credit.job.WM3BusinessJob" />
+<!-- 处理历史还款数据状态job -->
+<bean autowire="byType" id="loanRepaymentStateJob" class="com.zdmoney.credit.job.LoanRepaymentStateJob" />
+<!-- 渤海需求相关定时任务处理类 -->
+<bean autowire="byType" id="bhBusinessJob" class="com.zdmoney.credit.job.BHBusinessJob" />
+	<!-- 创建调度任务 使用已有的service类方法，不需要单独编写调度类QuartzJob -->
+
+	<!-- 配置调度任务,复杂定制模式,月份中的日期和星期不能同时设置   -->
+	<!--
+		1.秒 0-59 2.分钟 0-59 3.小时 0-23 4.月份中的日期 1-31 5.月份 1-12或者Jan Feb Mar Apr
+		May Jun Jul Aug Sept Oct Nov Dec 6.星期中的日期
+		1-7或者MON,TUE,WED,THU,FRI,SAT,SUN. 7.年
+	-->
+		
+	<!-- 创建报盘文件-->
+	<!-- 逾期 -->
+	<bean id="createOfferOverdue"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="createOfferJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>createOverdueOffer</value>  
+	    </property>
+	</bean>
+	
+	<bean id="createOfferOverdueTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="createOfferOverdue" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 创建报盘文件-->
+	<!-- 还款日 -->
+	<bean id="createOfferRepaymentDate"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="createOfferJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>createRepaymentDateOffer</value>  
+	    </property>
+	</bean>
+	
+	<bean id="createOfferRepaymentDateTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="createOfferRepaymentDate" />
+		</property>
+		<property name="cronExpression">
+			<value>0 40 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 创建报盘文件-->
+	<!-- 特殊还款 -->
+	<bean id="createOfferSpecial"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="createOfferJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>createSpecialOffer</value>  
+	    </property>
+	</bean>
+	
+	<bean id="createOfferSpecialTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="createOfferSpecial" />
+		</property>
+		<property name="cronExpression">
+			<value>0 50 0 * * ?</value>
+		</property>
+	</bean>
+	<!-- 回购信息上传 -->
+	<bean id="loanBackUploadTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="loanBackUpload" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 6 * * ?</value>
+		</property>
+	</bean>
+	<bean id="loanBackUpload" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="loanBackUploadJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	<!-- 自动划扣job-->
+	<bean id="realtimeDeduct"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="realtimeDeductJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>realtimeDeductExecute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="realtimeDeductTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="realtimeDeduct" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 1,10,13,16 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--还款日日终处理job-->
+	<bean id="taskReminder"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="taskReminderJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="taskReminderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="taskReminder" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 20 * * ?</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 结清客户明细表提前结清-->
+	<bean id="advanceRepayment"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="advanceRepaymentJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>advanceRepayment</value>  
+	    </property>
+	</bean>
+	
+	<bean id="advanceRepaymentTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="advanceRepayment" />
+		</property>
+		<property name="cronExpression">
+			<value>0 50 19 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="endOfMonthNotify"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="endOfMonthNotifyJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="endOfMonthNotifyTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="endOfMonthNotify" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 6 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="fuiouOffer"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="fuiouOfferJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>fuiouOffer</value>  
+	    </property>
+	</bean>
+	
+	<bean id="fuiouOfferTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="fuiouOffer" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 10,13,16,20,22 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="jimuheziDrawRisk"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="jimuheziDrawRiskJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="jimuheziDrawRiskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="jimuheziDrawRisk" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="jimuheziFillRisk"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="jimuheziFillRiskJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="jimuheziFillRiskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="jimuheziFillRisk" />
+		</property>
+		<property name="cronExpression">
+			<value>0 5 0 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="jimuheziPaymentRisk10AM"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="jimuheziPaymentRisk10AMJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="jimuheziPaymentRisk10AMTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="jimuheziPaymentRisk10AM" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 10 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="jimuheziPaymentRisk3PM"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="jimuheziPaymentRisk3PMJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="jimuheziPaymentRisk3PMTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="jimuheziPaymentRisk3PM" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 15 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="jimuheziPaymentRisk4PM"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="jimuheziPaymentRisk4PMJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="jimuheziPaymentRisk4PMTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="jimuheziPaymentRisk4PM" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 16 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="jimuheziPaymentRisk6PM"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="jimuheziPaymentRisk6PMJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="jimuheziPaymentRisk6PMTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="jimuheziPaymentRisk6PM" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 18 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="jimuheziReturnRisk"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="jimuheziReturnRiskJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="jimuheziReturnRiskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="jimuheziReturnRisk" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 18 L * ?</value>
+		</property>
+	</bean>
+	
+<!-- 		<bean id="loanDistribution"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="loanDistributionJob"/>  
+	    </property>  
+	    <property name="targetMethod">  要执行的方法名称  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="loanDistributionTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">CronTriggerBean
+		<property name="jobDetail">
+			<ref bean="loanDistribution" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 0 * * ?</value>
+		</property>
+	</bean> -->
+
+	<bean id="organizationMargins"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="organizationMarginJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+
+	<bean id="organizationMarginsTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="organizationMargins" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 23 * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="overdueDetails"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="overdueDetailsJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+
+	<bean id="overdueDetailsTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="overdueDetails" />
+		</property>
+		<property name="cronExpression">
+			<value>0 20 23 * * ?</value>
+		</property>
+	</bean>
+		<bean id="overdueRatioStat"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="overdueRatioStatJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="overdueRatioStatTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="overdueRatioStat" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 23 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="overdueStat"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="overdueStatJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="overdueStatTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="overdueStat" />
+		</property>
+		<property name="cronExpression">
+			<value>0 40 23 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="syncBlackList"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="syncBlackListJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="syncBlackListTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="syncBlackList" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 6 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="syncBlackListZS"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="syncBlackListZSJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="syncBlackListZSTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="syncBlackListZS" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 5 * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="xintuoguominCustomerInfoMail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="xintuoguominCustomerInfoMailJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>doNoticeNormal</value>  
+	    </property>
+	</bean>
+	
+	<bean id="xintuoguominCustomerInfoMailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="xintuoguominCustomerInfoMail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 16 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="xintuojihuaCustomerInfo4PM"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="xintuojihuaCustomerInfo4PMJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>doNoticeNormal</value>  
+	    </property>
+	</bean>
+	
+	<bean id="xintuojihuaCustomerInfo4PMTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="xintuojihuaCustomerInfo4PM" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 16 * * ?</value>
+		</property>
+	</bean>
+	<!-- 
+	<bean id="repayRemindEMS"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="repayRemindEMSJob"/>  
+	    </property>  
+	    <property name="targetMethod">
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="repayRemindEMSTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="repayRemindEMS" />
+		</property>
+		<property name="cronExpression">
+			<value>0 5 9,14,16 * * ?</value>
+		</property>
+	</bean>
+	 -->
+	
+<!-- 		<bean id="CTSBatchInterface"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="CTSBatchInterfaceJob"/>  
+	    </property>  
+	    <property name="targetMethod">  要执行的方法名称  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="CTSBatchInterfaceTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">CronTriggerBean
+		<property name="jobDetail">
+			<ref bean="CTSBatchInterface" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean> -->
+	
+	<bean id="ResidualPactMoneyDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="ResidualPactMoneyDetailJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="residualPactMoneyDetailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="ResidualPactMoneyDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 50 23 * * ?</value>
+		</property>
+	</bean>
+	
+		<bean id="UpdateOverdueHistory" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="UpdateOverdueHistoryJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="UpdateOverdueHistoryTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="UpdateOverdueHistory" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 21 * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="exportLoanStatusDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="exportLoanStatusDetailJob"/>
+	    </property>  
+	    <property name="targetMethod">
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="exportLoanStatusDetailTigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="exportLoanStatusDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 渤海信托邮件发送定时任务 -->
+	<!-- <bean id="xintuobohaiCustomerInfoMail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="xintuobohaiCustomerInfoMailJob"/>  
+	    </property>  
+	    <property name="targetMethod">  要执行的方法名称
+	        <value>doNoticeNormal</value>  
+	    </property>
+	</bean>
+	
+	<bean id="xintuobohaiCustomerInfoMailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">CronTriggerBean
+		<property name="jobDetail">
+			<ref bean="xintuobohaiCustomerInfoMail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 16 * * ?</value>
+		</property>
+	</bean> -->
+	
+	<!-- 查询离职客户经理名下的客户定时短信发送任务 -->
+	<bean id="leaveOfficeEmployee"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="leaveOfficeEmployeeJob"/>  
+	    </property>  
+	    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+	        <value>doNoticeNormal</value>  
+	    </property>
+	</bean>
+	
+	<bean id="leaveOfficeEmployeeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="leaveOfficeEmployee" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 10 ? * MON</value>
+		</property>
+	</bean>
+
+	<!--上传个人租赁资料-->
+	<bean id="ftpUploadBorrowerPersonDataExecute" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadBorrowerPersonDataJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="ftpUploadBorrowerPersonDataTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="ftpUploadBorrowerPersonDataExecute" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1,2 * * ?</value>
+		</property>
+	</bean>
+	<!--上传放款明细 渤海信托-->
+<!--	<bean id="ftpUploadLoandetailUploadBHFtp" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadBorrowerPersonDataJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>executeLoandetailUploadBHFtp</value>
+		</property>
+	</bean>
+	<bean id="ftpUploadftpUploadLoandetailUploadBHFtpTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">&lt;!&ndash; CronTriggerBean &ndash;&gt;
+		<property name="jobDetail">
+			<ref bean="ftpUploadLoandetailUploadBHFtp" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 1 * * ?</value>
+		</property>
+	</bean>-->
+	<!--上传放款明细 渤海2-->
+<!--	<bean id="ftpUploadLoandetailUploadBHFtpBH2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadBorrowerPersonDataJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>executeLoandetailUploadBHFtpBh2</value>
+		</property>
+	</bean>
+	<bean id="ftpUploadftpUploadLoandetailUploadBHFtpBH2Triggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">&lt;!&ndash; CronTriggerBean &ndash;&gt;
+		<property name="jobDetail">
+			<ref bean="ftpUploadLoandetailUploadBHFtpBH2" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 1 * * ?</value>
+		</property>
+	</bean>-->
+	<!--信托分账 外贸信托 渤海信托-->
+	<bean id="trustOfferFlow" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="trustOfferFlowAccountingJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>yesterDayRepayInfosExcute</value>
+		</property>
+	</bean>
+	<bean id="trustOfferFlowTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="trustOfferFlow" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 4 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--客户还款等级-->
+	<bean id="repaymentLevelFlow" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="repaymentLevelJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	
+	<bean id="repaymentLevelFlowTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="repaymentLevelFlow" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 0 * * ?</value><!-- 每月的9|17日 00:00、每月的24|2日 00:00 执行 -->
+		</property>
+	</bean>
+	
+	<!-- 上传证大扣款结果至数信 -->
+	<bean id="uploadDeductResult" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="uploadDeductResultJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="uploadDeductResultTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="uploadDeductResult" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 5 * * ?</value>
+		</property>
+	</bean>
+	<!-- 上传影像记录至数信 -->
+	<bean id="ftpUploadLoanData2Abs" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadLoanData2AbsJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="ftpUploadLoanData2AbsTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="ftpUploadLoanData2Abs" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 3,4 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--对公还款-->
+	<bean id="paidInEntityFlow" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="paidInEntityJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="paidInEntityTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="paidInEntityFlow" />
+		</property>
+		<property name="cronExpression">
+			<value>0 20 5 * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 通知数信一次性结清 -->
+	<bean id="adviceAbsOneTimeSettlement" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="uploadDeductResultJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>executeOneTimeSettlementAdvice</value>
+		</property>
+	</bean>
+	<bean id="adviceAbsOneTimeSettlementTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="adviceAbsOneTimeSettlement" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 5 * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 针对外贸2 给上传数信的合同签章 -->
+	<bean id="absElectronicSignatureJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadLoanData2AbsJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>excuteElectronicSignatureAbs</value>
+		</property>
+	</bean>
+	<bean id="absElectronicSignatureJobTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="absElectronicSignatureJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+
+	<!--放款申请job-->
+	<bean id="absApplyFinanceGrantJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="uploadDeductResultJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>executeFinanceGrantApply</value>
+		</property>
+	</bean>
+	<bean id="absApplyFinanceGrantJobTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="absApplyFinanceGrantJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 17 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 放款申请job,包商银行 -->
+	<bean id="grantApplyBsDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="grantApplyBsJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>grantApplyBsExecute</value>
+		</property>
+	</bean>
+	<bean id="grantApplyBsTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="grantApplyBsDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 50 15 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 放款申请job,外贸3 -->
+	<bean id="grantApplyWm3Detail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="grantApplyBsJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>grantApplyWm3Execute</value>
+		</property>
+	</bean>
+	<bean id="grantApplyWm3Triggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="grantApplyWm3Detail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 50 15 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 还款计划上传JOB -->
+<!--	<bean id="payPlanUploadBHXTJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadBorrowerPersonDataJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>executeRepayPlanUploadBH</value>
+		</property>
+	</bean>
+	<bean id="payPlanUploadBHXTJobTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">&lt;!&ndash; CronTriggerBean &ndash;&gt;
+		<property name="jobDetail">
+			<ref bean="payPlanUploadBHXTJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 1 * * ?</value>
+		</property>
+	</bean>
+	-->
+	<!-- 贷款协议上传至渤海JOB -->
+	<bean id="ftpUploadLoanData2BHXTJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadLoanAgreement2BHXTJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>excute</value>
+		</property>
+	</bean>
+	<bean id="ftpUploadLoanAgreement2BHXTJobTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->
+		<property name="jobDetail">
+			<ref bean="ftpUploadLoanData2BHXTJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 3 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 特殊还款申请job，包商银行 -->
+	<bean id="specialApplyBsyhDeduct" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="applyBsyhDeductJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>applyBsyhDeduct</value>
+		</property>
+	</bean>
+	<bean id="specialApplyBsyhDeductTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="specialApplyBsyhDeduct" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/30 * * * ?</value>
+			<!-- <value>0 */1 * * * ?</value> -->
+		</property>
+	</bean>
+	
+	<!-- 特殊还款一次性结清申请job，包商银行 -->
+	<bean id="specialApplyBsyhDeductAll" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="applyBsyhDeductJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>applyBsyhDeductAll</value>
+		</property>
+	</bean>
+	<bean id="specialApplyBsyhDeductAllTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="specialApplyBsyhDeductAll" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 1,16 * ?</value>
+			<!--<value>0 */1 * * * ?</value> -->
+		</property>
+	</bean>
+	
+	<!--还款结果处理job,包商银行 -->
+	<bean id="repayResultDisposeBsyhDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="repayResultDisposeBsyhJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>repayResultDisposeBsyhExecute</value>
+		</property>
+	</bean>
+	<bean id="repayResultDisposeBsyhTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="repayResultDisposeBsyhDetail" />
+		</property>
+		<property name="cronExpression">
+			<!--每隔20分钟消费队列 repay_result_notify_log -->
+			<value>0 0/20 * * * ?</value>
+			<!-- <value>0 0/20 * * * ?</value> -->
+		</property>
+	</bean>
+	
+	<!--还款结果查询job,包商银行 -->
+	<bean id="repayResultSearchBsyhDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="repayResultDisposeBsyhJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>repayResultSearchBsyhExecute</value>
+		</property>
+	</bean>
+	<bean id="repayResultSearchBsyhTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="repayResultSearchBsyhDetail" />
+		</property>
+		<property name="cronExpression">
+			<!--每天23:00分钟执行，查询还款结果-->
+			<value>0 0 23 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--包商银行放款对账job  每天早上六点-->
+	<bean id="grantReconciliationBsyh" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="reconciliationBsyhJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>grantReconciliation</value>
+		</property>
+	</bean>
+	<bean id="grantReconciliationTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="grantReconciliationBsyh" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 6 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--包商银行还款对账job  每天早上六点-->
+	<bean id="repayReconciliationBsyh" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="reconciliationBsyhJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>repayReconciliation</value>
+		</property>
+	</bean>
+	<bean id="repayReconciliationTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="repayReconciliationBsyh" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 6 * * ?</value>
+		</property>
+	</bean>
+
+
+	<!--回款确认书job  每天凌晨6点-->
+	<bean id="refundedOfMoneyConfirmation" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="refundedOfMoneyConfirmationJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>excuteUploadRefundedOfMoneyConfirmationBookFile</value>
+		</property>
+	</bean>
+	<bean id="refundedOfMoneyConfirmationTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="refundedOfMoneyConfirmation" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 20 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 客户质量追踪job  每天零点执行-->
+	<bean id="exportLoanCustomers" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">  
+	        <ref bean="exportLoanCustomersJob"/>
+	    </property>  
+	    <property name="targetMethod">
+	        <value>execute</value>  
+	    </property>
+	</bean>
+	
+	<bean id="exportLoanCustomersTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="exportLoanCustomers"/>
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+			<!-- <value>0 30 14 * * ?</value> -->
+		</property>
+	</bean>
+	
+	<!--外贸3还款计划上传job 每日2凌晨,查前一天放款成功的-->
+	<bean id="repayPlanUploadWm3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="repayPlanUploadJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>repayPlanUploadExecute</value>
+		</property>
+	</bean>
+	<bean id="repayPlanUploadWm3Triggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="repayPlanUploadWm3" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--外贸3影像资料上传job 每日夜间 23:00，查当天放款成功的-->
+	<bean id="uploadVideoImageWm3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="uploadVideoImageJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>uploadVideoImageExecute</value>
+		</property>
+	</bean>
+	<bean id="uploadVideoImageWm3Triggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="uploadVideoImageWm3" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 23 * * ?</value>
+		</property>
+	</bean>
+	
+		<!--外贸3放款申请结果查询，每15分钟查询一次-->
+	<bean id="checkApplyLoanResultJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="checkApplyLoanResultWm3Job"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="checkApplyLoanResultTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="checkApplyLoanResultJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+		</property>
+	</bean>
+	
+	
+	
+		<!--外贸3溢缴款账户充值结果查询，每5分钟查询一次-->
+	<bean id="YiJiaoKuanRechargeSearchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="YiJiaoKuanRechargeSearchWm3Job"/>
+		</property>
+		<property name="targetMethod">
+			<value>rechargeResultSerachExecute</value>
+		</property>
+	</bean>
+	<bean id="YiJiaoKuanRechargeSearchTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="YiJiaoKuanRechargeSearchJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+		</property>
+	</bean>
+	
+	<!--外贸3合同信息上传job  -->
+	<bean id="ftpUploadLoanData2WM3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadLoanData2WM3Job"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="ftpUploadLoanData2WM3Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="ftpUploadLoanData2WM3" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+	
+		<!--外贸3合同信息上传job  -->
+	<bean id="ftpDownLoanDataFromWM3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="ftpUploadLoanData2WM3Job"/>
+		</property>
+		<property name="targetMethod">
+			<value>executeDownLoad</value>
+		</property>
+	</bean>
+	<bean id="ftpDownLoanDataFromWM3Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="ftpDownLoanDataFromWM3" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 6 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--外贸3 分账流水从账务系统中生成-->
+	<bean id="debitOnlineOfferFlow4WM3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="debitOfferFlow4WM3Job"/>
+		</property>
+		<property name="targetMethod">
+			<value>executeOnlineRepayment</value>
+		</property>
+	</bean>
+	<bean id="debitOfferFlow4WM3Triggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="debitOnlineOfferFlow4WM3" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 3 * * ?</value>
+		</property>
+	</bean>
+
+	<!--外贸3 分账流水推送给外贸3-->
+	<bean id="pushDebitOnlineOfferFlow4WM3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="debitOfferFlow4WM3Job"/>
+		</property>
+		<property name="targetMethod">
+			<value>pushOnlineRepayment</value>
+		</property>
+	</bean>
+	<bean id="pushDebitOfferFlow4WM3Triggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="pushDebitOnlineOfferFlow4WM3" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 5 * * ?</value>
+		</property>
+	</bean>
+
+    <!--调用【转发代扣】接口推送代扣信息给陆金所，触发频率：每天15点至20点间隔30分钟执行一次  -->
+    <bean id="entrustDebitLufax" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="lufaxBusinessJob" />
+        </property>
+        <property name="targetMethod">
+            <value>entrustDebit</value>
+        </property>
+    </bean>
+    <bean id="entrustDebitLufaxTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="entrustDebitLufax" />
+        </property>
+        <property name="cronExpression">
+            <value>0 0/30 16,17,18,19,20 * * ?</value>
+        </property>
+    </bean>
+
+    <!--陆金所（还款计划、还款明细、还款记录）数据推送，触发频率：每天间隔30分钟执行一次 -->
+    <bean id="syncEntrustRepaymentInfoLufax" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="lufaxBusinessJob" />
+        </property>
+        <property name="targetMethod">
+            <value>syncEntrustRepaymentInfo</value>
+        </property>
+    </bean>
+    <bean id="syncEntrustRepaymentInfoLufaxTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="syncEntrustRepaymentInfoLufax" />
+        </property>
+        <property name="cronExpression">
+            <value>0 0/30 * * * ?</value>
+        </property>
+    </bean>
+
+    <!-- 还款日后一天挂账金额分账，触发频率：每月2号、17号 1点整执行一次 -->
+    <bean id="executeBillRepayDealJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="lufaxBusinessJob" />
+        </property>
+        <property name="targetMethod">
+            <value>billRepayDeal</value>
+        </property>
+    </bean>
+    <bean id="executeBillRepayDealTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="executeBillRepayDealJobDetail" />
+        </property>
+        <property name="cronExpression">
+            <value>0 0 1 2,17 * ? </value>
+        </property>
+    </bean>
+
+    <!-- 陆金所借据信息同步 -->
+    <bean id="transmitLoanData2LufaxJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="transmitLoanData2LufaxJob" />
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>
+    </bean>
+    <bean id="transmitLoanData2LufaxJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="transmitLoanData2LufaxJobDetail" />
+        </property>
+        <property name="cronExpression">
+            <value>0 30 23 * * ? </value>
+        </property>
+    </bean>
+
+    <!-- 逾期还回、陆金所（还款计划、还款记录）数据推送，触发频率：每天 0:30分执行一次-->
+    <bean id="pushOverdueRepay2LufaxJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="lufaxBusinessJob" />
+        </property>
+        <property name="targetMethod">
+            <value>syncOverdueRepaymentInfo</value>
+        </property>
+    </bean>
+    <bean id="pushOverdueRepay2LufaxJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="pushOverdueRepay2LufaxJobDetail" />
+        </property>
+        <property name="cronExpression">
+            <value>0 30 0 * * ? </value>
+        </property>
+    </bean>
+
+    <!--在T+1日（每月2号或17号）00:20点 保存逾期代偿划扣队列数据 -->
+    <bean id="perpareOverdueCompensatoryLufax" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="lufaxBusinessJob" />
+        </property>
+        <property name="targetMethod">
+            <value>perpareOverdueCompensatory</value>
+        </property>
+    </bean>
+    <bean id="perpareOverdueCompensatoryLufaxTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="perpareOverdueCompensatoryLufax" />
+        </property>
+        <property name="cronExpression">
+            <value>0 20 0 2,17 * ?</value>
+        </property>
+    </bean>
+
+	<!--在T+1日 推送逾期还款计划给陆金所 -->
+	<bean id="pushOverdueRepaymentPlan2LufaxJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="lufaxBusinessJob" />
+		</property>
+		<property name="targetMethod">
+			<value>pushOverdueRepaymentPlan</value>
+		</property>
+	</bean>
+	<bean id="pushOverdueRepaymentPlan2LufaxTriggrt" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="pushOverdueRepaymentPlan2LufaxJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 1 * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="closeBusinessJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="closeBusinessJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>updateStyle</value>
+		</property>
+	</bean> 
+	<bean id="closeBusinessJobDetailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="closeBusinessJobDetail" /> 
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ? </value>
+		</property>
+	</bean>
+
+	<bean id="pushFormalRepayPlans2LufaxJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="pushFormalRepayPlans2LufaxJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="pushFormalRepayPlans2LufaxJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="pushFormalRepayPlans2LufaxJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/30 * * * ? </value>
+		</property>
+	</bean>
+	
+	<!-- tpp放款查询job 每五分钟查询一次-->
+	<bean id="tppGrantResultJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="tppGrantResultJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>tppGrantResultQuery</value>
+		</property>
+	</bean>
+	<bean id="tppGrantResultJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="tppGrantResultJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 减免申请状态变更(每日玩 11:40) -->
+	<bean id="applyReliefStatusUpdateJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="applyReliefStatusUpdateJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="applyReliefStatusUpdateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="applyReliefStatusUpdateJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 0 * * ? </value>
+		</property>
+	</bean>
+	<!-- 更新维护员工与审判节点关联关系 凌晨 10 -->
+	<bean id="flowNodeEmployeeManagerJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="flowNodeEmployeeManagerJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="flowNodeEmployeeManagerJobbTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="flowNodeEmployeeManagerJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 0 * * ? </value>
+		</property>
+	</bean>
+	
+	<!-- 每天查询有过一次性回购和逾期代偿的记录同步给陆金所还款计划和还款记录 -->
+    <bean id="executeOneBuyBackAndCompensatedRepayInfoJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="lufaxBusinessJob" />
+        </property>
+        <property name="targetMethod">
+            <value>executeOneBuyBackAndCompensatedRepayInfo</value>
+        </property>
+    </bean>
+    <bean id="executeOneBuyBackAndCompensatedRepayInfoJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="executeOneBuyBackAndCompensatedRepayInfoJob" />
+        </property>
+        <property name="cronExpression">
+            <value>0 0 5 * * ? </value>
+        </property>
+    </bean>
+    
+    <!-- 划扣服务费job 每五分钟查询一次-->
+	<bean id="createFeeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="createFeeJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>createFeeQuery</value>
+		</property>
+	</bean>
+	<bean id="createFeeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="createFeeJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 预期日报job 每天凌晨1点-->
+	<bean id="overdueDailyJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="overdueDailyJob"/>
+		</property>
+		<property name="targetMethod">
+			<value>overdueDailyExecute</value>
+		</property>
+	</bean>
+	<bean id="overdueDailyJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="overdueDailyJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- 0 0 1 * * ? -->
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 每天19:00 调用外贸3 线下溢缴款充值接口 -->
+	<bean id="wm3BusinessJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="wm3BusinessJob" />
+		</property>
+		<property name="targetMethod">
+			<value>executeOfflineDebit</value>
+		</property>
+	</bean>
+	<bean id="wm3BusinessJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="wm3BusinessJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 19 * * ? </value>
+		</property>
+	</bean>
+	
+	<!-- 每天5:00 大额挂账金额提醒job -->
+	<bean id="bigAmountRemindJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="bigAmountRemindJob" />
+		</property>
+		<property name="targetMethod">
+			<value>dealBigAmount</value>
+		</property>
+	</bean>
+	<bean id="bigAmountRemindJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="bigAmountRemindJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 5 * * ? </value>
+		</property>
+	</bean>
+	
+	<!-- 每月1号1:40 调用历史还款状态定时job -->
+	<bean id="loanRepaymentStateJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="loanRepaymentStateJob" />
+		</property>
+		<property name="targetMethod">
+			<value>loanRepaymentStateQueryJob</value>
+		</property>
+	</bean>
+	<bean id="loanRepaymentStateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="loanRepaymentStateJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 40 1 1 * ? </value>
+		</property>
+	</bean>
+	
+	<!-- 每月1号3点30  上传还款状态文件到渤海FTP job -->
+	<bean id="uploadRepayStateDetailJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="bhBusinessJob" />
+		</property>
+		<property name="targetMethod">
+			<value>uploadRepayStateDetail</value>
+		</property>
+	</bean>
+	<bean id="uploadRepayStateDetailJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="uploadRepayStateDetailJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 3 1 * ? </value>
+		</property>
+	</bean>
+</beans>

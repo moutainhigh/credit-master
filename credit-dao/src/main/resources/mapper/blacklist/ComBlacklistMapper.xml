@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.blacklist.domain.ComBlacklistMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.blacklist.domain.ComBlacklist">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="REJECT_DATE" property="rejectDate" jdbcType="TIMESTAMP" />
+		<result column="CAN_SUBMIT_REQUEST_DAYS" property="canSubmitRequestDays"
+			jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="OPERATOR_ID" property="operatorId" jdbcType="DECIMAL" />
+		<result column="SALES_DEPARTMENT_ID" property="salesDepartmentId"
+			jdbcType="DECIMAL" />
+		<result column="COME_FROME" property="comeFrome" jdbcType="VARCHAR" />
+		<result column="TEL" property="tel" jdbcType="VARCHAR" />
+		<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+		<result column="MPHONE" property="mphone" jdbcType="VARCHAR" />
+		<result column="IS_DELETE" property="isDelete" jdbcType="CHAR" />
+		<result column="DEL_OPERATOR_ID" property="delOperatorId"
+			jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, IDNUM, NAME, REJECT_DATE, CAN_SUBMIT_REQUEST_DAYS, MEMO, LOAN_TYPE,
+		OPERATOR_ID,
+		SALES_DEPARTMENT_ID, COME_FROME, TEL, COMPANY, MPHONE, IS_DELETE, DEL_OPERATOR_ID,
+		CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from COM_BLACKLIST
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from COM_BLACKLIST
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.blacklist.domain.ComBlacklist">
+		insert into COM_BLACKLIST (ID, IDNUM, NAME,
+		REJECT_DATE, CAN_SUBMIT_REQUEST_DAYS, MEMO,
+		LOAN_TYPE, OPERATOR_ID, SALES_DEPARTMENT_ID,
+		COME_FROME, TEL, COMPANY,
+		MPHONE, IS_DELETE, DEL_OPERATOR_ID,
+		CREATE_TIME, UPDATE_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{idnum,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{rejectDate,jdbcType=TIMESTAMP}, #{canSubmitRequestDays,jdbcType=DECIMAL}, #{memo,jdbcType=VARCHAR},
+		#{loanType,jdbcType=VARCHAR}, #{operatorId,jdbcType=DECIMAL},
+		#{salesDepartmentId,jdbcType=DECIMAL},
+		#{comeFrome,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},
+		#{mphone,jdbcType=VARCHAR}, #{isDelete,jdbcType=CHAR},
+		#{delOperatorId,jdbcType=DECIMAL},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.blacklist.domain.ComBlacklist">
+		insert into COM_BLACKLIST
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="idnum != null">
+				IDNUM,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="rejectDate != null">
+				REJECT_DATE,
+			</if>
+			<if test="canSubmitRequestDays != null">
+				CAN_SUBMIT_REQUEST_DAYS,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE,
+			</if>
+			<if test="operatorId != null">
+				OPERATOR_ID,
+			</if>
+			<if test="salesDepartmentId != null">
+				SALES_DEPARTMENT_ID,
+			</if>
+			<if test="comeFrome != null">
+				COME_FROME,
+			</if>
+			<if test="tel != null">
+				TEL,
+			</if>
+			<if test="company != null">
+				COMPANY,
+			</if>
+			<if test="mphone != null">
+				MPHONE,
+			</if>
+			<if test="isDelete != null">
+				IS_DELETE,
+			</if>
+			<if test="delOperatorId != null">
+				DEL_OPERATOR_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="idnum != null">
+				#{idnum,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="rejectDate != null">
+				#{rejectDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="canSubmitRequestDays != null">
+				#{canSubmitRequestDays,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="loanType != null">
+				#{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorId != null">
+				#{operatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesDepartmentId != null">
+				#{salesDepartmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="comeFrome != null">
+				#{comeFrome,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				#{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				#{company,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				#{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=CHAR},
+			</if>
+			<if test="delOperatorId != null">
+				#{delOperatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.blacklist.domain.ComBlacklist">
+		update COM_BLACKLIST
+		<set>
+			<if test="idnum != null">
+				IDNUM = #{idnum,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="rejectDate != null">
+				REJECT_DATE = #{rejectDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="canSubmitRequestDays != null">
+				CAN_SUBMIT_REQUEST_DAYS = #{canSubmitRequestDays,jdbcType=DECIMAL},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorId != null">
+				OPERATOR_ID = #{operatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesDepartmentId != null">
+				SALES_DEPARTMENT_ID = #{salesDepartmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="comeFrome != null">
+				COME_FROME = #{comeFrome,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				TEL = #{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				COMPANY = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				MPHONE = #{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				IS_DELETE = #{isDelete,jdbcType=CHAR},
+			</if>
+			<if test="delOperatorId != null">
+				DEL_OPERATOR_ID = #{delOperatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.blacklist.domain.ComBlacklist">
+		update COM_BLACKLIST
+		set IDNUM = #{idnum,jdbcType=VARCHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		REJECT_DATE = #{rejectDate,jdbcType=TIMESTAMP},
+		CAN_SUBMIT_REQUEST_DAYS = #{canSubmitRequestDays,jdbcType=DECIMAL},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+		OPERATOR_ID = #{operatorId,jdbcType=DECIMAL},
+		SALES_DEPARTMENT_ID = #{salesDepartmentId,jdbcType=DECIMAL},
+		COME_FROME = #{comeFrome,jdbcType=VARCHAR},
+		TEL = #{tel,jdbcType=VARCHAR},
+		COMPANY = #{company,jdbcType=VARCHAR},
+		MPHONE = #{mphone,jdbcType=VARCHAR},
+		IS_DELETE = #{isDelete,jdbcType=CHAR},
+		DEL_OPERATOR_ID = #{delOperatorId,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findLocalCustomerBlacklist" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_BLACKLIST b
+		WHERE trunc(b.CREATE_TIME) >= trunc(#{canSubmitRequestDays})
+		AND b.NAME IS not NULL
+		AND b.CAN_SUBMIT_REQUEST_DAYS = 99999
+	</select>
+
+	<select id="findLocalEnterpriseBlacklist" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_BLACKLIST b
+		WHERE trunc(b.CREATE_TIME) >= trunc(#{canSubmitRequestDays})
+		AND b.NAME IS not NULL
+		AND b.COMPANY IS not NULL
+		AND b.CAN_SUBMIT_REQUEST_DAYS = 99999
+	</select>
+
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_BLACKLIST
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND COM_BLACKLIST.ID= #{id}
+			</if>
+			<if test="name != null ">
+				AND COM_BLACKLIST.NAME = #{name}
+			</if>
+			<if test="idnum != null ">
+				AND COM_BLACKLIST.IDNUM = #{idnum}
+			</if>
+			<if test="company != null ">
+				AND COM_BLACKLIST.COMPANY = #{company}
+			</if>
+			<if test="begin != null ">
+				AND COM_BLACKLIST.CREATE_TIME <![CDATA[>=]]>
+				#{begin}
+			</if>
+			<if test="end != null ">
+				AND COM_BLACKLIST.CREATE_TIME <![CDATA[<=]]>
+				#{end}
+			</if>
+			<if test="organ != null ">
+				AND COM_BLACKLIST.COME_FROME != #{organ}
+			</if>
+			<if test="canSubmitRequestDays != null">
+				AND COM_BLACKLIST.CAN_SUBMIT_REQUEST_DAYS IN
+				<foreach item="dayNum" index="index" collection="canSubmitRequestDays"
+					open="(" separator="," close=")">
+					#{dayNum}
+				</foreach>
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.blacklist.domain.ComBlacklist"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+	</select>
+
+	<select id="findAllByDateCreatedBetweenAndComeFromeNotEqual"
+		parameterType="com.zdmoney.credit.blacklist.domain.ComBlacklist"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+	</select>
+</mapper>

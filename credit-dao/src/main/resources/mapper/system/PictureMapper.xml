@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.PictureMapper">
+	<select id="findPictureFileName" parameterType="com.zdmoney.credit.system.domain.Picture"
+		resultType="java.lang.String">
+		select p.IMGNAME from xd_picture p where
+		p.SAVENAME=
+		#{saveNmae}
+		and p.subclass_sort=#{subclassSort} and p.APP_NO= #{appNo}
+	</select>
+	
+	<select id="findSysName" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT P.SYS_NAME sysName FROM XD_PICTURE P 
+		 <where>
+		   <if test="appNo != null" >
+	        	 P.APP_NO= #{appNo}
+	       </if>
+		  <if test="subclassSort != null" >
+	        	AND P.SUBCLASS_SORT = #{subclassSort} 
+	      </if>
+	      	<if test="subclassSorts != null" >
+	        	AND P.SUBCLASS_SORT IN ('A','S1','S3','S4','S10')
+	      	</if>
+		</where>
+	</select>
+	
+</mapper> 

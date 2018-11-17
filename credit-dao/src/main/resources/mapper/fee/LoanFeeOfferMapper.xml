@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.fee.domain.LoanFeeOfferMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.fee.domain.LoanFeeOffer">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="FEE_ID" property="feeId" jdbcType="DECIMAL" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ID_NUM" property="idNum" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="RECEIVE_AMOUNT" property="receiveAmount"
+			jdbcType="DECIMAL" />
+		<result column="UNPAID_AMOUNT" property="unpaidAmount"
+			jdbcType="DECIMAL" />
+		<result column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+		<result column="CURRENCY_TYPE" property="currencyType"
+			jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="OFFER_DATE" property="offerDate" jdbcType="TIMESTAMP" />
+		<result column="INFO_CATEGORY_CODE" property="infoCategoryCode"
+			jdbcType="VARCHAR" />
+		<result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+		<result column="ORGAN" property="organ" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="PAY_SYS_NO_REAL" property="paySysNoReal" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 服务费报盘查询vo -->
+	<resultMap id="LoanFeeOfferVoMap" type="com.zdmoney.credit.fee.vo.LoanFeeOfferVo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="FEE_ID" property="feeId" jdbcType="DECIMAL" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ID_NUM" property="idNum" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="RECEIVE_AMOUNT" property="receiveAmount"
+			jdbcType="DECIMAL" />
+		<result column="UNPAID_AMOUNT" property="unpaidAmount"
+			jdbcType="DECIMAL" />
+		<result column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+		<result column="CURRENCY_TYPE" property="currencyType"
+			jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="OFFER_DATE" property="offerDate" jdbcType="TIMESTAMP" />
+		<result column="INFO_CATEGORY_CODE" property="infoCategoryCode"
+			jdbcType="VARCHAR" />
+		<result column="BIZ_SYS_NO" property="bizSysNo" jdbcType="VARCHAR" />
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+		<result column="ORGAN" property="organ" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="LOANFEESTATE" property="loanFeeState" jdbcType="VARCHAR" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		T.ID, 
+		T.LOAN_ID,
+		T.FEE_ID,
+		T.CONTRACT_NUM,
+		T.NAME,
+		T.ID_NUM,
+		T.MOBILE,
+		T.AMOUNT,
+		T.RECEIVE_AMOUNT, 
+		T.UNPAID_AMOUNT,
+		T.BANK_ACCT,
+		T.BANK_NAME,
+		T.BANK_CODE,
+		T.CURRENCY_TYPE, 
+		T.TYPE,OFFER_DATE,
+		T.INFO_CATEGORY_CODE, 
+		T.BIZ_SYS_NO,
+		T.PAY_SYS_NO,
+		T.STATE,
+		T.ORGAN,
+		T.MEMO,
+		T.CREATOR
+		
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_FEE_OFFER T
+		where T.ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Short">
+		delete from LOAN_FEE_OFFER
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.fee.domain.LoanFeeOffer">
+		insert into LOAN_FEE_OFFER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="feeId != null">
+				FEE_ID,
+			</if>
+			<if test="contractNum != null">
+				CONTRACT_NUM,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="idNum != null">
+				ID_NUM,
+			</if>
+			<if test="mobile != null">
+				MOBILE,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="receiveAmount != null">
+				RECEIVE_AMOUNT,
+			</if>
+			<if test="unpaidAmount != null">
+				UNPAID_AMOUNT,
+			</if>
+			<if test="bankAcct != null">
+				BANK_ACCT,
+			</if>
+			<if test="bankName != null">
+				BANK_NAME,
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE,
+			</if>
+			<if test="currencyType != null">
+				CURRENCY_TYPE,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="offerDate != null">
+				OFFER_DATE,
+			</if>
+			<if test="infoCategoryCode != null">
+				INFO_CATEGORY_CODE,
+			</if>
+			<if test="bizSysNo != null">
+				BIZ_SYS_NO,
+			</if>
+			<if test="paySysNo != null">
+				PAY_SYS_NO,
+			</if>
+			<if test="organ != null">
+				ORGAN,
+			</if>
+			<if test="state != null">
+				STATE,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="feeId != null">
+				#{feeId,jdbcType=DECIMAL},
+			</if>
+			<if test="contractNum != null">
+				#{contractNum,jdbcType=DECIMAL},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="idNum != null">
+				#{idNum,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="receiveAmount != null">
+				#{receiveAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="unpaidAmount != null">
+				#{unpaidAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="bankAcct != null">
+				#{bankAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				#{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="currencyType != null">
+				#{currencyType,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="offerDate != null">
+				#{offerDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="infoCategoryCode != null">
+				#{infoCategoryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bizSysNo != null">
+				#{bizSysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="paySysNo != null">
+				#{paySysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="organ != null">
+				#{organ,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.fee.domain.LoanFeeOffer">
+		update LOAN_FEE_OFFER
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="feeId != null">
+				FEE_ID = #{feeId,jdbcType=DECIMAL},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="receiveAmount != null">
+				RECEIVE_AMOUNT = #{receiveAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="unpaidAmount != null">
+				UNPAID_AMOUNT = #{unpaidAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="bankAcct != null">
+				BANK_ACCT = #{bankAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				BANK_NAME = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="currencyType != null">
+				CURRENCY_TYPE = #{currencyType,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="infoCategoryCode != null">
+				INFO_CATEGORY_CODE =
+				#{infoCategoryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bizSysNo != null">
+				BIZ_SYS_NO = #{bizSysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="paySysNo != null">
+				PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="paySysNoReal != null">
+				PAY_SYS_NO_REAL = #{paySysNoReal,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- 查询主体 -->
+	<sql id="loanFeeOfferSelective">
+		SELECT
+		<include refid="Base_Column_List" />,L.STATE AS LOANFEESTATE
+		FROM LOAN_FEE_OFFER t LEFT JOIN V_LOAN_INFO V ON t.LOAN_ID=V.ID LEFT JOIN LOAN_FEE_INFO L ON L.ID=t.FEE_ID
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="loanFeeOfferConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND T.ID= #{id,jdbcType=DECIMAL}
+			</if>
+			<if test="feeId != null">
+				AND T.FEE_ID= #{feeId,jdbcType=DECIMAL}
+			</if>
+			<if test="name != null and name != ''">
+				AND T.NAME LIKE '' || #{name,jdbcType=VARCHAR} || '%'
+			</if>
+			<if test="idNum != null and idNum != ''">
+				AND T.ID_NUM = #{idNum,jdbcType=VARCHAR}
+			</if>
+			<if test="contractNum != null and contractNum != ''">
+				AND T.CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR}
+			</if>
+			<if test="offerDate != null">
+				AND T.OFFER_DATE = #{offerDate}
+			</if>
+			<if test="offerDateBegin != null">
+				AND T.OFFER_DATE &gt;= #{offerDateBegin}
+			</if>
+			<if test="offerDateEnd != null">
+				AND T.OFFER_DATE &lt;= #{offerDateEnd}
+			</if>
+			<if test="paySysNo != null and paySysNo != ''">
+				AND T.PAY_SYS_NO = #{paySysNo}
+			</if>
+			<if test="bankCode != null and bankCode != ''">
+				AND T.BANK_CODE = #{bankCode}
+			</if>
+			<if test="state != null and state != ''">
+				<choose>
+					<when test="state =='已回盘'">
+						AND T.STATE IN ('已回盘全额','已回盘非全额')
+					</when>
+					<otherwise>
+						AND T.STATE = #{state,jdbcType=VARCHAR}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="loanFeeState != null and loanFeeState != ''">
+				AND L.STATE = #{loanFeeState,jdbcType=VARCHAR}
+			</if>
+			<if test="type != null and type != ''">
+				AND T.TYPE = #{type,jdbcType=VARCHAR}
+			</if>
+			<if test="organ != null and organ != ''">
+				AND T.ORGAN LIKE '' || #{organ,jdbcType=VARCHAR} || '%'
+			</if>
+			<if test="fundsSources != null and fundsSources != ''">
+				AND FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR}
+			</if>
+			<if test="loanId != null ">
+				AND t.LOAN_ID = #{loanId,jdbcType=DECIMAL}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 按条件查询配置信息 -->
+	<select id="findListByVO" parameterType="com.zdmoney.credit.fee.domain.LoanFeeOffer"
+		resultMap="BaseResultMap">
+		<include refid="loanFeeOfferSelective" />
+		<include refid="loanFeeOfferConditions" />
+	</select>
+
+	<select id="searchLoanFeeOfferWithPgByMap" parameterType="java.util.Map"
+		resultMap="LoanFeeOfferVoMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="loanFeeOfferSelective" />
+		<include refid="loanFeeOfferConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+	<select id="searchLoanFeeOfferWithPgByMapCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="loanFeeOfferSelective" />
+		<include refid="loanFeeOfferConditions" />
+		)
+	</select>
+
+
+</mapper>

@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.ComEmployeeMapper">
+
+    <resultMap id="comEmployeeResultMap" type="com.zdmoney.credit.system.domain.ComEmployee">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+        <result column="IN_ACTIVE" property="inActive" jdbcType="CHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+        <result column="USERCODE" property="usercode" jdbcType="VARCHAR" />
+        <result column="ACCEPT_AUDIT_TASK" property="acceptAuditTask" jdbcType="CHAR" />
+        <result column="DEMP_LEVEL" property="dempLevel" jdbcType="VARCHAR" />
+        <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+        <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+        <result column="EMPLOYEE_TYPE" property="employeeType" jdbcType="VARCHAR" />
+        <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+        <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+        <result column="LEAVE_OFFICE_DATE" property="leaveOfficeDate" jdbcType="VARCHAR" />
+        <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+        <result column="IS_FIRST" property="isFirst" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        ORG_ID,
+        IN_ACTIVE,
+        NAME,
+        PASSWORD,
+        USERCODE,
+        ACCEPT_AUDIT_TASK,
+        DEMP_LEVEL,
+        EMPLOYEE_TYPE,
+        MEMO,
+        CREATE_TIME,
+        UPDATE_TIME,
+        UPDATOR,
+        CREATOR,
+        EMAIL,
+        LEAVE_OFFICE_DATE,
+        MOBILE,
+        IS_FIRST
+    </sql>
+
+    <select id="get" resultMap="comEmployeeResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from COM_EMPLOYEE
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from COM_EMPLOYEE
+        where
+        ID = #{id,jdbcType=DECIMAL}
+    </delete>
+
+    <sql id="comEmployeeSelective">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM COM_EMPLOYEE where 1=1
+    </sql>
+
+	<sql id="comEmployeeOrgSelective">
+        SELECT
+        COM_EMPLOYEE.ID,
+        COM_EMPLOYEE.ORG_ID,
+        COM_EMPLOYEE.IN_ACTIVE,
+        COM_EMPLOYEE.NAME,
+        COM_EMPLOYEE.PASSWORD,
+        COM_EMPLOYEE.USERCODE,
+        COM_EMPLOYEE.ACCEPT_AUDIT_TASK,
+        COM_EMPLOYEE.DEMP_LEVEL,
+        COM_EMPLOYEE.EMPLOYEE_TYPE,
+        COM_EMPLOYEE.MEMO,
+        COM_EMPLOYEE.CREATE_TIME,
+        COM_EMPLOYEE.UPDATE_TIME,
+        COM_EMPLOYEE.UPDATOR,
+        COM_EMPLOYEE.CREATOR,
+        COM_EMPLOYEE.EMAIL,
+        COM_EMPLOYEE.LEAVE_OFFICE_DATE,
+        COM_ORGANIZATION.FULL_NAME
+        FROM COM_EMPLOYEE, COM_ORGANIZATION 
+        WHERE COM_ORGANIZATION.ID = COM_EMPLOYEE.ORG_ID
+    </sql>
+
+    <sql id="comEmployeeConditions">
+        <trim prefix="and" prefixOverrides="and">
+            <if test="id != null">
+                AND COM_EMPLOYEE.ID= #{id}
+            </if>
+            <if test="name!= null and name  != ''">
+                AND COM_EMPLOYEE.name LIKE '%' || #{name} || '%'
+            </if>
+            <if test="usercode != null and usercode  != ''">
+                AND COM_EMPLOYEE.USERCODE = #{usercode}
+            </if>
+            <if test="password != null and password != ''">
+                AND COM_EMPLOYEE.PASSWORD = #{password}
+            </if>
+            <if test="inActive != null and inActive != ''">
+                AND COM_EMPLOYEE.IN_ACTIVE = #{inActive}
+            </if>
+            <if test="orgId != null">
+                AND COM_EMPLOYEE.ORG_ID = #{orgId}
+            </if>
+            <if test="orgCode!=null">
+               AND COM_ORGANIZATION.ORG_CODE LIKE '${orgCode}%'
+            </if>
+            
+            
+        </trim>
+    </sql>
+
+    <select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.ComEmployee"
+        resultMap="comEmployeeResultMap">
+        <include refid="comEmployeeSelective" />
+        <include refid="comEmployeeConditions" />
+    </select>
+
+    <select id="findEmployeeByUserCode" parameterType="java.lang.String"
+        resultMap="comEmployeeResultMap">
+        <include refid="comEmployeeSelective" />
+        AND COM_EMPLOYEE.USERCODE = #{userCode}
+
+    </select>
+    <select id="findEmployeeByUserCodeAndID" parameterType="com.zdmoney.credit.system.domain.ComEmployee"
+        resultMap="comEmployeeResultMap">
+        <include refid="comEmployeeSelective" />
+        AND COM_EMPLOYEE.USERCODE = #{usercode}
+        <if test="id != null and id  != ''">
+            AND nvl(COM_EMPLOYEE.ID,#{id}) &lt;&gt; #{id}
+        </if>
+    </select>
+
+
+<insert id="insert" parameterType="com.zdmoney.credit.system.domain.ComEmployee">
+        insert into COM_EMPLOYEE (ID,
+        ORG_ID,
+        IN_ACTIVE, NAME, PASSWORD,
+        USERCODE, ACCEPT_AUDIT_TASK,
+        DEMP_LEVEL,
+        MEMO, CREATE_TIME, UPDATE_TIME, EMAIL,EMPLOYEE_TYPE,LEAVE_OFFICE_DATE,MOBILE
+        )
+        values
+        (#{id,jdbcType=DECIMAL}, #{orgId,jdbcType=DECIMAL},
+        #{inActive,jdbcType=CHAR},
+        #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{usercode,jdbcType=VARCHAR}, #{acceptAuditTask,jdbcType=CHAR},
+        #{dempLevel,jdbcType=VARCHAR},
+        #{memo,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{email, jdbcType=VARCHAR},#{employeeType, jdbcType=VARCHAR},#{leaveOfficeDate,jdbcType=TIMESTAMP},
+        #{mobile,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.ComEmployee">
+        insert into COM_EMPLOYEE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="orgId != null">
+                ORG_ID,
+            </if>
+            <if test="inActive != null">
+                IN_ACTIVE,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="password != null">
+                PASSWORD,
+            </if>
+            <if test="usercode != null">
+                USERCODE,
+            </if>
+            <if test="acceptAuditTask != null">
+                ACCEPT_AUDIT_TASK,
+            </if>
+            <if test="dempLevel != null">
+                DEMP_LEVEL,
+            </if>
+            <if test="memo != null">
+                MEMO,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+            <if test="UPDATOR != null">
+                UPDATOR,
+            </if>
+            <if test="email != null">
+                EMAIL,
+            </if>
+            <if test="leaveOfficeDate != null">
+                LEAVE_OFFICE_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=DECIMAL},
+            </if>
+            <if test="inActive != null">
+                #{inActive,jdbcType=CHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="usercode != null">
+                #{usercode,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptAuditTask != null">
+                #{acceptAuditTask,jdbcType=CHAR},
+            </if>
+            <if test="dempLevel != null">
+                #{dempLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="memo != null">
+                #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="UPDATOR != null">
+                #{UPDATOR,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email, jdbcType=VARCHAR},
+            </if>
+            <if test="leaveOfficeDate != null">
+                #{leaveOfficeDate, jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zdmoney.credit.system.domain.ComEmployee">
+        update COM_EMPLOYEE
+        <set>
+            <if test="orgId != null">
+                ORG_ID = #{orgId,jdbcType=DECIMAL},
+            </if>
+            <if test="inActive != null">
+                IN_ACTIVE = #{inActive,jdbcType=CHAR},
+            </if>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                PASSWORD = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="usercode != null">
+                USERCODE = #{usercode,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptAuditTask != null">
+                ACCEPT_AUDIT_TASK = #{acceptAuditTask,jdbcType=CHAR},
+            </if>
+            <if test="dempLevel != null">
+                DEMP_LEVEL = #{dempLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="memo != null">
+                MEMO = #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="email != null">
+                EMAIL = #{email, jdbcType=VARCHAR},
+            </if>
+             <if test="employeeType != null">
+                EMPLOYEE_TYPE = #{employeeType, jdbcType=VARCHAR},
+            </if>
+            <if test="leaveOfficeDate != null">
+                LEAVE_OFFICE_DATE = #{leaveOfficeDate, jdbcType=TIMESTAMP},
+            </if>
+            <if test="mobile != null">
+                MOBILE = #{mobile, jdbcType=VARCHAR},
+            </if>
+            <if test="isFirst != null">
+                IS_FIRST = #{isFirst, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.ComEmployee">
+        update
+        COM_EMPLOYEE
+        set ORG_ID = #{orgId,jdbcType=DECIMAL},
+        IN_ACTIVE = #{inActive,jdbcType=CHAR},
+        NAME
+        = #{name,jdbcType=VARCHAR},
+        PASSWORD = #{password,jdbcType=VARCHAR},
+        USERCODE = #{usercode,jdbcType=VARCHAR},
+        ACCEPT_AUDIT_TASK =
+        #{acceptAuditTask,jdbcType=CHAR},
+        DEMP_LEVEL =
+        #{dempLevel,jdbcType=VARCHAR},
+        MEMO = #{memo,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        UPDATE_TIME =
+        #{updateTime,jdbcType=TIMESTAMP},
+        UPDATOR = #{UPDATOR,jdbcType=VARCHAR},
+        EMAIL=#{email, jdbcType=VARCHAR},
+        LEAVE_OFFICE_DATE = #{leaveOfficeDate, jdbcType=TIMESTAMP}
+        where ID =
+        #{id,jdbcType=DECIMAL}
+    </update>
+    <select id="findWithPG" parameterType="com.zdmoney.credit.system.domain.ComEmployee"
+        resultMap="comEmployeeResultMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="comEmployeeOrgSelective" />
+        <include refid="comEmployeeConditions" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+    <select id="count" parameterType="com.zdmoney.credit.system.domain.ComEmployee"
+        resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+        <include refid="comEmployeeOrgSelective" />
+        <include refid="comEmployeeConditions" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        )
+    </select>
+    
+    <select id="findWithPGByMap" parameterType="java.util.Map"
+        resultMap="comEmployeeResultMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="comEmployeeOrgSelective" />
+        <include refid="comEmployeeConditions" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+    <select id="countByMap" parameterType="java.util.Map"
+        resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+        <include refid="comEmployeeOrgSelective" />
+        <include refid="comEmployeeConditions" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        )
+    </select>
+
+
+    <select id="findAllList" parameterType="com.zdmoney.credit.system.domain.ComEmployee"
+        resultMap="comEmployeeResultMap">
+        select id,name,usercode from COM_EMPLOYEE order by id
+
+    </select>
+
+    <select id="queryEmployeeByOrgIdAndRoleName" parameterType="java.util.Map" resultMap="comEmployeeResultMap">
+        SELECT *
+          FROM (SELECT <include refid = "Base_Column_List" />
+                  FROM COM_EMPLOYEE
+                 WHERE ORG_ID IN (SELECT O.ID FROM COM_ORGANIZATION O WHERE O.ORG_CODE LIKE #{orgCode, jdbcType = VARCHAR})
+                   AND EMPLOYEE_TYPE = #{employeeType, jdbcType = VARCHAR}
+                 ORDER BY ID DESC)
+         WHERE ROWNUM = 1
+    </select>
+
+    <sql id="findEmployeeSelectiveAndConditions">
+        SELECT
+        A.ID "id",
+        A.NAME "name",
+        A.ORG_ID "orgId",
+        A.USERCODE
+        "userCode",
+        A.ACCEPT_AUDIT_TASK "acceptAuditTask",
+        A.DEMP_LEVEL
+        "dempLevel",
+        A.EMPLOYEE_TYPE "employeeType",
+        B.ORG_CODE
+        "orgCode",
+        B.NAME "orgName"
+
+        FROM COM_EMPLOYEE A,COM_ORGANIZATION B
+        WHERE
+        A.ORG_ID = B.ID
+        <if test="inActive != null and inActive != ''">
+            AND A.IN_ACTIVE = '${inActive}'
+        </if>
+        <if test="name != null and name != ''">
+            AND A.NAME LIKE '${name}%'
+        </if>
+        <if test="userId != null">
+            AND A.ID = ${userId}
+        </if>
+        <if test="userIds != null">
+            AND A.ID IN
+            <foreach collection="userIds" item="userId" open="("
+                separator="," close=")">
+                ${userId}
+            </foreach>
+        </if>
+        <if test="userCode != null and userCode != ''">
+            AND A.USERCODE = '${userCode}'
+        </if>
+        <if test="userCodes != null">
+            AND A.USERCODE IN
+            <foreach collection="userCodes" item="userCode" open="("
+                separator="," close=")">
+                '${userCode}'
+            </foreach>
+        </if>
+        <if test="orgId != null">
+            AND A.ORG_ID = ${orgId}
+        </if>
+        <if test="orgIds != null">
+            AND A.ORG_ID IN
+            <foreach collection="orgIds" item="orgId" open="(" separator=","
+                close=")">
+                ${orgId}
+            </foreach>
+        </if>
+        <if test="employeeType != null">
+            AND A.EMPLOYEE_TYPE = '${employeeType}'
+        </if>
+        <if test="employeeTypes != null">
+            AND A.EMPLOYEE_TYPE IN
+            <foreach collection="employeeTypes" item="employeeType" open="("
+                separator="," close=")">
+                '${employeeType}'
+            </foreach>
+        </if>
+        <if test="orgCode!=null">
+            AND B.ORG_CODE LIKE '${orgCode}%'
+        </if>
+    </sql>
+
+    <select id="findEmployee" parameterType="map" resultType="map">
+        <include refid="findEmployeeSelectiveAndConditions" />
+    </select>
+
+    <select id="findEmployeeWithPg" parameterType="map" resultType="map">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="findEmployeeSelectiveAndConditions" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <select id="findEmployeeCount" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+        <include refid="findEmployeeSelectiveAndConditions" />
+        )
+    </select>
+    
+    <select id="queryEmployeeByUsercodeAndRoleName" parameterType="java.util.Map" resultMap="comEmployeeResultMap">
+        SELECT <include refid = "Base_Column_List" />
+          FROM COM_EMPLOYEE
+         WHERE ID IN (SELECT T2.EMPLOYEE_ID
+                        FROM COM_ROLE T1, COM_EMPLOYEE_ROLE T2
+                       WHERE T1.ID = T2.ROLE_ID
+                         AND T1.ROLE_NAME = #{roleName})
+           AND USERCODE = #{usercode}
+    </select>
+    
+    <select id="findLeaveEmployeeList" parameterType="map" resultType="map">		   
+		select ce.name "name", ce.usercode "userCode"
+		  from com_employee ce
+		 where (ce.org_id in
+		       (select id
+		           from (select *
+		                   from com_organization
+		                  where parent_id =
+		                        (select id
+		                           from com_organization
+		                          where org_code = #{orgCode}))) or
+		       ce.org_id = (select id
+		                       from com_organization
+		                      where org_code = #{orgCode}))
+		   and (ce.employee_type = '业务员' or ce.employee_type = '客服')
+		   and ce.in_active = 'f'
+    </select>
+
+	<select id="finListByOrgId" parameterType="java.lang.Long" resultMap="comEmployeeResultMap">
+		SELECT DISTINCT T3.*
+		  FROM COM_ROLE T1, COM_EMPLOYEE_ROLE T2, COM_EMPLOYEE T3
+		 WHERE T1.ID = T2.ROLE_ID
+		   AND T2.EMPLOYEE_ID = T3.ID
+		   AND T1.ROLE_NAME IN
+		       ('信贷-营业部-经理', '信贷-营业部-副理', '信贷-营业部-客服')
+		   AND T3.ORG_ID IN (SELECT C.ID
+		                       FROM COM_ORGANIZATION C
+		                     CONNECT BY C.PARENT_ID = PRIOR C.ID
+		                      START WITH C.ID = #{orgId,jdbcType = DECIMAL})
+    </select>
+    
+    <select id="finJlFlByOrgId" parameterType="java.lang.Long" resultMap="comEmployeeResultMap">
+		SELECT DISTINCT T3.*
+		  FROM COM_ROLE T1, COM_EMPLOYEE_ROLE T2, COM_EMPLOYEE T3
+		 WHERE T1.ID = T2.ROLE_ID
+		   AND T2.EMPLOYEE_ID = T3.ID
+		   AND T1.ROLE_NAME IN
+		       ('信贷-营业部-经理', '信贷-营业部-副理')
+		   AND T3.ORG_ID IN (SELECT C.ID
+		                       FROM COM_ORGANIZATION C
+		                     CONNECT BY C.PARENT_ID = PRIOR C.ID
+		                      START WITH C.ID = #{orgId,jdbcType = DECIMAL})
+    </select>
+</mapper>

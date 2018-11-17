@@ -1,0 +1,30 @@
+<!-- 为了解决跨域访问，本页面做中转处理 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<script type="text/javascript">
+	var hash = decodeURI(window.location.hash);
+	if (hash) {
+		var hashArr = hash.split(';');
+		if (hashArr.length == 2) {
+			var model = hashArr[0];
+			var param = hashArr[1];
+			if (model == '#addTab') {
+				param = param.split(',');
+				top.$.iframeTabs.add({
+					id : param[0] || '',
+					text : param[1] || '默认',
+					url : param[2] || '',
+					iconCls : param[3] || ''
+				});
+			} else if (model == '#jumpIndex') {
+				/** 跳转到首页 **/
+				top.window.location.reload(true);
+			}
+		}
+	}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.xintuo.domain.XintuoguominDataDomainMapper">
+	<resultMap id="xintuoguominDataDomainResultMap"
+		type="com.zdmoney.credit.xintuo.domain.XintuoguominDataDomain">
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="MPHONE" property="mphone" jdbcType="VARCHAR" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="BORROWER_NAME" property="borrower_name"
+			jdbcType="VARCHAR" />
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+		<result column="BANK_FULL_NAME" property="bank_full_name"
+			jdbcType="VARCHAR" />
+		<result column="PACT_MONEY" property="pact_money" jdbcType="DECIMAL" />
+		<result column="TIME" property="time" jdbcType="DECIMAL" />
+		<result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+		<result column="REPAYMENT_ALL" property="repayment_all"
+			jdbcType="DECIMAL" />
+		<result column="CONTRACT_NUM" property="contract_num" jdbcType="VARCHAR" />
+		<result column="RATE_SUM" property="rate_sum" jdbcType="DECIMAL" />
+		<result column="LOAN_TYPE" property="loan_type" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<select id="getXintuoguominDataJob" resultMap="xintuoguominDataDomainResultMap">
+		SELECT p.name,
+		p.sex,
+		p.idnum,
+		p.mphone,
+		p.address,
+		c.borrower_name,
+		c.account,
+		c.bank_full_name,
+		l.pact_money,
+		l.time,
+		l.purpose,
+		(r.returneterm * l.time) as repayment_all,
+		l.contract_num,
+		l.rate_sum,
+		l.loan_type
+		FROM v_loan_info l, loan_contract c, person_info p, loan_repayment_detail
+		r
+		WHERE l.id = c.loan_id
+		and l.borrower_id = p.id
+		and l.id = r.loan_id
+		AND r.current_term = 1
+		and l.loan_flow_state = '财务放款'
+		and l.loan_state = '通过'
+		and l.funds_sources = '国民信托'
+	</select>
+	  <!-- 渤海信托数据查询 -->
+    <select id="getXintuobohaiDataJob" resultMap="xintuoguominDataDomainResultMap">
+          SELECT p.name,
+          p.sex,
+          p.idnum,
+          p.mphone,
+          p.address,
+          c.borrower_name,
+          c.account,
+          c.bank_full_name,
+          l.pact_money,
+          l.time,
+          l.purpose,
+          (r.returneterm * l.time) as repayment_all,
+          l.contract_num,
+          l.rate_sum,
+          l.loan_type
+          FROM v_loan_info l, loan_contract c, person_info p, loan_repayment_detail
+          r
+          WHERE l.id = c.loan_id
+          and l.borrower_id = p.id
+          and l.id = r.loan_id
+          AND r.current_term = 1
+          and l.loan_flow_state = '财务放款'
+          and l.loan_state = '通过'
+          and l.funds_sources = '渤海信托'
+   </select>
+	
+</mapper>

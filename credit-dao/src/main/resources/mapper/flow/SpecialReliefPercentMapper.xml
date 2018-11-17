@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.flow.domain.SpecialReliefPercentMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.flow.domain.SpecialReliefPercent" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+    <result column="RELIEF_PERCENT" property="reliefPercent" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GRADE, CURRENT_TERM, RELIEF_PERCENT, MEMO, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SPECIAL_RELIEF_PERCENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="delete" parameterType="java.math.BigDecimal" >
+    delete from SPECIAL_RELIEF_PERCENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.flow.domain.SpecialReliefPercent" >
+    insert into SPECIAL_RELIEF_PERCENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="currentTerm != null" >
+        CURRENT_TERM,
+      </if>
+      <if test="reliefPercent != null" >
+        RELIEF_PERCENT,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="currentTerm != null" >
+        #{currentTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="reliefPercent != null" >
+        #{reliefPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.flow.domain.SpecialReliefPercent" >
+    update SPECIAL_RELIEF_PERCENT
+    <set >
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="currentTerm != null" >
+        CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="reliefPercent != null" >
+        RELIEF_PERCENT = #{reliefPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <select id="queryReliefPercent" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+    select nvl(relief_percent,0) from special_relief_percent  where grade = #{grade}  and current_term = #{currentTerm}
+  </select>
+</mapper>

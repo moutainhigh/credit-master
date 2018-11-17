@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanInitialInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.loan.domain.LoanInitialInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ASSESSOR_ID" property="assessorId" jdbcType="DECIMAL" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+		<result column="REQUEST_DATE" property="requestDate" jdbcType="TIMESTAMP" />
+		<result column="RESTOREEM" property="restoreem" jdbcType="DECIMAL" />
+		<result column="AUDITING_MONEY" property="auditingMoney"
+			jdbcType="DECIMAL" />
+		<result column="REQUEST_MONEY" property="requestMoney"
+			jdbcType="DECIMAL" />
+		<result column="GRANT_MONEY_DATE" property="grantMoneyDate"
+			jdbcType="TIMESTAMP" />
+		<result column="GRANT_MONEY_OPERATOR_ID" property="grantMoneyOperatorId"
+			jdbcType="DECIMAL" />
+		<result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP" />
+		<result column="REQUEST_LOAN_TYPE" property="requestLoanType"
+			jdbcType="VARCHAR" />
+		<result column="REQUEST_TIME" property="requestTime" jdbcType="DECIMAL" />
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
+		<result column="APPROVE_MONEY" property="approveMoney"
+			jdbcType="DECIMAL" />
+		<result column="APPROVE_TIME" property="approveTime" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="LAST_ASSESSOR_ID" property="lastAssessorId"
+			jdbcType="DECIMAL" />
+		<result column="GRANT_MONEY_DATE_TTP" property="grantMoneyDateTtp"
+			jdbcType="TIMESTAMP" />
+		<result column="APP_NO" property="appNo" jdbcType="VARCHAR" />
+		<result column="CONTRACT_DATE" property="contractDate" jdbcType="TIMESTAMP"/>
+		<result column="IS_RATE_PREFER_LOAN" property="isRatePreferLoan" jdbcType="VARCHAR" />
+		<result column="DIRECTOR_CODE" property="directorCode" jdbcType="VARCHAR" />
+		<result column="CHANNEL_PUSH_NO" property="channelPushNo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ASSESSOR_ID, LOAN_TYPE, MONEY, PURPOSE, REQUEST_DATE, RESTOREEM,
+		AUDITING_MONEY,
+		REQUEST_MONEY, GRANT_MONEY_DATE, GRANT_MONEY_OPERATOR_ID, SIGN_DATE,
+		REQUEST_LOAN_TYPE,
+		REQUEST_TIME, AUDIT_DATE, APPROVE_MONEY, APPROVE_TIME, CREATE_TIME, UPDATE_TIME,
+		LOAN_ID, LAST_ASSESSOR_ID, GRANT_MONEY_DATE_TTP, APP_NO, CONTRACT_DATE,IS_RATE_PREFER_LOAN,DIRECTOR_CODE, CHANNEL_PUSH_NO
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_INITIAL_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<select id="findByAppNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_INITIAL_INFO
+		where APP_NO = #{appNo}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from LOAN_INITIAL_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanInitialInfo">
+		insert into LOAN_INITIAL_INFO (ID, ASSESSOR_ID, LOAN_TYPE,
+		MONEY, PURPOSE, REQUEST_DATE,
+		RESTOREEM, AUDITING_MONEY, REQUEST_MONEY,
+		GRANT_MONEY_DATE, GRANT_MONEY_OPERATOR_ID,
+		SIGN_DATE, REQUEST_LOAN_TYPE, REQUEST_TIME,
+		AUDIT_DATE, APPROVE_MONEY, APPROVE_TIME,
+		CREATE_TIME, UPDATE_TIME, LOAN_ID,
+		LAST_ASSESSOR_ID, GRANT_MONEY_DATE_TTP, APP_NO, CONTRACT_DATE,IS_RATE_PREFER_LOAN,DIRECTOR_CODE,
+        CHANNEL_PUSH_NO
+		)
+		values (#{id,jdbcType=DECIMAL}, #{assessorId,jdbcType=DECIMAL},
+		#{loanType,jdbcType=VARCHAR},
+		#{money,jdbcType=DECIMAL}, #{purpose,jdbcType=VARCHAR}, #{requestDate,jdbcType=TIMESTAMP},
+		#{restoreem,jdbcType=DECIMAL}, #{auditingMoney,jdbcType=DECIMAL},
+		#{requestMoney,jdbcType=DECIMAL},
+		#{grantMoneyDate,jdbcType=TIMESTAMP},
+		#{grantMoneyOperatorId,jdbcType=DECIMAL},
+		#{signDate,jdbcType=TIMESTAMP}, #{requestLoanType,jdbcType=VARCHAR},
+		#{requestTime,jdbcType=DECIMAL},
+		#{auditDate,jdbcType=TIMESTAMP}, #{approveMoney,jdbcType=DECIMAL}, #{approveTime,jdbcType=DECIMAL},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{loanId,jdbcType=DECIMAL},
+		#{lastAssessorId,jdbcType=DECIMAL}, #{grantMoneyDateTtp,jdbcType=TIMESTAMP}, #{appNo,jdbcType=VARCHAR},
+		#{contractDate,jdbcType=TIMESTAMP},#{isRatePreferLoan,jdbcType=VARCHAR},#{directorCode,jdbcType=VARCHAR},
+        #{channelPushNo,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanInitialInfo">
+		insert into LOAN_INITIAL_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="assessorId != null">
+				ASSESSOR_ID,
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE,
+			</if>
+			<if test="money != null">
+				MONEY,
+			</if>
+			<if test="purpose != null">
+				PURPOSE,
+			</if>
+			<if test="requestDate != null">
+				REQUEST_DATE,
+			</if>
+			<if test="restoreem != null">
+				RESTOREEM,
+			</if>
+			<if test="auditingMoney != null">
+				AUDITING_MONEY,
+			</if>
+			<if test="requestMoney != null">
+				REQUEST_MONEY,
+			</if>
+			<if test="grantMoneyDate != null">
+				GRANT_MONEY_DATE,
+			</if>
+			<if test="grantMoneyOperatorId != null">
+				GRANT_MONEY_OPERATOR_ID,
+			</if>
+			<if test="signDate != null">
+				SIGN_DATE,
+			</if>
+			<if test="requestLoanType != null">
+				REQUEST_LOAN_TYPE,
+			</if>
+			<if test="requestTime != null">
+				REQUEST_TIME,
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE,
+			</if>
+			<if test="approveMoney != null">
+				APPROVE_MONEY,
+			</if>
+			<if test="approveTime != null">
+				APPROVE_TIME,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="lastAssessorId != null">
+				LAST_ASSESSOR_ID,
+			</if>
+			<if test="grantMoneyDateTtp != null">
+				GRANT_MONEY_DATE_TTP,
+			</if>
+			<if test="appNo != null">
+				APP_NO,
+			</if>
+			<if test="contractDate != null">
+				CONTRACT_DATE,
+			</if>
+			<if test="isRatePreferLoan != null">
+				IS_RATE_PREFER_LOAN,
+			</if>
+			<if test="directorCode != null">
+				DIRECTOR_CODE,
+			</if>
+			<if test="channelPushNo != null" >
+				CHANNEL_PUSH_NO,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="assessorId != null">
+				#{assessorId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				#{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="money != null">
+				#{money,jdbcType=DECIMAL},
+			</if>
+			<if test="purpose != null">
+				#{purpose,jdbcType=VARCHAR},
+			</if>
+			<if test="requestDate != null">
+				#{requestDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="restoreem != null">
+				#{restoreem,jdbcType=DECIMAL},
+			</if>
+			<if test="auditingMoney != null">
+				#{auditingMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="requestMoney != null">
+				#{requestMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="grantMoneyDate != null">
+				#{grantMoneyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="grantMoneyOperatorId != null">
+				#{grantMoneyOperatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="signDate != null">
+				#{signDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="requestLoanType != null">
+				#{requestLoanType,jdbcType=VARCHAR},
+			</if>
+			<if test="requestTime != null">
+				#{requestTime,jdbcType=DECIMAL},
+			</if>
+			<if test="auditDate != null">
+				#{auditDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="approveMoney != null">
+				#{approveMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="approveTime != null">
+				#{approveTime,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="lastAssessorId != null">
+				#{lastAssessorId,jdbcType=DECIMAL},
+			</if>
+			<if test="grantMoneyDateTtp != null">
+				#{grantMoneyDateTtp,jdbcType=TIMESTAMP},
+			</if>
+			<if test="appNo != null">
+				#{appNo,jdbcType=VARCHAR},
+			</if>
+			<if test="contractDate != null">
+				#{contractDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isRatePreferLoan != null">
+				#{isRatePreferLoan,jdbcType=VARCHAR},
+			</if>
+			<if test="directorCode != null">
+				#{directorCode,jdbcType=VARCHAR},
+			</if>
+			<if test="channelPushNo != null" >
+				#{channelPushNo,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanInitialInfo">
+		update LOAN_INITIAL_INFO
+		<set>
+			<if test="assessorId != null">
+				ASSESSOR_ID = #{assessorId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="money != null">
+				MONEY = #{money,jdbcType=DECIMAL},
+			</if>
+			<if test="purpose != null">
+				PURPOSE = #{purpose,jdbcType=VARCHAR},
+			</if>
+			<if test="requestDate != null">
+				REQUEST_DATE = #{requestDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="restoreem != null">
+				RESTOREEM = #{restoreem,jdbcType=DECIMAL},
+			</if>
+			<if test="auditingMoney != null">
+				AUDITING_MONEY = #{auditingMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="requestMoney != null">
+				REQUEST_MONEY = #{requestMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="grantMoneyDate != null">
+				GRANT_MONEY_DATE = #{grantMoneyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="grantMoneyOperatorId != null">
+				GRANT_MONEY_OPERATOR_ID = #{grantMoneyOperatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="signDate != null">
+				SIGN_DATE = #{signDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="requestLoanType != null">
+				REQUEST_LOAN_TYPE = #{requestLoanType,jdbcType=VARCHAR},
+			</if>
+			<if test="requestTime != null">
+				REQUEST_TIME = #{requestTime,jdbcType=DECIMAL},
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="approveMoney != null">
+				APPROVE_MONEY = #{approveMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="approveTime != null">
+				APPROVE_TIME = #{approveTime,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="lastAssessorId != null">
+				LAST_ASSESSOR_ID = #{lastAssessorId,jdbcType=DECIMAL},
+			</if>
+			<if test="grantMoneyDateTtp != null">
+				GRANT_MONEY_DATE_TTP = #{grantMoneyDateTtp,jdbcType=TIMESTAMP},
+			</if>
+			<if test="appNo != null">
+				APP_NO = #{appNo,jdbcType=VARCHAR},
+			</if>
+			<if test="contractDate != null">
+				CONTRACT_DATE = #{contractDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isRatePreferLoan != null">
+				IS_RATE_PREFER_LOAN = #{isRatePreferLoan,jdbcType=VARCHAR},
+			</if>
+			<if test="directorCode != null">
+				DIRECTOR_CODE = #{directorCode,jdbcType=VARCHAR},
+			</if>
+			<if test="channelPushNo != null" >
+				CHANNEL_PUSH_NO = #{channelPushNo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanInitialInfo">
+		update LOAN_INITIAL_INFO
+		set ASSESSOR_ID = #{assessorId,jdbcType=DECIMAL},
+		LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+		MONEY = #{money,jdbcType=DECIMAL},
+		PURPOSE = #{purpose,jdbcType=VARCHAR},
+		REQUEST_DATE = #{requestDate,jdbcType=TIMESTAMP},
+		RESTOREEM = #{restoreem,jdbcType=DECIMAL},
+		AUDITING_MONEY = #{auditingMoney,jdbcType=DECIMAL},
+		REQUEST_MONEY = #{requestMoney,jdbcType=DECIMAL},
+		GRANT_MONEY_DATE = #{grantMoneyDate,jdbcType=TIMESTAMP},
+		GRANT_MONEY_OPERATOR_ID = #{grantMoneyOperatorId,jdbcType=DECIMAL},
+		SIGN_DATE = #{signDate,jdbcType=TIMESTAMP},
+		REQUEST_LOAN_TYPE = #{requestLoanType,jdbcType=VARCHAR},
+		REQUEST_TIME = #{requestTime,jdbcType=DECIMAL},
+		AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+		APPROVE_MONEY = #{approveMoney,jdbcType=DECIMAL},
+		APPROVE_TIME = #{approveTime,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		LAST_ASSESSOR_ID = #{lastAssessorId,jdbcType=DECIMAL},
+		GRANT_MONEY_DATE_TTP = #{grantMoneyDateTtp,jdbcType=TIMESTAMP},
+		APP_NO = #{appNo,jdbcType=VARCHAR},
+		CONTRACT_DATE = #{contractDate,jdbcType=TIMESTAMP},
+		IS_RATE_PREFER_LOAN = #{isRatePreferLoan,jdbcType=VARCHAR},
+		DIRECTOR_CODE = #{directorCode,jdbcType=VARCHAR},
+        CHANNEL_PUSH_NO = #{channelPushNo,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_INITIAL_INFO
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND LOAN_INITIAL_INFO.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_INITIAL_INFO.LOAN_ID = #{loanId}
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanInitialInfo"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+		ORDER BY ID DESC
+	</select>
+
+</mapper>

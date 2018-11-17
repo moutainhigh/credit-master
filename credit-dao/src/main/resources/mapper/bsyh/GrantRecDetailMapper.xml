@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zdmoney.credit.bsyh.domain.GrantRecDetailMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.bsyh.domain.GrantRecDetail">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+		<result column="CHANL_NO" property="chanlNo" jdbcType="VARCHAR" />
+		<result column="AMT" property="amt"
+			jdbcType="DECIMAL" />
+		<result column="GRANT_DATE" property="grantDate"
+			jdbcType="TIMESTAMP" />
+		<result column="TOTAL_TERM" property="totalTerm" jdbcType="DECIMAL" />
+		<result column="PRODUCT_NO" property="productNo" jdbcType="VARCHAR" />		
+		<result column="LATEST_REPAY_DATE" property="latestRepayDate" jdbcType="TIMESTAMP" />
+		<result column="TOTAL_NUM" property="totalNum" jdbcType="DECIMAL" />
+		<result column="TOTAL_AMT" property="totalAmt" jdbcType="DECIMAL" />
+		<result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+		<result column="GRANT_MONEY" property="grantMoney" jdbcType="DECIMAL" />		
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, ORDER_NO, CHANL_NO, AMT,
+		GRANT_DATE,TOTAL_TERM,PRODUCT_NO,LATEST_REPAY_DATE,TOTAL_NUM,TOTAL_AMT,FILE_NAME,CREATE_DATE,STATE,GRANT_MONEY
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from GRANT_REC_DETAIL
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		delete from GRANT_REC_DETAIL
+		where ID
+		= #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.bsyh.domain.EarlyRepayCalculate">
+		insert into GRANT_REC_DETAIL (ID, ORDER_NO, CHANL_NO, AMT,
+		GRANT_DATE,TOTAL_TERM,PRODUCT_NO,LATEST_REPAY_DATE,TOTAL_NUM,TOTAL_AMT,FILE_NAME,CREATE_DATE,STATE,GRANT_MONEY)
+		values
+		(#{id,jdbcType=DECIMAL}, #{orderNo,jdbcType=VARCHAR},
+		#{chanlNo,jdbcType=VARCHAR},
+		#{amt,jdbcType=DECIMAL},
+		#{grantDate,jdbcType=TIMESTAMP}, #{totalTerm,jdbcType=DECIMAL},
+		#{productNo,jdbcType=VARCHAR},#{latestRepayDate,jdbcType=TIMESTAMP},#{totalNum,jdbcType=DECIMAL},
+		#{totalAmt,jdbcType=DECIMAL},#{fileName,jdbcType=VARCHAR},#{createDate,jdbcType=TIMESTAMP},#{state,jdbcType=VARCHAR},#{grantMoney,jdbcType=DECIMAL})
+	</insert>	
+	<update id="update" parameterType="com.zdmoney.credit.bsyh.domain.EarlyRepayCalculate">
+		update GRANT_REC_DETAIL
+		<set>
+			<if test="orderNo != null">
+				ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="chanlNo != null">
+				CHANL_NO = #{chanlNo,jdbcType=VARCHAR},
+			</if>
+			<if test="amt != null">
+				AMT = #{amt,jdbcType=DECIMAL},
+			</if>
+			<if test="grantDate != null">
+				GRANT_DATE = #{grantDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalTerm != null">
+				TOTAL_TERM = #{totalTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="productNo != null">
+				PRODUCT_NO = #{productNo,jdbcType=VARCHAR},
+			</if>	
+			<if test="latestRepayDate != null">
+				LATEST_REPAY_DATE = #{latestRepayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalNum != null">
+				TOTAL_NUM = #{totalNum,jdbcType=DECIMAL},
+			</if>
+			<if test="totalAmt != null">
+				TOTAL_AMT = #{totalAmt,jdbcType=DECIMAL},
+			</if>
+			<if test="fileName != null">
+				FILE_NAME = #{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>	
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="grantMoney != null">
+				GRANT_MONEY = #{grantMoney,jdbcType=DECIMAL},
+			</if>	
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>	
+</mapper>

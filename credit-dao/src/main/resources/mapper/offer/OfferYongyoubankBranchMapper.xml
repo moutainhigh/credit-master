@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.offer.domain.OfferYongyoubankBranchMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.offer.domain.OfferYongyoubankBranch">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="BANK_ID" property="bankId" jdbcType="VARCHAR" />
+		<result column="BANK_TYPE_ID" property="bankTypeId" jdbcType="VARCHAR" />
+		<result column="PARENT_BANK_ID" property="parentBankId"
+			jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" jdbcType="VARCHAR" />
+		<result column="PROVINCE_NAME" property="provinceName"
+			jdbcType="VARCHAR" />
+		<result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+		<result column="START_DATE_TIME" property="startDateTime"
+			jdbcType="VARCHAR" />
+		<result column="END_DATE_TIME" property="endDateTime" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, BANK_ID, BANK_TYPE_ID, PARENT_BANK_ID, BANK_NAME, AREA_CODE,
+		CITY_NAME, PROVINCE_NAME,
+		BANK_CODE, START_DATE_TIME, END_DATE_TIME, CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_YONGYOUBANK_BRANCH
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from OFFER_YONGYOUBANK_BRANCH
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert"
+		parameterType="com.zdmoney.credit.offer.domain.OfferYongyoubankBranch">
+		insert into OFFER_YONGYOUBANK_BRANCH (ID, BANK_ID, BANK_TYPE_ID,
+		PARENT_BANK_ID, BANK_NAME, AREA_CODE,
+		CITY_NAME, PROVINCE_NAME, BANK_CODE,
+		START_DATE_TIME, END_DATE_TIME, CREATE_TIME,
+		UPDATE_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{bankId,jdbcType=VARCHAR},
+		#{bankTypeId,jdbcType=VARCHAR},
+		#{parentBankId,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR},
+		#{cityName,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR},
+		#{bankCode,jdbcType=VARCHAR},
+		#{startDateTime,jdbcType=VARCHAR}, #{endDateTime,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.zdmoney.credit.offer.domain.OfferYongyoubankBranch">
+		insert into OFFER_YONGYOUBANK_BRANCH
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="bankId != null">
+				BANK_ID,
+			</if>
+			<if test="bankTypeId != null">
+				BANK_TYPE_ID,
+			</if>
+			<if test="parentBankId != null">
+				PARENT_BANK_ID,
+			</if>
+			<if test="bankName != null">
+				BANK_NAME,
+			</if>
+			<if test="areaCode != null">
+				AREA_CODE,
+			</if>
+			<if test="cityName != null">
+				CITY_NAME,
+			</if>
+			<if test="provinceName != null">
+				PROVINCE_NAME,
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE,
+			</if>
+			<if test="startDateTime != null">
+				START_DATE_TIME,
+			</if>
+			<if test="endDateTime != null">
+				END_DATE_TIME,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankTypeId != null">
+				#{bankTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentBankId != null">
+				#{parentBankId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="areaCode != null">
+				#{areaCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceName != null">
+				#{provinceName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				#{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="startDateTime != null">
+				#{startDateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endDateTime != null">
+				#{endDateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update"
+		parameterType="com.zdmoney.credit.offer.domain.OfferYongyoubankBranch">
+		update OFFER_YONGYOUBANK_BRANCH
+		<set>
+			<if test="bankId != null">
+				BANK_ID = #{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankTypeId != null">
+				BANK_TYPE_ID = #{bankTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentBankId != null">
+				PARENT_BANK_ID = #{parentBankId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				BANK_NAME = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="areaCode != null">
+				AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cityName != null">
+				CITY_NAME = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceName != null">
+				PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="startDateTime != null">
+				START_DATE_TIME = #{startDateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endDateTime != null">
+				END_DATE_TIME = #{endDateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.zdmoney.credit.offer.domain.OfferYongyoubankBranch">
+		update OFFER_YONGYOUBANK_BRANCH
+		set BANK_ID = #{bankId,jdbcType=VARCHAR},
+		BANK_TYPE_ID = #{bankTypeId,jdbcType=VARCHAR},
+		PARENT_BANK_ID = #{parentBankId,jdbcType=VARCHAR},
+		BANK_NAME = #{bankName,jdbcType=VARCHAR},
+		AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+		CITY_NAME = #{cityName,jdbcType=VARCHAR},
+		PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+		BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+		START_DATE_TIME = #{startDateTime,jdbcType=VARCHAR},
+		END_DATE_TIME = #{endDateTime,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findByBankId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_YONGYOUBANK_BRANCH
+		WHERE BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</select>
+</mapper>

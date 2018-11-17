@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.repay.vo.RequestFileOperateRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.repay.vo.RequestFileOperateRecord" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+    <result column="OPERATE_TYPE" property="operateType" jdbcType="VARCHAR" />
+    <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR" />
+    <result column="OPERATE_DATE" property="operateDate" jdbcType="TIMESTAMP" />
+    <result column="TIMES" property="times" jdbcType="DECIMAL" />
+    <result column="FILE_SEQ" property="fileSeq" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, BATCH_NUM, OPERATE_TYPE, FILE_TYPE, OPERATE_DATE, TIMES, FILE_SEQ, CREATE_TIME, 
+    CREATOR, UPDATE_TIME, UPDATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from REQUEST_FILE_OPERATE_RECORD
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from REQUEST_FILE_OPERATE_RECORD
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="insert" parameterType="com.zdmoney.credit.repay.vo.RequestFileOperateRecord" >
+    insert into REQUEST_FILE_OPERATE_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="batchNum != null" >
+        BATCH_NUM,
+      </if>
+      <if test="operateType != null" >
+        OPERATE_TYPE,
+      </if>
+      <if test="fileType != null" >
+        FILE_TYPE,
+      </if>
+      <if test="operateDate != null" >
+        OPERATE_DATE,
+      </if>
+      <if test="times != null" >
+        TIMES,
+      </if>
+      <if test="fileSeq != null" >
+        FILE_SEQ,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updator != null" >
+        UPDATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="batchNum != null" >
+        #{batchNum,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null" >
+        #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateDate != null" >
+        #{operateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="times != null" >
+        #{times,jdbcType=DECIMAL},
+      </if>
+      <if test="fileSeq != null" >
+        #{fileSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.repay.vo.RequestFileOperateRecord" >
+    update REQUEST_FILE_OPERATE_RECORD
+    <set >
+      <if test="batchNum != null" >
+        BATCH_NUM = #{batchNum,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null" >
+        OPERATE_TYPE = #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateDate != null" >
+        OPERATE_DATE = #{operateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="times != null" >
+        TIMES = #{times,jdbcType=DECIMAL},
+      </if>
+      <if test="fileSeq != null" >
+        FILE_SEQ = #{fileSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <!--查询申请书管理导出文件的文件批次号-->
+  <select id="findRequestFileBatchNum" parameterType="java.util.Map" resultType="java.lang.String">
+                         select case
+                      when (select count(1)
+                              from request_file_operate_record a
+                             where a.operate_type = '01' and a.file_type='01'
+                               and a.batch_num =  #{batchNum}) = 0 then
+                       to_char(#{operateDate}, 'yyyyMMdd') || '_' ||
+                       lpad(nvl((select max(b.file_seq)
+                                  from request_file_operate_record b
+                                 where b.operate_type = '01'and b.file_type='01' and b.operate_date = trunc(#{operateDate})
+                                 and exists (select 1 from loan_base lb where lb.batch_num = b.batch_num and lb.funds_sources = #{fundsSources} )),
+                                0) + 1,
+                            3,
+                            '0')
+                      else
+                       (select to_char(c.operate_date, 'yyyyMMdd') || '_' ||
+                               lpad(c.file_seq, 3, '0')
+                          from request_file_operate_record c
+                         where c.operate_type = '01' and c.file_type='01'
+                           and c.batch_num =  #{batchNum})
+                    end as FILE_SEQ
+               from dual
+  </select>
+  
+  <!-- 根据条件查询当前文件批次号 -->
+  <select id="findFileSeqByParam" parameterType="java.util.Map" resultType="java.lang.String">
+  select file_seq from (
+	select r.file_seq
+	from request_file_operate_record r
+	where 1=1
+ 	<if test="batchNum != null and batchNum != ''">
+ 		and r.batch_num = #{batchNum}
+ 	</if>
+ 	<if test="operateType != null and operateType != ''">
+ 		and r.operate_type = #{operateType}
+ 	</if>
+	<if test="operateDate != null">
+		and trunc(r.operate_date) = trunc(TO_DATE(#{operateDate},'yyyy-MM-dd'))
+	</if>
+	<if test="fileType != null and fileType != ''">
+		and r.file_type = #{fileType}
+	</if>
+	order by id desc) f
+  	where rownum =1
+  </select>
+  
+  <sql id="findRequestFileOperateRecordConditions">
+    <if test="batchNum != null or batchNum != ''">
+      BATCH_NUM = #{batchNum}
+    </if>
+    <if test="operateType != null or operateType != ''">
+      AND OPERATE_TYPE = #{operateType}
+    </if>
+    <if test="fileType != null or fileType != ''">
+      AND FILE_TYPE = #{fileType}
+    </if>
+    <if test="operateDate != null">
+		and trunc(operate_date) = trunc(to_date(to_char(#{operateDate},'yyyy-MM-dd') ,'yyyy-MM-dd'))
+	</if>
+  </sql>
+  
+  <!--查询文件当天操作记录-->
+  <select id="findRequestFileOperateRecord" resultMap="BaseResultMap" parameterType="com.zdmoney.credit.repay.vo.RequestFileOperateRecord" >
+    select
+    <include refid="Base_Column_List" />
+    from REQUEST_FILE_OPERATE_RECORD
+    where
+    <include refid="findRequestFileOperateRecordConditions"/>
+  </select>
+
+  <select id="queryCurrentDayRequestFileOperateRecordByAsc" parameterType="java.util.Map" resultType="com.zdmoney.credit.repay.vo.RequestFileOperateRecord">
+    select a.id as id ,
+    a.batch_num as batchNum,
+    a.operate_type as operateType,
+    a.file_type as fileType,
+    a.operate_date as operateDate,
+    a.times as times,
+    a.file_seq as fileSeq
+    from request_file_operate_record a,loan_base b
+    where a.batch_num = b.batch_num
+    and a.file_type = #{fileType}
+    and a.operate_type = #{operateType}
+    and trunc(a.create_time） = trunc(#{createTime})
+    and b.funds_sources = #{fundsSources}
+    order by a.id asc
+  </select>
+</mapper>

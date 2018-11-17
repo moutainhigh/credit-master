@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.SysOperationLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.system.domain.SysOperationLog" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="DECIMAL" />
+    <result column="TOKEN" property="token" jdbcType="VARCHAR" />
+    <result column="OPERATION_TYPE" property="operationType" jdbcType="DECIMAL" />
+    <result column="OPERATE_IP" property="operateIp" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, EMPLOYEE_ID, TOKEN, OPERATION_TYPE, OPERATE_IP, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_OPERATION_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from SYS_OPERATION_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.system.domain.SysOperationLog" >
+    insert into SYS_OPERATION_LOG (ID, EMPLOYEE_ID, TOKEN, 
+      OPERATION_TYPE, OPERATE_IP, CREATE_TIME, 
+      UPDATE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{employeeId,jdbcType=DECIMAL}, #{token,jdbcType=VARCHAR}, 
+      #{operationType,jdbcType=DECIMAL}, #{operateIp,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.SysOperationLog" >
+    insert into SYS_OPERATION_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+      <if test="token != null" >
+        TOKEN,
+      </if>
+      <if test="operationType != null" >
+        OPERATION_TYPE,
+      </if>
+      <if test="operateIp != null" >
+        OPERATE_IP,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=DECIMAL},
+      </if>
+      <if test="operateIp != null" >
+        #{operateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.SysOperationLog" >
+    update SYS_OPERATION_LOG
+    <set >
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="token != null" >
+        TOKEN = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        OPERATION_TYPE = #{operationType,jdbcType=DECIMAL},
+      </if>
+      <if test="operateIp != null" >
+        OPERATE_IP = #{operateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.SysOperationLog" >
+    update SYS_OPERATION_LOG
+    set EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      TOKEN = #{token,jdbcType=VARCHAR},
+      OPERATION_TYPE = #{operationType,jdbcType=DECIMAL},
+      OPERATE_IP = #{operateIp,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByEmployeeIdAndToken" parameterType="com.zdmoney.credit.system.domain.SysOperationLog" >
+  update SYS_OPERATION_LOG
+    set 
+      OPERATION_TYPE = #{operationType,jdbcType=DECIMAL},
+      OPERATE_IP = #{operateIp,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+    and TOKEN = #{token,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByEmployeeIdAndToken" parameterType="com.zdmoney.credit.system.domain.SysOperationLog" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from SYS_OPERATION_LOG
+    where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+    and TOKEN = #{token,jdbcType=VARCHAR}
+  </select>
+</mapper>

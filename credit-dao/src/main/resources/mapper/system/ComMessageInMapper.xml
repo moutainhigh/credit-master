@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.ComMessageInMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.system.domain.ComMessageIn">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="VERSION" property="version" jdbcType="VARCHAR" />
+		<result column="MESSAGE_TYPE" property="messageType" jdbcType="VARCHAR" />
+		<result column="EXT_MESSAGE_ID" property="extMessageId"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="SENDER" property="sender" jdbcType="VARCHAR" />
+		<result column="RECEIVER" property="receiver" jdbcType="VARCHAR" />
+		<result column="SEND_NO" property="sendNo" jdbcType="DECIMAL" />
+		<result column="STATUS" property="status" jdbcType="DECIMAL" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.zdmoney.credit.system.domain.ComMessageIn"
+		extends="BaseResultMap">
+		<result column="MESSAGE_BODY" property="messageBody" jdbcType="CLOB" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, VERSION, MESSAGE_TYPE, EXT_MESSAGE_ID, CREATE_TIME, SENDER, RECEIVER,
+		SEND_NO,
+		STATUS, UPDATE_TIME, MEMO, FILE_NAME
+	</sql>
+	<sql id="Blob_Column_List">
+		MESSAGE_BODY
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from COM_MESSAGE_IN
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from COM_MESSAGE_IN
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<sql id="comMessageInSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM COM_MESSAGE_IN
+	</sql>
+
+	<sql id="comMessageInConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND COM_MESSAGE_IN.ID= #{id}
+			</if>
+			<if test="messageType != null and messageType != ''">
+				AND COM_MESSAGE_IN.MESSAGE_TYPE = #{messageType}
+			</if>
+			<if test="fileName != null and fileName != ''">
+				AND COM_MESSAGE_IN.FILE_NAME = #{fileName}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.ComMessageIn"
+		resultMap="BaseResultMap">
+		<include refid="comMessageInSelective" />
+		<include refid="comMessageInConditions" />
+	</select>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.ComMessageIn">
+		insert into COM_MESSAGE_IN (ID, VERSION, MESSAGE_TYPE,
+		EXT_MESSAGE_ID, CREATE_TIME, SENDER,
+		RECEIVER, SEND_NO, STATUS,
+		UPDATE_TIME, MEMO, FILE_NAME,
+		MESSAGE_BODY)
+		values (#{id,jdbcType=DECIMAL}, #{version,jdbcType=VARCHAR},
+		#{messageType,jdbcType=VARCHAR},
+		#{extMessageId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{sender,jdbcType=VARCHAR},
+		#{receiver,jdbcType=VARCHAR}, #{sendNo,jdbcType=DECIMAL},
+		#{status,jdbcType=DECIMAL},
+		#{updateTime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR},
+		#{messageBody,jdbcType=CLOB})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.ComMessageIn">
+		insert into COM_MESSAGE_IN
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="version != null">
+				VERSION,
+			</if>
+			<if test="messageType != null">
+				MESSAGE_TYPE,
+			</if>
+			<if test="extMessageId != null">
+				EXT_MESSAGE_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="sender != null">
+				SENDER,
+			</if>
+			<if test="receiver != null">
+				RECEIVER,
+			</if>
+			<if test="sendNo != null">
+				SEND_NO,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="fileName != null">
+				FILE_NAME,
+			</if>
+			<if test="messageBody != null">
+				MESSAGE_BODY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=VARCHAR},
+			</if>
+			<if test="messageType != null">
+				#{messageType,jdbcType=VARCHAR},
+			</if>
+			<if test="extMessageId != null">
+				#{extMessageId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sender != null">
+				#{sender,jdbcType=VARCHAR},
+			</if>
+			<if test="receiver != null">
+				#{receiver,jdbcType=VARCHAR},
+			</if>
+			<if test="sendNo != null">
+				#{sendNo,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="fileName != null">
+				#{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="messageBody != null">
+				#{messageBody,jdbcType=CLOB},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.ComMessageIn">
+		update COM_MESSAGE_IN
+		<set>
+			<if test="version != null">
+				VERSION = #{version,jdbcType=VARCHAR},
+			</if>
+			<if test="messageType != null">
+				MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+			</if>
+			<if test="extMessageId != null">
+				EXT_MESSAGE_ID = #{extMessageId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sender != null">
+				SENDER = #{sender,jdbcType=VARCHAR},
+			</if>
+			<if test="receiver != null">
+				RECEIVER = #{receiver,jdbcType=VARCHAR},
+			</if>
+			<if test="sendNo != null">
+				SEND_NO = #{sendNo,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="fileName != null">
+				FILE_NAME = #{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="messageBody != null">
+				MESSAGE_BODY = #{messageBody,jdbcType=CLOB},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zdmoney.credit.system.domain.ComMessageIn">
+		update COM_MESSAGE_IN
+		set VERSION = #{version,jdbcType=VARCHAR},
+		MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+		EXT_MESSAGE_ID = #{extMessageId,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		SENDER = #{sender,jdbcType=VARCHAR},
+		RECEIVER = #{receiver,jdbcType=VARCHAR},
+		SEND_NO = #{sendNo,jdbcType=DECIMAL},
+		STATUS = #{status,jdbcType=DECIMAL},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		FILE_NAME = #{fileName,jdbcType=VARCHAR},
+		MESSAGE_BODY = #{messageBody,jdbcType=CLOB}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.ComMessageIn">
+		update COM_MESSAGE_IN
+		set VERSION = #{version,jdbcType=VARCHAR},
+		MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+		EXT_MESSAGE_ID = #{extMessageId,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		SENDER = #{sender,jdbcType=VARCHAR},
+		RECEIVER = #{receiver,jdbcType=VARCHAR},
+		SEND_NO = #{sendNo,jdbcType=DECIMAL},
+		STATUS = #{status,jdbcType=DECIMAL},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		FILE_NAME = #{fileName,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

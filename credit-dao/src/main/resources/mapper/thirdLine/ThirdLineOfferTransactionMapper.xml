@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.payment.domain.ThirdLineOfferTransactionMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.credit.payment.domain.ThirdLineOfferTransaction">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="FEEDBACK_CODE" property="feedbackCode" jdbcType="VARCHAR" />
+        <result column="REASON" property="reason" jdbcType="VARCHAR" />
+        <result column="TWO_OFFER_ID" property="twoOfferId" jdbcType="DECIMAL" />
+        <result column="FLOW_NUMBER" property="flowNumber" jdbcType="VARCHAR" />
+        <result column="BATCH_ID" property="batchId" jdbcType="DECIMAL" />
+        <result column="RECORD_NUMBER" property="recordNumber" jdbcType="VARCHAR" />
+        <result column="STATE" property="state" jdbcType="VARCHAR" />
+        <result column="RETURN_TIME" property="returnTime" jdbcType="TIMESTAMP" />
+        <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        ID, 
+        REMARK, 
+        FEEDBACK_CODE, 
+        REASON, 
+        TWO_OFFER_ID, 
+        FLOW_NUMBER, 
+        BATCH_ID,
+        RECORD_NUMBER,
+        STATE, 
+        RETURN_TIME,
+        SEND_TIME,
+        CREATE_TIME
+    </sql>
+    
+    <sql id="transactionsSelective">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM THIRD_LINE_OFFER_TRANSACTION
+    </sql>
+
+    <sql id="transactionsConditions">
+        <trim prefix="where" prefixOverrides="and">
+            <if test="batchId != null">
+                AND BATCH_ID = #{batchId,jdbcType=DECIMAL}
+            </if>
+            <if test="flowNumber != null and flowNumber !=''">
+                AND FLOW_NUMBER = #{flowNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state !=''">
+                AND STATE = #{state,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </sql>
+    
+    <sql id="orderConditions">
+        ORDER BY BATCH_ID DESC, RECORD_NUMBER ASC
+    </sql>
+    
+    <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from THIRD_LINE_OFFER_TRANSACTION
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from THIRD_LINE_OFFER_TRANSACTION
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    
+    <insert id="insert" parameterType="com.zdmoney.credit.payment.domain.ThirdLineOfferTransaction">
+        insert into THIRD_LINE_OFFER_TRANSACTION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="feedbackCode != null">
+                FEEDBACK_CODE,
+            </if>
+            <if test="reason != null">
+                REASON,
+            </if>
+            <if test="twoOfferId != null">
+                TWO_OFFER_ID,
+            </if>
+            <if test="flowNumber != null">
+                FLOW_NUMBER,
+            </if>
+            <if test="batchId != null">
+                BATCH_ID,
+            </if>
+            <if test="recordNumber != null">
+                RECORD_NUMBER,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="returnTime != null">
+                RETURN_TIME,
+            </if>
+            <if test="sendTime != null">
+                SEND_TIME,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="feedbackCode != null">
+                #{feedbackCode,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="twoOfferId != null">
+                #{twoOfferId,jdbcType=DECIMAL},
+            </if>
+            <if test="flowNumber != null">
+                #{flowNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="batchId != null">
+                #{batchId,jdbcType=DECIMAL},
+            </if>
+            <if test="recordNumber != null">
+                #{recordNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="returnTime != null">
+                #{returnTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    
+    <update id="update"
+        parameterType="com.zdmoney.credit.payment.domain.ThirdLineOfferTransaction">
+        update THIRD_LINE_OFFER_TRANSACTION
+        <set>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="feedbackCode != null">
+                FEEDBACK_CODE = #{feedbackCode,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                REASON = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="twoOfferId != null">
+                TWO_OFFER_ID = #{twoOfferId,jdbcType=DECIMAL},
+            </if>
+            <if test="flowNumber != null">
+                FLOW_NUMBER = #{flowNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="batchId != null">
+                BATCH_ID = #{batchId,jdbcType=DECIMAL},
+            </if>
+            <if test="recordNumber != null">
+                RECORD_NUMBER = #{recordNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="returnTime != null">
+                RETURN_TIME = #{returnTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendTime != null">
+                SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <select id="findHaTwoOfferTransactionByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM THIRD_LINE_OFFER_TRANSACTION
+        <where>
+            <if test="batchId != null and batchId !=''">
+                AND BATCH_ID = #{batchId,jdbcType=DECIMAL},
+            </if>
+            <if test="flowNumber != null and flowNumber !=''">
+                AND FLOW_NUMBER = #{flowNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null and state !=''">
+                AND STATE = #{state,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        <include refid="transactionsSelective" />
+        <include refid="transactionsConditions" />
+        <include refid="orderConditions"/>
+    </select>
+    
+    <select id="findOfferTransactionListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select t2.*
+          from third_line_offer             t1,
+               third_line_offer_transaction t2,
+               third_line_offer_batch       t3,
+               v_loan_info                  t4
+         where t1.id = t2.two_offer_id
+           and t2.batch_id = t3.id
+           and t1.loan_id = t4.id
+           <if test="batchId != null and batchId !=''">
+             and t2.batch_id = #{batchId,jdbcType=DECIMAL}
+           </if>
+           <if test="state != null and state !=''">
+             and t1.state = #{state,jdbcType=VARCHAR}
+             and t2.state = #{state,jdbcType=VARCHAR}
+           </if>
+           <if test="batchNum != null and batchNum !=''">
+             and t4.batch_num = #{batchNum,jdbcType=VARCHAR}
+           </if>
+           <if test="financialType != null and financialType !=''">
+             and t1.financial_type = #{financialType,jdbcType=VARCHAR}
+           </if>
+           <if test="fundsSource != null and fundsSource !=''">
+             and t4.funds_sources = #{fundsSource,jdbcType=VARCHAR}
+           </if>
+    </select>
+
+</mapper>

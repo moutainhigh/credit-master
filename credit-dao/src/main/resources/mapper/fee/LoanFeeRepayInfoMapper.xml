@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.fee.domain.LoanFeeRepayInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.fee.domain.LoanFeeRepayInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="FEE_ID" property="feeId" jdbcType="DECIMAL" />
+		<result column="OFFER_ID" property="offerId" jdbcType="DECIMAL" />
+		<result column="SERIAL_NO" property="serialNo" jdbcType="VARCHAR" />
+		<result column="TRADE_TIME" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, FEE_ID, OFFER_ID, SERIAL_NO, TRADE_TIME,
+		AMOUNT, TRADE_TYPE,
+		MEMO
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_FEE_REPAY_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Short">
+		delete from
+		LOAN_FEE_REPAY_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.fee.domain.LoanFeeRepayInfo">
+		insert into LOAN_FEE_REPAY_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="feeId != null">
+				FEE_ID,
+			</if>
+			<if test="offerId != null">
+				OFFER_ID,
+			</if>
+			<if test="serialNo != null">
+				SERIAL_NO,
+			</if>
+			<if test="tradeTime != null">
+				TRADE_TIME,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="feeId != null">
+				#{feeId,jdbcType=DECIMAL},
+			</if>
+			<if test="offerId != null">
+				#{offerId,jdbcType=DECIMAL},
+			</if>
+			<if test="serialNo != null">
+				#{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeTime != null">
+				#{tradeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeType != null">
+				#{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.fee.domain.LoanFeeRepayInfo">
+		update LOAN_FEE_REPAY_INFO
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="feeId != null">
+				FEE_ID = #{feeId,jdbcType=DECIMAL},
+			</if>
+			<if test="offerId != null">
+				OFFER_ID = #{offerId,jdbcType=DECIMAL},
+			</if>
+			<if test="serialNo != null">
+				SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeTime != null">
+				TRADE_TIME = #{tradeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<!-- 查询主体 -->
+	<sql id="loanFeeRepayInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_FEE_REPAY_INFO
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="loanFeeRepayInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND ID= #{id,jdbcType=DECIMAL}
+			</if>
+			<if test="feeId != null">
+				AND FEE_ID= #{feeId,jdbcType=DECIMAL}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 按条件查询配置信息 -->
+	<select id="findListByVO" parameterType="com.zdmoney.credit.fee.domain.LoanFeeRepayInfo"
+		resultMap="BaseResultMap">
+		<include refid="loanFeeRepayInfoSelective" />
+		<include refid="loanFeeRepayInfoConditions" />
+		ORDER BY TRADE_TIME
+	</select>
+
+</mapper>

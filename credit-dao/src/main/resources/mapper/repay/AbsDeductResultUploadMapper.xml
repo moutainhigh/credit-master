@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.repay.domain.AbsDeductResultUploadMapper" >
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.repay.domain.AbsDeductResultUpload">
+	   	<id column="id" property="id" jdbcType="DECIMAL" />
+	    <result column="bat_no" property="batNo" jdbcType="VARCHAR" />
+	    <result column="pact_no" property="pactNo" jdbcType="VARCHAR" />
+	    <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+	    <result column="deduct_method" property="deductMethod" jdbcType="VARCHAR" />
+	    <result column="deduct_type" property="deductType" jdbcType="VARCHAR" />
+	    <result column="reduct_tag" property="reductTag" jdbcType="VARCHAR" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="id_type" property="idType" jdbcType="VARCHAR" />
+	    <result column="id_no" property="idNo" jdbcType="VARCHAR" />
+	    <result column="bank_code" property="bankCode" jdbcType="VARCHAR" />
+	    <result column="repay_acct" property="repayAcct" jdbcType="VARCHAR" />
+	    <result column="currency" property="currency" jdbcType="VARCHAR" />
+	    <result column="curr_status" property="currStatus" jdbcType="VARCHAR" />
+	    <result column="cnt" property="cnt" jdbcType="DECIMAL" />
+	    <result column="repay_total" property="repayTotal" jdbcType="DECIMAL" />
+	    <result column="repay_amt" property="repayAmt" jdbcType="DECIMAL" />
+	    <result column="repay_inte" property="repayInte" jdbcType="DECIMAL" />
+	    <result column="repay_over" property="repayOver" jdbcType="DECIMAL" />
+	    <result column="deduct_default_money" property="deductDefaultMoney" jdbcType="DECIMAL" />
+	    <result column="deduct_poundage" property="deductPoundage" jdbcType="DECIMAL" />
+	    <result column="repay_guarantee_fee" property="repayGuaranteeFee" jdbcType="DECIMAL" />
+	    <result column="repay_service_fee" property="repayServiceFee" jdbcType="DECIMAL" />
+	    <result column="overdue_day" property="overdueDay" jdbcType="DECIMAL" />
+	    <result column="pay_date" property="payDate" jdbcType="VARCHAR" />
+	    <result column="fee_total" property="feeTotal" jdbcType="DECIMAL" />
+	    <result column="fee1" property="fee1" jdbcType="DECIMAL" />
+	    <result column="fee2" property="fee2" jdbcType="DECIMAL" />
+	    <result column="fee3" property="fee3" jdbcType="DECIMAL" />
+	    <result column="fee4" property="fee4" jdbcType="DECIMAL" />
+	    <result column="fee5" property="fee5" jdbcType="DECIMAL" />
+	    <result column="balance_tran_fee1" property="balanceTranFee1" jdbcType="DECIMAL" />
+	    <result column="balance_tran_fee2" property="balanceTranFee2" jdbcType="DECIMAL" />
+	    <result column="balance_tran_fee3" property="balanceTranFee3" jdbcType="DECIMAL" />
+	    <result column="overflow_payment_usage" property="overflowPaymentUsage" jdbcType="DECIMAL" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="status" property="status" jdbcType="VARCHAR" />
+	    <result column="err_desc" property="errDesc" jdbcType="VARCHAR" />	
+	</resultMap>
+	
+	<!-- 查询证大扣款结果 -->
+	<select id="findDeductResutList2Abs" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+		V.CONTRACT_NUM as pact_no,
+		case 
+		when TF.TRADE_TYPE in ('现金','转账') then
+		'02'
+		else 
+		'03'
+		end
+		as deduct_method,
+		case
+		when TF.TRADE_DATE - D.RETURN_DATE = 0 then
+		'01'
+		when TF.TRADE_DATE - D.RETURN_DATE > 0 then
+		'02'
+		when TF.TRADE_DATE - D.RETURN_DATE &lt; 0  then
+		'03'
+		end
+		as deduct_type,
+		case 
+		when (TF.RELIEF_PRINCIPAL + TF.RELIEF_INTEREST + TF.RELIEF_FINE + TF.RELIEF_PENALTY) > 0 then
+		'1'
+		else
+		'0'
+		end
+		as reduct_tag,
+		PI.name as name,
+		'0' as id_type,
+		PI.idnum as id_no,
+		(select w.code from wm2_bank_config w where LB.Bank_Code = w.bank_code and rownum =1) as bank_code,
+		LB.Account as repay_acct,
+		'CNY' as currency,
+		(case 
+		when TF.REPAYMENT_TYPE = '一次性结清' and TF.ACTUAL_PENALTY > 0 then
+		'03'
+		when (TF.ACTUAL_PRINCIPAL + TF.RELIEF_PRINCIPAL + TF.ACTUAL_INTEREST + TF.RELIEF_INTEREST - D.RETURNETERM) >= 0 then
+		'01'
+		else
+		'02'
+		end) as curr_status,
+		TF.CURRENT_TERM as cnt,
+		(TF.ACTUAL_PRINCIPAL+TF.ACTUAL_INTEREST+TF.ACTUAL_FINE+TF.ACTUAL_PENALTY) as repay_total,
+		TF.ACTUAL_PRINCIPAL as repay_amt,
+		TF.ACTUAL_INTEREST as repay_inte,  
+		TF.ACTUAL_FINE as repay_over,
+		TF.ACTUAL_PENALTY as deduct_default_money,
+		0 AS deduct_poundage,
+		0 AS repay_guarantee_fee,
+		0 AS repay_service_fee,
+		(CASE
+		WHEN TF.REPAYMENT_TYPE = '逾期还款' THEN
+		TF.TRADE_DATE - D.RETURN_DATE
+		ELSE
+		0
+		END) AS overdue_day,                   
+		to_char(TF.TRADE_DATE,'yyyy-mm-dd') as pay_date,
+		0 as fee_total,
+		0 as fee1,
+		0 AS fee2,
+		0 AS fee3,
+		0 AS fee4,
+		0 AS fee5,
+		0 AS balance_tran_fee1,
+		0 AS balance_tran_fee2,
+		0 AS balance_tran_fee3,
+		0 AS overflow_payment_usage
+		FROM (SELECT T1.LOAN_ID,
+		T1.TRADE_DATE,
+		T1.CURRENT_TERM,
+		MAX(T1.TRADE_MODE) AS TRADE_TYPE,
+		MAX(T1.TRADE_TYPE) AS REPAYMENT_TYPE,
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '211' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_PRINCIPAL, -- 实扣本金
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '211A' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS RELIEF_PRINCIPAL, -- 本金减免
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '451' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_INTEREST, -- 实扣利息
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '451A' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS RELIEF_INTEREST, -- 利息减免
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '452' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_FINE, -- 实扣罚息
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '452A' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS RELIEF_FINE, -- 罚息减免
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '494' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_PENALTY, -- 实扣违约金
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '494A' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS RELIEF_PENALTY, -- 违约金减免
+		SUM(CASE
+		WHEN T1.ACCT_TITLE = '149' THEN
+		T1.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_FEE1 -- 实还其他费用一
+		FROM TRUST_OFFER_FLOW T1
+		<where>
+			<if test="payDay != null ">
+				and T1.CREATE_TIME　>= to_date(#{payDay},'yyyy-mm-dd')
+				and T1.CREATE_TIME &lt; to_date(#{payDay},'yyyy-mm-dd')+1
+			</if>
+		</where>
+		    GROUP BY T1.LOAN_ID, T1.CURRENT_TERM, T1.TRADE_DATE
+		    ORDER BY T1.LOAN_ID, T1.CURRENT_TERM, T1.TRADE_DATE) TF
+		    LEFT JOIN V_LOAN_INFO V
+		    ON V.ID = TF.LOAN_ID
+		    LEFT JOIN LOAN_REPAYMENT_DETAIL D
+		    ON D.LOAN_ID = TF.LOAN_ID 
+		    AND D.CURRENT_TERM = TF.CURRENT_TERM
+		    LEFT JOIN person_info PI
+		    ON PI.ID = V.BORROWER_ID
+		    LEFT JOIN loan_bank lb
+		    ON lb.id = V.GIVE_BACK_BANK_ID
+		<where>
+			<if test="fundsSource !=null and fundsSource != ''">
+				and v.FUNDS_SOURCES = #{fundsSource}
+			</if>
+		</where>
+    		ORDER BY TF.TRADE_DATE,TF.LOAN_ID,TF.CURRENT_TERM
+	</select>
+	<sql id="Base_Column_List">
+		id,bat_no,pact_no,serial_no,deduct_method,deduct_type,reduct_tag,name,id_type,
+		id_no,bank_code,repay_acct,currency,curr_status,cnt,repay_total,repay_amt,repay_inte,
+		repay_over,deduct_default_money,deduct_poundage,repay_guarantee_fee,repay_service_fee,
+		overdue_day,pay_date,fee_total,fee1,fee2,fee3,fee4,fee5,balance_tran_fee1,balance_tran_fee2,
+		balance_tran_fee3,overflow_payment_usage,create_time,update_time,status,err_desc
+	</sql>
+	<insert id="insert" parameterType="com.zdmoney.credit.repay.domain.AbsDeductResultUpload">
+		insert into ABS_DEDUCT_RESULT_UPLOAD
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test=" id != null">
+			 id,
+			</if>
+			<if test=" batNo != null">
+			 bat_no,
+			</if>
+			<if test=" pactNo != null">
+			 pact_no,
+			</if>
+			<if test=" serialNo != null">
+			 serial_no,
+			</if>
+			<if test=" deductMethod != null">
+			 deduct_method,
+			</if>
+			<if test=" deductType != null">
+			 deduct_type,
+			</if>
+			<if test=" reductTag != null">
+			 reduct_tag,
+			</if>
+			<if test=" name != null">
+			 name,
+			</if>
+			<if test=" idType != null">
+			 id_type,
+			</if>
+			<if test=" idNo != null">
+			 id_no,
+			</if>
+			<if test=" bankCode != null">
+			 bank_code,
+			</if>
+			<if test=" repayAcct != null">
+			 repay_acct,
+			</if>
+			<if test=" currency != null">
+			 currency,
+			</if>
+			<if test=" currStatus != null">
+			 curr_status,
+			</if>
+			<if test=" cnt != null">
+			 cnt,
+			</if>
+			<if test=" repayTotal != null">
+			 repay_total,
+			</if>
+			<if test=" repayAmt != null">
+			 repay_amt,
+			</if>
+			<if test=" repayInte != null">
+			 repay_inte,
+			</if>
+			<if test=" repayOver != null">
+			 repay_over,
+			</if>
+			<if test=" deductDefaultMoney != null">
+			 deduct_default_money,
+			</if>
+			<if test=" deductPoundage != null">
+			 deduct_poundage,
+			</if>
+			<if test=" repayGuaranteeFee != null">
+			 repay_guarantee_fee,
+			</if>
+			<if test=" repayServiceFee != null">
+			 repay_service_fee,
+			</if>
+			<if test=" overdueDay != null">
+			 overdue_day,
+			</if>
+			<if test=" payDate != null">
+			 pay_date,
+			</if>
+			<if test=" feeTotal != null">
+			 fee_total,
+			</if>
+			<if test=" fee1 != null">
+			 fee1,
+			</if>
+			<if test=" fee2 != null">
+			 fee2,
+			</if>
+			<if test=" fee3 != null">
+			 fee3,
+			</if>
+			<if test=" fee4 != null">
+			 fee4,
+			</if>
+			<if test=" fee5 != null">
+			 fee5,
+			</if>
+			<if test=" balanceTranFee1 != null">
+			 balance_tran_fee1,
+			</if>
+			<if test=" balanceTranFee2 != null">
+			 balance_tran_fee2,
+			</if>
+			<if test=" balanceTranFee3 != null">
+			 balance_tran_fee3,
+			</if>
+			<if test=" overflowPaymentUsage != null">
+			 overflow_payment_usage,
+			</if>
+			<if test=" createTime != null">
+			 create_time,
+			</if>
+			<if test=" updateTime != null">
+			 update_time,
+			</if>
+			<if test=" status != null">
+			 status,
+			</if>
+			<if test=" errDesc != null">
+			 err_desc,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test=" id != null">
+			 #{id,jdbcType=DECIMAL},
+			</if>
+			<if test=" batNo != null">
+			 #{batNo,jdbcType=VARCHAR},
+			</if>
+			<if test=" pactNo != null">
+			 #{pactNo,jdbcType=VARCHAR},
+			</if>
+			<if test=" serialNo != null">
+			 #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test=" deductMethod != null">
+			 #{deductMethod,jdbcType=CHAR},
+			</if>
+			<if test=" deductType != null">
+			 #{deductType,jdbcType=CHAR},
+			</if>
+			<if test=" reductTag != null">
+			 #{reductTag,jdbcType=CHAR},
+			</if>
+			<if test=" name != null">
+			 #{name,jdbcType=VARCHAR},
+			</if>
+			<if test=" idType != null">
+			 #{idType,jdbcType=CHAR},
+			</if>
+			<if test=" idNo != null">
+			 #{idNo,jdbcType=VARCHAR},
+			</if>
+			<if test=" bankCode != null">
+			 #{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test=" repayAcct != null">
+			 #{repayAcct,jdbcType=VARCHAR},
+			</if>
+			<if test=" currency != null">
+			 #{currency,jdbcType=CHAR},
+			</if>
+			<if test=" currStatus != null">
+			 #{currStatus,jdbcType=CHAR},
+			</if>
+			<if test=" cnt != null">
+			 #{cnt,jdbcType=DECIMAL},
+			</if>
+			<if test=" repayTotal != null">
+			 #{repayTotal,jdbcType=DECIMAL},
+			</if>
+			<if test=" repayAmt != null">
+			 #{repayAmt,jdbcType=DECIMAL},
+			</if>
+			<if test=" repayInte != null">
+			 #{repayInte,jdbcType=DECIMAL},
+			</if>
+			<if test=" repayOver != null">
+			 #{repayOver,jdbcType=DECIMAL},
+			</if>
+			<if test=" deductDefaultMoney != null">
+			 #{deductDefaultMoney,jdbcType=DECIMAL},
+			</if>
+			<if test=" deductPoundage != null">
+			 #{deductPoundage,jdbcType=DECIMAL},
+			</if>
+			<if test=" repayGuaranteeFee != null">
+			 #{repayGuaranteeFee,jdbcType=DECIMAL},
+			</if>
+			<if test=" repayServiceFee != null">
+			 #{repayServiceFee,jdbcType=DECIMAL},
+			</if>
+			<if test=" overdueDay != null">
+			 #{overdueDay,jdbcType=DECIMAL},
+			</if>
+			<if test=" payDate != null">
+			 #{payDate,jdbcType=VARCHAR},
+			</if>
+			<if test=" feeTotal != null">
+			 #{feeTotal,jdbcType=DECIMAL},
+			</if>
+			<if test=" fee1 != null">
+			 #{fee1,jdbcType=DECIMAL},
+			</if>
+			<if test=" fee2 != null">
+			 #{fee2,jdbcType=DECIMAL},
+			</if>
+			<if test=" fee3 != null">
+			 #{fee3,jdbcType=DECIMAL},
+			</if>
+			<if test=" fee4 != null">
+			 #{fee4,jdbcType=DECIMAL},
+			</if>
+			<if test=" fee5 != null">
+			 #{fee5,jdbcType=DECIMAL},
+			</if>
+			<if test=" balanceTranFee1 != null">
+			 #{balanceTranFee1,jdbcType=DECIMAL},
+			</if>
+			<if test=" balanceTranFee2 != null">
+			 #{balanceTranFee2,jdbcType=DECIMAL},
+			</if>
+			<if test=" balanceTranFee3 != null">
+			 #{balanceTranFee3,jdbcType=DECIMAL},
+			</if>
+			<if test=" overflowPaymentUsage != null">
+			 #{overflowPaymentUsage,jdbcType=DECIMAL},
+			</if>
+			<if test=" createTime != null">
+			 #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test=" updateTime != null">
+			 #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test=" status != null">
+			 #{status,jdbcType=VARCHAR},
+			</if>
+			<if test=" errDesc != null">
+			 #{errDesc,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="findListByMap"  parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from ABS_DEDUCT_RESULT_UPLOAD
+		<trim prefix="where" prefixOverrides="and">
+			<if test=" status != null">
+				and status = #{status}
+			</if>
+			<if test=" statusList != null">
+				and status in
+				<foreach collection="statusList" item="sta" open="(" close=")" separator=",">
+					#{sta}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+	
+	<update id="update" parameterType="com.zdmoney.credit.repay.domain.AbsDeductResultUpload">
+		update ABS_DEDUCT_RESULT_UPLOAD
+		<set>
+			<if test=" batNo != null">
+			  bat_no = #{batNo,jdbcType=VARCHAR},
+			</if>
+			<if test=" status != null ">
+			  status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test=" updateTime != null">
+			  update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test=" errDesc != null">
+			  err_desc = #{errDesc,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where 
+		id = #{id, jdbcType=DECIMAL}
+	</update>
+</mapper>

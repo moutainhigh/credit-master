@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.ProdCreditProductTermMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.ProdCreditProductTerm">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+		<result column="TERM" property="term" jdbcType="DECIMAL" />
+		<result column="LOWER_LIMIT" property="lowerLimit" jdbcType="DECIMAL" />
+		<result column="UPPER_LIMIT" property="upperLimit" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="RATE" property="rate" jdbcType="DECIMAL" />
+		<result column="ACCRUALEM" property="accrualem" jdbcType="DECIMAL" />
+		<result column="PENALTY_RATE" property="penaltyRate" jdbcType="DECIMAL" />
+		<result column="RELOAN_RATE" property="reloanRate" jdbcType="DECIMAL" />
+		<result column="RELOAN_ACCRUALEM" property="reloanAccrualem" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, PRODUCT_ID, TERM, LOWER_LIMIT, UPPER_LIMIT, CREATE_TIME, UPDATE_TIME,
+		OPERATOR,(select loan_type from PROD_CREDIT_PRODUCT_INFO i where
+		i.id=PRODUCT_ID) as productName
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from PROD_CREDIT_PRODUCT_TERM
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from PROD_CREDIT_PRODUCT_TERM
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<delete id="deleteByInfoIdAndTerm"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm">
+		delete from PROD_CREDIT_PRODUCT_TERM
+		where PRODUCT_ID= #{productId,jdbcType=DECIMAL}
+		and TERM=#{TERM,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insert"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm">
+		insert into PROD_CREDIT_PRODUCT_TERM (ID, PRODUCT_ID, TERM,
+		LOWER_LIMIT, UPPER_LIMIT, CREATE_TIME,
+		UPDATE_TIME, OPERATOR)
+		values (#{id,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL},
+		#{term,jdbcType=DECIMAL},
+		#{lowerLimit,jdbcType=DECIMAL}, #{upperLimit,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm">
+		insert into PROD_CREDIT_PRODUCT_TERM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="productId != null">
+				PRODUCT_ID,
+			</if>
+			<if test="term != null">
+				TERM,
+			</if>
+			<if test="lowerLimit != null">
+				LOWER_LIMIT,
+			</if>
+			<if test="upperLimit != null">
+				UPPER_LIMIT,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=DECIMAL},
+			</if>
+			<if test="term != null">
+				#{term,jdbcType=DECIMAL},
+			</if>
+			<if test="lowerLimit != null">
+				#{lowerLimit,jdbcType=DECIMAL},
+			</if>
+			<if test="upperLimit != null">
+				#{upperLimit,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm">
+		update PROD_CREDIT_PRODUCT_TERM
+		<set>
+			<if test="productId != null">
+				PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+			</if>
+			<if test="term != null">
+				TERM = #{term,jdbcType=DECIMAL},
+			</if>
+			<if test="lowerLimit != null">
+				LOWER_LIMIT = #{lowerLimit,jdbcType=DECIMAL},
+			</if>
+			<if test="upperLimit != null">
+				UPPER_LIMIT = #{upperLimit,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="update"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm">
+		update PROD_CREDIT_PRODUCT_TERM
+		set PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+		TERM = #{term,jdbcType=DECIMAL},
+		LOWER_LIMIT = #{lowerLimit,jdbcType=DECIMAL},
+		UPPER_LIMIT = #{upperLimit,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		OPERATOR = #{operator,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<sql id="prodCreditProductTermSelective">
+		SELECT
+		t. ID, t.PRODUCT_ID,t. TERM,t. LOWER_LIMIT, t.UPPER_LIMIT,
+		t.CREATE_TIME,t.UPDATE_TIME,
+		t.OPERATOR, i.loan_type as productName
+		FROM PROD_CREDIT_PRODUCT_TERM t left join Prod_Credit_Product_Info i on
+		i.id=t.PRODUCT_ID
+	</sql>
+
+	<sql id="prodCreditProductTermConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="productId != null and productId != 0">
+				AND t.PRODUCT_ID = #{productId}
+			</if>
+			<if test="term != null and term != 0">
+				AND t.TERM = #{term}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findWithPG"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="prodCreditProductTermSelective" />
+		<include refid="prodCreditProductTermConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="count"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="prodCreditProductTermSelective" />
+		<include refid="prodCreditProductTermConditions" />
+		)
+	</select>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from PROD_CREDIT_PRODUCT_TERM
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<sql id="prodCreditProductTermSelectives">
+		SELECT
+		PRODUCT_ID, TERM
+		FROM PROD_CREDIT_PRODUCT_TERM t
+	</sql>
+
+	<select id="findListByVO"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm"
+		resultMap="BaseResultMap">
+		<include refid="prodCreditProductTermSelectives" />
+		<include refid="prodCreditProductTermConditions" />
+	</select>
+	
+	<select id="findByTermAndProductCdAndContractSource"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm"
+		resultMap="BaseResultMap">
+		select pt.* 
+		           from PROD_CREDIT_PRODUCT_TERM pt,PROD_CREDIT_RENEW_PRODUCT_INFO pi,
+		                PROD_CREDIT_PRODUCT_INFO pci,PROD_CREDIT_FUNDS_SOURCES ps
+		where pt.RENEW_PROD_ID = pi.id and pi.SOURCE_ID = ps.id and pi.PROD_ID = pci.id 
+		and  pt.TERM= #{term,jdbcType=DECIMAL} and pci.LOAN_TYPE= #{productCd,jdbcType=VARCHAR} and ps.FUNDS_SOURCES =  #{contractSource,jdbcType=VARCHAR}
+	</select>
+</mapper>

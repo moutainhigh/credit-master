@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.tytx.domain.CreditSmsHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.tytx.domain.CreditSmsHistory" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SENDER" property="sender" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="REQUEST_CONTENT" property="requestContent" jdbcType="VARCHAR" />
+    <result column="RESPONSE_CONTENT" property="responseContent" jdbcType="VARCHAR" />
+    <result column="REQUEST_DATE" property="requestDate" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="RESPONSE_DATE" property="responseDate" jdbcType="TIMESTAMP" />
+    <result column="OPERATION_METHOD" property="operationMethod" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SENDER, MOBILE, REQUEST_CONTENT, REQUEST_DATE, REMARK, RESPONSE_DATE, RESPONSE_CONTENT, STATUS, OPERATION_METHOD, TYPE, EMPLOYEE_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CREDIT_SMS_HISTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CREDIT_SMS_HISTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.tytx.domain.CreditSmsHistory" >
+  	<selectKey keyProperty="id" order="BEFORE" resultType="long">
+         select SEQ_CREDIT_SMS_HISTORY.nextval from dual
+    </selectKey>
+    insert into CREDIT_SMS_HISTORY (ID, SENDER, MOBILE, REQUEST_CONTENT, REQUEST_DATE,
+     REMARK, RESPONSE_DATE, RESPONSE_CONTENT, STATUS, OPERATION_METHOD, TYPE, EMPLOYEE_ID,CREATE_TIME, CREATOR
+    )
+    values (#{id,jdbcType=DECIMAL}, #{sender,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{requestContent,jdbcType=VARCHAR}, #{requestDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{responseDate,jdbcType=TIMESTAMP}, #{responseContent,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{operationMethod,jdbcType=VARCHAR},
+      #{type,jdbcType=VARCHAR}, #{employeeId,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{creator,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.tytx.domain.CreditSmsHistory" >
+    insert into CREDIT_SMS_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="sender != null" >
+        SENDER,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="requestContent != null" >
+        REQUEST_CONTENT,
+      </if>
+      <if test="requestDate != null" >
+        REQUEST_DATE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="responseDate != null" >
+        RESPONSE_DATE,
+      </if>
+      <if test="responseContent != null" >
+        RESPONSE_CONTENT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="operationMethod != null" >
+        OPERATION_METHOD,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+      <if test="createTime != null">
+			CREATE_TIME,
+	  </if>
+	  <if test="updateTime != null">
+	    	UPDATE_TIME,
+	  </if>
+	  <if test="creator != null">
+	    	CREATOR,
+	  </if>
+	  <if test="updator != null">
+			UPDATOR,
+	  </if>
+    </trim>
+    
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="requestContent != null" >
+        #{requestContent,jdbcType=VARCHAR},
+      </if>
+      <if test="requestDate != null" >
+        #{requestDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="responseDate != null" >
+        #{responseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseContent != null" >
+        #{responseContent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="operationMethod != null" >
+        #{operationMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+		#{createTime,jdbcType=TIMESTAMP},
+	  </if>
+	  <if test="updateTime != null">
+		#{updateTime,jdbcType=TIMESTAMP},
+	  </if>
+	  <if test="creator != null">
+		#{creator,jdbcType=VARCHAR},
+	  </if>
+	  <if test="updator != null">
+		#{updator,jdbcType=VARCHAR},
+	  </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.tytx.domain.CreditSmsHistory" >
+    update CREDIT_SMS_HISTORY
+    <set >
+      <if test="sender != null" >
+        SENDER = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="requestContent != null" >
+        REQUEST_CONTENT = #{requestContent,jdbcType=VARCHAR},
+      </if>
+      <if test="requestDate != null" >
+        REQUEST_DATE = #{requestDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="responseDate != null" >
+        RESPONSE_DATE = #{responseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseContent != null" >
+        RESPONSE_CONTENT = #{responseContent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="operationMethod != null" >
+        OPERATION_METHOD = #{operationMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+		 CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+	  </if>
+	  <if test="updateTime != null">
+	 	 UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+	  </if>
+	  <if test="creator != null">
+	 	 CREATOR = #{creator,jdbcType=VARCHAR},
+	  </if>
+	  <if test="updator != null">
+	 	 UPDATOR = #{updator,jdbcType=VARCHAR},
+	  </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.tytx.domain.CreditSmsHistory" >
+    update CREDIT_SMS_HISTORY
+    set SENDER = #{sender,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      REQUEST_CONTENT = #{requestContent,jdbcType=VARCHAR},
+      REQUEST_DATE = #{requestDate,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      RESPONSE_DATE = #{responseDate,jdbcType=TIMESTAMP},
+      RESPONSE_CONTENT = #{responseContent,jdbcType=VARCHAR},
+      OPERATION_METHOD = #{operationMethod,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+      TYPE = #{type,jdbcType=VARCHAR}
+      EMPLOYEE_ID = #{employeeId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      UPDATOR = #{updator,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="findListByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+			select
+			<include refid="Base_Column_List" />
+			from CREDIT_SMS_HISTORY
+			where 1=1
+			<if test="mobile != null">
+	            AND MOBILE = #{mobile} 
+	        </if>
+	        <if test="status != null">
+	            AND STATUS = #{status} 
+	        </if>
+	        <if test="type != null">
+	            AND TYPE = #{type} 
+	        </if>
+	        <if test="employeeId != null">
+	            AND EMPLOYEE_ID = #{employeeId} 
+	        </if>
+	    
+  </select>
+	
+	
+</mapper>

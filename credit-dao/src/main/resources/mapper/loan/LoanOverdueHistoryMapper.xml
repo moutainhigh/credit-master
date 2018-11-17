@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanOverdueHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanOverdueHistory">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="OVERDUE_DAY" jdbcType="DECIMAL" property="overdueDay" />
+    <result column="OVERDUE_TIME" jdbcType="DECIMAL" property="overdueTime" />
+    <result column="OVERDUE_DAY_HIS_BIG" jdbcType="DECIMAL" property="overdueDayHisBig" />
+    <result column="OVERDUE_TIME_HIS_BIG" jdbcType="DECIMAL" property="overdueTimeHisBig" />
+    <result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="RESIDUAL_TIME" jdbcType="DECIMAL" property="residualTime" />
+    <result column="LAST_REPAYMENT_AMOUNT" jdbcType="DECIMAL" property="lastRepaymentAmount" />
+    <result column="LAST_REPAYMENT_DATE" jdbcType="TIMESTAMP" property="lastRepaymentDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, OVERDUE_DAY, OVERDUE_TIME, OVERDUE_DAY_HIS_BIG, OVERDUE_TIME_HIS_BIG, LOAN_ID, 
+    CREATE_TIME, UPDATE_TIME, RESIDUAL_TIME, LAST_REPAYMENT_AMOUNT, LAST_REPAYMENT_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_OVERDUE_HISTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from LOAN_OVERDUE_HISTORY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanOverdueHistory">
+    insert into LOAN_OVERDUE_HISTORY (ID, OVERDUE_DAY, OVERDUE_TIME, 
+      OVERDUE_DAY_HIS_BIG, OVERDUE_TIME_HIS_BIG, LOAN_ID, 
+      CREATE_TIME, UPDATE_TIME, RESIDUAL_TIME, 
+      LAST_REPAYMENT_AMOUNT, LAST_REPAYMENT_DATE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{overdueDay,jdbcType=DECIMAL}, #{overdueTime,jdbcType=DECIMAL}, 
+      #{overdueDayHisBig,jdbcType=DECIMAL}, #{overdueTimeHisBig,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{residualTime,jdbcType=DECIMAL}, 
+      #{lastRepaymentAmount,jdbcType=DECIMAL}, #{lastRepaymentDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanOverdueHistory">
+    insert into LOAN_OVERDUE_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="overdueDay != null">
+        OVERDUE_DAY,
+      </if>
+      <if test="overdueTime != null">
+        OVERDUE_TIME,
+      </if>
+      <if test="overdueDayHisBig != null">
+        OVERDUE_DAY_HIS_BIG,
+      </if>
+      <if test="overdueTimeHisBig != null">
+        OVERDUE_TIME_HIS_BIG,
+      </if>
+      <if test="loanId != null">
+        LOAN_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="residualTime != null">
+        RESIDUAL_TIME,
+      </if>
+      <if test="lastRepaymentAmount != null">
+        LAST_REPAYMENT_AMOUNT,
+      </if>
+      <if test="lastRepaymentDate != null">
+        LAST_REPAYMENT_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueDay != null">
+        #{overdueDay,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueTime != null">
+        #{overdueTime,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueDayHisBig != null">
+        #{overdueDayHisBig,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueTimeHisBig != null">
+        #{overdueTimeHisBig,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null">
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="residualTime != null">
+        #{residualTime,jdbcType=DECIMAL},
+      </if>
+      <if test="lastRepaymentAmount != null">
+        #{lastRepaymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastRepaymentDate != null">
+        #{lastRepaymentDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.loan.domain.LoanOverdueHistory">
+    update LOAN_OVERDUE_HISTORY
+    <set>
+      <if test="overdueDay != null">
+        OVERDUE_DAY = #{overdueDay,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueTime != null">
+        OVERDUE_TIME = #{overdueTime,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueDayHisBig != null">
+        OVERDUE_DAY_HIS_BIG = #{overdueDayHisBig,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueTimeHisBig != null">
+        OVERDUE_TIME_HIS_BIG = #{overdueTimeHisBig,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null">
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="residualTime != null">
+        RESIDUAL_TIME = #{residualTime,jdbcType=DECIMAL},
+      </if>
+      <if test="lastRepaymentAmount != null">
+        LAST_REPAYMENT_AMOUNT = #{lastRepaymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastRepaymentDate != null">
+        LAST_REPAYMENT_DATE = #{lastRepaymentDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanOverdueHistory">
+    update LOAN_OVERDUE_HISTORY
+    set OVERDUE_DAY = #{overdueDay,jdbcType=DECIMAL},
+      OVERDUE_TIME = #{overdueTime,jdbcType=DECIMAL},
+      OVERDUE_DAY_HIS_BIG = #{overdueDayHisBig,jdbcType=DECIMAL},
+      OVERDUE_TIME_HIS_BIG = #{overdueTimeHisBig,jdbcType=DECIMAL},
+      LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      RESIDUAL_TIME = #{residualTime,jdbcType=DECIMAL},
+      LAST_REPAYMENT_AMOUNT = #{lastRepaymentAmount,jdbcType=DECIMAL},
+      LAST_REPAYMENT_DATE = #{lastRepaymentDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <sql id="comPermissionSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM LOAN_OVERDUE_HISTORY
+	</sql>
+
+	<sql id="comPermissionConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND LOAN_OVERDUE_HISTORY.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_OVERDUE_HISTORY.LOAN_ID = #{loanId}
+			</if>
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanOverdueHistory"
+		resultMap="BaseResultMap">
+		<include refid="comPermissionSelective" />
+		<include refid="comPermissionConditions" />
+		ORDER BY ID DESC
+	</select>
+	
+</mapper>

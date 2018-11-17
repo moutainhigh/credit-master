@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.debit.domain.DebitTransactionMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.debit.domain.DebitTransaction">
+		<id column="ID" jdbcType="DECIMAL" property="id" />
+		<result column="DEBIT_ID" jdbcType="DECIMAL" property="debitId" />
+		<result column="LOAN_ID" jdbcType="DECIMAL" property="loanId" />
+		<result column="BAT_NO" jdbcType="VARCHAR" property="batNo" />
+		<result column="SERIAL_NO" jdbcType="VARCHAR" property="serialNo" />
+		<result column="PAY_AMOUNT" jdbcType="DECIMAL" property="payAmount" />
+		<result column="ACTUAL_AMOUNT" jdbcType="DECIMAL" property="actualAmount" />
+		<result column="REQ_TIME" jdbcType="TIMESTAMP" property="reqTime" />
+		<result column="RES_TIME" jdbcType="TIMESTAMP" property="resTime" />
+		<result column="STATE" jdbcType="VARCHAR" property="state" />
+		<result column="RTN_CODE" jdbcType="VARCHAR" property="rtnCode" />
+		<result column="RTN_INFO" jdbcType="VARCHAR" property="rtnInfo" />
+		<result column="MEMO" jdbcType="VARCHAR" property="memo" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="UPDATOR" jdbcType="VARCHAR" property="updator" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID, DEBIT_ID, LOAN_ID,BAT_NO, SERIAL_NO, PAY_AMOUNT, ACTUAL_AMOUNT,
+		REQ_TIME, RES_TIME, STATE, RTN_CODE, RTN_INFO,
+		MEMO, CREATE_TIME, CREATOR, UPDATE_TIME, UPDATOR
+	</sql>
+	
+	<select id="findBySerialNo" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from DEBIT_TRANSACTION
+		where SERIAL_NO = #{serialNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from DEBIT_TRANSACTION
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from DEBIT_TRANSACTION
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	
+	<insert id="insert" parameterType="com.zdmoney.credit.debit.domain.DebitTransaction">
+		insert into DEBIT_TRANSACTION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="debitId != null">
+				DEBIT_ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="batNo != null">
+				BAT_NO,
+			</if>
+			<if test="serialNo != null">
+				SERIAL_NO,
+			</if>
+			<if test="payAmount != null">
+				PAY_AMOUNT,
+			</if>
+			<if test="actualAmount != null">
+				ACTUAL_AMOUNT,
+			</if>
+			<if test="reqTime != null">
+				REQ_TIME,
+			</if>
+			<if test="resTime != null">
+				RES_TIME,
+			</if>
+			<if test="state != null">
+				STATE,
+			</if>
+			<if test="rtnCode != null">
+				RTN_CODE,
+			</if>
+			<if test="rtnInfo != null">
+				RTN_INFO,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="updator != null">
+				UPDATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="debitId != null">
+				#{debitId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="batNo != null">
+				#{batNo,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNo != null">
+				#{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null">
+				#{payAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualAmount != null">
+				#{actualAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="reqTime != null">
+				#{reqTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resTime != null">
+				#{resTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnCode != null">
+				#{rtnCode,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnInfo != null">
+				#{rtnInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				#{updator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="com.zdmoney.credit.debit.domain.DebitTransaction">
+		update DEBIT_TRANSACTION
+		<set>
+			<if test="debitId != null">
+				DEBIT_ID = #{debitId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="batNo != null">
+				BAT_NO = #{batNo,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNo != null">
+				SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null">
+				PAY_AMOUNT = #{payAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualAmount != null">
+				ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="reqTime != null">
+				REQ_TIME = #{reqTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resTime != null">
+				RES_TIME = #{resTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnCode != null">
+				RTN_CODE = #{rtnCode,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnInfo != null">
+				RTN_INFO = #{rtnInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.debit.domain.DebitTransaction">
+		update DEBIT_TRANSACTION
+		<set>
+			<if test="debitId != null">
+				DEBIT_ID = #{debitId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="batNo != null">
+				BAT_NO = #{batNo,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNo != null">
+				SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null">
+				PAY_AMOUNT = #{payAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actualAmount != null">
+				ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="reqTime != null">
+				REQ_TIME = #{reqTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resTime != null">
+				RES_TIME = #{resTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnCode != null">
+				RTN_CODE = #{rtnCode,jdbcType=VARCHAR},
+			</if>
+			<if test="rtnInfo != null">
+				RTN_INFO = #{rtnInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	
+	<sql id="selectConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null ">
+				AND ID = #{id , jdbcType=DECIMAL}
+			</if>
+			<if test="debitId != null  ">
+				AND DEBIT_ID = #{debitId , jdbcType=VARCHAR}
+			</if>
+			<if test="serialNo != null  ">
+				AND SERIAL_NO = #{serialNo , jdbcType=VARCHAR}
+			</if>
+			<if test="payAmount != null ">
+				AND PAY_AMOUNT = #{payAmount , jdbcType=DECIMAL}
+			</if>
+			<if test="actualAmount != null ">
+				AND ACTUAL_AMOUNT = #{actualAmount , jdbcType=DECIMAL}
+			</if>
+			<if test="reqTime != null ">
+				AND REQ_TIME = #{reqTime , jdbcType=TIMESTAMP}
+			</if>
+			<if test="resTime != null ">
+				AND RES_TIME = #{resTime , jdbcType=TIMESTAMP}
+			</if>
+			<if test="state != null  ">
+				AND STATE = #{state , jdbcType=VARCHAR}
+			</if>
+			<if test="rtnCode != null  ">
+				AND RTN_CODE = #{rtnCode , jdbcType=VARCHAR}
+			</if>
+			<if test="rtnInfo != null  ">
+				AND RTN_INFO = #{rtnInfo , jdbcType=VARCHAR}
+			</if>
+			<if test="batNo != null  ">
+				AND BAT_NO = #{batNo , jdbcType=VARCHAR}
+			</if>
+			<if test="memo != null  ">
+				AND MEMO = #{memo , jdbcType=VARCHAR}
+			</if>
+			<if test="pactNo != null  ">
+				AND LOAN_ID =(select b.id from loan_base b where
+				b.CONTRACT_NUM=#{pactNo,jdbcType=VARCHAR} )
+			</if>
+			<if test="loanId != null">
+				AND LOAN_ID = #{loanId,jdbcType=DECIMAL}
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="findListByVO" parameterType="com.zdmoney.credit.debit.domain.DebitTransaction"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM DEBIT_TRANSACTION
+		<include refid="selectConditions" />
+	</select>
+
+	<select id="queryDebitTransactionByConditions" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select t1.* from debit_transaction t1, loan_base t2
+		where t2.id = t1.loan_id
+		<if test="batNo != null ">
+			and t1.bat_no = #{batNo, jdbcType=VARCHAR}
+		</if>
+		<if test="contractNum != null ">
+			and t2.contract_num = #{contractNum, jdbcType=VARCHAR}
+		</if>
+		and t1.state = '已发送'
+	</select>
+
+	<!-- 查询外贸3已发送报盘的批次号 -->
+	<select id="queryDebitBatchNos" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT DISTINCT T2.BAT_NO
+			FROM LOAN_BASE T1, DEBIT_TRANSACTION T2
+		WHERE T1.ID = T2.LOAN_ID
+		<if test="loanBelong != null and loanBelong != '' ">
+			AND T1.LOAN_BELONG = #{loanBelong, jdbcType=VARCHAR}
+		</if>
+		AND T2.STATE = '已发送'
+	</select>
+	
+</mapper>

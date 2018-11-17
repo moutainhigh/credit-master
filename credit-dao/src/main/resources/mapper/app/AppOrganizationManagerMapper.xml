@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.app.domain.AppOrganizationManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.app.domain.AppOrganizationManager" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="BaseResultMapOrg" type="com.zdmoney.credit.app.domain.AppOrganizationManagerResult" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updateTimeStr" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="DECIMAL" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, OPERATOR, UPDATETIME, STATE, ORG_ID
+  </sql>
+   <sql id="Base_Column_List_AppOrg" >
+   		t.id id ,
+        t.org_id org_id,
+        t.state,
+        a.name name,
+        to_char(t.updatetime,'yyyy-mm-dd hh24:mi:ss') updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from APP_ORGANIZATION_MANAGER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from APP_ORGANIZATION_MANAGER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.app.domain.AppOrganizationManager" >
+  <selectKey keyProperty="id" order="BEFORE" resultType="long">
+         select <include refid="TABLE_SEQUENCE" /> from dual
+    </selectKey>
+    insert into APP_ORGANIZATION_MANAGER (ID, OPERATOR, UPDATETIME, 
+      STATE, ORG_ID)
+    values (#{id,jdbcType=DECIMAL}, #{operator,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR}, #{orgId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.app.domain.AppOrganizationManager" >
+    insert into APP_ORGANIZATION_MANAGER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.app.domain.AppOrganizationManager" >
+    update APP_ORGANIZATION_MANAGER
+    <set >
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.app.domain.AppOrganizationManager" >
+    update APP_ORGANIZATION_MANAGER
+    set OPERATOR = #{operator,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectAppOrganizationManagerByOrgId" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from APP_ORGANIZATION_MANAGER t where t.ORG_ID=#{orgId} or t.org_id = (select parent_id from com_organization where id=#{orgId})
+ </select>
+ 
+ <select id="findListWithPGByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMapOrg">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="findListByConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+ </select>
+  <sql id="findListByConditions">
+		<include refid="appOrgManagerSelective" />
+		<include refid="appOrgManagerConditions" />
+ </sql>
+ <sql id="appOrgManagerSelective">
+		SELECT
+		<include refid="Base_Column_List_AppOrg" />
+		FROM app_organization_manager t
+  		left join com_organization a
+    	on t.org_id = a.id 
+ </sql>
+ <sql id="appOrgManagerConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="orgId != null">
+				AND t.org_id = #{orgId,jdbcType=DECIMAL}
+			</if>
+		</trim>
+ </sql>
+ <select id="findCountByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM (
+		<include refid="findListByConditions" />
+		)
+ </select>
+  <sql id="TABLE_SEQUENCE">SEQ_APP_ORGANIZATION_MANAGER.nextval</sql>
+</mapper>

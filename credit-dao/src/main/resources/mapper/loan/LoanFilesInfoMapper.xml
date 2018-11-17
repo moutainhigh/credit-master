@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanFilesInfoMapper">
+
+	<select id="findBusinessEmployeeListByOrgId" parameterType="map"
+		resultType="map">
+		with newOrg(id,org_code,name,parent_id) as (select id,org_code,name,parent_id from
+		com_organization where id = #{orgId}
+		union all select a.id,a.org_code,a.name,a.parent_id from com_organization
+		a,newOrg b where a.parent_id = b.id
+		)
+		select distinct a.id as "id",a.name as "name" from
+		com_employee a
+		join
+		newOrg b
+		on( a.org_id = b.id )
+		where a.in_active = 't'
+	</select>
+
+
+	<select id="findLoanFilesInfoListByMap" parameterType="map"
+		resultType="map">
+		select
+		a.loan_id "loanId",
+		a.borrow_id "borrowId",
+		a.borrow_name "borrowName",
+		a.borrow_id_num "borrowIdNum",
+		a.loan_type "loanType",
+		a.salesman_id "salesmanId",
+		a.crm_id "crmId",
+		a.money "money",
+		to_char(a.grant_money_date,'YYYY-MM-DD') "grantMoneyDate",
+		a.time "time",
+        a.contract_num "contractNum",
+		case when b.id is not null then 1 else 0 end "isCreateLoanFilesInfo"
+		from
+		(
+		select * from (
+		select
+		a.id loan_id,d.id borrow_id,d.name borrow_name,d.idnum
+		borrow_id_num,b.loan_type,a.salesman_id,a.crm_id,b.money,b.grant_money_date,c.time,a.contract_num,rownum
+		ROW_NUM
+		from
+		loan_base a
+		join
+		loan_initial_info b
+		on(a.id = b.loan_id)
+		join
+		loan_product c
+		on(a.id = c.loan_id)
+		join
+		person_info d
+		on(a.borrower_id = d.id)
+		join
+		(select id from com_organization where org_code like '${orgCode}%') e
+		on(a.sales_department_id = e.id)
+		where a.loan_state in ('正常','逾期','结清','预结清')
+		<if test="borrowName != null">
+			and d.name like #{borrowName}||'%'
+		</if>
+		<if test="borrowMphone != null">
+			and d.mphone = #{borrowMphone}
+		</if>
+		<if test="borrowIdNum != null">
+			and d.idnum = #{borrowIdNum}
+		</if>
+		<if test="salesmanId != null">
+			and a.salesman_id = #{salesmanId}
+		</if>
+		<if test="grantMoneyDateStart != null">
+			and b.grant_money_date >=to_date('${grantMoneyDateStart} 00:00:00','yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="grantMoneyDateEnd != null">
+			and b.grant_money_date &lt;= to_date('${grantMoneyDateEnd} 23:59:59','yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="contractNum != null">
+			and a.contract_num = #{contractNum}
+		</if>
+		order by a.id
+		) where row_num between #{startRow} and #{endRow}
+		)a
+		left join
+		loan_files_info b
+		on(a.loan_id = b.loan_id)
+	</select>
+
+	<select id="findLoanFilesInfoCountByMap" parameterType="map"
+		resultType="int">
+		select
+		count(1)
+		from
+		loan_base a
+		join
+		loan_initial_info b
+		on(a.id = b.loan_id)
+		join
+		loan_product c
+		on(a.id = c.loan_id)
+		join
+		person_info d
+		on(a.borrower_id = d.id)
+		join
+		(select id from com_organization where org_code like '${orgCode}%') e
+		on(a.sales_department_id = e.id)
+		where a.loan_state in ('正常','逾期','结清','预结清')
+		<if test="borrowName != null">
+			and d.name like #{borrowName}||'%'
+		</if>
+		<if test="borrowMphone != null">
+			and d.mphone = #{borrowMphone}
+		</if>
+		<if test="borrowIdNum != null">
+			and d.idnum = #{borrowIdNum}
+		</if>
+		<if test="salesmanId != null">
+			and a.salesman_id = #{salesmanId}
+		</if>
+		<if test="grantMoneyDateStart != null">
+			and b.grant_money_date >=to_date('${grantMoneyDateStart} 00:00:00','yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="grantMoneyDateEnd != null">
+			and b.grant_money_date &lt;= to_date('${grantMoneyDateEnd} 23:59:59','yyyy-mm-dd hh24:mi:ss')
+		</if>
+	</select>
+
+	<select id="findEmployeeListByIds" parameterType="map"
+		resultType="map">
+		select id "id" ,name "name" from com_employee where id in
+		(${ids})
+	</select>
+
+	<select id="findLoanBaseInfoById" parameterType="map"
+		resultType="map">
+		select
+		a.id "loanId",
+		a.sales_department_id "salesDepartmentId",
+		d.name "salesDepartmentName",
+		c.name "borrowerName",
+		b.loan_type "loanType",
+		to_char(b.grant_money_date,'YYYY-MM-DD') "signDate",
+		a.contract_num "contractNum"
+		from
+		loan_base a
+		join
+		loan_initial_info b
+		on(a.id = b.loan_id)
+		join
+		person_info c
+		on(a.borrower_id = c.id)
+		join
+		com_organization d
+		on(a.sales_department_id = d.id)
+		where a.id = #{loanId}
+	</select>
+
+	<select id="findBorrowDocNumByLoanId" parameterType="map"
+		resultType="map">
+		select
+		department_num "departmentNum",
+		case when c.loan_type = '随薪贷' then '01'
+		when c.loan_type = '随意贷' then '02'
+		when c.loan_type = '随房贷' then '03'
+		when c.loan_type = '随车贷' then '04'
+		when c.loan_type = '助学贷' then '05'
+		when c.loan_type = '车贷' then '06'
+		when c.loan_type = '薪生贷' then '07'
+		when c.loan_type = '随房贷A' then '08'
+		when c.loan_type = '随房贷B' then '09'
+		when c.loan_type = '公积金贷' then '10'
+		when c.loan_type = '保单贷' then '11'
+		when c.loan_type = '网购达人贷A' then '12'
+		when c.loan_type = '淘宝商户贷' then '13'
+		when c.loan_type = '学历贷' then '14'
+		when c.loan_type = '卡友贷' then '15'
+		when c.loan_type = '网购达人贷B' then '16'
+		else '00' end "loanTypeNum",
+		lpad(seq_borrower_doc_flow_num.nextval,7,'0') "borrowerDocFlowNum"
+		from
+		com_organization a
+		join
+		loan_base b
+		on(a.id = b.sales_department_id )
+		join
+		loan_initial_info c
+		on(b.id = c.loan_id )
+		where b.id = #{loanId}
+	</select>
+
+	<insert id="insert" parameterType="map">
+		INSERT INTO loan_files_info (
+		id
+		,version
+		<if test="addressCertification != null">
+			, address_certification
+		</if>
+		<if test="addressCertificationCount != null">
+			, address_certification_count
+		</if>
+		<if test="addressCertificationOther != null">
+			, address_certification_other
+		</if>
+		<if test="assetCertification != null">
+			, asset_certification
+		</if>
+		<if test="assetCertificationCount != null">
+			, asset_certification_count
+		</if>
+		<if test="assetCertificationOther != null">
+			, asset_certification_other
+		</if>
+		<if test="autidingFilesCount != null">
+			, autiding_files_count
+		</if>
+		<if test="bankCardFilesCount != null">
+			, bank_card_files_count
+		</if>
+		<if test="borrowerDocFlowNum != null">
+			, borrower_doc_flow_num
+		</if>
+		<if test="businessCertification != null">
+			, business_certification
+		</if>
+		<if test="businessCertificationCount != null">
+			, business_certification_count
+		</if>
+		<if test="businessCertificationOther != null">
+			, business_certification_other
+		</if>
+		, date_created
+		<if test="idCertification != null">
+			, id_certification
+		</if>
+		<if test="idCertificationCount != null">
+			, id_certification_count
+		</if>
+		<if test="idCertificationOther != null">
+			, id_certification_other
+		</if>
+		<if test="incomeCertification != null">
+			, income_certification
+		</if>
+		<if test="incomeCertificationCount != null">
+			, income_certification_count
+		</if>
+		<if test="incomeCertificationOther != null">
+			, income_certification_other
+		</if>
+		<if test="loanId != null">
+			, loan_id
+		</if>
+		<if test="memo != null">
+			, memo
+		</if>
+		<if test="operatorId != null">
+			, operator_id
+		</if>
+		<if test="otherCertification != null">
+			, other_certification
+		</if>
+		<if test="otherCertificationCount != null">
+			, other_certification_count
+		</if>
+		<if test="otherCertificationOther != null">
+			, other_certification_other
+		</if>
+		<if test="personalCreditReportsCount != null">
+			, personal_credit_reports_count
+		</if>
+		<if test="requestFilesCount != null">
+			, request_files_count
+		</if>
+		<if test="serviceFilesCount != null">
+			, service_files_count
+		</if>
+		<if test="workCertification != null">
+			, work_certification
+		</if>
+		<if test="workCertificationCount != null">
+			, work_certification_count
+		</if>
+		<if test="workCertificationOther != null">
+			, work_certification_other
+		</if>
+		<if test="mark != null">
+			, mark
+		</if>
+		)
+		VALUES (
+		#{id}
+		,#{version}
+		<if test="addressCertification != null">
+			,#{addressCertification}
+		</if>
+		<if test="addressCertificationCount != null">
+			,#{addressCertificationCount}
+		</if>
+		<if test="addressCertificationOther != null">
+			,#{addressCertificationOther}
+		</if>
+		<if test="assetCertification != null">
+			,#{assetCertification}
+		</if>
+		<if test="assetCertificationCount != null">
+			,#{assetCertificationCount}
+		</if>
+		<if test="assetCertificationOther != null">
+			,#{assetCertificationOther}
+		</if>
+		<if test="autidingFilesCount != null">
+			,#{autidingFilesCount}
+		</if>
+		<if test="bankCardFilesCount != null">
+			,#{bankCardFilesCount}
+		</if>
+		<if test="borrowerDocFlowNum != null">
+			,#{borrowerDocFlowNum}
+		</if>
+		<if test="businessCertification != null">
+			,#{businessCertification}
+		</if>
+		<if test="businessCertificationCount != null">
+			,#{businessCertificationCount}
+		</if>
+		<if test="businessCertificationOther != null">
+			,#{businessCertificationOther}
+		</if>
+		,sysdate
+		<if test="idCertification != null">
+			,#{idCertification}
+		</if>
+		<if test="idCertificationCount != null">
+			,#{idCertificationCount}
+		</if>
+		<if test="idCertificationOther != null">
+			,#{idCertificationOther}
+		</if>
+		<if test="incomeCertification != null">
+			,#{incomeCertification}
+		</if>
+		<if test="incomeCertificationCount != null">
+			,#{incomeCertificationCount}
+		</if>
+		<if test="incomeCertificationOther != null">
+			,#{incomeCertificationOther}
+		</if>
+		<if test="loanId != null">
+			,#{loanId}
+		</if>
+		<if test="memo != null">
+			,#{memo}
+		</if>
+		<if test="operatorId != null">
+			,#{operatorId}
+		</if>
+		<if test="otherCertification != null">
+			,#{otherCertification}
+		</if>
+		<if test="otherCertificationCount != null">
+			,#{otherCertificationCount}
+		</if>
+		<if test="otherCertificationOther != null">
+			,#{otherCertificationOther}
+		</if>
+		<if test="personalCreditReportsCount != null">
+			,#{personalCreditReportsCount}
+		</if>
+		<if test="requestFilesCount != null">
+			,#{requestFilesCount}
+		</if>
+		<if test="serviceFilesCount != null">
+			,#{serviceFilesCount}
+		</if>
+		<if test="workCertification != null">
+			,#{workCertification}
+		</if>
+		<if test="workCertificationCount != null">
+			,#{workCertificationCount}
+		</if>
+		<if test="workCertificationOther != null">
+			,#{workCertificationOther}
+		</if>
+		<if test="mark != null">
+			,#{mark}
+		</if>
+		)
+	</insert>
+
+
+	<select id="findLoanFilesInfoById" parameterType="map"
+		resultType="map">
+		SELECT
+		id "id",
+		version "version",
+		address_certification "addressCertification",
+		address_certification_count "addressCertificationCount",
+		address_certification_other "addressCertificationOther",
+		asset_certification "assetCertification",
+		asset_certification_count "assetCertificationCount",
+		asset_certification_other "assetCertificationOther",
+		autiding_files_count "autidingFilesCount",
+		bank_card_files_count "bankCardFilesCount",
+		borrower_doc_flow_num "borrowerDocFlowNum",
+		business_certification "businessCertification",
+		business_certification_count "businessCertificationCount",
+		business_certification_other "businessCertificationOther",
+		to_char(date_created,'YYYY-MM-DD') "dateCreated",
+		id_certification "idCertification",
+		id_certification_count "idCertificationCount",
+		id_certification_other "idCertificationOther",
+		income_certification "incomeCertification",
+		income_certification_count "incomeCertificationCount",
+		income_certification_other "incomeCertificationOther",
+		loan_id "loanId",
+		memo "memo",
+		operator_id "operatorId",
+		other_certification "otherCertification",
+		other_certification_count "otherCertificationCount",
+		other_certification_other "otherCertificationOther",
+		personal_credit_reports_count "personalCreditReportsCount",
+		request_files_count "requestFilesCount",
+		service_files_count "serviceFilesCount",
+		work_certification "workCertification",
+		work_certification_count "workCertificationCount",
+		work_certification_other "workCertificationOther",
+		mark "mark"
+		from loan_files_info
+		where 1=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="loanId != null">
+			and loan_id = #{loanId}
+		</if>
+	</select>
+
+	<update id="update" parameterType="map">
+		UPDATE loan_files_info
+		SET loan_id = #{loanId}
+		,date_created = sysdate
+		<if test="version != null">
+			,version = #{version}
+		</if>
+
+		<if test="addressCertification != null">
+			,address_certification = #{addressCertification}
+		</if>
+		<if test="addressCertification == null">
+			,address_certification = null
+		</if>
+		<if test="addressCertificationCount != null">
+			,address_certification_count = #{addressCertificationCount}
+		</if>
+		<if test="addressCertificationCount == null">
+			,address_certification_count = null
+		</if>
+		<if test="addressCertificationOther != null">
+			,address_certification_other = #{addressCertificationOther}
+		</if>
+		<if test="addressCertificationOther == null">
+			,address_certification_other = null
+		</if>
+
+		<if test="assetCertification != null">
+			,asset_certification = #{assetCertification}
+		</if>
+		<if test="assetCertification == null">
+			,asset_certification = null
+		</if>
+		<if test="assetCertificationCount != null">
+			,asset_certification_count = #{assetCertificationCount}
+		</if>
+		<if test="assetCertificationCount == null">
+			,asset_certification_count = null
+		</if>
+		<if test="assetCertificationOther != null">
+			,asset_certification_other = #{assetCertificationOther}
+		</if>
+		<if test="assetCertificationOther == null">
+			,asset_certification_other = null
+		</if>
+
+		<if test="autidingFilesCount != null">
+			,autiding_files_count = #{autidingFilesCount}
+		</if>
+		<if test="autidingFilesCount == null">
+			,autiding_files_count = null
+		</if>
+
+		<if test="bankCardFilesCount != null">
+			,bank_card_files_count = #{bankCardFilesCount}
+		</if>
+		<if test="bankCardFilesCount == null">
+			,bank_card_files_count = null
+		</if>
+
+		<if test="businessCertification != null">
+			,business_certification = #{businessCertification}
+		</if>
+		<if test="businessCertification == null">
+			,business_certification = null
+		</if>
+		<if test="businessCertificationCount != null">
+			,business_certification_count = #{businessCertificationCount}
+		</if>
+		<if test="businessCertificationCount == null">
+			,business_certification_count = null
+		</if>
+		<if test="businessCertificationOther != null">
+			,business_certification_other = #{businessCertificationOther}
+		</if>
+		<if test="businessCertificationOther == null">
+			,business_certification_other = null
+		</if>
+
+		<if test="idCertification != null">
+			,id_certification = #{idCertification}
+		</if>
+		<if test="idCertification == null">
+			,id_certification = null
+		</if>
+		<if test="idCertificationCount != null">
+			,id_certification_count = #{idCertificationCount}
+		</if>
+		<if test="idCertificationCount == null">
+			,id_certification_count = null
+		</if>
+		<if test="idCertificationOther != null">
+			,id_certification_other = #{idCertificationOther}
+		</if>
+		<if test="idCertificationOther == null">
+			,id_certification_other = null
+		</if>
+
+		<if test="incomeCertification != null">
+			,income_certification = #{incomeCertification}
+		</if>
+		<if test="incomeCertification == null">
+			,income_certification = null
+		</if>
+		<if test="incomeCertificationCount != null">
+			,income_certification_count = #{incomeCertificationCount}
+		</if>
+		<if test="incomeCertificationCount == null">
+			,income_certification_count = null
+		</if>
+		<if test="incomeCertificationOther != null">
+			,income_certification_other = #{incomeCertificationOther}
+		</if>
+		<if test="incomeCertificationOther == null">
+			,income_certification_other = null
+		</if>
+
+		<if test="memo != null">
+			,memo = #{memo}
+		</if>
+		<if test="memo == null">
+			,memo = null
+		</if>
+
+		<if test="operatorId != null">
+			,operator_id = #{operatorId}
+		</if>
+
+		<if test="otherCertification != null">
+			,other_certification = #{otherCertification}
+		</if>
+		<if test="otherCertification == null">
+			,other_certification = null
+		</if>
+		<if test="otherCertificationCount != null">
+			,other_certification_count = #{otherCertificationCount}
+		</if>
+		<if test="otherCertificationCount == null">
+			,other_certification_count = null
+		</if>
+		<if test="otherCertificationOther != null">
+			,other_certification_other = #{otherCertificationOther}
+		</if>
+		<if test="otherCertificationOther == null">
+			,other_certification_other = null
+		</if>
+
+		<if test="personalCreditReportsCount != null">
+			,personal_credit_reports_count = #{personalCreditReportsCount}
+		</if>
+		<if test="personalCreditReportsCount == null">
+			,personal_credit_reports_count = null
+		</if>
+
+		<if test="requestFilesCount != null">
+			,request_files_count = #{requestFilesCount}
+		</if>
+		<if test="requestFilesCount == null">
+			,request_files_count = null
+		</if>
+
+		<if test="serviceFilesCount != null">
+			,service_files_count = #{serviceFilesCount}
+		</if>
+		<if test="serviceFilesCount == null">
+			,service_files_count = null
+		</if>
+
+		<if test="workCertification != null">
+			,work_certification = #{workCertification}
+		</if>
+		<if test="workCertification == null">
+			,work_certification = null
+		</if>
+		<if test="workCertificationCount != null">
+			,work_certification_count = #{workCertificationCount}
+		</if>
+		<if test="workCertificationCount == null">
+			,work_certification_count = null
+		</if>
+		<if test="workCertificationOther != null">
+			,work_certification_other = #{workCertificationOther}
+		</if>
+		<if test="workCertificationOther == null">
+			,work_certification_other = null
+		</if>
+		<if test="mark != null">
+			,mark = #{mark}
+		</if>
+		where loan_id = #{loanId} and version &lt; #{version}
+	</update>
+
+	<select id="findLoanCollectionManageListByMap" parameterType="map"
+		resultType="map">
+		select loan_id "loanId",
+		borrow_name "borrowName",
+		idnum "borrowIdNum",
+		to_char(sign_date,'YYYY-MM-DD') "signDate",
+		contract_num "contractNum",
+		sign_dept_name "signDeptName",
+		operate_type "operateType"
+		from(
+		select rownum row_num,
+		loan_id,
+		borrow_name,
+		idnum,
+		sign_date,
+		contract_num,
+		sign_dept_name,
+		operate_type,
+		operate_time,
+		SIGN_SALES_DEP_ID
+		from (select a.loan_id,
+		a.borrow_name,
+		a.idnum,
+		a.sign_date,
+		a.contract_num,
+		a.sign_dept_name,
+		case
+		when r.operate_type is null then
+		'未提交'
+		else
+		r.operate_type
+		end as operate_type,
+		a.SIGN_SALES_DEP_ID,
+		r.operate_time
+		from (select v.ID                as loan_id,
+		p.name              borrow_name,
+		p.idnum,
+		v.SIGN_DATE,
+		v.CONTRACT_NUM,
+		o.name              sign_dept_name,
+		v.SIGN_SALES_DEP_ID
+		from v_loan_info v
+		left join person_info p
+		on v.BORROWER_ID = p.id
+		left join com_organization o
+		on v.SIGN_SALES_DEP_ID = o.id
+		where v.loan_state in ('正常', '逾期', '结清', '预结清')
+		                
+		order by v.id desc) a
+		left join loan_collection_manage_record r
+		on a.loan_id = r.loan_id) c
+		where 1 = 1
+		<if test="borrowName != null and borrowName !=''">
+			and c.borrow_name like #{borrowName}||'%'
+		</if>
+		<if test="borrowIdNum != null and borrowIdNum != ''">
+			and c.idnum = #{borrowIdNum}
+		</if>
+		<if test="contractNum != null and contractNum != ''">
+			and c.contract_num = #{contractNum}
+		</if>
+		<if test="signDepartmentId != null and signDepartmentId != ''">
+			and c.sign_sales_dep_id = #{signDepartmentId}	
+		</if>
+		<if test="operateType != null and operateType =='已提交'">
+			and c.operate_type = #{operateType} and c.operate_time >= add_months(sysdate, -1)
+		</if>
+		<if test="operateType != null and operateType =='未提交'">
+			and c.operate_type = #{operateType}
+		</if>
+		<if test="operateType == null or operateType == ''">
+			and (c.operate_type = '未提交' or (c.operate_type = '已提交' and c.operate_time >= add_months(sysdate, -1)))
+		</if>
+		<if test="signBeginDate != null">
+			and c.sign_date >=to_date('${signBeginDate} 00:00:00','yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="signEndDate != null">
+			and c.sign_date &lt;= to_date('${signEndDate} 23:59:59','yyyy-mm-dd hh24:mi:ss')
+		</if>	
+		) where row_num between #{startRow} and #{endRow}
+	</select>
+	<select id="findLoanCollectionManageCountByMap" parameterType="map" resultType="int">
+		select count(1)
+		from (select a.loan_id,
+		a.borrow_name,
+		a.idnum,
+		a.sign_date,
+		a.contract_num,
+		a.sign_dept_name,
+		case
+		when r.operate_type is null then
+		'未提交'
+		else
+		r.operate_type
+		end as operate_type,
+		a.SIGN_SALES_DEP_ID,
+		r.operate_time
+		from (select v.ID                as loan_id,
+		p.name              borrow_name,
+		p.idnum,
+		v.SIGN_DATE,
+		v.CONTRACT_NUM,
+		o.name              sign_dept_name,
+		v.SIGN_SALES_DEP_ID
+		from v_loan_info v
+		left join person_info p
+		on v.BORROWER_ID = p.id
+		left join com_organization o
+		on v.SIGN_SALES_DEP_ID = o.id
+		where v.loan_state in ('正常', '逾期', '结清', '预结清')		                
+		order by v.id asc) a
+		left join loan_collection_manage_record r
+		on a.loan_id = r.loan_id) c
+		where 1 = 1
+		<if test="borrowName != null and borrowName !=''">
+			and c.borrow_name like #{borrowName}||'%'
+		</if>
+		<if test="borrowIdNum != null and borrowIdNum != ''">
+			and c.idnum = #{borrowIdNum}
+		</if>
+		<if test="contractNum != null and contractNum != ''">
+			and c.contract_num = #{contractNum}
+		</if>
+		<if test="signDepartmentId != null and signDepartmentId != ''">
+			and c.sign_sales_dep_id = #{signDepartmentId}	
+		</if>
+		<if test="operateType != null and operateType =='已提交'">
+			and c.operate_type = #{operateType} and c.operate_time >= add_months(sysdate, -1)
+		</if>
+		<if test="operateType != null and operateType =='未提交'">
+			and c.operate_type = #{operateType}
+		</if>
+		<if test="operateType == null or operateType == ''">
+			and (c.operate_type = '未提交' or (c.operate_type = '已提交' and c.operate_time >= add_months(sysdate, -1)))
+		</if>
+		<if test="signBeginDate != null">
+			and c.sign_date >=to_date('${signBeginDate} 00:00:00','yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="signEndDate != null">
+			and c.sign_date &lt;= to_date('${signEndDate} 23:59:59','yyyy-mm-dd hh24:mi:ss')
+		</if>	
+	</select>
+	
+	<update id="updateCollectionByIds" parameterType="java.util.Map">
+		UPDATE loan_collection_manage_record
+		SET operate_type=#{operateType}
+		,update_time = sysdate
+		<if test="updator !=null and updator != ''">
+			,updator = #{updator}
+		</if>
+		<if test="operateTime !=null and operateTime != ''">
+			,operate_time = to_date(#{operateTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>	
+		WHERE loan_id IN
+		<foreach collection="ids" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<select id="getLoanCollectionByMap" parameterType="map" resultType="map">
+		select 
+		id "id",
+		loan_id "loanId",
+		operate_type "operateType",
+		create_time "createTime",
+		creator "creator",
+		update_time "updateTime",
+		operate_time "operateTime"
+		from loan_collection_manage_record
+		where 1=1
+		<if test="loanId !=null and loanId != ''">
+			and loan_id = #{loanId}
+		</if>
+	</select>
+	
+	<insert id="insertLoanCollection" parameterType="map">
+		INSERT INTO loan_collection_manage_record (
+		id
+		<if test="loanId !=null and loanId != ''">
+			,loan_id
+		</if>
+		<if test="operateType !=null and operateType != ''">
+			,operate_type
+		</if>
+		,create_time
+		<if test="creator !=null and creator != ''">
+			,creator
+		</if>
+		<if test="updateTime !=null">
+			,update_time
+		</if>
+		<if test="updator !=null and updator != ''">
+			,updator
+		</if>
+		<if test="operateTime !=null and operateTime != ''">
+			,operate_time
+		</if>
+		) values (
+		#{id}
+		<if test="loanId !=null and loanId != ''">
+			,#{loanId}
+		</if>
+		<if test="operateType !=null and operateType != ''">
+			,#{operateType}
+		</if>
+		,sysdate
+		<if test="creator !=null and creator != ''">
+			,#{creator}
+		</if>
+		<if test="updateTime !=null and updateTime != ''">
+			,to_date(#{updateTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="updator !=null and updator != ''">
+			,#{updator}
+		</if>
+		<if test="operateTime !=null and operateTime != ''">
+			,to_date(#{operateTime},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		)
+	</insert>
+</mapper>

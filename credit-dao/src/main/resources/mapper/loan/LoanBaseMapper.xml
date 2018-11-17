@@ -1,0 +1,1197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanBaseMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanBase">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+		<result column="LOAN_STATE" property="loanState" jdbcType="VARCHAR" />
+		<result column="LOAN_FLOW_STATE" property="loanFlowState"
+			jdbcType="VARCHAR" />
+		<result column="GIVE_BACK_BANK_ID" property="giveBackBankId"
+			jdbcType="DECIMAL" />
+		<result column="GRANT_BANK_ID" property="grantBankId" jdbcType="DECIMAL" />
+		<result column="BORROWER_ID" property="borrowerId" jdbcType="DECIMAL" />
+		<result column="CRM_ID" property="crmId" jdbcType="DECIMAL" />
+		<result column="SALES_DEPARTMENT_ID" property="salesDepartmentId"
+			jdbcType="DECIMAL" />
+		<result column="SALESMAN_ID" property="salesmanId" jdbcType="DECIMAL" />
+		<result column="SALES_TEAM_ID" property="salesTeamId" jdbcType="DECIMAL" />
+		<result column="SIGN_SALES_DEP_ID" property="signSalesDepId"
+			jdbcType="DECIMAL" />
+		<result column="APPLY_SALES_DEP_ID" property="applySalesDepId"
+			jdbcType="DECIMAL" />
+		<result column="END_OF_MONTH_OPENED" property="endOfMonthOpened"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="LOAN_NUM" property="loanNum" jdbcType="VARCHAR" />
+		<result column="FUNDS_SOURCES" property="fundsSources"
+			jdbcType="VARCHAR" />
+		<result column="IS_OFFER" property="isOffer" jdbcType="CHAR" />
+		<result column="TRUST_GRANT_STATE" property="trustGrantState"
+			jdbcType="VARCHAR" />
+		<result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+		<result column="BA_CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+		<result column="PLAN_ID" property="planId" jdbcType="DECIMAL"/>
+		<result column="LOAN_BELONG" jdbcType="VARCHAR" property="loanBelong" />
+		<result column="APPLY_TYPE" property="applyType" jdbcType="VARCHAR" />
+		<result column="APPLY_INPUT_FLAG" property="applyInputFlag" jdbcType="VARCHAR" />
+		<result column="APP_INPUT_FLAG" property="appInputFlag" jdbcType="VARCHAR" />
+		<association property="loanContract" resultMap="loanContractMap" />
+		<association property="loanInitialInfo" resultMap="loanInitialInfoMap" />
+		<association property="loanProduct" resultMap="LoanProductMap" />
+		<association property="loanLedger" resultMap="loanLedgerMap" />
+		<association property="loanSpecialRepayment" resultMap="loanSpecialRepaymentMap" />
+
+	</resultMap>
+
+	<resultMap id="loanContractMap" type="com.zdmoney.credit.loan.domain.LoanContract">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOANCONTRACT_BORROWER_NAME" property="borrowerName"
+			jdbcType="VARCHAR" />
+		<result column="LOANCONTRACT_IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="LOANCONTRACT_PACT_MONEY" property="pactMoney"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="loanInitialInfoMap"
+		type="com.zdmoney.credit.loan.domain.LoanInitialInfo">
+		<result column="LOANINITIALINFO_LOAN_ID" property="loanId"
+			jdbcType="DECIMAL" />
+		<result column="LOANINITIALINFO_LOAN_TYPE" property="loanType"
+			jdbcType="VARCHAR" />
+		<result column="LOANINITIALINFO_REQUESTDATE" property="requestDate"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="LoanProductMap" type="com.zdmoney.credit.loan.domain.LoanProduct">
+		<result column="LOANPRODUCT_TIME" property="time" jdbcType="TIMESTAMP" />
+		<result column="LOANPRODUCT_RESPACTMONEY" property="residualPactMoney"
+			jdbcType="DECIMAL" />
+			
+					<result column="LOANPRODUCT_PACTMONEY" property="pactMoney"
+			jdbcType="DECIMAL" />
+	</resultMap>
+
+
+	<resultMap id="loanLedgerMap" type="com.zdmoney.credit.loan.domain.LoanLedger">
+	</resultMap>
+
+	<resultMap id="loanSpecialRepaymentMap"
+		type="com.zdmoney.credit.loan.domain.LoanSpecialRepayment">
+		<id column="REMENT_ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOANSPECIALREPAYMENT_STATE" property="specialRepaymentState"
+			jdbcType="DECIMAL" />
+		<result column="TIME" property="time" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	 <resultMap id="BaseResultMapLoanBaseAppVo" type="com.zdmoney.credit.common.vo.core.LoanBaseAppVo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+		<result column="APP_NO" property="appNo" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="idnum" property="idNum" jdbcType="VARCHAR"/>
+	</resultMap> 
+
+  <!--   <resultMap id="RechargeSearchMap"  type="com.zdmoney.credit.framework.vo.wm3.input.WM3_2313Vo"  >
+	    <result column="CUST_NAME" property="batNo" jdbcType="VARCHAR" />
+	    <result column="ACCOUNT_NO" property="pactNo" jdbcType="VARCHAR" />
+    </resultMap> -->
+	<sql id="Base_Column_List">
+		ID, CONTRACT_NUM, LOAN_STATE, LOAN_FLOW_STATE,
+		GIVE_BACK_BANK_ID,
+		GRANT_BANK_ID,
+		BORROWER_ID, CRM_ID,
+		SALES_DEPARTMENT_ID, SALESMAN_ID, SALES_TEAM_ID,
+		SIGN_SALES_DEP_ID,
+		APPLY_SALES_DEP_ID, END_OF_MONTH_OPENED, CREATE_TIME, UPDATE_TIME,
+		LOAN_NUM,
+		FUNDS_SOURCES,
+		IS_OFFER, TRUST_GRANT_STATE, BATCH_NUM,
+		IS_SEND, SIGN_CRM_ID, PLAN_ID, LOAN_BELONG, APPLY_TYPE, APPLY_INPUT_FLAG
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_BASE
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		delete from LOAN_BASE
+		where ID
+		= #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanBase">
+		insert into LOAN_BASE (ID,
+		CONTRACT_NUM, LOAN_STATE,
+		LOAN_FLOW_STATE, GIVE_BACK_BANK_ID,
+		GRANT_BANK_ID,
+		BORROWER_ID, CRM_ID, SALES_DEPARTMENT_ID,
+		SALESMAN_ID,
+		SALES_TEAM_ID, SIGN_SALES_DEP_ID,
+		APPLY_SALES_DEP_ID,
+		END_OF_MONTH_OPENED, CREATE_TIME,
+		UPDATE_TIME, LOAN_NUM, FUNDS_SOURCES,
+		IS_OFFER, TRUST_GRANT_STATE, BATCH_NUM, IS_SEND, SIGN_CRM_ID, PLAN_ID, LOAN_BELONG, APPLY_TYPE, APPLY_INPUT_FLAG,APP_INPUT_FLAG)
+		values
+		(#{id,jdbcType=DECIMAL}, #{contractNum,jdbcType=VARCHAR},
+		#{loanState,jdbcType=VARCHAR},
+		#{loanFlowState,jdbcType=VARCHAR},
+		#{giveBackBankId,jdbcType=DECIMAL}, #{grantBankId,jdbcType=DECIMAL},
+		#{borrowerId,jdbcType=DECIMAL}, #{crmId,jdbcType=DECIMAL},
+		#{salesDepartmentId,jdbcType=DECIMAL},
+		#{salesmanId,jdbcType=DECIMAL},
+		#{salesTeamId,jdbcType=DECIMAL}, #{signSalesDepId,jdbcType=DECIMAL},
+		#{applySalesDepId,jdbcType=DECIMAL},
+		#{endOfMonthOpened,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{loanNum,jdbcType=VARCHAR}, #{fundsSources,jdbcType=VARCHAR},
+		#{isOffer,jdbcType=CHAR}, #{trustGrantState,jdbcType=VARCHAR},
+		#{batchNum,jdbcType=VARCHAR}, #{isSend,jdbcType=VARCHAR},
+		#{signCrmId,jdbcType=DECIMAL},#{planId,jdbcType=DECIMAL},
+		#{loanBelong,jdbcType=VARCHAR}, #{applyType,jdbcType=VARCHAR},
+		#{applyInputFlag,jdbcType=VARCHAR},#{appInputFlag,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanBase">
+		insert into LOAN_BASE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="contractNum != null">
+				CONTRACT_NUM,
+			</if>
+			<if test="loanState != null">
+				LOAN_STATE,
+			</if>
+			<if test="loanFlowState != null">
+				LOAN_FLOW_STATE,
+			</if>
+			<if test="giveBackBankId != null">
+				GIVE_BACK_BANK_ID,
+			</if>
+			<if test="grantBankId != null">
+				GRANT_BANK_ID,
+			</if>
+			<if test="borrowerId != null">
+				BORROWER_ID,
+			</if>
+			<if test="crmId != null">
+				CRM_ID,
+			</if>
+			<if test="salesDepartmentId != null">
+				SALES_DEPARTMENT_ID,
+			</if>
+			<if test="salesmanId != null">
+				SALESMAN_ID,
+			</if>
+			<if test="salesTeamId != null">
+				SALES_TEAM_ID,
+			</if>
+			<if test="signSalesDepId != null">
+				SIGN_SALES_DEP_ID,
+			</if>
+			<if test="applySalesDepId != null">
+				APPLY_SALES_DEP_ID,
+			</if>
+			<if test="endOfMonthOpened != null">
+				END_OF_MONTH_OPENED,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="loanNum != null">
+				LOAN_NUM,
+			</if>
+			<if test="fundsSources != null">
+				FUNDS_SOURCES,
+			</if>
+			<if test="isOffer != null">
+				IS_OFFER,
+			</if>
+			<if test="trustGrantState != null">
+				TRUST_GRANT_STATE,
+			</if>
+			<if test="batchNum != null">
+				BATCH_NUM,
+			</if>
+			<if test="isSend != null">
+				IS_SEND,
+			</if>
+			<if test="signCrmId != null">
+				SIGN_CRM_ID,
+			</if>
+			<if test="planId != null">
+				PLAN_ID,
+			</if>
+			<if test="loanBelong != null">
+				LOAN_BELONG,
+			</if>
+			<if test="applyType != null" >
+				APPLY_TYPE,
+			</if>
+			<if test="applyInputFlag != null" >
+        		APPLY_INPUT_FLAG,
+      		</if>
+      		<if test="appInputFlag != null" >
+        		APP_INPUT_FLAG,
+      		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="contractNum != null">
+				#{contractNum,jdbcType=VARCHAR},
+			</if>
+			<if test="loanState != null">
+				#{loanState,jdbcType=VARCHAR},
+			</if>
+			<if test="loanFlowState != null">
+				#{loanFlowState,jdbcType=VARCHAR},
+			</if>
+			<if test="giveBackBankId != null">
+				#{giveBackBankId,jdbcType=DECIMAL},
+			</if>
+			<if test="grantBankId != null">
+				#{grantBankId,jdbcType=DECIMAL},
+			</if>
+			<if test="borrowerId != null">
+				#{borrowerId,jdbcType=DECIMAL},
+			</if>
+			<if test="crmId != null">
+				#{crmId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesDepartmentId != null">
+				#{salesDepartmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesmanId != null">
+				#{salesmanId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesTeamId != null">
+				#{salesTeamId,jdbcType=DECIMAL},
+			</if>
+			<if test="signSalesDepId != null">
+				#{signSalesDepId,jdbcType=DECIMAL},
+			</if>
+			<if test="applySalesDepId != null">
+				#{applySalesDepId,jdbcType=DECIMAL},
+			</if>
+			<if test="endOfMonthOpened != null">
+				#{endOfMonthOpened,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanNum != null">
+				#{loanNum,jdbcType=VARCHAR},
+			</if>
+			<if test="fundsSources != null">
+				#{fundsSources,jdbcType=VARCHAR},
+			</if>
+			<if test="isOffer != null">
+				#{isOffer,jdbcType=CHAR},
+			</if>
+			<if test="trustGrantState != null">
+				#{trustGrantState,jdbcType=VARCHAR},
+			</if>
+			<if test="batchNum != null">
+				#{batchNum,jdbcType=VARCHAR},
+			</if>
+			<if test="isSend != null">
+				#{isSend,jdbcType=VARCHAR},
+			</if>
+			<if test="signCrmId != null">
+				#{signCrmId, jdbcType=DECIMAL},
+			</if>
+			<if test="planId != null">
+				#{planId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanBelong != null">
+				#{loanBelong,jdbcType=VARCHAR},
+			</if>
+			<if test="applyType != null" >
+				#{applyType,jdbcType=VARCHAR},
+      		</if>
+      		<if test="applyInputFlag != null" >
+        		#{applyInputFlag,jdbcType=VARCHAR},
+      		</if>
+      		<if test="appInputFlag != null" >
+        		#{appInputFlag,jdbcType=VARCHAR},
+      		</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanBase">
+		update LOAN_BASE
+		<set>
+			<if test="contractNum != null">
+				CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR},
+			</if>
+			<if test="loanState != null">
+				LOAN_STATE = #{loanState,jdbcType=VARCHAR},
+			</if>
+			<if test="loanFlowState != null">
+				LOAN_FLOW_STATE = #{loanFlowState,jdbcType=VARCHAR},
+			</if>
+			<if test="giveBackBankId != null">
+				GIVE_BACK_BANK_ID = #{giveBackBankId,jdbcType=DECIMAL},
+			</if>
+			<if test="grantBankId != null">
+				GRANT_BANK_ID = #{grantBankId,jdbcType=DECIMAL},
+			</if>
+			<if test="borrowerId != null">
+				BORROWER_ID = #{borrowerId,jdbcType=DECIMAL},
+			</if>
+			<if test="crmId != null">
+				CRM_ID = #{crmId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesDepartmentId != null">
+				SALES_DEPARTMENT_ID =
+				#{salesDepartmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesmanId != null">
+				SALESMAN_ID = #{salesmanId,jdbcType=DECIMAL},
+			</if>
+			<if test="salesTeamId != null">
+				SALES_TEAM_ID = #{salesTeamId,jdbcType=DECIMAL},
+			</if>
+			<if test="signSalesDepId != null">
+				SIGN_SALES_DEP_ID = #{signSalesDepId,jdbcType=DECIMAL},
+			</if>
+			<if test="applySalesDepId != null">
+				APPLY_SALES_DEP_ID = #{applySalesDepId,jdbcType=DECIMAL},
+			</if>
+			<if test="endOfMonthOpened != null">
+				END_OF_MONTH_OPENED =
+				#{endOfMonthOpened,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanNum != null">
+				LOAN_NUM = #{loanNum,jdbcType=VARCHAR},
+			</if>
+			<if test="fundsSources != null">
+				FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+			</if>
+			<if test="isOffer != null">
+				IS_OFFER = #{isOffer,jdbcType=CHAR},
+			</if>
+			<if test="trustGrantState != null">
+				TRUST_GRANT_STATE = #{trustGrantState,jdbcType=VARCHAR},
+			</if>
+			<if test="batchNum != null">
+				BATCH_NUM = #{batchNum,jdbcType=VARCHAR},
+			</if>
+			<if test="isSend != null">
+				IS_SEND = #{isSend,jdbcType=VARCHAR},
+			</if>
+			<if test="signCrmId != null">
+				SIGN_CRM_ID = #{signCrmId,jdbcType=DECIMAL},
+			</if>
+			<if test="planId != null">
+				PLAN_ID = #{planId,jdbcType=DECIMAL},
+			</if>
+			<if test="loanBelong != null">
+				LOAN_BELONG = #{loanBelong,jdbcType=VARCHAR},
+			</if>
+			<if test="applyType != null" >
+				APPLY_TYPE = #{applyType,jdbcType=VARCHAR},
+			</if>
+			<if test="applyInputFlag != null" >
+        		APPLY_INPUT_FLAG = #{applyInputFlag,jdbcType=VARCHAR},
+      		</if>
+      		<if test="appInputFlag != null" >
+        		APP_INPUT_FLAG = #{appInputFlag,jdbcType=VARCHAR},
+      		</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanBase">
+		update LOAN_BASE
+		set CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR},
+		LOAN_STATE =
+		#{loanState,jdbcType=VARCHAR},
+		LOAN_FLOW_STATE =
+		#{loanFlowState,jdbcType=VARCHAR},
+		GIVE_BACK_BANK_ID =
+		#{giveBackBankId,jdbcType=DECIMAL},
+		GRANT_BANK_ID =
+		#{grantBankId,jdbcType=DECIMAL},
+		BORROWER_ID =
+		#{borrowerId,jdbcType=DECIMAL},
+		CRM_ID = #{crmId,jdbcType=DECIMAL},
+		SALES_DEPARTMENT_ID = #{salesDepartmentId,jdbcType=DECIMAL},
+		SALESMAN_ID = #{salesmanId,jdbcType=DECIMAL},
+		SALES_TEAM_ID =
+		#{salesTeamId,jdbcType=DECIMAL},
+		SIGN_SALES_DEP_ID =
+		#{signSalesDepId,jdbcType=DECIMAL},
+		APPLY_SALES_DEP_ID =
+		#{applySalesDepId,jdbcType=DECIMAL},
+		END_OF_MONTH_OPENED =
+		#{endOfMonthOpened,jdbcType=VARCHAR},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME =
+		#{updateTime,jdbcType=TIMESTAMP},
+		LOAN_NUM =
+		#{loanNum,jdbcType=VARCHAR},
+		FUNDS_SOURCES =
+		#{fundsSources,jdbcType=VARCHAR},
+		IS_OFFER = #{isOffer,jdbcType=CHAR},
+		TRUST_GRANT_STATE = #{trustGrantState,jdbcType=VARCHAR},
+		BATCH_NUM =
+		#{batchNum,jdbcType=VARCHAR},
+		IS_SEND = #{isSend,jdbcType=VARCHAR},
+		SIGN_CRM_ID = #{signCrmId, jdbcType=DECIMAL},
+		PLAN_ID = #{planId,jdbcType=DECIMAL},
+		LOAN_BELONG = #{loanBelong,jdbcType=VARCHAR},
+		APPLY_TYPE = #{applyType,jdbcType=VARCHAR},
+		APPLY_INPUT_FLAG = #{applyInputFlag,jdbcType=VARCHAR},
+		APP_INPUT_FLAG = #{appInputFlag,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+
+	<update id="updateLoanStateAtEndOfDay" parameterType="java.util.Map">
+		UPDATE Loan_base
+		SET LOAN_STATE = '逾期', UPDATE_TIME = #{returnDate}
+		WHERE id IN
+		( SELECT R.loan_id
+		FROM loan_Repayment_Detail R
+		WHERE repayment_State IN
+		('未还款', '不足额还款', '不足罚息')
+		AND return_Date <![CDATA[<=]]> #{returnDate}
+		GROUP BY loan_id)
+		AND LOAN_STATE = '正常'
+	</update>
+
+	<update id="updatePaidoffOverdueToZC" parameterType="java.util.Map">
+		UPDATE Loan_base
+		SET loan_State = '正常', UPDATE_TIME=sysdate
+		WHERE id =
+		#{loanId}
+		AND loan_State <![CDATA[<>]]>
+		'结清'
+		AND loan_State <![CDATA[<>]]>
+		'预结清'
+		AND NOT EXISTS
+		(SELECT 1
+		FROM LOAN_REPAYMENT_DETAIL r where
+		r.loan_id=#{loanId} and
+		r.repayment_State in ('未还款','不足额还款','不足罚息') and
+		r.return_Date <![CDATA[< ]]>
+		#{tradeDate})
+
+	</update>
+
+	<sql id="loanBaseSelective">
+		SELECT 
+		LOAN_BASE.*
+		FROM LOAN_BASE ,LOAN_INITIAL_INFO 
+	</sql>
+
+	<sql id="loanBaseConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND LOAN_BASE.ID= #{id}
+			</if>
+			<if test="loanId != null ">
+				AND LOAN_BASE.LOAN_ID = #{loanId}
+			</if>
+			<if test="state != null ">
+				AND LOAN_BASE.loan_State = #{loanState}
+			</if>
+			<if test="borrowerId != null">
+				AND LOAN_BASE.BORROWER_ID = #{borrowerId,
+				jdbcType=DECIMAL}
+			</if>
+			<if test="givebackBankId != null">
+				AND LOAN_BASE.give_back_bank_id = #{givebackBankId, jdbcType=DECIMAL}
+			</if>
+			<if test="appNo != null">
+				AND LOAN_INITIAL_INFO.APP_NO = #{appNo,
+				jdbcType=VARCHAR}
+			</if>
+			AND LOAN_BASE.id=LOAN_INITIAL_INFO.LOAN_ID
+		</trim>
+	</sql>
+	<select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanBase"
+		resultMap="BaseResultMap">
+		<include refid="loanBaseSelective" />
+		<include refid="loanBaseConditions" />
+		ORDER BY ID DESC
+	</select>
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="loanBaseSelective" />
+		<include refid="loanBaseConditions" />
+	</select>
+
+	<update id="updateIssendByStateAndIssend" parameterType="java.util.Map">
+		update loan_base set is_send = #{isSendValue, jdbcType=VARCHAR}
+		where
+		(1=1)
+		<if test="states != null">
+			and loan_state in
+			<foreach item="item" index="index" collection="states" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		and is_send = #{isSendCondition, jdbcType=VARCHAR}
+	</update>
+	<!-- 费用减免申请 -->
+	<sql id="loanBaseSelectiveFYJM">
+		SELECT p.NAME LOANCONTRACT_BORROWER_NAME,
+                       p.IDNUM LOANCONTRACT_IDNUM,
+                       ba.LOAN_TYPE LOANINITIALINFO_LOAN_TYPE,
+                       ba.PACT_MONEY LOANCONTRACT_PACT_MONEY,
+                       ba.TIME LOANPRODUCT_TIME,
+                       BA.ID ID,
+                       ba.REQUEST_DATE LOANINITIALINFO_REQUESTDATE,
+                       BA.LOAN_STATE LOAN_STATE,
+                       ba.Residual_Pact_Money LOANPRODUCT_RESPACTMONEY,
+                       ba.Pact_Money LOANPRODUCT_PACTMONEY,
+                       ba.CURRENT_TERM BA_CURRENT_TERM,
+                       REMENT.ID  REMENT_ID,
+                       BA.CONTRACT_NUM  CONTRACT_NUM
+                  FROM v_LOAN_info BA
+                  LEFT JOIN COM_ORGANIZATION ORG ON ba.SALES_DEPARTMENT_ID=ORG.ID
+         
+              left join person_info p on p.id=ba.BORROWER_ID
+                 left JOIN LOAN_SPECIAL_REPAYMENT REMENT ON REMENT.LOAN_ID = BA.ID
+                 WHERE REMENT.SPECIAL_REPAYMENT_TYPE = '一次性还款'
+                   AND REMENT.SPECIAL_REPAYMENT_STATE = '申请'
+		
+	</sql>
+
+	<sql id="loanBaseConditionsFYJM">
+		<trim prefix="and" prefixOverrides="and">
+		<if test="code != null">
+			AND ORG.ORG_CODE LIKE  #{code} || '%'
+			
+		</if>
+			<if test="borrowerName != null and borrowerName != ''">
+				AND p.NAME LIKE '%'|| #{borrowerName} || '%'
+			</if>
+			<if test="idnum != null  and idnum != ''">
+				AND p.IDNUM = #{idnum}
+			</if>
+			<if test="salesMan != null and salesMan != ''">
+				AND BA.SALESMAN_ID = #{salesMan}
+			</if>
+			<if test="mphone != null and mphone != ''">
+				AND p.mphone = #{mphone}
+			</if>
+			<if test="contractNum != null">
+			  AND BA.CONTRACT_NUM=#{contractNum,jdbcType=VARCHAR}
+		    </if>
+			AND BA.LOAN_STATE='正常'
+		</trim>
+	</sql>
+	<select id="findLoanBaseList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="loanBaseSelectiveFYJM" />
+		<include refid="loanBaseConditionsFYJM" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="findLoanBaseListCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="loanBaseSelectiveFYJM" />
+		<include refid="loanBaseConditionsFYJM" />
+		)
+	</select>
+
+
+	<!-- 费用减免审核 -->
+	<sql id="searchapprovalWithPgSelective">
+		SELECT p.NAME LOANCONTRACT_BORROWER_NAME,
+                       p.IDNUM LOANCONTRACT_IDNUM,
+                       ba.LOAN_TYPE LOANINITIALINFO_LOAN_TYPE,
+                       ba.PACT_MONEY LOANCONTRACT_PACT_MONEY,
+                       ba.TIME LOANPRODUCT_TIME,
+                       BA.ID ID,
+                       ba.REQUEST_DATE LOANINITIALINFO_REQUESTDATE,
+                       BA.LOAN_STATE LOAN_STATE,
+                       ba.Residual_Pact_Money LOANPRODUCT_RESPACTMONEY,
+                       ba.Pact_Money LOANPRODUCT_PACTMONEY,
+                       ba.CURRENT_TERM BA_CURRENT_TERM,
+                        REMENT.Id REMENT_id
+                  FROM v_LOAN_info BA
+                  left join person_info p on p.id=ba.BORROWER_ID
+              
+               LEFT JOIN COM_ORGANIZATION ORG ON ba.SALES_DEPARTMENT_ID=ORG.ID
+                 left JOIN LOAN_SPECIAL_REPAYMENT REMENT ON REMENT.LOAN_ID = BA.ID
+                 WHERE  
+		BA.ID IN
+		( SELECT RT.LOAN_ID FROM LOAN_SPECIAL_REPAYMENT RT WHERE
+		RT.SPECIAL_REPAYMENT_STATE in
+		<foreach collection="specialRepaymentState" index="index"
+			item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		) 
+		AND REMENT.SPECIAL_REPAYMENT_TYPE='正常费用减免'
+		 AND REMENT.SPECIAL_REPAYMENT_STATE in 
+		 <foreach collection="specialRepaymentState" index="index"
+			item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		
+		 AND REMENT.REQUEST_DATE >=  trunc(sysdate)
+	</sql>
+
+
+	<sql id="searchapprovalWithPgConditions">
+<trim prefix="and" prefixOverrides="and">
+<if test="code != null">
+			AND ORG.ORG_CODE LIKE  #{code} || '%'
+			
+		</if>
+			<if test="borrowerName != null and borrowerName != ''">
+				AND p.NAME  LIKE #{borrowerName} || '%'
+			</if>
+			<if test="idnum != null  and idnum != ''">
+				AND p.IDNUM = #{idnum}
+			</if>
+			<if test="salesMan != null and salesMan != ''">
+				AND BA.SALESMAN_ID = #{salesMan}
+			</if>
+			<if test="mphone != null and mphone != ''">
+				AND p.mphone = #{mphone}
+			</if>
+		</trim>
+	</sql>
+	<select id="searchapprovalWithPg" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="searchapprovalWithPgSelective" />
+		<include refid="searchapprovalWithPgConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+	<select id="searchapprovalWithPgCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="searchapprovalWithPgSelective" />
+		<include refid="searchapprovalWithPgConditions" />
+		)
+	</select>
+
+	<!-- 提前扣款时间更新 -->
+	<sql id="loanBaseSelectiveTQKK">
+		SELECT LOANSPECIALREPAYMENT.ID,
+		LOANSPECIALREPAYMENT.LOAN_ID LOANSPECIALREPAYMENT_ID,
+		LOANSPECIALREPAYMENT.CREATOR LOANSPECIALREPAYMENT_CREATOR,
+		LOANCONTRACT.BORROWER_NAME,
+		LOANCONTRACT.IDNUM ,
+		BASE.LOAN_STATE,
+		LOANINITIALINFO.LOAN_TYPE,
+		LOANINITIALINFO.MONEY
+		FROM LOAN_BASE BASE
+		INNER JOIN LOAN_SPECIAL_REPAYMENT LOANSPECIALREPAYMENT ON
+		BASE.ID=LOANSPECIALREPAYMENT.LOAN_ID
+		INNER JOIN V_LOAN_INFO
+		LOANINITIALINFO ON LOANINITIALINFO.ID=BASE.ID
+		INNER JOIN LOAN_CONTRACT
+		LOANCONTRACT ON LOANCONTRACT.LOAN_ID=BASE.ID
+		INNER JOIN
+		LOAN_LEDGER D ON D.LOAN_ID=BASE.ID
+		WHERE
+		LOANSPECIALREPAYMENT.SPECIAL_REPAYMENT_TYPE='提前扣款'
+		AND
+		LOANSPECIALREPAYMENT.SPECIAL_REPAYMENT_STATE='申请'
+	</sql>
+
+	<sql id="loanBaseConditionsTQKK">
+		<trim prefix="and" prefixOverrides="and">
+		</trim>
+	</sql>
+
+	<select id="findLoanSpecialRepaymentTQKK" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="loanBaseSelectiveTQKK" />
+		<include refid="loanBaseConditionsTQKK" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="findLoanSpecialRepaymentTQKKCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="loanBaseSelectiveTQKK" />
+		<include refid="loanBaseConditionsTQKK" />
+		)
+	</select>
+
+
+
+	<resultMap id="BaseResultMapLoanBaseBybatchNum" type="com.zdmoney.credit.loan.domain.LoanBase">
+		<result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<sql id="baseBatchNumSelects">
+	select distinct(t.batchNum)
+  		from (
+  		select distinct batch_num batchNum,
+               l.contract_num
+          from loan_base l
+         	where l.batch_num is not null
+			<if test="batchNum != null and batchNum != ''">
+				 and l.batch_num = #{batchNum}
+			</if>
+			<if test="contractNum != null and contractNum != ''">
+				 and l.contract_num = #{contractNum}
+			</if>
+			<choose>
+			<when test="org=='WC'">
+				AND l.batch_num like  #{org} || '%'
+				AND l.batch_num not like 'WC2-%'
+			</when>
+			<when test="org=='BHXT'">
+				AND l.batch_num like  #{org} || '%'
+			</when>
+			<otherwise>
+				AND l.batch_num like  #{org} || '%'
+			</otherwise>
+		</choose>	
+          
+		) t		
+	</sql>
+
+	<select id="getLoanBaseBybatchNum" parameterType="java.util.Map"
+		resultMap="BaseResultMapLoanBaseBybatchNum">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="baseBatchNumSelects"></include>
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="getLoanBaseBybatchNumCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="baseBatchNumSelects"></include>
+		)
+	</select>
+
+	<resultMap id="BaseResultMapLoanImageFile" type="com.zdmoney.credit.loan.vo.LoanImageFile">
+		<result column="loanId" property="loanId" jdbcType="DECIMAL" />
+		<result column="app_no" property="appNo" jdbcType="VARCHAR" />
+		<result column="idnum" property="idNum" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="filepath" property="filepath" jdbcType="VARCHAR" />
+		<result column="image_name" property="imageName" jdbcType="VARCHAR" />
+		<result column="image_type" property="imageType" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="small_icon" property="smallIcon" jdbcType="VARCHAR" />
+	</resultMap>
+
+    <!-- 查询债权导出附件信息 -->
+    <select id="findLoanImageList" resultMap="BaseResultMapLoanImageFile" parameterType="java.util.Map">
+        SELECT T.ID AS LOANID,
+               T.APP_NO,
+               P.IDNUM,
+               P.NAME,
+               M.FILEPATH,
+               M.IMAGE_NAME,
+               M.IMAGE_TYPE,
+               M.FILE_NAME,
+               M.SMALL_ICON
+          FROM V_LOAN_INFO T
+         INNER JOIN PERSON_INFO P
+            ON P.ID = T.BORROWER_ID
+         INNER JOIN LOAN_IMAGE M
+            ON M.LOAN_ID = T.ID
+         <where>
+             <if test="loanIds != null">
+                AND T.ID IN 
+                <foreach collection="loanIds" item="loanId" index="index" open="(" close=")" separator=",">
+                     #{loanId}
+                </foreach>
+            </if>
+            <if test="imageNames != null">
+                AND M.IMAGE_NAME IN
+                <foreach collection="imageNames" item="imageName" index="index" open="(" close=")" separator=",">
+                     #{imageName}
+                </foreach>
+            </if>
+         </where>
+    </select>
+    
+    <!-- 黑名单附件下载 -->
+    <select id="findLoanImageListBlackName" resultMap="BaseResultMapLoanImageFile" parameterType="java.util.Map">
+        SELECT T.ID AS LOANID,
+               T.APP_NO,
+               P.IDNUM,
+               P.NAME,
+               M.FILEPATH,
+               M.IMAGE_NAME,
+               M.IMAGE_TYPE,
+               M.FILE_NAME,
+               M.SMALL_ICON
+          FROM V_LOAN_INFO T
+         INNER JOIN PERSON_INFO P
+            ON P.ID = T.BORROWER_ID
+         INNER JOIN LOAN_IMAGE M
+            ON M.LOAN_ID = T.ID
+         <where>
+         	1=1 and m.image_name!='外访资料'
+             <if test="loanIds != null">
+                AND T.ID IN 
+                <foreach collection="loanIds" item="loanId" index="index" open="(" close=")" separator=",">
+                     #{loanId}
+                </foreach>
+            </if>
+         </where>
+    </select>
+	<select id="findLoanBtchImageList" resultMap="BaseResultMapLoanImageFile"
+		parameterType="java.util.Map">
+		select t.id as loanId
+		,t.app_no,p.idnum,p.name,m.filepath,m.image_name,m.image_type
+		,m.file_name,m.small_icon
+		from v_loan_info t
+		inner join person_info p on p.id =t.BORROWER_ID
+		inner
+		join loan_image m on m.loan_id=t.id
+		where t.id=#{loanId,jdbcType=DECIMAL}
+		AND m.image_name in ('信审打包','财务打包')
+	</select>
+	<select id="findLoanImageListXsOrHt" resultMap="BaseResultMapLoanImageFile" parameterType="java.util.Map">
+        SELECT T.ID AS LOANID,
+               T.APP_NO,
+               P.IDNUM,
+               P.NAME,
+               M.FILEPATH,
+               M.IMAGE_NAME,
+               M.IMAGE_TYPE,
+               M.FILE_NAME,
+               M.SMALL_ICON
+          FROM V_LOAN_INFO T
+         INNER JOIN PERSON_INFO P
+            ON P.ID = T.BORROWER_ID
+         INNER JOIN LOAN_IMAGE M
+            ON M.LOAN_ID = T.ID
+        where 1=1 and t.id=#{loanId,jdbcType=DECIMAL}
+			AND m.image_name=  #{imageName}
+    </select>
+	<resultMap id="BaseResultMapLoanReturnVo" type="com.zdmoney.credit.loan.vo.LoanReturnVo">
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+		<result column="IMPORT_REASON" property="importReason"	jdbcType="VARCHAR" />
+		<result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+		<result column="idnum" property="idnum" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="PACT_MONEY" property="pactMoney" jdbcType="VARCHAR" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="SIGN_DATE" property="signDate" jdbcType="VARCHAR" />
+		<result column="funds_sources" property="fundsSources"	jdbcType="VARCHAR" />
+		<result column="loan_belongs" property="loanBelongs"	jdbcType="VARCHAR" />		
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="BUY_BACK_TIME" property="buyBackTime" jdbcType="TIMESTAMP" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="loanReturnSelect">
+		SELECT
+		t.funds_sources,p.name,p.idnum,v.LOAN_TYPE,v.SIGN_DATE,t.import_reason,v.PACT_MONEY,T.CREATE_TIME
+		,t.id,v.CONTRACT_NUM
+		FROM loan_return t
+		inner join v_loan_info v on v.ID=t.loan_id
+		inner join person_info p on p.id=v.borrower_id
+	</sql>
+	<sql id="loanReturnConditons">
+		where 1=1		
+		<if test="importDate != null">
+			and to_char (t.create_time,'YYYY-MM-DD') =#{importDate}
+		</if>
+		
+		<if test="name != null">
+			and p.name=#{name,jdbcType=VARCHAR}
+		</if>
+		<if test="idnum != null">
+			and p.idnum=#{idnum,jdbcType=VARCHAR}
+		</if>
+		<if test="fundsSources != null">
+			and v.funds_sources=#{fundsSources,jdbcType=VARCHAR}
+		</if>
+		<if test="contractNum != null">
+			and v.CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR}
+	    </if>
+	</sql>
+	<select id="searchLoanReturnWithPg" parameterType="java.util.Map"
+		resultMap="BaseResultMapLoanReturnVo">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="loanReturnSelect"></include>
+		<include refid="loanReturnConditons"></include>
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="searchLoanReturnWithPgCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="loanReturnSelect" />
+		<include refid="loanReturnConditons" />
+		)
+	</select>
+	
+	
+	<update id="updateLoanBaseByLoanReturn" parameterType="com.zdmoney.credit.loan.domain.LoanBase">
+		UPDATE Loan_base
+		SET LOAN_BELONG =#{loanBelong}
+		WHERE id =#{id}
+	</update>
+	
+	<update id="updateLoanBaseByBuyBackLoan" parameterType="com.zdmoney.credit.loan.domain.LoanBase">
+		UPDATE LOAN_BASE
+		SET LOAN_BELONG =#{loanBelong},
+		BATCH_NUM = null
+		WHERE id =#{id}
+	</update>
+	
+	<resultMap id="BaseResultMapTotalReturnLoanInfo" type="com.zdmoney.credit.loan.vo.TotalReturnLoanInfo">
+		<result column="totalAmount"    property="totalAmount"        jdbcType="DECIMAL" />
+		<result column="totalPactMoney" property="totalPactMoney"     jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<select id="searchTotalReturnLoanInfo" parameterType="java.util.Map" resultMap="BaseResultMapTotalReturnLoanInfo">
+		select sum(COALESCE(r.amount, 0)) as totalAmount,  sum(v.pact_money) as totalPactMoney
+ 		 from loan_return r ,v_loan_person_org v
+ 		 where r.loan_id=v.ID
+		<if test="name != null">
+			and v.name=#{name,jdbcType=VARCHAR}
+		</if>
+		<if test="idnum != null">
+			and v.idnum=#{idnum,jdbcType=VARCHAR}
+		</if>
+		<if test="fundsSources != null">
+			and r.funds_sources=#{fundsSources,jdbcType=VARCHAR}
+		</if>
+		<if test="importDate != null">
+			and to_char(r.create_time,'YYYY-MM-DD')=#{importDate,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<update id="updateLoanState" parameterType="com.zdmoney.credit.loan.domain.LoanBase">
+		UPDATE LOAN_BASE 
+		<set>
+			<if test="loanState != null">
+				LOAN_STATE = #{loanState,jdbcType=VARCHAR},
+			</if>
+			<if test="loanFlowState != null">
+				LOAN_FLOW_STATE = #{loanFlowState,jdbcType=VARCHAR},
+			</if>
+			<if test="batchNum == null">
+				BATCH_NUM = null,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set> 
+		WHERE ID =#{id}
+	</update>
+	
+ 	<select id="findAppNo" parameterType="java.util.Map"	resultMap="BaseResultMapLoanBaseAppVo" >
+		select l.app_no,name, idnum,t.id,t.batch_num from loan_base  t  
+			inner join loan_initial_info l on t.id=l.loan_id
+			inner join person_info p on p.id=t.borrower_id
+		where t.id=#{id}
+	</select>
+	<select id="findAppNoList" parameterType="java.util.Map"	resultMap="BaseResultMapLoanBaseAppVo" >
+		select l.app_no,name, idnum,t.id ,t.batch_num from loan_base  t  
+		inner join loan_initial_info l on t.id=l.loan_id
+		inner join person_info p on p.id=t.borrower_id
+		where 1=1  AND T.ID IN 
+                <foreach collection="loanIds" item="loanId" index="index" open="(" close=")" separator=",">
+                     #{loanId}
+                </foreach>
+	</select> 
+    
+    <!-- 查询财务放款的债权信息 -->
+    <select id="getAllLoanBaseInfo" resultMap="BaseResultMap">
+        SELECT L.*
+          FROM LOAN_BASE L, THIRD_LINE_OFFER O
+         WHERE L.ID = O.LOAN_ID(+)
+           AND L.LOAN_STATE = '通过'
+           AND L.LOAN_FLOW_STATE = '财务放款'
+           AND L.BATCH_NUM IS NOT NULL
+           <if test="batchNum != null and batchNum != ''">
+              AND L.BATCH_NUM = #{batchNum}
+           </if>
+           <if test="fundsSource != null and fundsSource != ''">
+              AND L.FUNDS_SOURCES = #{fundsSource}
+           </if>
+           AND (O.STATE IS NULL OR O.STATE = '扣款失败')
+           AND not exists(select 1 from LOAN_BASE_GRANT T where grant_state in ('01','02') and L.id=T.LOAN_ID)
+    </select>
+    
+        <!-- 债权批次信息集合 -->
+    <resultMap id="batchNumInfoMap" type="java.util.Map">
+        <result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <!-- 查询债权批次信息 -->
+    <sql id="queryBatchNumInfo">
+		SELECT A.BATCH_NUM,
+		CASE
+		WHEN (SELECT COUNT(1)
+		FROM REQUEST_FILE_OPERATE_RECORD R
+		WHERE R.BATCH_NUM = A.BATCH_NUM
+		AND R.OPERATE_TYPE = '02') > 0 THEN
+		'已上传'
+		ELSE
+		'未上传'
+		END AS STATUS
+		FROM (SELECT DISTINCT T.BATCH_NUM AS BATCH_NUM
+		FROM LOAN_BASE T
+		<where>
+			<if test="batchNum != null and batchNum != ''">
+				AND T.BATCH_NUM = #{batchNum}
+			</if>
+			<if test="contractNum != null and contractNum != ''">
+				AND T.CONTRACT_NUM = #{contractNum}
+			</if>
+			<if test="organization != null and organization != ''">
+				AND T.BATCH_NUM LIKE #{organization} || '%'
+			</if>
+		</where>
+		) A
+		<if test="status != null and status != ''">
+			<if test="status == '02'">
+				WHERE exists (SELECT id
+				FROM REQUEST_FILE_OPERATE_RECORD R
+				WHERE A.BATCH_NUM = R.BATCH_NUM
+				and R.OPERATE_TYPE =  '02')
+			</if>
+			<if test="status == '01'">
+				WHERE not exists (SELECT id
+				FROM REQUEST_FILE_OPERATE_RECORD R
+				WHERE A.BATCH_NUM = R.BATCH_NUM
+				and R.OPERATE_TYPE =  '02')
+			</if>
+		</if>
+    </sql>
+    
+    <!-- 按债权批次排序 -->
+    <sql id="batchNumOrderConditions">
+        ORDER BY A.BATCH_NUM DESC
+    </sql>
+    
+    <!-- 查询债权批次信息 -->
+    <select id="queryBatchNumInfoList" parameterType="java.util.Map" resultMap="batchNumInfoMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="queryBatchNumInfo"/>
+        <include refid="batchNumOrderConditions"/>
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+  
+    <!-- 通过合同编号查询债权id -->
+    <select id="findLoanIdByContractNum" parameterType="java.lang.String" resultType="java.lang.Long">
+    	SELECT ID FROM LOAN_BASE WHERE CONTRACT_NUM = #{contractNum}
+    </select>
+    <!-- 查询债权批次条数 -->
+    <select id="queryBatchNumInfoCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (<include refid="queryBatchNumInfo"/>)
+    </select>
+    
+     <!-- 通过客服id获取所属网点(管理营业部 -->
+    <select id="getSalesDepartmentId" parameterType="java.lang.Long" resultType="java.lang.Long">
+         SELECT ORG_ID FROM COM_EMPLOYEE WHERE ID=#{newCrmId}
+    </select>
+	<!--查询某个合同来源的所有批次编号 -->
+	<select id="findBatchNumByFundsSources" parameterType="java.lang.String" resultType="java.lang.String">
+		select distinct a.batch_num from loan_base a where a.batch_num is not null and  a.funds_sources = #{fundsSources} order by a.batch_num asc
+	</select>
+	
+	<!-- 债权回购分页查询 -->
+	<select id="searchBuyBackLoanWithPg" parameterType="java.util.Map"
+		resultMap="BaseResultMapLoanReturnVo">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="buyBackLoanSelect"></include>
+		<include refid="buyBackLoanConditons"></include>
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<!-- 债权回购总数 -->
+	<select id="searchBuyBackLoanWithPgCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="buyBackLoanSelect" />
+		<include refid="buyBackLoanConditons" />
+		)
+	</select>
+	
+	<sql id="buyBackLoanSelect">
+	    select
+	    l.contract_num,
+	    p.idnum,
+      	t.buy_back_time,
+     	t.amount,
+	    l.funds_sources,
+      	l.loan_belong as "loan_belongs",
+	    t.create_time
+	    from loan_return_record t
+	    inner join loan_base l on t.loan_id = l.id
+	    inner join person_info p on l.borrower_id = p.id
+	</sql>
+	
+	<sql id="buyBackLoanConditons">
+		<trim prefix="where" prefixOverrides="and" >
+			and t.funds_sources in ('挖财2','外贸信托','国民信托','华澳信托','外贸3','渤海信托','渤海2','华瑞渤海','龙信小贷','包商银行','陆金所')
+			<if test="buyBackDateStart != null and buyBackDateStart != ''">
+				and t.buy_back_time >= to_date(#{buyBackDateStart},'yyyy-mm-dd' )
+			</if>
+			<if test="buyBackDateEnd != null and buyBackDateEnd != ''">
+				and t.buy_back_time &lt; to_date(#{buyBackDateEnd},'yyyy-mm-dd' )+1
+			</if>
+			<if test="idnum != null and idnum != ''">
+				and p.idnum = #{idnum,jdbcType=VARCHAR}
+			</if>
+			<if test="fundsSources != null and fundsSources != ''">
+				and t.funds_sources = #{fundsSources,jdbcType=VARCHAR}
+			</if>
+			<if test="loanBelongs != null and loanBelongs != ''">
+				and l.loan_belong = #{loanBelongs,jdbcType=VARCHAR}
+			</if>
+			<if test="contractNum != null and contractNum != ''">
+				and l.contract_num = #{contractNum,jdbcType=VARCHAR}
+		    </if>
+		    <if test="importDateStart != null and importDateStart != ''">
+				and t.CREATE_TIME >= to_date(#{importDateStart},'yyyy-mm-dd' )
+			</if>
+			<if test="importDateEnd != null and importDateEnd != ''">
+				and t.CREATE_TIME &lt;to_date(#{importDateEnd},'yyyy-mm-dd' ) +1
+			</if>
+	    </trim>
+	    order by l.id desc
+	</sql>
+	
+	<!-- 查询外贸3已发送报盘的批次信息 -->
+	<select id="getRechargeSearchList" resultType="java.util.Map">
+		SELECT DISTINCT BAT_NO AS BAT_NO
+		FROM DEBIT_TRANSACTION
+	    WHERE STATE = '已发送'
+    </select>
+</mapper>

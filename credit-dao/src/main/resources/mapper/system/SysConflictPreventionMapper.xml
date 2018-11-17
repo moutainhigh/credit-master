@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.SysConflictPreventionMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.SysConflictPrevention">
+		<id column="KEY" property="key" jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from SYS_CONFLICT_PREVENTION
+		where KEY = #{key,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.zdmoney.credit.system.domain.SysConflictPrevention">
+		insert into SYS_CONFLICT_PREVENTION (KEY)
+		values (#{key,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.zdmoney.credit.system.domain.SysConflictPrevention">
+		insert into SYS_CONFLICT_PREVENTION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="key != null">
+				KEY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="key != null">
+				#{key,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

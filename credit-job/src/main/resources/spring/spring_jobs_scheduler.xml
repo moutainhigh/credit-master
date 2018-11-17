@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+  
+	<!-- 启动调度 -->
+	<bean id="jobScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="createOfferOverdueTrigger" />
+				<ref bean="createOfferRepaymentDateTrigger" />
+				<ref bean="createOfferSpecialTrigger" />
+				<ref bean="realtimeDeductTrigger" />
+				<ref bean="taskReminderTrigger" />
+				<ref bean="advanceRepaymentTrigger" />
+				<ref bean="endOfMonthNotifyTrigger" />
+				<ref bean="fuiouOfferTrigger" />
+				<ref bean="jimuheziDrawRiskTrigger" />
+				<ref bean="jimuheziFillRiskTrigger" />
+				<ref bean="jimuheziPaymentRisk10AMTrigger" />
+				<ref bean="jimuheziPaymentRisk3PMTrigger" />
+				<ref bean="jimuheziPaymentRisk4PMTrigger" />
+				<ref bean="jimuheziPaymentRisk6PMTrigger" />
+				<ref bean="jimuheziReturnRiskTrigger" />
+				<!-- <ref bean="loanDistributionTrigger" /> -->
+				<ref bean="overdueDetailsTrigger" />
+				<ref bean="overdueRatioStatTrigger" />
+				<ref bean="overdueStatTrigger" />
+				<ref bean="syncBlackListTrigger" />
+				<ref bean="syncBlackListZSTrigger" />
+				<ref bean="xintuoguominCustomerInfoMailTrigger" />
+				<ref bean="xintuojihuaCustomerInfo4PMTrigger" />
+				<!-- <ref bean="repayRemindEMSTrigger" /> -->
+<!-- 				<ref bean="CTSBatchInterfaceTrigger" /> -->
+				<ref bean="residualPactMoneyDetailTrigger" />
+				<ref bean="UpdateOverdueHistoryTrigger" />
+				<ref bean="organizationMarginsTrigger" />
+				<ref bean="exportLoanStatusDetailTigger" />
+<!-- 				<ref bean="xintuobohaiCustomerInfoMailTrigger" /> -->
+				<ref bean="leaveOfficeEmployeeTrigger" />
+				<ref bean="loanBackUploadTrigger" />
+				<ref bean="ftpUploadBorrowerPersonDataTriggrt"/>
+				<!--<ref bean="ftpUploadftpUploadLoandetailUploadBHFtpTriggrt"/>-->
+				<!--<ref bean="ftpUploadftpUploadLoandetailUploadBHFtpBH2Triggrt"/>-->
+				<ref bean="trustOfferFlowTriggrt"/>
+				<ref bean="repaymentLevelFlowTriggrt"/>
+				<ref bean="uploadDeductResultTriggrt"/>
+				<ref bean="ftpUploadLoanData2AbsTriggrt"/>
+				<ref bean="paidInEntityTriggrt"/>
+				<ref bean="adviceAbsOneTimeSettlementTriggrt"/>
+				<ref bean="absElectronicSignatureJobTriggrt"/>
+				<ref bean="absApplyFinanceGrantJobTriggrt"/>
+				<ref bean="grantApplyBsTriggrt"/>
+				<ref bean="specialApplyBsyhDeductTriggrt"/>
+				<ref bean="specialApplyBsyhDeductAllTriggrt"/>
+				<ref bean="grantReconciliationTriggrt"/>
+				<ref bean="repayReconciliationTriggrt"/>
+				<ref bean="repayResultDisposeBsyhTriggrt"/>	
+				<ref bean="repayResultSearchBsyhTriggrt"/>	
+				<ref bean="repayPlanUploadWm3Triggrt"/>	
+				<ref bean="uploadVideoImageWm3Triggrt"/>
+				<ref bean="grantApplyWm3Triggrt"/>
+				<ref bean="checkApplyLoanResultTrigger"/>
+				<ref bean="YiJiaoKuanRechargeSearchTrigger"/>
+				<ref bean="ftpUploadLoanData2WM3Trigger"/>
+				<ref bean="ftpDownLoanDataFromWM3Trigger"/>	
+				<ref bean="debitOfferFlow4WM3Triggrt"/>
+				<ref bean="pushDebitOfferFlow4WM3Triggrt"/>
+				<ref bean="refundedOfMoneyConfirmationTriggrt"/>
+				<ref bean="ftpUploadLoanAgreement2BHXTJobTriggrt"/>
+				<!--<ref bean="payPlanUploadBHXTJobTriggrt"/>-->
+				<ref bean="exportLoanCustomersTriggrt"/>
+				
+				<ref bean="entrustDebitLufaxTriggrt"/>
+				<ref bean="syncEntrustRepaymentInfoLufaxTriggrt"/>
+				<ref bean="executeBillRepayDealTrigger" />
+				<ref bean="transmitLoanData2LufaxJobTrigger"/>
+				<ref bean="pushOverdueRepay2LufaxJobTrigger"/>
+				<ref bean="perpareOverdueCompensatoryLufaxTriggrt"/>
+				<ref bean="pushOverdueRepaymentPlan2LufaxTriggrt"/>
+				<ref bean="pushFormalRepayPlans2LufaxJobTrigger"/>
+				<ref bean="closeBusinessJobDetailTrigger"/>
+				<ref bean="applyReliefStatusUpdateJobTrigger"/>
+				<ref bean="flowNodeEmployeeManagerJobbTrigger"/>
+				<ref bean="tppGrantResultJobTrigger"/>
+				<ref bean="executeOneBuyBackAndCompensatedRepayInfoJobTrigger"/>
+				<ref bean="createFeeJobTrigger"/>
+				<ref bean="overdueDailyJobTrigger"/>
+				<ref bean="wm3BusinessJobTrigger"/>
+				<ref bean="bigAmountRemindJobTrigger"/>		
+				<ref bean="loanRepaymentStateJobTrigger"/>	
+				<ref bean="uploadRepayStateDetailJobTrigger"/>		
+			</list>
+		</property>
+		<!--  property name="configLocation" value="classpath:quartz.properties" />-->
+	</bean>
+</beans>

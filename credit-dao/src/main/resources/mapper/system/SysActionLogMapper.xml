@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.SysActionLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.system.domain.SysActionLog" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOG_TYPE" property="logType" jdbcType="VARCHAR" />
+    <result column="LOG_NAME" property="logName" jdbcType="VARCHAR" />
+    <result column="USER_CODE" property="userCode" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="ACTION_URL" property="actionUrl" jdbcType="VARCHAR" />
+    <result column="SYSTEM_TYPE" property="systemType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LOG_TYPE, LOG_NAME, USER_CODE, USER_NAME, CONTENT, CREATE_TIME, MEMO, IP, ACTION_URL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_ACTION_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from SYS_ACTION_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.system.domain.SysActionLog" >
+    insert into SYS_ACTION_LOG (ID, LOG_TYPE, LOG_NAME, 
+      USER_CODE, USER_NAME, CONTENT, 
+      CREATE_TIME, MEMO, IP, ACTION_URL, SYSTEM_TYPE)
+    values (#{id,jdbcType=DECIMAL}, #{logType,jdbcType=VARCHAR}, #{logName,jdbcType=VARCHAR}, 
+      #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{actionUrl,jdbcType=VARCHAR}, #{systemType,jdbcType=VARCHAR})
+  </insert>
+  
+   <sql id="sysActionLogSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_ACTION_LOG S
+   </sql>
+	
+	 <sql id="sysActionLogConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="content != null">
+				AND S.CONTENT LIKE #{content} || '%'
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.SysActionLog" resultMap="BaseResultMap">
+		<include refid="sysActionLogSelective" />
+		<include refid="sysActionLogConditions" />
+		ORDER BY S.ID DESC
+	</select>
+	
+  <!-- 
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.SysActionLog" >
+    insert into SYS_ACTION_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="logType != null" >
+        LOG_TYPE,
+      </if>
+      <if test="logName != null" >
+        LOG_NAME,
+      </if>
+      <if test="userCode != null" >
+        USER_CODE,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="actionUrl != null" >
+        ACTION_URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="logType != null" >
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="logName != null" >
+        #{logName,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="actionUrl != null" >
+        #{actionUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.SysActionLog" >
+    update SYS_ACTION_LOG
+    <set >
+      <if test="logType != null" >
+        LOG_TYPE = #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="logName != null" >
+        LOG_NAME = #{logName,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null" >
+        USER_CODE = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="actionUrl != null" >
+        ACTION_URL = #{actionUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.SysActionLog" >
+    update SYS_ACTION_LOG
+    set LOG_TYPE = #{logType,jdbcType=VARCHAR},
+      LOG_NAME = #{logName,jdbcType=VARCHAR},
+      USER_CODE = #{userCode,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      ACTION_URL = #{actionUrl,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+   -->
+</mapper>

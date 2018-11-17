@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.ProdCreditProductInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.ProdCreditProductInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ACCRUALEM" property="accrualem" jdbcType="DECIMAL" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="RATE" property="rate" jdbcType="DECIMAL" />
+		<result column="CATEGORY" property="category" jdbcType="VARCHAR" />
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+		<result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+		<result column="PENALTY_RATE" property="penaltyRate" jdbcType="DECIMAL" />
+		<result column="HAS_PLAN" property="hasPlan" jdbcType="CHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<association property="term"  resultMap="termtMap" />
+		
+	</resultMap>
+	<resultMap id="termtMap" type="com.zdmoney.credit.system.domain.ProdCreditProductTerm" >
+		<result column="TERM_TERM" property="term" jdbcType="DECIMAL" />
+		<result column="TERM_ID" property="id" jdbcType="DECIMAL" />
+		<result column="TERM_PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ACCRUALEM, LOAN_TYPE, RATE, CATEGORY, CODE, START_DATE, END_DATE,
+		PENALTY_RATE,
+		HAS_PLAN, CREATE_TIME, UPDATE_TIME, OPERATOR
+	</sql>
+	
+	<select id="getIsThere" resultMap="BaseResultMap" parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo">
+		select term.id, term.id TERM_ID,term.product_id TERM_PRODUCT_ID,
+		info.loan_type,info.rate,info.category,info.start_date,info.end_date,
+		info.penalty_rate,info.accrualem,term.term TERM_TERM
+		from prod_credit_product_info info inner join prod_credit_product_term
+		term on
+		info.id=term.product_id
+		<trim prefix="where" prefixOverrides="and">
+		<if test="id != null and id  != ''">
+				AND nvl(info.ID,#{id})  &lt;&gt; #{id}
+			</if>
+			<if test="term.id != null and term.id  != ''">
+				AND nvl(term.ID,#{id})  &lt;&gt; #{term.id}
+			</if>
+			
+			<if test="loanType != null and loanType  != ''">
+				AND info.LOAN_TYPE = #{loanType}
+			</if>
+			<if test="term.term != null and term.term  != ''">
+				AND term.term = #{term.term,jdbcType=DECIMAL}
+			</if>
+			and rownum=1
+		</trim>
+	</select>
+	
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from PROD_CREDIT_PRODUCT_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from PROD_CREDIT_PRODUCT_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	
+	  <select id="findById" resultMap="BaseResultMap" parameterType="com.zdmoney.credit.system.domain.ProdCreditProductTerm">
+	select term.id,term.product_id TERM_PRODUCT_ID,
+		info.loan_type,info.rate,info.category,info.start_date,info.end_date,
+		info.penalty_rate,info.accrualem,term.term TERM_TERM
+		from prod_credit_product_info info inner join prod_credit_product_term
+		term on
+		info.id=term.product_id
+		where info.id = #{productId,jdbcType=DECIMAL}
+		and term.id=#{id,jdbcType=DECIMAL}
+	</select>
+	
+	<insert id="insert"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo">
+		insert into PROD_CREDIT_PRODUCT_INFO (ID, ACCRUALEM, LOAN_TYPE,
+		RATE, CATEGORY, CODE,
+		START_DATE, END_DATE, PENALTY_RATE,
+		HAS_PLAN, CREATE_TIME, UPDATE_TIME,
+		OPERATOR)
+		values (#{id,jdbcType=DECIMAL}, #{accrualem,jdbcType=DECIMAL},
+		#{loanType,jdbcType=VARCHAR},
+		#{rate,jdbcType=DECIMAL}, #{category,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+		#{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP},
+		#{penaltyRate,jdbcType=DECIMAL},
+		#{hasPlan,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{operator,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo">
+		insert into PROD_CREDIT_PRODUCT_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="accrualem != null">
+				ACCRUALEM,
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE,
+			</if>
+			<if test="rate != null">
+				RATE,
+			</if>
+			<if test="category != null">
+				CATEGORY,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="startDate != null">
+				START_DATE,
+			</if>
+			<if test="endDate != null">
+				END_DATE,
+			</if>
+			<if test="penaltyRate != null">
+				PENALTY_RATE,
+			</if>
+			<if test="hasPlan != null">
+				HAS_PLAN,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="accrualem != null">
+				#{accrualem,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				#{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="rate != null">
+				#{rate,jdbcType=DECIMAL},
+			</if>
+			<if test="category != null">
+				#{category,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="startDate != null">
+				#{startDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="penaltyRate != null">
+				#{penaltyRate,jdbcType=DECIMAL},
+			</if>
+			<if test="hasPlan != null">
+				#{hasPlan,jdbcType=CHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo">
+		update PROD_CREDIT_PRODUCT_INFO
+		<set>
+			<if test="accrualem != null">
+				ACCRUALEM = #{accrualem,jdbcType=DECIMAL},
+			</if>
+			<if test="loanType != null">
+				LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+			</if>
+			<if test="rate != null">
+				RATE = #{rate,jdbcType=DECIMAL},
+			</if>
+			<if test="category != null">
+				CATEGORY = #{category,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="startDate != null">
+				START_DATE = #{startDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endDate != null">
+				END_DATE = #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="penaltyRate != null">
+				PENALTY_RATE = #{penaltyRate,jdbcType=DECIMAL},
+			</if>
+			<if test="hasPlan != null">
+				HAS_PLAN = #{hasPlan,jdbcType=CHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="update"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo">
+		update PROD_CREDIT_PRODUCT_INFO
+		set ACCRUALEM = #{accrualem,jdbcType=DECIMAL},
+		LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+		RATE = #{rate,jdbcType=DECIMAL},
+		CATEGORY = #{category,jdbcType=VARCHAR},
+		CODE = #{code,jdbcType=VARCHAR},
+		START_DATE = #{startDate,jdbcType=TIMESTAMP},
+		END_DATE = #{endDate,jdbcType=TIMESTAMP},
+		PENALTY_RATE = #{penaltyRate,jdbcType=DECIMAL},
+		HAS_PLAN = #{hasPlan,jdbcType=CHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		OPERATOR = #{operator,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findAllList"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo"
+		resultMap="BaseResultMap">
+		select id,LOAN_TYPE from PROD_CREDIT_PRODUCT_INFO where loan_type &lt;&gt;
+		'助学贷' order by id
+	</select>
+
+	<sql id="prodCreditProductInfoSelect">
+		select term.id, term.id TERM_ID,term.product_id TERM_PRODUCT_ID,
+		info.loan_type,info.rate,info.category,info.start_date,info.end_date,
+		info.penalty_rate,info.accrualem,term.term TERM_TERM
+		from prod_credit_product_info info inner join prod_credit_product_term
+		term on
+		info.id=term.product_id
+	</sql>
+	<sql id="prodCreditProductInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="loanType != null and loanType != ''">
+			</if>
+				AND info.LOAN_TYPE like '%' || #{loanType} || '%' 
+		</trim>
+	</sql>
+
+	<select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="prodCreditProductInfoSelect" />
+		<include refid="prodCreditProductInfoConditions" />
+	</select>
+	<select id="findWithPG"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="prodCreditProductInfoSelect" />
+		<include refid="prodCreditProductInfoConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="count"
+		parameterType="com.zdmoney.credit.system.domain.ProdCreditProductInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="prodCreditProductInfoSelect" />
+		<include refid="prodCreditProductInfoConditions" />
+		)
+	</select>
+	
+	<select id="findByLoanType" parameterType="java.util.Map" resultMap="BaseResultMap">
+	  SELECT
+	  <include refid="Base_Column_List" />
+	  FROM PROD_CREDIT_PRODUCT_INFO
+	  WHERE LOAN_TYPE  =  #{loanType} 
+	</select>
+</mapper>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.SysFieldMapperMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.SysFieldMapper">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CORE_NAME_JAVA" property="coreNameJava"
+			jdbcType="VARCHAR" />
+		<result column="APS_NAME_JAVA" property="apsNameJava" jdbcType="VARCHAR" />
+		<result column="CTS_NAME_SQL" property="ctsNameSql" jdbcType="VARCHAR" />
+		<result column="DICT_NAME" property="dictName" jdbcType="VARCHAR" />
+		<result column="APS_NAME_JSON" property="apsNameJson" jdbcType="VARCHAR" />
+		<result column="CORE_NAME_JSON" property="coreNameJson"
+			jdbcType="VARCHAR" />
+		<result column="DOMAIN_NAME" property="domainName" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, CORE_NAME_JAVA, APS_NAME_JAVA, CTS_NAME_SQL, DICT_NAME,
+		APS_NAME_JSON, CORE_NAME_JSON,
+		DOMAIN_NAME, TYPE, MEMO, CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from SYS_FIELD_MAPPER
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from SYS_FIELD_MAPPER
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.SysFieldMapper">
+		insert into SYS_FIELD_MAPPER (ID, CORE_NAME_JAVA, APS_NAME_JAVA,
+		CTS_NAME_SQL, DICT_NAME, APS_NAME_JSON,
+		CORE_NAME_JSON, DOMAIN_NAME, TYPE,
+		MEMO, CREATE_TIME, UPDATE_TIME
+		)
+		values (#{id,jdbcType=DECIMAL}, #{coreNameJava,jdbcType=VARCHAR},
+		#{apsNameJava,jdbcType=VARCHAR},
+		#{ctsNameSql,jdbcType=VARCHAR}, #{dictName,jdbcType=VARCHAR}, #{apsNameJson,jdbcType=VARCHAR},
+		#{coreNameJson,jdbcType=VARCHAR}, #{domainName,jdbcType=VARCHAR},
+		#{type,jdbcType=VARCHAR},
+		#{memo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.SysFieldMapper">
+		insert into SYS_FIELD_MAPPER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="coreNameJava != null">
+				CORE_NAME_JAVA,
+			</if>
+			<if test="apsNameJava != null">
+				APS_NAME_JAVA,
+			</if>
+			<if test="ctsNameSql != null">
+				CTS_NAME_SQL,
+			</if>
+			<if test="dictName != null">
+				DICT_NAME,
+			</if>
+			<if test="apsNameJson != null">
+				APS_NAME_JSON,
+			</if>
+			<if test="coreNameJson != null">
+				CORE_NAME_JSON,
+			</if>
+			<if test="domainName != null">
+				DOMAIN_NAME,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="coreNameJava != null">
+				#{coreNameJava,jdbcType=VARCHAR},
+			</if>
+			<if test="apsNameJava != null">
+				#{apsNameJava,jdbcType=VARCHAR},
+			</if>
+			<if test="ctsNameSql != null">
+				#{ctsNameSql,jdbcType=VARCHAR},
+			</if>
+			<if test="dictName != null">
+				#{dictName,jdbcType=VARCHAR},
+			</if>
+			<if test="apsNameJson != null">
+				#{apsNameJson,jdbcType=VARCHAR},
+			</if>
+			<if test="coreNameJson != null">
+				#{coreNameJson,jdbcType=VARCHAR},
+			</if>
+			<if test="domainName != null">
+				#{domainName,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.SysFieldMapper">
+		update SYS_FIELD_MAPPER
+		<set>
+			<if test="coreNameJava != null">
+				CORE_NAME_JAVA = #{coreNameJava,jdbcType=VARCHAR},
+			</if>
+			<if test="apsNameJava != null">
+				APS_NAME_JAVA = #{apsNameJava,jdbcType=VARCHAR},
+			</if>
+			<if test="ctsNameSql != null">
+				CTS_NAME_SQL = #{ctsNameSql,jdbcType=VARCHAR},
+			</if>
+			<if test="dictName != null">
+				DICT_NAME = #{dictName,jdbcType=VARCHAR},
+			</if>
+			<if test="apsNameJson != null">
+				APS_NAME_JSON = #{apsNameJson,jdbcType=VARCHAR},
+			</if>
+			<if test="coreNameJson != null">
+				CORE_NAME_JSON = #{coreNameJson,jdbcType=VARCHAR},
+			</if>
+			<if test="domainName != null">
+				DOMAIN_NAME = #{domainName,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.system.domain.SysFieldMapper">
+		update SYS_FIELD_MAPPER
+		set CORE_NAME_JAVA = #{coreNameJava,jdbcType=VARCHAR},
+		APS_NAME_JAVA = #{apsNameJava,jdbcType=VARCHAR},
+		CTS_NAME_SQL = #{ctsNameSql,jdbcType=VARCHAR},
+		DICT_NAME = #{dictName,jdbcType=VARCHAR},
+		APS_NAME_JSON = #{apsNameJson,jdbcType=VARCHAR},
+		CORE_NAME_JSON = #{coreNameJson,jdbcType=VARCHAR},
+		DOMAIN_NAME = #{domainName,jdbcType=VARCHAR},
+		TYPE = #{type,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findAllList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_FIELD_MAPPER ORDER BY ID ASC
+	</select>
+</mapper>

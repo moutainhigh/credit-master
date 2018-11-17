@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.zhuxue.domain.ZhuxueProductPlanMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.zhuxue.domain.ZhuxueProductPlan">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+		<result column="INTEREST_RATE" property="interestRate" jdbcType="DECIMAL" />
+		<result column="MARGIN" property="margin" jdbcType="DECIMAL" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ORG_FEE_RATIO" property="orgFeeRatio" jdbcType="DECIMAL" />
+		<result column="ORG_REPAY_TERM" property="orgRepayTerm" jdbcType="DECIMAL" />
+		<result column="ORGANIZATION_ID" property="organizationId" jdbcType="DECIMAL" />
+		<result column="PACT_MONEY" property="pactMoney" jdbcType="DECIMAL" />
+		<result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+		<result column="RATE_SUM" property="rateSum" jdbcType="DECIMAL" />
+		<result column="REQUEST_MONEY" property="requestMoney" jdbcType="DECIMAL" />
+		<result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+		<result column="TERM" property="term" jdbcType="DECIMAL" />
+		<result column="OPERATOR_ID" property="operatorId" jdbcType="DECIMAL" />
+		<result column="ACTUAL_RATE" property="actualRate" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, CODE, END_DATE, INTEREST_RATE, MARGIN, NAME, ORG_FEE_RATIO,
+		ORG_REPAY_TERM, ORGANIZATION_ID,
+		PACT_MONEY, PRODUCT_ID, RATE_SUM, REQUEST_MONEY, START_DATE, TERM, OPERATOR_ID,
+		ACTUAL_RATE
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from ZHUXUE_PRODUCT_PLAN
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from ZHUXUE_PRODUCT_PLAN
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueProductPlan">
+		insert into ZHUXUE_PRODUCT_PLAN (ID, CODE, END_DATE,
+		INTEREST_RATE, MARGIN, NAME,
+		ORG_FEE_RATIO, ORG_REPAY_TERM, ORGANIZATION_ID,
+		PACT_MONEY, PRODUCT_ID, RATE_SUM,
+		REQUEST_MONEY, START_DATE, TERM,
+		OPERATOR_ID, ACTUAL_RATE)
+		values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR},
+		#{endDate,jdbcType=TIMESTAMP},
+		#{interestRate,jdbcType=DECIMAL}, #{margin,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR},
+		#{orgFeeRatio,jdbcType=DECIMAL}, #{orgRepayTerm,jdbcType=DECIMAL},
+		#{organizationId,jdbcType=DECIMAL},
+		#{pactMoney,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL}, #{rateSum,jdbcType=DECIMAL},
+		#{requestMoney,jdbcType=DECIMAL}, #{startDate,jdbcType=TIMESTAMP},
+		#{term,jdbcType=DECIMAL},
+		#{operatorId,jdbcType=DECIMAL}, #{actualRate,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueProductPlan">
+		insert into ZHUXUE_PRODUCT_PLAN
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="endDate != null">
+				END_DATE,
+			</if>
+			<if test="interestRate != null">
+				INTEREST_RATE,
+			</if>
+			<if test="margin != null">
+				MARGIN,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="orgFeeRatio != null">
+				ORG_FEE_RATIO,
+			</if>
+			<if test="orgRepayTerm != null">
+				ORG_REPAY_TERM,
+			</if>
+			<if test="organizationId != null">
+				ORGANIZATION_ID,
+			</if>
+			<if test="pactMoney != null">
+				PACT_MONEY,
+			</if>
+			<if test="productId != null">
+				PRODUCT_ID,
+			</if>
+			<if test="rateSum != null">
+				RATE_SUM,
+			</if>
+			<if test="requestMoney != null">
+				REQUEST_MONEY,
+			</if>
+			<if test="startDate != null">
+				START_DATE,
+			</if>
+			<if test="term != null">
+				TERM,
+			</if>
+			<if test="operatorId != null">
+				OPERATOR_ID,
+			</if>
+			<if test="actualRate != null">
+				ACTUAL_RATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="interestRate != null">
+				#{interestRate,jdbcType=DECIMAL},
+			</if>
+			<if test="margin != null">
+				#{margin,jdbcType=DECIMAL},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="orgFeeRatio != null">
+				#{orgFeeRatio,jdbcType=DECIMAL},
+			</if>
+			<if test="orgRepayTerm != null">
+				#{orgRepayTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="organizationId != null">
+				#{organizationId,jdbcType=DECIMAL},
+			</if>
+			<if test="pactMoney != null">
+				#{pactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=DECIMAL},
+			</if>
+			<if test="rateSum != null">
+				#{rateSum,jdbcType=DECIMAL},
+			</if>
+			<if test="requestMoney != null">
+				#{requestMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="startDate != null">
+				#{startDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="term != null">
+				#{term,jdbcType=DECIMAL},
+			</if>
+			<if test="operatorId != null">
+				#{operatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="actualRate != null">
+				#{actualRate,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueProductPlan">
+		update ZHUXUE_PRODUCT_PLAN
+		<set>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="endDate != null">
+				END_DATE = #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="interestRate != null">
+				INTEREST_RATE = #{interestRate,jdbcType=DECIMAL},
+			</if>
+			<if test="margin != null">
+				MARGIN = #{margin,jdbcType=DECIMAL},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="orgFeeRatio != null">
+				ORG_FEE_RATIO = #{orgFeeRatio,jdbcType=DECIMAL},
+			</if>
+			<if test="orgRepayTerm != null">
+				ORG_REPAY_TERM = #{orgRepayTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="organizationId != null">
+				ORGANIZATION_ID = #{organizationId,jdbcType=DECIMAL},
+			</if>
+			<if test="pactMoney != null">
+				PACT_MONEY = #{pactMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+			</if>
+			<if test="rateSum != null">
+				RATE_SUM = #{rateSum,jdbcType=DECIMAL},
+			</if>
+			<if test="requestMoney != null">
+				REQUEST_MONEY = #{requestMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="startDate != null">
+				START_DATE = #{startDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="term != null">
+				TERM = #{term,jdbcType=DECIMAL},
+			</if>
+			<if test="operatorId != null">
+				OPERATOR_ID = #{operatorId,jdbcType=DECIMAL},
+			</if>
+			<if test="actualRate != null">
+				ACTUAL_RATE = #{actualRate,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.zhuxue.domain.ZhuxueProductPlan">
+		update ZHUXUE_PRODUCT_PLAN
+		set CODE = #{code,jdbcType=VARCHAR},
+		END_DATE = #{endDate,jdbcType=TIMESTAMP},
+		INTEREST_RATE = #{interestRate,jdbcType=DECIMAL},
+		MARGIN = #{margin,jdbcType=DECIMAL},
+		NAME = #{name,jdbcType=VARCHAR},
+		ORG_FEE_RATIO = #{orgFeeRatio,jdbcType=DECIMAL},
+		ORG_REPAY_TERM = #{orgRepayTerm,jdbcType=DECIMAL},
+		ORGANIZATION_ID = #{organizationId,jdbcType=DECIMAL},
+		PACT_MONEY = #{pactMoney,jdbcType=DECIMAL},
+		PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+		RATE_SUM = #{rateSum,jdbcType=DECIMAL},
+		REQUEST_MONEY = #{requestMoney,jdbcType=DECIMAL},
+		START_DATE = #{startDate,jdbcType=TIMESTAMP},
+		TERM = #{term,jdbcType=DECIMAL},
+		OPERATOR_ID = #{operatorId,jdbcType=DECIMAL},
+		ACTUAL_RATE = #{actualRate,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.offer.domain.OfferRepayInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.offer.domain.OfferRepayInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="DELEGATION_TELLER" property="delegationTeller"
+			jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="OFFERID" property="offerid" jdbcType="DECIMAL" />
+		<result column="ORGAN" property="organ" jdbcType="VARCHAR" />
+		<result column="REVERSED_NO" property="reversedNo" jdbcType="VARCHAR" />
+		<result column="TELLER" property="teller" jdbcType="VARCHAR" />
+		<result column="TRADE_CODE" property="tradeCode" jdbcType="VARCHAR" />
+		<result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+		<result column="TRADE_KIND" property="tradeKind" jdbcType="VARCHAR" />
+		<result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+		<result column="VOUCHER_CODE" property="voucherCode" jdbcType="VARCHAR" />
+		<result column="VOUCHER_KIND" property="voucherKind" jdbcType="VARCHAR" />
+		<result column="TRADE_TIME" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, AMOUNT, DELEGATION_TELLER, MEMO, OFFERID, ORGAN, REVERSED_NO, TELLER,
+		TRADE_CODE,
+		TRADE_DATE, TRADE_KIND, TRADE_NO, TRADE_TYPE, VOUCHER_CODE, VOUCHER_KIND,
+		TRADE_TIME,
+		LOAN_ID, UPDATE_TIME, CREATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_REPAY_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from OFFER_REPAY_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.offer.domain.OfferRepayInfo">
+		insert into OFFER_REPAY_INFO (ID, AMOUNT, DELEGATION_TELLER,
+		MEMO, OFFERID, ORGAN,
+		REVERSED_NO, TELLER, TRADE_CODE,
+		TRADE_DATE, TRADE_KIND, TRADE_NO,
+		TRADE_TYPE, VOUCHER_CODE, VOUCHER_KIND,
+		TRADE_TIME, LOAN_ID, UPDATE_TIME,
+		CREATE_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL},
+		#{delegationTeller,jdbcType=VARCHAR},
+		#{memo,jdbcType=VARCHAR}, #{offerid,jdbcType=DECIMAL}, #{organ,jdbcType=VARCHAR},
+		#{reversedNo,jdbcType=VARCHAR}, #{teller,jdbcType=VARCHAR},
+		#{tradeCode,jdbcType=VARCHAR},
+		#{tradeDate,jdbcType=TIMESTAMP}, #{tradeKind,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR},
+		#{tradeType,jdbcType=VARCHAR}, #{voucherCode,jdbcType=VARCHAR},
+		#{voucherKind,jdbcType=VARCHAR},
+		#{tradeTime,jdbcType=TIMESTAMP}, #{loanId,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.offer.domain.OfferRepayInfo">
+		insert into OFFER_REPAY_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="delegationTeller != null">
+				DELEGATION_TELLER,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="offerid != null">
+				OFFERID,
+			</if>
+			<if test="organ != null">
+				ORGAN,
+			</if>
+			<if test="reversedNo != null">
+				REVERSED_NO,
+			</if>
+			<if test="teller != null">
+				TELLER,
+			</if>
+			<if test="tradeCode != null">
+				TRADE_CODE,
+			</if>
+			<if test="tradeDate != null">
+				TRADE_DATE,
+			</if>
+			<if test="tradeKind != null">
+				TRADE_KIND,
+			</if>
+			<if test="tradeNo != null">
+				TRADE_NO,
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE,
+			</if>
+			<if test="voucherCode != null">
+				VOUCHER_CODE,
+			</if>
+			<if test="voucherKind != null">
+				VOUCHER_KIND,
+			</if>
+			<if test="tradeTime != null">
+				TRADE_TIME,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="delegationTeller != null">
+				#{delegationTeller,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="offerid != null">
+				#{offerid,jdbcType=DECIMAL},
+			</if>
+			<if test="organ != null">
+				#{organ,jdbcType=VARCHAR},
+			</if>
+			<if test="reversedNo != null">
+				#{reversedNo,jdbcType=VARCHAR},
+			</if>
+			<if test="teller != null">
+				#{teller,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeCode != null">
+				#{tradeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeDate != null">
+				#{tradeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tradeKind != null">
+				#{tradeKind,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeNo != null">
+				#{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeType != null">
+				#{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherCode != null">
+				#{voucherCode,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherKind != null">
+				#{voucherKind,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeTime != null">
+				#{tradeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.offer.domain.OfferRepayInfo">
+		update OFFER_REPAY_INFO
+		<set>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="delegationTeller != null">
+				DELEGATION_TELLER = #{delegationTeller,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="offerid != null">
+				OFFERID = #{offerid,jdbcType=DECIMAL},
+			</if>
+			<if test="organ != null">
+				ORGAN = #{organ,jdbcType=VARCHAR},
+			</if>
+			<if test="reversedNo != null">
+				REVERSED_NO = #{reversedNo,jdbcType=VARCHAR},
+			</if>
+			<if test="teller != null">
+				TELLER = #{teller,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeCode != null">
+				TRADE_CODE = #{tradeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeDate != null">
+				TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tradeKind != null">
+				TRADE_KIND = #{tradeKind,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeNo != null">
+				TRADE_NO = #{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeType != null">
+				TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherCode != null">
+				VOUCHER_CODE = #{voucherCode,jdbcType=VARCHAR},
+			</if>
+			<if test="voucherKind != null">
+				VOUCHER_KIND = #{voucherKind,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeTime != null">
+				TRADE_TIME = #{tradeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.offer.domain.OfferRepayInfo">
+		update OFFER_REPAY_INFO
+		set AMOUNT = #{amount,jdbcType=DECIMAL},
+		DELEGATION_TELLER = #{delegationTeller,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		OFFERID = #{offerid,jdbcType=DECIMAL},
+		ORGAN = #{organ,jdbcType=VARCHAR},
+		REVERSED_NO = #{reversedNo,jdbcType=VARCHAR},
+		TELLER = #{teller,jdbcType=VARCHAR},
+		TRADE_CODE = #{tradeCode,jdbcType=VARCHAR},
+		TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+		TRADE_KIND = #{tradeKind,jdbcType=VARCHAR},
+		TRADE_NO = #{tradeNo,jdbcType=VARCHAR},
+		TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+		VOUCHER_CODE = #{voucherCode,jdbcType=VARCHAR},
+		VOUCHER_KIND = #{voucherKind,jdbcType=VARCHAR},
+		TRADE_TIME = #{tradeTime,jdbcType=TIMESTAMP},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="offerRepayInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_REPAY_INFO
+	</sql>
+
+	<sql id="offerRepayInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND OFFER_REPAY_INFO.ID= #{id}
+			</if>
+			<if test="loanId != null and loanId != ''">
+				AND OFFER_REPAY_INFO.LOAN_ID = #{loanId}
+			</if>
+			<if test="tradeNo != null and tradeNo != ''">
+				AND OFFER_REPAY_INFO.trade_no = #{tradeNo}
+			</if>
+			<if test="notEqTradeCode!=null ">
+				AND OFFER_REPAY_INFO.TRADE_CODE NOT IN
+				<foreach item="tradeCode" index="index" collection="notEqTradeCode"
+					open="(" separator="," close=")">
+					#{tradeCode}
+				</foreach>
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="offerRepayInfoOrderBy">
+		<if test="sort != null and  sort != ''">
+			ORDER BY ${sort}
+		</if>
+	</sql>
+
+	<select id="findListByMap" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		<include refid="offerRepayInfoSelective" />
+		<include refid="offerRepayInfoConditions" />
+		<include refid="offerRepayInfoOrderBy" />
+	</select>
+
+	<select id="getDrawRiskRepayInfo" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select * from (
+		<include refid="offerRepayInfoSelective" />
+		where loan_id = #{loanId, jdbcType=DECIMAL}
+		and trade_code in
+		<foreach item="tradeCode" index="index" collection="tradeCodes"
+			open="(" separator="," close=")">
+			#{tradeCode}
+		</foreach>
+		<include refid="offerRepayInfoOrderBy" />
+		) where rownum = 1
+	</select>
+
+	<select id="getLoanLastRepayInfoByTradeCode" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_REPAY_INFO r1
+		where r1.Trade_No =
+		(select max(r.Trade_No)
+		from OFFER_REPAY_INFO r
+		where r.Trade_Code = #{tradeCode, jdbcType=VARCHAR}
+		and r.loan_id = #{loanId, jdbcType=DECIMAL})
+	</select>
+
+	<sql id="findListByConditions">
+		<include refid="offerRepayInfoSelective" />
+		<include refid="offerRepayInfoConditions" />
+	</sql>
+
+	<!-- 通过Map参数集合分页查询 -->
+	<select id="findListWithPGByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="findListByConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<!-- 查询总件数 -->
+	<select id="findCountByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM (
+		<include refid="findListByConditions" />
+		)
+	</select>
+	
+	<sql id="getLoanLastRepayInfoByIdConditions">
+		<trim prefix="where" prefixOverrides="and">
+			
+			<if test="loanId != null and loanId != ''">
+				AND OFFER_REPAY_INFO.LOAN_ID = #{loanId}
+			</if>
+			and amount>0 order by id desc 
+		</trim>
+	</sql>
+	
+	<select id="getLoanLastRepayInfoById" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+			select * from (
+		<include refid="offerRepayInfoSelective" />
+		<include refid="getLoanLastRepayInfoByIdConditions" />
+		) where rownum = 1
+	</select>
+
+	<sql id="trustOfferRepayInfoConditions">
+		WHERE A.AMOUNT > 0
+		AND A.TRADE_CODE IN
+		<foreach item="tradeCode" index="" collection="tradeCodes"
+				open="(" close=")" separator=",">
+			#{tradeCode}
+		</foreach>
+		<if test="beginTradeDate != null and beginTradeDate != ''">
+		AND A.create_time &gt;= TO_DATE(#{beginTradeDate}, 'YYYY-MM-DD')
+		</if>
+		<if test="endTradeDate != null and endTradeDate != ''">
+		AND A.create_time &lt; TO_DATE(#{endTradeDate}, 'YYYY-MM-DD') +1
+		</if>
+		AND b.FUNDS_SOURCES in
+		<foreach item="fundsSource" index="" collection="fundsSources"
+				 open="(" close=")" separator=",">
+			#{fundsSource}
+		</foreach>
+	</sql>
+
+	<select id="getTrustOfferRepayInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		A.*
+		FROM OFFER_REPAY_INFO A
+		JOIN V_LOAN_INFO B ON A.LOAN_ID=B.ID
+		<include refid="trustOfferRepayInfoConditions"/>
+		ORDER BY A.LOAN_ID,A.ID
+	</select>
+
+	<select id="findByTradeNo" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT *
+		FROM OFFER_REPAY_INFO
+		WHERE
+		<if test="tradeNo != null and tradeNo != ''">
+			TRADE_NO = #{tradeNo}
+		</if>
+	</select>
+	
+	<!--渤海2分账明细表 -->
+	<select id="findSubAccountDetailList" parameterType="map" resultType="map">
+    select CASE
+           WHEN sub.LOAN_BELONG = '渤海信托' THEN
+            'ZDCF01'
+           WHEN sub.LOAN_BELONG = '渤海2' THEN
+            'ZDCF02'
+		WHEN sub.LOAN_BELONG = '华瑞渤海' THEN
+            'ZDCF03'
+           else
+            ''
+         end as "project_code",
+         sub.CONTRACT_NUM as "contract_num",
+         case
+       when sub.TRADE_TYPE = '快捷通' then
+       '01'
+           when sub.TRADE_TYPE in ('现金', '转账') then
+            '02'
+           when sub.TRADE_TYPE = '通联代扣' then
+            '03'
+           when sub.TRADE_TYPE in ('上海银联代扣', '上海银联支付','宝付','银生宝') then
+            '99'
+           else
+            ''
+         end as "trade_type",
+         case
+           when sub.CORE_TRADE_CODE = '3001' then
+            '03'
+           when sub.CORE_TRADE_CODE = '1001' then
+            case
+              when sub.trade_date > p.term_date then
+               '02'
+              else
+               '01'
+            end
+         end as "repayment_type",
+         sub.current_term as "current_term",
+         sub.ACTUAL_PRINCIPAL as "actual_principal",
+         sub.ACTUAL_INTEREST as "actual_interest",
+         sub.REDUCE_INTEREST as "reduce_interest",
+		sub.ACTUAL_FINE + sub.ACTUAL_PENALTY as "actual_fine",
+         sub.REDUCE_FINE as "reduce_fine",
+         0 as "actual_penalty",
+         sub.REDUCE_PENALTY as "reduce_penalty",
+         sub.REFUND_SERVICE_FEE as "refund_service_fee",
+         0 as "actual_handling",
+         0 as "reduce_handling",
+         0 as "actual_guarantee",
+         0 as "reduce_guarantee",
+         0 as "actual_service",
+         0 as "reduce_service",
+         to_char(sub.trade_date,'yyyy/mm/dd') as "actual_trade_date",
+         0 as "actual_fee1",
+         0 as "reduce_fee1",
+         0 as "actual_fee2",
+         0 as "reduce_fee2",
+         0 as "actual_fee3",
+         0 as "reduce_fee3",
+         0 as "third_pay_serial",
+         0 as "give_back_principal",
+         0 as "give_back_interest"
+    from (SELECT A.LOAN_ID, /** 债权编号**/
+       A.TRADE_SN, /** 充值流水号**/
+       A.CURRENT_TERM, /** 还款期数**/
+       MAX(A.TRADE_CODE) as CORE_TRADE_CODE, 
+       MAX(A.CONTRACT_NUM) AS CONTRACT_NUM, /** 合同编号**/
+       MAX(A.LOAN_BELONG) AS LOAN_BELONG, /** 债权去向**/
+       MAX(A.TRADE_TYPE) AS TRADE_TYPE, /** 交易类型**/
+       MAX(A.TRADE_DATE) AS TRADE_DATE, /** 实际还款时间**/
+       SUM(A.ACTUAL_PRINCIPAL - A.REFUND_SERVICE_FEE) AS ACTUAL_PRINCIPAL, /** 实扣本金、结清的时候需要减去退费**/
+       SUM(A.ACTUAL_INTEREST) AS ACTUAL_INTEREST, /** 实扣利息**/
+       SUM(A.REDUCE_INTEREST) AS REDUCE_INTEREST, /** 减免利息**/
+       SUM(A.ACTUAL_FINE) AS ACTUAL_FINE, /** 实扣罚息**/
+       SUM(A.REDUCE_FINE) AS REDUCE_FINE, /** 减免罚息**/
+       SUM(A.ACTUAL_PENALTY) AS ACTUAL_PENALTY, /** 实扣违约金**/
+       SUM(A.REDUCE_PENALTY) AS REDUCE_PENALTY, /** 减免违约金**/
+       SUM(A.REFUND_SERVICE_FEE) AS REFUND_SERVICE_FEE /** 趸交退费**/
+  FROM (SELECT T3.LOAN_NUMBER AS LOAN_ID,
+               T1.CONTRACT_NUM,
+               T1.LOAN_BELONG,
+               T2.TRADE_TYPE,
+               TRUNC(T3.TRADE_DATE) AS TRADE_DATE,
+               CASE
+                 WHEN T5.ITEM_NOTE IS NULL THEN
+                  (SELECT C.ITEM_NOTE
+                     FROM LOAN_TRADE_CLEAR C
+                    WHERE C.LOAN_NUMBER = T5.LOAN_NUMBER
+                      AND C.TRADE_ITEM = '4000'
+                      AND ROWNUM = 1)
+                 ELSE
+                  T5.ITEM_NOTE
+               END AS CURRENT_TERM,
+               T2.TRADE_CODE,
+               T3.TRADE_SN,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '1012' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '1013' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '1014' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '1015' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7112' THEN
+                  -T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7113' THEN
+                  -T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7114' THEN
+                  -T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7115' THEN
+                  -T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS ACTUAL_PRINCIPAL,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '2012' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '2013' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '2014' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7212' THEN
+                  -T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7213' THEN
+                  -T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7214' THEN
+                  -T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS ACTUAL_INTEREST,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '7212' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7213' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7214' THEN
+                  T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS REDUCE_INTEREST,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '5011' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '5012' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '5013' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7511' THEN
+                  -T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7512' THEN
+                  -T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7513' THEN
+                  -T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS ACTUAL_FINE,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '7511' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7512' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7513' THEN
+                  T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS REDUCE_FINE,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '4000' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '7400' THEN
+                  -T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS ACTUAL_PENALTY,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '7400' THEN
+                  T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS REDUCE_PENALTY,
+               (CASE
+                 WHEN T5.TRADE_ITEM = '6031' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '6041' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '6051' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '6052' THEN
+                  T5.TRADE_AMOUNT
+                 WHEN T5.TRADE_ITEM = '6053' THEN
+                  T5.TRADE_AMOUNT
+                 ELSE
+                  0
+               END) AS REFUND_SERVICE_FEE
+          FROM LOAN_BASE        T1, /** 债权信息**/
+               OFFER_REPAY_INFO T2, /** 还款流水**/
+               LOAN_TRADE_INFO  T3, /** 充值记录**/
+               LOAN_TRADE_INFO  T4, /** 待分账记录**/
+               LOAN_TRADE_CLEAR T5 /** 清分记录**/
+         WHERE T1.ID = T2.LOAN_ID
+           AND T2.TRADE_NO = T3.TRADE_NO
+           AND T3.TRADE_SN = T4.RELATE_TRADE
+           AND T4.TRADE_SN = T5.TRADE_SN
+	            <if test="loanBelongs != null and loanBelongs != ''">
+					AND T1.loan_belong = #{loanBelongs} /**查询条件1**/
+				</if>
+				<if test="tradeType != null and tradeType != ''">
+					AND T2.TRADE_TYPE = #{tradeType} /**划扣方式**/
+				</if>
+				<if test ="tradeTypes != null and tradeTypes != ''">
+					AND T2.TRADE_TYPE IN 
+					<foreach collection="tradeTypes" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+				<if test="tradeStartDate != null and tradeStartDate != ''">
+					AND T4.BIZ_DATE >= to_date(#{tradeStartDate},'yyyy-MM-dd') /**查询条件3**/
+				</if>
+				<if test="tradeEndDate != null and tradeEndDate != ''">
+					AND T4.BIZ_DATE &lt; to_date(#{tradeEndDate},'yyyy-MM-dd') /**查询条件4**/	
+				</if>
+	           AND T3.TRADE_CODE = 'CHAG'
+	           AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+	                             '1013' /** 正常本金 **/,
+                                 '1014' /** 逾期本金 **/,
+                                 '1015' /** 结清本金 **/,
+                                 '2012' /** 预收利息 **/,
+                                 '2013' /** 正常利息 **/,
+                                 '2014' /** 逾期利息 **/,
+                                 '5011' /** 本金罚息 **/,
+                                 '5012' /** 利息罚息 **/,
+                                 '5013' /** 费用罚息 **/,
+                                 '4000' /** 违约金 **/,
+                                 '6031' /** 退费_咨询费 **/,
+                                 '6041' /** 退费_评估费 **/,
+                                 '6051' /** 退费_乙方管理费 **/,
+                                 '6052' /** 退费_丙方管理费 **/,
+                                 '6053' /** 退费_丁方管理费 **/,
+                                 '7112' /** 减免_预收本金 **/,
+                                 '7113' /** 减免_正常本金 **/,
+                                 '7114' /** 减免_逾期本金 **/,
+                                 '7115' /** 减免_结清本金 **/,
+                                 '7212' /** 减免_预收利息 **/,
+                                 '7213' /** 减免_正常利息 **/,
+                                 '7214' /** 减免_逾期利息 **/,
+                                 '7511' /** 减免_本金罚息 **/,
+                                 '7512' /** 减免_利息罚息 **/,
+                                 '7513' /** 减免_费用罚息 **/,
+                                 '7400' /** 减免_违约金 **/)) A
+		 GROUP BY A.LOAN_ID, A.TRADE_SN, A.CURRENT_TERM
+		 ORDER BY A.LOAN_ID, A.TRADE_SN, A.CURRENT_TERM) sub
+	  	 LEFT JOIN LOAN_REPAY_PLAN P
+	     ON P.LOAN_NUMBER = SUB.LOAN_ID
+	     AND P.TERM = SUB.CURRENT_TERM
+	 	 ORDER BY SUB.LOAN_ID, SUB.TRADE_DATE,SUB.TRADE_SN, SUB.CURRENT_TERM
+
+	</select>
+	<!--渤海信托 分账流水表 -->
+    <select id="findSubAccountDetailList4BHXT" parameterType="map" resultType="map">
+      SELECT CASE
+      WHEN V.LOAN_BELONG = '渤海信托' THEN
+      'ZDCF01'
+      WHEN V.LOAN_BELONG = '渤海2' THEN
+      'ZDCF02'
+	  WHEN V.LOAN_BELONG = '华瑞渤海' THEN
+      'ZDCF03'
+      ELSE
+      ''
+      END AS "project_code",
+      V.CONTRACT_NUM as "contract_num",
+      case 
+          when TF.TRADE_TYPE in ('现金','转账') then
+          '02'
+          else 
+          '03'
+          end
+          as "trade_type",
+      case
+            when TF.REPAYMENT_TYPE = '正常还款' then
+              '01'
+            when TF.REPAYMENT_TYPE = '逾期还款' then
+              '12'
+            when TF.REPAYMENT_TYPE = '一次性结清' then
+              case
+	            when tf.trade_date > d.return_date then
+	             '12'
+	            else
+	             '03'
+	          end
+            else 
+             ''
+            end as "repayment_type",
+          (case 
+       when TF.REPAYMENT_TYPE = '一次性结清' and TF.ACTUAL_PENALTY > 0 then 0
+            else TF.CURRENT_TERM
+          end) as "current_term",
+      TF.ACTUAL_PRINCIPAL as "actual_principal",
+      TF.ACTUAL_INTEREST as "actual_interest",
+      TF.RELIEF_INTEREST as "reduce_interest",
+	  TF.ACTUAL_FINE + TF.ACTUAL_PENALTY + TF.ACTUAL_FEE1 as "actual_fine",
+      TF.RELIEF_FINE as "reduce_fine",
+      0 as "actual_penalty",
+      TF.RELIEF_PENALTY as "reduce_penalty",
+      0 as "refund_service_fee",
+      0 as "actual_handling",
+      0 as "reduce_handling",
+      0 as "actual_guarantee",
+      0 as "reduce_guarantee",
+      0 as "actual_service",
+      0 as "reduce_service",
+      to_char(TF.TRADE_DATE,'yyyy/mm/dd') as "actual_trade_date",
+      0 as "actual_fee1",
+      0 as "reduce_fee1",
+      0 as "actual_fee2",
+      0 as "reduce_fee2",
+      0 as "actual_fee3",
+      0 as "reduce_fee3",
+      0 as "third_pay_serial",
+      0 as "give_back_principal",
+      0 as "give_back_interest"
+      FROM (SELECT A.*,
+      SUM(A.ACTUAL_PRINCIPAL + A.RELIEF_PRINCIPAL + A.ACTUAL_INTEREST +
+      RELIEF_INTEREST) OVER(PARTITION BY A.LOAN_ID, A.CURRENT_TERM ORDER BY A.TRADE_DATE, A.TRADE_NO ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS SUM_YET_REPAY_AMOUNT
+      FROM (SELECT T1.LOAN_ID,
+      T1.TRADE_DATE,
+      T1.TRADE_NO,
+      T1.CURRENT_TERM,
+      MAX(T1.TRADE_MODE) AS TRADE_TYPE,
+      MAX(T1.TRADE_TYPE) AS REPAYMENT_TYPE,
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '211' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS ACTUAL_PRINCIPAL, -- 实扣本金
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '211A' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS RELIEF_PRINCIPAL, -- 本金减免
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '451' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS ACTUAL_INTEREST, -- 实扣利息
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '451A' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS RELIEF_INTEREST, -- 利息减免
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '452' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS ACTUAL_FINE, -- 实扣罚息
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '452A' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS RELIEF_FINE, -- 罚息减免
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '494' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS ACTUAL_PENALTY, -- 实扣违约金
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '494A' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS RELIEF_PENALTY, -- 违约金减免
+      SUM(CASE
+      WHEN T1.ACCT_TITLE = '149' THEN
+      T1.TRADE_AMOUNT
+      ELSE
+      0
+      END) AS ACTUAL_FEE1 -- 实还其他费用一
+      FROM TRUST_OFFER_FLOW T1
+      <where>
+        <if test="tradeStartDate != null and tradeEndDate != null">
+          and T1.TRADE_DATE >= to_date('${tradeStartDate}','yyyy-mm-dd')  
+          and T1.TRADE_DATE &lt; to_date('${tradeEndDate}','yyyy-mm-dd')
+        </if>
+        <if test="tradeType != null and tradeType != ''">
+          AND T1.TRADE_MODE = #{tradeType} -- 划扣方式
+        </if>
+        <if test ="tradeTypes != null and tradeTypes != ''">
+          AND T1.TRADE_MODE IN 
+          <foreach collection="tradeTypes" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </where>
+          GROUP BY T1.LOAN_ID, T1.CURRENT_TERM, T1.TRADE_DATE, T1.TRADE_NO
+          ORDER BY T1.LOAN_ID, T1.CURRENT_TERM, T1.TRADE_DATE, T1.TRADE_NO) A) TF
+      LEFT JOIN V_LOAN_INFO V
+      ON V.ID = TF.LOAN_ID
+      LEFT JOIN LOAN_REPAYMENT_DETAIL D
+      ON D.LOAN_ID = TF.LOAN_ID
+      AND D.CURRENT_TERM = TF.CURRENT_TERM
+      <where>
+        <if test="loanBelongs !=null and loanBelongs != ''">
+          and v.LOAN_BELONG = '${loanBelongs}'
+        </if>
+      </where>
+      ORDER BY TF.LOAN_ID,TF.CURRENT_TERM, TF.TRADE_DATE,TF.TRADE_NO
+    </select>
+
+	<!--华瑞渤海 对公 分账明细表 -->
+	<select id="findPublicSubAccountDetailList" parameterType="map" resultType="map">
+		select CASE
+		WHEN sub.LOAN_BELONG = '渤海信托' THEN
+		'ZDCF01'
+		WHEN sub.LOAN_BELONG = '渤海2' THEN
+		'ZDCF02'
+		WHEN sub.LOAN_BELONG = '华瑞渤海' THEN
+		'ZDCF03'
+		else
+		''
+		end as "project_code",
+		sub.CONTRACT_NUM as "contract_num",
+		case
+		when sub.TRADE_TYPE = '快捷通' then
+		'01'
+		when sub.TRADE_TYPE in ('现金', '转账') then
+		'02'
+		when sub.TRADE_TYPE = '通联代扣' then
+		'03'
+		when sub.TRADE_TYPE in ('上海银联代扣', '上海银联支付','宝付') then
+		'99'
+		else
+		''
+		end as "trade_type",
+		case
+		when sub.CORE_TRADE_CODE = '3001' then
+		'03'
+		when sub.CORE_TRADE_CODE = '1001' then
+		case
+		when sub.trade_date > p.term_date then
+		'02'
+		else
+		'01'
+		end
+		end as "repayment_type",
+		sub.current_term as "current_term",
+		sub.ACTUAL_PRINCIPAL as "actual_principal",
+		sub.ACTUAL_INTEREST as "actual_interest",
+		sub.REDUCE_INTEREST as "reduce_interest",
+		sub.ACTUAL_FINE + sub.ACTUAL_PENALTY as "actual_fine",
+		sub.REDUCE_FINE as "reduce_fine",
+		0 as "actual_penalty",
+		sub.REDUCE_PENALTY as "reduce_penalty",
+		sub.REFUND_SERVICE_FEE as "refund_service_fee",
+		0 as "actual_handling",
+		0 as "reduce_handling",
+		0 as "actual_guarantee",
+		0 as "reduce_guarantee",
+		0 as "actual_service",
+		0 as "reduce_service",
+		to_char(sub.trade_date,'yyyy/mm/dd') as "actual_trade_date",
+		0 as "actual_fee1",
+		0 as "reduce_fee1",
+		0 as "actual_fee2",
+		0 as "reduce_fee2",
+		0 as "actual_fee3",
+		0 as "reduce_fee3",
+		0 as "third_pay_serial",
+		0 as "give_back_principal",
+		0 as "give_back_interest"
+		from (SELECT A.LOAN_ID, /** 债权编号**/
+		A.TRADE_SN, /** 充值流水号**/
+		A.CURRENT_TERM, /** 还款期数**/
+		MAX(A.TRADE_CODE) as CORE_TRADE_CODE,
+		MAX(A.CONTRACT_NUM) AS CONTRACT_NUM, /** 合同编号**/
+		MAX(A.LOAN_BELONG) AS LOAN_BELONG, /** 债权去向**/
+		MAX(A.TRADE_TYPE) AS TRADE_TYPE, /** 交易类型**/
+		MAX(A.TRADE_DATE) AS TRADE_DATE, /** 实际还款时间**/
+		SUM(A.ACTUAL_PRINCIPAL - A.REFUND_SERVICE_FEE) AS ACTUAL_PRINCIPAL, /** 实扣本金、结清的时候需要减去退费**/
+		SUM(A.ACTUAL_INTEREST) AS ACTUAL_INTEREST, /** 实扣利息**/
+		SUM(A.REDUCE_INTEREST) AS REDUCE_INTEREST, /** 减免利息**/
+		SUM(A.ACTUAL_FINE) AS ACTUAL_FINE, /** 实扣罚息**/
+		SUM(A.REDUCE_FINE) AS REDUCE_FINE, /** 减免罚息**/
+		SUM(A.ACTUAL_PENALTY) AS ACTUAL_PENALTY, /** 实扣违约金**/
+		SUM(A.REDUCE_PENALTY) AS REDUCE_PENALTY, /** 减免违约金**/
+		SUM(A.REFUND_SERVICE_FEE) AS REFUND_SERVICE_FEE /** 趸交退费**/
+		FROM (SELECT T3.LOAN_NUMBER AS LOAN_ID,
+		T1.CONTRACT_NUM,
+		T1.LOAN_BELONG,
+		T2.TRADE_TYPE,
+		TRUNC(T3.TRADE_DATE) AS TRADE_DATE,
+		CASE
+		WHEN T5.ITEM_NOTE IS NULL THEN
+		(SELECT C.ITEM_NOTE
+		FROM LOAN_TRADE_CLEAR C
+		WHERE C.LOAN_NUMBER = T5.LOAN_NUMBER
+		AND C.TRADE_ITEM = '4000'
+		AND ROWNUM = 1)
+		ELSE
+		T5.ITEM_NOTE
+		END AS CURRENT_TERM,
+		T2.TRADE_CODE,
+		T3.TRADE_SN,
+		(CASE
+		WHEN T5.TRADE_ITEM = '1012' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '1013' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '1014' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '1015' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7112' THEN
+		-T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7113' THEN
+		-T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7114' THEN
+		-T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7115' THEN
+		-T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_PRINCIPAL,
+		(CASE
+		WHEN T5.TRADE_ITEM = '2012' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '2013' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '2014' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7212' THEN
+		-T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7213' THEN
+		-T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7214' THEN
+		-T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_INTEREST,
+		(CASE
+		WHEN T5.TRADE_ITEM = '7212' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7213' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7214' THEN
+		T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS REDUCE_INTEREST,
+		(CASE
+		WHEN T5.TRADE_ITEM = '5011' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '5012' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '5013' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7511' THEN
+		-T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7512' THEN
+		-T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7513' THEN
+		-T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_FINE,
+		(CASE
+		WHEN T5.TRADE_ITEM = '7511' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7512' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7513' THEN
+		T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS REDUCE_FINE,
+		(CASE
+		WHEN T5.TRADE_ITEM = '4000' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '7400' THEN
+		-T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS ACTUAL_PENALTY,
+		(CASE
+		WHEN T5.TRADE_ITEM = '7400' THEN
+		T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS REDUCE_PENALTY,
+		(CASE
+		WHEN T5.TRADE_ITEM = '6031' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '6041' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '6051' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '6052' THEN
+		T5.TRADE_AMOUNT
+		WHEN T5.TRADE_ITEM = '6053' THEN
+		T5.TRADE_AMOUNT
+		ELSE
+		0
+		END) AS REFUND_SERVICE_FEE
+		FROM LOAN_BASE        T1, /** 债权信息**/
+		OFFER_REPAY_INFO T2, /** 还款流水**/
+		LOAN_TRADE_INFO  T3, /** 充值记录**/
+		LOAN_TRADE_INFO  T4, /** 待分账记录**/
+		LOAN_TRADE_CLEAR T5, /** 清分记录**/
+		OFFLINE_REPAY_RELATION T6,
+		BASE_PUBLIC_ACCOUNT_INFO_WM T7
+		WHERE T1.ID = T2.LOAN_ID
+		AND T2.TRADE_NO = T3.TRADE_NO
+		AND T3.TRADE_SN = T4.RELATE_TRADE
+		AND T4.TRADE_SN = T5.TRADE_SN
+		AND T2.TRADE_NO = T6.TRADE_NO
+		AND T6.REPAY_NO = T7.REPAY_NO
+		<if test="loanBelongs != null and loanBelongs != ''">
+			AND T1.loan_belong = #{loanBelongs} /**查询条件1**/
+		</if>
+		<if test="tradeStartDate != null and tradeStartDate != ''">
+			AND T4.BIZ_DATE >= to_date(#{tradeStartDate},'yyyy-MM-dd') /**查询条件3**/
+		</if>
+		<if test="tradeEndDate != null and tradeEndDate != ''">
+			AND T4.BIZ_DATE &lt; to_date(#{tradeEndDate},'yyyy-MM-dd') /**查询条件4**/
+		</if>
+		AND T3.TRADE_CODE = 'CHAG'
+		AND T5.TRADE_ITEM IN ('1012' /** 预收本金 **/,
+		'1013' /** 正常本金 **/,
+		'1014' /** 逾期本金 **/,
+		'1015' /** 结清本金 **/,
+		'2012' /** 预收利息 **/,
+		'2013' /** 正常利息 **/,
+		'2014' /** 逾期利息 **/,
+		'5011' /** 本金罚息 **/,
+		'5012' /** 利息罚息 **/,
+		'5013' /** 费用罚息 **/,
+		'4000' /** 违约金 **/,
+		'6031' /** 退费_咨询费 **/,
+		'6041' /** 退费_评估费 **/,
+		'6051' /** 退费_乙方管理费 **/,
+		'6052' /** 退费_丙方管理费 **/,
+		'6053' /** 退费_丁方管理费 **/,
+		'7112' /** 减免_预收本金 **/,
+		'7113' /** 减免_正常本金 **/,
+		'7114' /** 减免_逾期本金 **/,
+		'7115' /** 减免_结清本金 **/,
+		'7212' /** 减免_预收利息 **/,
+		'7213' /** 减免_正常利息 **/,
+		'7214' /** 减免_逾期利息 **/,
+		'7511' /** 减免_本金罚息 **/,
+		'7512' /** 减免_利息罚息 **/,
+		'7513' /** 减免_费用罚息 **/,
+		'7400' /** 减免_违约金 **/)) A
+		GROUP BY A.LOAN_ID, A.TRADE_SN, A.CURRENT_TERM
+		ORDER BY A.LOAN_ID, A.TRADE_SN, A.CURRENT_TERM) sub
+		LEFT JOIN LOAN_REPAY_PLAN P
+		ON P.LOAN_NUMBER = SUB.LOAN_ID
+		AND P.TERM = SUB.CURRENT_TERM
+		ORDER BY SUB.LOAN_ID, SUB.TRADE_DATE,SUB.TRADE_SN, SUB.CURRENT_TERM
+
+	</select>
+</mapper>

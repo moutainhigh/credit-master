@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanTrustGrantInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.loan.domain.LoanTrustGrantInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="TRUST_USER_CODE" property="trustUserCode"
+			jdbcType="VARCHAR" />
+		<result column="CREDIT_USER_CODE" property="creditUserCode"
+			jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="INCOME" property="income" jdbcType="DECIMAL" />
+		<result column="TPP_RETURN_STATE" property="tppReturnState"
+			jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, TRUST_USER_CODE, CREDIT_USER_CODE, AMOUNT, INCOME,
+		TPP_RETURN_STATE,
+		MEMO, CREATE_TIME, UPDATE_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_TRUST_GRANT_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from LOAN_TRUST_GRANT_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanTrustGrantInfo">
+		insert into LOAN_TRUST_GRANT_INFO (ID, LOAN_ID, TRUST_USER_CODE,
+		CREDIT_USER_CODE, AMOUNT, INCOME,
+		TPP_RETURN_STATE, MEMO, CREATE_TIME,
+		UPDATE_TIME)
+		values (#{id,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{trustUserCode,jdbcType=VARCHAR},
+		#{creditUserCode,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{income,jdbcType=DECIMAL},
+		#{tppReturnState,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanTrustGrantInfo">
+		insert into LOAN_TRUST_GRANT_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="trustUserCode != null">
+				TRUST_USER_CODE,
+			</if>
+			<if test="creditUserCode != null">
+				CREDIT_USER_CODE,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="income != null">
+				INCOME,
+			</if>
+			<if test="tppReturnState != null">
+				TPP_RETURN_STATE,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="trustUserCode != null">
+				#{trustUserCode,jdbcType=VARCHAR},
+			</if>
+			<if test="creditUserCode != null">
+				#{creditUserCode,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="income != null">
+				#{income,jdbcType=DECIMAL},
+			</if>
+			<if test="tppReturnState != null">
+				#{tppReturnState,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.loan.domain.LoanTrustGrantInfo">
+		update LOAN_TRUST_GRANT_INFO
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="trustUserCode != null">
+				TRUST_USER_CODE = #{trustUserCode,jdbcType=VARCHAR},
+			</if>
+			<if test="creditUserCode != null">
+				CREDIT_USER_CODE = #{creditUserCode,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="income != null">
+				INCOME = #{income,jdbcType=DECIMAL},
+			</if>
+			<if test="tppReturnState != null">
+				TPP_RETURN_STATE = #{tppReturnState,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanTrustGrantInfo">
+		update LOAN_TRUST_GRANT_INFO
+		set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		TRUST_USER_CODE = #{trustUserCode,jdbcType=VARCHAR},
+		CREDIT_USER_CODE = #{creditUserCode,jdbcType=VARCHAR},
+		AMOUNT = #{amount,jdbcType=DECIMAL},
+		INCOME = #{income,jdbcType=DECIMAL},
+		TPP_RETURN_STATE = #{tppReturnState,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

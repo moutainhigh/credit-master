@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.overdue.domain.OverdueStatMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.overdue.domain.OverdueStat" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUR_DATE" property="curDate" jdbcType="TIMESTAMP" />
+    <result column="SHENGYUBENJIN" property="shengyubenjin" jdbcType="DECIMAL" />
+    <result column="YINYEBU" property="yinyebu" jdbcType="VARCHAR" />
+    <result column="YINYUEBUCODE" property="yinyuebucode" jdbcType="VARCHAR" />
+    <result column="YUQIJINE" property="yuqijine" jdbcType="DECIMAL" />
+    <result column="YUQILV" property="yuqilv" jdbcType="DECIMAL" />
+    <result column="YINYUEBULEIXING" property="yinyuebuleixing" jdbcType="VARCHAR" />
+    <result column="YINGYEBUBIANHAO" property="yingyebubianhao" jdbcType="VARCHAR" />
+    <result column="DAIZHANGBENJIN" property="daizhangbenjin" jdbcType="DECIMAL" />
+    <result column="DAIZHANGBILV" property="daizhangbilv" jdbcType="DECIMAL" />
+    <result column="SALES_DEPARTMENT_ID" property="salesDepartmentId" jdbcType="DECIMAL" />
+    <result column="FUNDS_SOURCES" property="fundsSources" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUR_DATE, SHENGYUBENJIN, YINYEBU, YINYUEBUCODE, YUQIJINE, YUQILV, YINYUEBULEIXING, 
+    YINGYEBUBIANHAO, DAIZHANGBENJIN, DAIZHANGBILV, SALES_DEPARTMENT_ID, FUNDS_SOURCES, 
+    CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from OVERDUE_STAT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from OVERDUE_STAT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.overdue.domain.OverdueStat" >
+    insert into OVERDUE_STAT (ID, CUR_DATE, SHENGYUBENJIN, 
+      YINYEBU, YINYUEBUCODE, YUQIJINE, 
+      YUQILV, YINYUEBULEIXING, YINGYEBUBIANHAO, 
+      DAIZHANGBENJIN, DAIZHANGBILV, SALES_DEPARTMENT_ID, 
+      FUNDS_SOURCES, CREATE_TIME, UPDATE_TIME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{curDate,jdbcType=TIMESTAMP}, #{shengyubenjin,jdbcType=DECIMAL}, 
+      #{yinyebu,jdbcType=VARCHAR}, #{yinyuebucode,jdbcType=VARCHAR}, #{yuqijine,jdbcType=DECIMAL}, 
+      #{yuqilv,jdbcType=DECIMAL}, #{yinyuebuleixing,jdbcType=VARCHAR}, #{yingyebubianhao,jdbcType=VARCHAR}, 
+      #{daizhangbenjin,jdbcType=DECIMAL}, #{daizhangbilv,jdbcType=DECIMAL}, #{salesDepartmentId,jdbcType=DECIMAL}, 
+      #{fundsSources,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.overdue.domain.OverdueStat" >
+    insert into OVERDUE_STAT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="curDate != null" >
+        CUR_DATE,
+      </if>
+      <if test="shengyubenjin != null" >
+        SHENGYUBENJIN,
+      </if>
+      <if test="yinyebu != null" >
+        YINYEBU,
+      </if>
+      <if test="yinyuebucode != null" >
+        YINYUEBUCODE,
+      </if>
+      <if test="yuqijine != null" >
+        YUQIJINE,
+      </if>
+      <if test="yuqilv != null" >
+        YUQILV,
+      </if>
+      <if test="yinyuebuleixing != null" >
+        YINYUEBULEIXING,
+      </if>
+      <if test="yingyebubianhao != null" >
+        YINGYEBUBIANHAO,
+      </if>
+      <if test="daizhangbenjin != null" >
+        DAIZHANGBENJIN,
+      </if>
+      <if test="daizhangbilv != null" >
+        DAIZHANGBILV,
+      </if>
+      <if test="salesDepartmentId != null" >
+        SALES_DEPARTMENT_ID,
+      </if>
+      <if test="fundsSources != null" >
+        FUNDS_SOURCES,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="curDate != null" >
+        #{curDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shengyubenjin != null" >
+        #{shengyubenjin,jdbcType=DECIMAL},
+      </if>
+      <if test="yinyebu != null" >
+        #{yinyebu,jdbcType=VARCHAR},
+      </if>
+      <if test="yinyuebucode != null" >
+        #{yinyuebucode,jdbcType=VARCHAR},
+      </if>
+      <if test="yuqijine != null" >
+        #{yuqijine,jdbcType=DECIMAL},
+      </if>
+      <if test="yuqilv != null" >
+        #{yuqilv,jdbcType=DECIMAL},
+      </if>
+      <if test="yinyuebuleixing != null" >
+        #{yinyuebuleixing,jdbcType=VARCHAR},
+      </if>
+      <if test="yingyebubianhao != null" >
+        #{yingyebubianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="daizhangbenjin != null" >
+        #{daizhangbenjin,jdbcType=DECIMAL},
+      </if>
+      <if test="daizhangbilv != null" >
+        #{daizhangbilv,jdbcType=DECIMAL},
+      </if>
+      <if test="salesDepartmentId != null" >
+        #{salesDepartmentId,jdbcType=DECIMAL},
+      </if>
+      <if test="fundsSources != null" >
+        #{fundsSources,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.overdue.domain.OverdueStat" >
+    update OVERDUE_STAT
+    <set >
+      <if test="curDate != null" >
+        CUR_DATE = #{curDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shengyubenjin != null" >
+        SHENGYUBENJIN = #{shengyubenjin,jdbcType=DECIMAL},
+      </if>
+      <if test="yinyebu != null" >
+        YINYEBU = #{yinyebu,jdbcType=VARCHAR},
+      </if>
+      <if test="yinyuebucode != null" >
+        YINYUEBUCODE = #{yinyuebucode,jdbcType=VARCHAR},
+      </if>
+      <if test="yuqijine != null" >
+        YUQIJINE = #{yuqijine,jdbcType=DECIMAL},
+      </if>
+      <if test="yuqilv != null" >
+        YUQILV = #{yuqilv,jdbcType=DECIMAL},
+      </if>
+      <if test="yinyuebuleixing != null" >
+        YINYUEBULEIXING = #{yinyuebuleixing,jdbcType=VARCHAR},
+      </if>
+      <if test="yingyebubianhao != null" >
+        YINGYEBUBIANHAO = #{yingyebubianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="daizhangbenjin != null" >
+        DAIZHANGBENJIN = #{daizhangbenjin,jdbcType=DECIMAL},
+      </if>
+      <if test="daizhangbilv != null" >
+        DAIZHANGBILV = #{daizhangbilv,jdbcType=DECIMAL},
+      </if>
+      <if test="salesDepartmentId != null" >
+        SALES_DEPARTMENT_ID = #{salesDepartmentId,jdbcType=DECIMAL},
+      </if>
+      <if test="fundsSources != null" >
+        FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.overdue.domain.OverdueStat" >
+    update OVERDUE_STAT
+    set CUR_DATE = #{curDate,jdbcType=TIMESTAMP},
+      SHENGYUBENJIN = #{shengyubenjin,jdbcType=DECIMAL},
+      YINYEBU = #{yinyebu,jdbcType=VARCHAR},
+      YINYUEBUCODE = #{yinyuebucode,jdbcType=VARCHAR},
+      YUQIJINE = #{yuqijine,jdbcType=DECIMAL},
+      YUQILV = #{yuqilv,jdbcType=DECIMAL},
+      YINYUEBULEIXING = #{yinyuebuleixing,jdbcType=VARCHAR},
+      YINGYEBUBIANHAO = #{yingyebubianhao,jdbcType=VARCHAR},
+      DAIZHANGBENJIN = #{daizhangbenjin,jdbcType=DECIMAL},
+      DAIZHANGBILV = #{daizhangbilv,jdbcType=DECIMAL},
+      SALES_DEPARTMENT_ID = #{salesDepartmentId,jdbcType=DECIMAL},
+      FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

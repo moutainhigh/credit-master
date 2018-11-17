@@ -1,0 +1,1084 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.PersonInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.system.domain.PersonInfo">
+		<result column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="C_ADDRESS" property="cAddress" jdbcType="VARCHAR" />
+		<result column="C_ENTER_TIME" property="cEnterTime" jdbcType="TIMESTAMP" />
+		<result column="C_TEL" property="cTel" jdbcType="VARCHAR" />
+		<result column="C_TYPE" property="cType" jdbcType="VARCHAR" />
+		<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+		<result column="DUTY" property="duty" jdbcType="VARCHAR" />
+		<result column="ED_LEVEL" property="edLevel" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="FAX" property="fax" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+		<result column="INDUSTRY_TYPE" property="industryType"
+			jdbcType="VARCHAR" />
+		<result column="MARRIED" property="married" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="MPHONE" property="mphone" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="TEL" property="tel" jdbcType="VARCHAR" />
+		<result column="WORKERTYPE" property="workertype" jdbcType="VARCHAR" />
+		<result column="CHILDREN_COUNT" property="childrenCount"
+			jdbcType="DECIMAL" />
+		<result column="HOUSE_TYPE" property="houseType" jdbcType="VARCHAR" />
+		<result column="LIVE_PERSON_COUNT" property="livePersonCount"
+			jdbcType="DECIMAL" />
+		<result column="LIVE_WITH" property="liveWith" jdbcType="VARCHAR" />
+		<result column="RENT" property="rent" jdbcType="DECIMAL" />
+		<result column="PROFESSION" property="profession" jdbcType="VARCHAR" />
+		<result column="CPAMOUNT" property="cpamount" jdbcType="VARCHAR" />
+		<result column="ENGLISH_NAME" property="englishName" jdbcType="VARCHAR" />
+		<result column="ID_END_DATE" property="idEndDate" jdbcType="TIMESTAMP" />
+		<result column="ID_SOURCE" property="idSource" jdbcType="VARCHAR" />
+		<result column="ID_START_DATE" property="idStartDate" jdbcType="TIMESTAMP" />
+		<result column="LANGUAGE" property="language" jdbcType="VARCHAR" />
+		<result column="NATIONALITY" property="nationality" jdbcType="VARCHAR" />
+		<result column="WORK_YEAR" property="workYear" jdbcType="DECIMAL" />
+		<result column="MOTHERS_NAME" property="mothersName" jdbcType="VARCHAR" />
+		<result column="FINANCING_COME_FROM" property="financingComeFrom"
+			jdbcType="VARCHAR" />
+		<result column="INVEST_YEARS" property="investYears" jdbcType="VARCHAR" />
+		<result column="INVESTMENT_LORE" property="investmentLore"
+			jdbcType="VARCHAR" />
+		<result column="P_CODE" property="pCode" jdbcType="VARCHAR" />
+		<result column="RECORDER_ID" property="recorderId" jdbcType="DECIMAL" />
+		<result column="REAL_ESTATE_LICENSE_CODE" property="realEstateLicenseCode"
+			jdbcType="VARCHAR" />
+		<result column="SALES_DEPARTMENT_ID" property="salesDepartmentId"
+			jdbcType="DECIMAL" />
+		<result column="CREATED_DATE" property="createdDate" jdbcType="TIMESTAMP" />
+		<result column="FAMILY_BACKGROUND" property="familyBackground"
+			jdbcType="VARCHAR" />
+		<result column="MSN" property="msn" jdbcType="VARCHAR" />
+		<result column="QQ" property="qq" jdbcType="VARCHAR" />
+		<result column="HAS_CREDIT_CARD" property="hasCreditCard"
+			jdbcType="CHAR" />
+		<result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+		<result column="C_CODE" property="cCode" jdbcType="VARCHAR" />
+		<result column="COME_FROM" property="comeFrom" jdbcType="VARCHAR" />
+		<result column="DOMICILE_PLACE" property="domicilePlace"
+			jdbcType="VARCHAR" />
+		<result column="HR_ADDRESS" property="hrAddress" jdbcType="VARCHAR" />
+		<result column="HR_POSTCODE" property="hrPostcode" jdbcType="VARCHAR" />
+		<result column="OTHER_COME_FROM" property="otherComeFrom"
+			jdbcType="VARCHAR" />
+		<result column="OTHER_MONTHLY_INCOME" property="otherMonthlyIncome"
+			jdbcType="DECIMAL" />
+		<result column="PAY_DAY" property="payDay" jdbcType="DECIMAL" />
+		<result column="TOTAL_MONTHLY_INCOME" property="totalMonthlyIncome"
+			jdbcType="DECIMAL" />
+		<result column="WAGE" property="wage" jdbcType="DECIMAL" />
+		<result column="CARD_DEFICIT" property="cardDeficit" jdbcType="DECIMAL" />
+		<result column="CARD_TOTAL_AMOUNT" property="cardTotalAmount"
+			jdbcType="DECIMAL" />
+		<result column="CREDIT_CARD_COUNT" property="creditCardCount"
+			jdbcType="DECIMAL" />
+		<result column="NUMBER_DEPENDANTED" property="numberDependanted"
+			jdbcType="DECIMAL" />
+		<result column="ADDRESS_PRIORITY" property="addressPriority"
+			jdbcType="VARCHAR" />
+		<result column="FAMILY_EXPENSE" property="familyExpense"
+			jdbcType="DECIMAL" />
+		<result column="OFFICIAL_RANK" property="officialRank"
+			jdbcType="VARCHAR" />
+		<result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+		<result column="CARD_MAX_AMOUNT" property="cardMaxAmount"
+			jdbcType="DECIMAL" />
+		<result column="HAS_LOAN" property="hasLoan" jdbcType="CHAR" />
+		<result column="DATE_CREATED" property="dateCreated" jdbcType="TIMESTAMP" />
+		<result column="LAST_UPDATED" property="lastUpdated" jdbcType="TIMESTAMP" />
+		<result column="SIGN_SALES_DEP_ID" property="signSalesDepId"
+			jdbcType="DECIMAL" />
+		<result column="C_CITY" property="cCity" jdbcType="VARCHAR" />
+		<result column="THIRD_PARTY_ACCOUNT_ID" property="thirdPartyAccountId"
+			jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+		<association property="comOrganization" resultMap="comOrganizationResultMap" />
+	</resultMap>
+
+	<resultMap id="comOrganizationResultMap"
+		type="com.zdmoney.credit.system.domain.ComOrganization">
+		<result column="ORG_ID" property="id" jdbcType="DECIMAL" />
+		<result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+		<result column="ORG_NAME" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		PERSON_INFO . ID , PERSON_INFO . BIRTHDAY , PERSON_INFO . NAME, PERSON_INFO .
+		IDTYPE
+		,PERSON_INFO . SEX , PERSON_INFO . IDNUM ,PERSON_INFO . MPHONE
+		,PERSON_INFO . TEL , PERSON_INFO . REAL_ESTATE_LICENSE_CODE
+		,PERSON_INFO . MARRIED , PERSON_INFO . ED_LEVEL , PERSON_INFO . CHILDREN_COUNT
+		,PERSON_INFO . HR_ADDRESS , PERSON_INFO . HR_POSTCODE , PERSON_INFO .
+		ADDRESS
+		,PERSON_INFO . POSTCODE , PERSON_INFO . QQ , PERSON_INFO . EMAIL
+		,PERSON_INFO . ADDRESS_PRIORITY , PERSON_INFO . HAS_CREDIT_CARD , PERSON_INFO .
+		HAS_LOAN
+		,PERSON_INFO . CARD_MAX_AMOUNT , PERSON_INFO . FAMILY_EXPENSE , PERSON_INFO . MEMO
+		,PERSON_INFO . HOUSE_TYPE , PERSON_INFO . COMPANY , PERSON_INFO .
+		C_TYPE
+		,PERSON_INFO . INDUSTRY_TYPE , PERSON_INFO . DEPARTMENT , PERSON_INFO .
+		OFFICIAL_RANK
+		,PERSON_INFO . C_TEL , PERSON_INFO . C_ADDRESS , PERSON_INFO . C_CODE
+		,PERSON_INFO . C_ENTER_TIME , PERSON_INFO . PAY_TYPE , PERSON_INFO . PAY_DAY
+		,PERSON_INFO . WAGE , PERSON_INFO . OTHER_MONTHLY_INCOME , PERSON_INFO
+		. TOTAL_MONTHLY_INCOME
+		,PERSON_INFO . PROFESSION , PERSON_INFO . SALES_DEPARTMENT_ID
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PERSON_INFO
+		WHERE PERSON_INFO . ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.PersonInfo">
+		insert into PERSON_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="birthday != null">
+				BIRTHDAY,
+			</if>
+			<if test="cAddress != null">
+				C_ADDRESS,
+			</if>
+			<if test="cEnterTime != null">
+				C_ENTER_TIME,
+			</if>
+			<if test="cTel != null">
+				C_TEL,
+			</if>
+			<if test="cType != null">
+				C_TYPE,
+			</if>
+			<if test="company != null">
+				COMPANY,
+			</if>
+			<if test="department != null">
+				DEPARTMENT,
+			</if>
+			<if test="duty != null">
+				DUTY,
+			</if>
+			<if test="edLevel != null">
+				ED_LEVEL,
+			</if>
+			<if test="email != null">
+				EMAIL,
+			</if>
+			<if test="fax != null">
+				FAX,
+			</if>
+			<if test="idnum != null">
+				IDNUM,
+			</if>
+			<if test="idtype != null">
+				IDTYPE,
+			</if>
+			<if test="industryType != null">
+				INDUSTRY_TYPE,
+			</if>
+			<if test="married != null">
+				MARRIED,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="mphone != null">
+				MPHONE,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="postcode != null">
+				POSTCODE,
+			</if>
+			<if test="sex != null">
+				SEX,
+			</if>
+			<if test="tel != null">
+				TEL,
+			</if>
+			<if test="workertype != null">
+				WORKERTYPE,
+			</if>
+			<if test="childrenCount != null">
+				CHILDREN_COUNT,
+			</if>
+			<if test="houseType != null">
+				HOUSE_TYPE,
+			</if>
+			<if test="livePersonCount != null">
+				LIVE_PERSON_COUNT,
+			</if>
+			<if test="liveWith != null">
+				LIVE_WITH,
+			</if>
+			<if test="rent != null">
+				RENT,
+			</if>
+			<if test="profession != null">
+				PROFESSION,
+			</if>
+			<if test="cpamount != null">
+				CPAMOUNT,
+			</if>
+			<if test="englishName != null">
+				ENGLISH_NAME,
+			</if>
+			<if test="idEndDate != null">
+				ID_END_DATE,
+			</if>
+			<if test="idSource != null">
+				ID_SOURCE,
+			</if>
+			<if test="idStartDate != null">
+				ID_START_DATE,
+			</if>
+			<if test="language != null">
+				LANGUAGE,
+			</if>
+			<if test="nationality != null">
+				NATIONALITY,
+			</if>
+			<if test="workYear != null">
+				WORK_YEAR,
+			</if>
+			<if test="mothersName != null">
+				MOTHERS_NAME,
+			</if>
+			<if test="financingComeFrom != null">
+				FINANCING_COME_FROM,
+			</if>
+			<if test="investYears != null">
+				INVEST_YEARS,
+			</if>
+			<if test="investmentLore != null">
+				INVESTMENT_LORE,
+			</if>
+			<if test="pCode != null">
+				P_CODE,
+			</if>
+			<if test="recorderId != null">
+				RECORDER_ID,
+			</if>
+			<if test="realEstateLicenseCode != null">
+				REAL_ESTATE_LICENSE_CODE,
+			</if>
+			<if test="salesDepartmentId != null">
+				SALES_DEPARTMENT_ID,
+			</if>
+			<if test="createdDate != null">
+				CREATED_DATE,
+			</if>
+			<if test="familyBackground != null">
+				FAMILY_BACKGROUND,
+			</if>
+			<if test="msn != null">
+				MSN,
+			</if>
+			<if test="qq != null">
+				QQ,
+			</if>
+			<if test="hasCreditCard != null">
+				HAS_CREDIT_CARD,
+			</if>
+			<if test="areaCode != null">
+				AREA_CODE,
+			</if>
+			<if test="cCode != null">
+				C_CODE,
+			</if>
+			<if test="comeFrom != null">
+				COME_FROM,
+			</if>
+			<if test="domicilePlace != null">
+				DOMICILE_PLACE,
+			</if>
+			<if test="hrAddress != null">
+				HR_ADDRESS,
+			</if>
+			<if test="hrPostcode != null">
+				HR_POSTCODE,
+			</if>
+			<if test="otherComeFrom != null">
+				OTHER_COME_FROM,
+			</if>
+			<if test="otherMonthlyIncome != null">
+				OTHER_MONTHLY_INCOME,
+			</if>
+			<if test="payDay != null">
+				PAY_DAY,
+			</if>
+			<if test="totalMonthlyIncome != null">
+				TOTAL_MONTHLY_INCOME,
+			</if>
+			<if test="wage != null">
+				WAGE,
+			</if>
+			<if test="cardDeficit != null">
+				CARD_DEFICIT,
+			</if>
+			<if test="cardTotalAmount != null">
+				CARD_TOTAL_AMOUNT,
+			</if>
+			<if test="creditCardCount != null">
+				CREDIT_CARD_COUNT,
+			</if>
+			<if test="numberDependanted != null">
+				NUMBER_DEPENDANTED,
+			</if>
+			<if test="addressPriority != null">
+				ADDRESS_PRIORITY,
+			</if>
+			<if test="familyExpense != null">
+				FAMILY_EXPENSE,
+			</if>
+			<if test="officialRank != null">
+				OFFICIAL_RANK,
+			</if>
+			<if test="payType != null">
+				PAY_TYPE,
+			</if>
+			<if test="cardMaxAmount != null">
+				CARD_MAX_AMOUNT,
+			</if>
+			<if test="hasLoan != null">
+				HAS_LOAN,
+			</if>
+			<if test="dateCreated != null">
+				DATE_CREATED,
+			</if>
+			<if test="lastUpdated != null">
+				LAST_UPDATED,
+			</if>
+			<if test="signSalesDepId != null">
+				SIGN_SALES_DEP_ID,
+			</if>
+			<if test="cCity != null">
+				C_CITY,
+			</if>
+			<if test="thirdPartyAccountId != null">
+				THIRD_PARTY_ACCOUNT_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+			<if test="updator != null">
+				UPDATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+				#{birthday,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cAddress != null">
+				#{cAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="cEnterTime != null">
+				#{cEnterTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cTel != null">
+				#{cTel,jdbcType=VARCHAR},
+			</if>
+			<if test="cType != null">
+				#{cType,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				#{company,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				#{department,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				#{duty,jdbcType=VARCHAR},
+			</if>
+			<if test="edLevel != null">
+				#{edLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="fax != null">
+				#{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="idnum != null">
+				#{idnum,jdbcType=VARCHAR},
+			</if>
+			<if test="idtype != null">
+				#{idtype,jdbcType=VARCHAR},
+			</if>
+			<if test="industryType != null">
+				#{industryType,jdbcType=VARCHAR},
+			</if>
+			<if test="married != null">
+				#{married,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				#{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="postcode != null">
+				#{postcode,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				#{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="workertype != null">
+				#{workertype,jdbcType=VARCHAR},
+			</if>
+			<if test="childrenCount != null">
+				#{childrenCount,jdbcType=DECIMAL},
+			</if>
+			<if test="houseType != null">
+				#{houseType,jdbcType=VARCHAR},
+			</if>
+			<if test="livePersonCount != null">
+				#{livePersonCount,jdbcType=DECIMAL},
+			</if>
+			<if test="liveWith != null">
+				#{liveWith,jdbcType=VARCHAR},
+			</if>
+			<if test="rent != null">
+				#{rent,jdbcType=DECIMAL},
+			</if>
+			<if test="profession != null">
+				#{profession,jdbcType=VARCHAR},
+			</if>
+			<if test="cpamount != null">
+				#{cpamount,jdbcType=VARCHAR},
+			</if>
+			<if test="englishName != null">
+				#{englishName,jdbcType=VARCHAR},
+			</if>
+			<if test="idEndDate != null">
+				#{idEndDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="idSource != null">
+				#{idSource,jdbcType=VARCHAR},
+			</if>
+			<if test="idStartDate != null">
+				#{idStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="language != null">
+				#{language,jdbcType=VARCHAR},
+			</if>
+			<if test="nationality != null">
+				#{nationality,jdbcType=VARCHAR},
+			</if>
+			<if test="workYear != null">
+				#{workYear,jdbcType=DECIMAL},
+			</if>
+			<if test="mothersName != null">
+				#{mothersName,jdbcType=VARCHAR},
+			</if>
+			<if test="financingComeFrom != null">
+				#{financingComeFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="investYears != null">
+				#{investYears,jdbcType=VARCHAR},
+			</if>
+			<if test="investmentLore != null">
+				#{investmentLore,jdbcType=VARCHAR},
+			</if>
+			<if test="pCode != null">
+				#{pCode,jdbcType=VARCHAR},
+			</if>
+			<if test="recorderId != null">
+				#{recorderId,jdbcType=DECIMAL},
+			</if>
+			<if test="realEstateLicenseCode != null">
+				#{realEstateLicenseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="salesDepartmentId != null">
+				#{salesDepartmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="createdDate != null">
+				#{createdDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="familyBackground != null">
+				#{familyBackground,jdbcType=VARCHAR},
+			</if>
+			<if test="msn != null">
+				#{msn,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				#{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="hasCreditCard != null">
+				#{hasCreditCard,jdbcType=CHAR},
+			</if>
+			<if test="areaCode != null">
+				#{areaCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cCode != null">
+				#{cCode,jdbcType=VARCHAR},
+			</if>
+			<if test="comeFrom != null">
+				#{comeFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="domicilePlace != null">
+				#{domicilePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="hrAddress != null">
+				#{hrAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="hrPostcode != null">
+				#{hrPostcode,jdbcType=VARCHAR},
+			</if>
+			<if test="otherComeFrom != null">
+				#{otherComeFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="otherMonthlyIncome != null">
+				#{otherMonthlyIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="payDay != null">
+				#{payDay,jdbcType=DECIMAL},
+			</if>
+			<if test="totalMonthlyIncome != null">
+				#{totalMonthlyIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="wage != null">
+				#{wage,jdbcType=DECIMAL},
+			</if>
+			<if test="cardDeficit != null">
+				#{cardDeficit,jdbcType=DECIMAL},
+			</if>
+			<if test="cardTotalAmount != null">
+				#{cardTotalAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="creditCardCount != null">
+				#{creditCardCount,jdbcType=DECIMAL},
+			</if>
+			<if test="numberDependanted != null">
+				#{numberDependanted,jdbcType=DECIMAL},
+			</if>
+			<if test="addressPriority != null">
+				#{addressPriority,jdbcType=VARCHAR},
+			</if>
+			<if test="familyExpense != null">
+				#{familyExpense,jdbcType=DECIMAL},
+			</if>
+			<if test="officialRank != null">
+				#{officialRank,jdbcType=VARCHAR},
+			</if>
+			<if test="payType != null">
+				#{payType,jdbcType=VARCHAR},
+			</if>
+			<if test="cardMaxAmount != null">
+				#{cardMaxAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="hasLoan != null">
+				#{hasLoan,jdbcType=CHAR},
+			</if>
+			<if test="dateCreated != null">
+				#{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastUpdated != null">
+				#{lastUpdated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="signSalesDepId != null">
+				#{signSalesDepId,jdbcType=DECIMAL},
+			</if>
+			<if test="cCity != null">
+				#{cCity,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdPartyAccountId != null">
+				#{thirdPartyAccountId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				#{updator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.zdmoney.credit.system.domain.PersonInfo">
+		update PERSON_INFO
+		<set>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+				BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cAddress != null">
+				C_ADDRESS = #{cAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="cEnterTime != null">
+				C_ENTER_TIME = #{cEnterTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cTel != null">
+				C_TEL = #{cTel,jdbcType=VARCHAR},
+			</if>
+			<if test="cType != null">
+				C_TYPE = #{cType,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				COMPANY = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				DEPARTMENT = #{department,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=VARCHAR},
+			</if>
+			<if test="edLevel != null">
+				ED_LEVEL = #{edLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="fax != null">
+				FAX = #{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="idnum != null">
+				IDNUM = #{idnum,jdbcType=VARCHAR},
+			</if>
+			<if test="idtype != null">
+				IDTYPE = #{idtype,jdbcType=VARCHAR},
+			</if>
+			<if test="industryType != null">
+				INDUSTRY_TYPE = #{industryType,jdbcType=VARCHAR},
+			</if>
+			<if test="married != null">
+				MARRIED = #{married,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="mphone != null">
+				MPHONE = #{mphone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="postcode != null">
+				POSTCODE = #{postcode,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				SEX = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				TEL = #{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="workertype != null">
+				WORKERTYPE = #{workertype,jdbcType=VARCHAR},
+			</if>
+			<if test="childrenCount != null">
+				CHILDREN_COUNT = #{childrenCount,jdbcType=DECIMAL},
+			</if>
+			<if test="houseType != null">
+				HOUSE_TYPE = #{houseType,jdbcType=VARCHAR},
+			</if>
+			<if test="livePersonCount != null">
+				LIVE_PERSON_COUNT = #{livePersonCount,jdbcType=DECIMAL},
+			</if>
+			<if test="liveWith != null">
+				LIVE_WITH = #{liveWith,jdbcType=VARCHAR},
+			</if>
+			<if test="rent != null">
+				RENT = #{rent,jdbcType=DECIMAL},
+			</if>
+			<if test="profession != null">
+				PROFESSION = #{profession,jdbcType=VARCHAR},
+			</if>
+			<if test="cpamount != null">
+				CPAMOUNT = #{cpamount,jdbcType=VARCHAR},
+			</if>
+			<if test="englishName != null">
+				ENGLISH_NAME = #{englishName,jdbcType=VARCHAR},
+			</if>
+			<if test="idEndDate != null">
+				ID_END_DATE = #{idEndDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="idSource != null">
+				ID_SOURCE = #{idSource,jdbcType=VARCHAR},
+			</if>
+			<if test="idStartDate != null">
+				ID_START_DATE = #{idStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="language != null">
+				LANGUAGE = #{language,jdbcType=VARCHAR},
+			</if>
+			<if test="nationality != null">
+				NATIONALITY = #{nationality,jdbcType=VARCHAR},
+			</if>
+			<if test="workYear != null">
+				WORK_YEAR = #{workYear,jdbcType=DECIMAL},
+			</if>
+			<if test="mothersName != null">
+				MOTHERS_NAME = #{mothersName,jdbcType=VARCHAR},
+			</if>
+			<if test="financingComeFrom != null">
+				FINANCING_COME_FROM = #{financingComeFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="investYears != null">
+				INVEST_YEARS = #{investYears,jdbcType=VARCHAR},
+			</if>
+			<if test="investmentLore != null">
+				INVESTMENT_LORE = #{investmentLore,jdbcType=VARCHAR},
+			</if>
+			<if test="pCode != null">
+				P_CODE = #{pCode,jdbcType=VARCHAR},
+			</if>
+			<if test="recorderId != null">
+				RECORDER_ID = #{recorderId,jdbcType=DECIMAL},
+			</if>
+			<if test="realEstateLicenseCode != null">
+				REAL_ESTATE_LICENSE_CODE = #{realEstateLicenseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="salesDepartmentId != null">
+				SALES_DEPARTMENT_ID = #{salesDepartmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="createdDate != null">
+				CREATED_DATE = #{createdDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="familyBackground != null">
+				FAMILY_BACKGROUND = #{familyBackground,jdbcType=VARCHAR},
+			</if>
+			<if test="msn != null">
+				MSN = #{msn,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				QQ = #{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="hasCreditCard != null">
+				HAS_CREDIT_CARD = #{hasCreditCard,jdbcType=CHAR},
+			</if>
+			<if test="areaCode != null">
+				AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cCode != null">
+				C_CODE = #{cCode,jdbcType=VARCHAR},
+			</if>
+			<if test="comeFrom != null">
+				COME_FROM = #{comeFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="domicilePlace != null">
+				DOMICILE_PLACE = #{domicilePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="hrAddress != null">
+				HR_ADDRESS = #{hrAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="hrPostcode != null">
+				HR_POSTCODE = #{hrPostcode,jdbcType=VARCHAR},
+			</if>
+			<if test="otherComeFrom != null">
+				OTHER_COME_FROM = #{otherComeFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="otherMonthlyIncome != null">
+				OTHER_MONTHLY_INCOME = #{otherMonthlyIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="payDay != null">
+				PAY_DAY = #{payDay,jdbcType=DECIMAL},
+			</if>
+			<if test="totalMonthlyIncome != null">
+				TOTAL_MONTHLY_INCOME = #{totalMonthlyIncome,jdbcType=DECIMAL},
+			</if>
+			<if test="wage != null">
+				WAGE = #{wage,jdbcType=DECIMAL},
+			</if>
+			<if test="cardDeficit != null">
+				CARD_DEFICIT = #{cardDeficit,jdbcType=DECIMAL},
+			</if>
+			<if test="cardTotalAmount != null">
+				CARD_TOTAL_AMOUNT = #{cardTotalAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="creditCardCount != null">
+				CREDIT_CARD_COUNT = #{creditCardCount,jdbcType=DECIMAL},
+			</if>
+			<if test="numberDependanted != null">
+				NUMBER_DEPENDANTED = #{numberDependanted,jdbcType=DECIMAL},
+			</if>
+			<if test="addressPriority != null">
+				ADDRESS_PRIORITY = #{addressPriority,jdbcType=VARCHAR},
+			</if>
+			<if test="familyExpense != null">
+				FAMILY_EXPENSE = #{familyExpense,jdbcType=DECIMAL},
+			</if>
+			<if test="officialRank != null">
+				OFFICIAL_RANK = #{officialRank,jdbcType=VARCHAR},
+			</if>
+			<if test="payType != null">
+				PAY_TYPE = #{payType,jdbcType=VARCHAR},
+			</if>
+			<if test="cardMaxAmount != null">
+				CARD_MAX_AMOUNT = #{cardMaxAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="hasLoan != null">
+				HAS_LOAN = #{hasLoan,jdbcType=CHAR},
+			</if>
+			<if test="dateCreated != null">
+				DATE_CREATED = #{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastUpdated != null">
+				LAST_UPDATED = #{lastUpdated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="signSalesDepId != null">
+				SIGN_SALES_DEP_ID = #{signSalesDepId,jdbcType=DECIMAL},
+			</if>
+			<if test="cCity != null">
+				C_CITY = #{cCity,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdPartyAccountId != null">
+				THIRD_PARTY_ACCOUNT_ID = #{thirdPartyAccountId,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<sql id="personInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		,COM_ORGANIZATION . ID ORG_ID
+		,COM_ORGANIZATION . NAME ORG_NAME
+		,COM_ORGANIZATION . ORG_CODE
+		FROM PERSON_INFO , COM_ORGANIZATION
+		<if test="personContactInfo != null">
+			<if
+				test="(personContactInfo.mphone != null and personContactInfo.mphone != '') or 
+				(personContactInfo.name != null and personContactInfo.name != '') ">
+				,PERSON_CONTACT_INFO
+			</if>
+		</if>
+	</sql>
+
+	<sql id="personInfoConditions">
+		WHERE PERSON_INFO . SALES_DEPARTMENT_ID = COM_ORGANIZATION . ID (+)
+		<if test="comOrganization != null">
+			<if test="comOrganization.orgCode != null and comOrganization.orgCode != ''">
+				and COM_ORGANIZATION.ORG_CODE LIKE #{comOrganization.orgCode} ||'%'
+			</if>
+		</if>
+		<if test="personContactInfo != null">
+			<if
+				test="(personContactInfo.mphone != null and personContactInfo.mphone != '') or 
+				(personContactInfo.name != null and personContactInfo.name != '') ">
+				AND PERSON_INFO . ID = PERSON_CONTACT_INFO . PERSON_ID
+				<if
+					test="personContactInfo.name != null and personContactInfo.name != ''">
+					AND PERSON_CONTACT_INFO . NAME = #{personContactInfo.name}
+				</if>
+				<if
+					test="personContactInfo.mphone != null and personContactInfo.mphone != ''">
+					<!-- AND (PERSON_CONTACT_INFO . MPHONE LIKE '%' || #{personContactInfo.mphone} 
+						|| '%' OR PERSON_CONTACT_INFO . TEL LIKE '%' || #{personContactInfo.mphone} 
+						|| '%' OR PERSON_CONTACT_INFO . CTEL LIKE '%' || #{personContactInfo.mphone} 
+						|| '%' ) -->
+					AND (PERSON_CONTACT_INFO . MPHONE = #{personContactInfo.mphone} OR
+					PERSON_CONTACT_INFO . TEL = #{personContactInfo.mphone}
+					OR
+					PERSON_CONTACT_INFO . CTEL = #{personContactInfo.mphone})
+				</if>
+			</if>
+		</if>
+		<if test="name != null and name != ''">
+			AND PERSON_INFO . NAME LIKE '' || #{name} || '%'
+		</if>
+		<if test="mphone != null and mphone != ''">
+			<!-- AND (PERSON_INFO . MPHONE LIKE '%' || #{mphone} || '%' OR PERSON_INFO 
+				. TEL LIKE '%' || #{mphone} || '%' OR PERSON_INFO . C_TEL LIKE '%' || #{mphone} 
+				|| '%' ) -->
+			AND (PERSON_INFO . MPHONE = #{mphone} OR PERSON_INFO . TEL =
+			#{mphone}
+			OR PERSON_INFO . C_TEL = #{mphone})
+		</if>
+		<if test="idnum != null and idnum != ''">
+			AND PERSON_INFO . IDNUM = #{idnum}
+		</if>
+		<if test="realEstateLicenseCode != null and realEstateLicenseCode != ''">
+			AND PERSON_INFO . REAL_ESTATE_LICENSE_CODE =
+			#{realEstateLicenseCode}
+		</if>
+	</sql>
+
+	<select id="findWithPG" parameterType="com.zdmoney.credit.system.domain.PersonInfo"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="personInfoSelective" />
+		<include refid="personInfoConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="count" parameterType="com.zdmoney.credit.system.domain.PersonInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="personInfoSelective" />
+		<include refid="personInfoConditions" />
+		)
+	</select>
+
+	<select id="findByIdnum" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PERSON_INFO
+		WHERE PERSON_INFO.IDNUM = #{idnum}
+	</select>
+
+	<select id="findPerson" resultMap="BaseResultMap"	parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PERSON_INFO
+		WHERE 1=1
+		<if test="idNum != null and idNum != ''">
+			AND trim(IDNUM) = #{idNum}
+		</if>
+		<if test="borrowerName != null and borrowerName != ''">
+			AND trim(name) = #{borrowerName}
+		</if>
+		
+	</select>
+
+	<sql id="personInfoSingleSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PERSON_INFO
+	</sql>
+
+	<sql id="personInfoSingleConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND PERSON_INFO.ID= #{id}
+			</if>
+			<if test="idnum != null and idnum != ''">
+				AND PERSON_INFO.IDNUM = #{idnum}
+			</if>
+			<if test="name != null and name != ''">
+				AND PERSON_INFO.NAME = #{name}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.PersonInfo"
+		resultMap="BaseResultMap">
+		<include refid="personInfoSingleSelective" />
+		<include refid="personInfoSingleConditions" />
+	</select>
+	
+	
+	<resultMap id="personMap" type="com.zdmoney.credit.person.vo.PersonVo">
+		<result column="ID" property="employeeId" jdbcType="DECIMAL" />
+		<result column="ename" property="employeeName" jdbcType="VARCHAR" />
+		<result column="mphone" property="mobile" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="leave_office_date" property="leaveOfficeDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 查询离职客户经理名下的客户 -->
+	<select id="findLeaveOfficeEmployee" parameterType="java.util.Map" resultMap="personMap">
+		SELECT distinct p.mphone,p.name,e.name as ename,e.id, e.in_active,e.leave_office_date FROM loan_base t left join com_employee e on 
+		t.salesman_id = e.id left join person_info p on t.borrower_id = p.id
+		where 
+		e.in_active!='t'
+		and 
+		t.loan_state not in ('拒绝','结清','取消') 
+	</select>
+	<select id="getCustomerInfo4LXXD" resultType="java.util.Map"	parameterType="java.util.Map">
+		select 
+		p.id as "personId",
+		p.name as "name",
+		p.idtype as "idType",
+		'0' as "idTypeCode",
+		p.idnum as "idNum",
+		to_char(p.birthday,'yyyymmdd') as "birthday",
+		p.sex as "sex",
+		case 
+		when
+		p.sex = '男' 
+		then '1'
+		when p.sex = '女'
+		then '2'
+		else
+		''
+		end
+		as "sexCode",
+		p.mphone  as "mobilePhone",
+		p.address as "contactAddress",
+		'' as "livingStatus",
+		'' as "marryStatus",
+		'' as "marryStatusCode",
+		'' as "edLevel",
+		'' as "edLevelCode",
+		'' as "degree",
+		'' as "degreeNo",
+		'' as "postCode",
+		'' as "areaBelong",
+		'' as "areaBelongCode",
+		'' as "income",
+		p.profession as "profession",
+	    p.company as "company",
+	    p.industry_type as "industryType",
+	    '' as "industryTypeCode",
+	    p.c_type as "companyType",
+	    '' as "companyTypeCode",
+	    p.c_tel as "companyTel",
+	    p.c_address as "companyAddress",
+	    '' as "companyEntryYear"
+		from person_info p
+		<trim prefix="where" prefixOverrides="and">
+			<if test="idNum != null">
+				and p.idnum = #{idNum}
+			</if>
+		</trim>
+	</select>
+</mapper>

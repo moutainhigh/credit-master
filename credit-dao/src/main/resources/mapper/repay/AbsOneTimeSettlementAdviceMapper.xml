@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.repay.domain.AbsOneTimeSettlementAdviceMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.repay.domain.AbsOneTimeSettlementAdvice" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="ADVICE_STATE" property="adviceState" jdbcType="VARCHAR" />
+    <result column="SERIALNO" property="serialno" jdbcType="VARCHAR" />
+    <result column="PAYOVER" property="payover" jdbcType="DECIMAL" />
+    <result column="REPAYTOTAL" property="repaytotal" jdbcType="DECIMAL" />
+    <result column="REPAYAMT" property="repayamt" jdbcType="DECIMAL" />
+    <result column="REPAYINTE" property="repayinte" jdbcType="DECIMAL" />
+    <result column="REPAYOVER" property="repayover" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="LAST_TERM" property="lastTerm" jdbcType="DECIMAL" />
+    <result column="START_TERM" property="startTerm" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ID, LOAN_ID, ADVICE_STATE, SERIALNO, PAYOVER,
+    REPAYTOTAL, REPAYAMT, REPAYINTE, REPAYOVER, CREATE_TIME, UPDATE_TIME, CREATOR, UPDATOR, 
+    REMARK, LAST_TERM, START_TERM
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from ABS_ONE_TIME_SETTLEMENT_ADVICE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from ABS_ONE_TIME_SETTLEMENT_ADVICE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="insert" parameterType="com.zdmoney.credit.repay.domain.AbsOneTimeSettlementAdvice" >
+    insert into ABS_ONE_TIME_SETTLEMENT_ADVICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="adviceState != null" >
+        ADVICE_STATE,
+      </if>
+      <if test="serialno != null" >
+        SERIALNO,
+      </if>
+      <if test="payover != null" >
+        PAYOVER,
+      </if>
+      <if test="repaytotal != null" >
+        REPAYTOTAL,
+      </if>
+      <if test="repayamt != null" >
+        REPAYAMT,
+      </if>
+      <if test="repayinte != null" >
+        REPAYINTE,
+      </if>
+      <if test="repayover != null" >
+        REPAYOVER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="updator != null" >
+        UPDATOR,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="lastTerm != null" >
+        LAST_TERM,
+      </if>
+      <if test="startTerm != null" >
+        START_TERM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="adviceState != null" >
+        #{adviceState,jdbcType=VARCHAR},
+      </if>
+      <if test="serialno != null" >
+        #{serialno,jdbcType=VARCHAR},
+      </if>
+      <if test="payover != null" >
+        #{payover,jdbcType=DECIMAL},
+      </if>
+      <if test="repaytotal != null" >
+        #{repaytotal,jdbcType=DECIMAL},
+      </if>
+      <if test="repayamt != null" >
+        #{repayamt,jdbcType=DECIMAL},
+      </if>
+      <if test="repayinte != null" >
+        #{repayinte,jdbcType=DECIMAL},
+      </if>
+      <if test="repayover != null" >
+        #{repayover,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTerm != null" >
+        #{lastTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="startTerm != null" >
+        #{startTerm,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.zdmoney.credit.repay.domain.AbsOneTimeSettlementAdvice" >
+    update ABS_ONE_TIME_SETTLEMENT_ADVICE
+    <set >
+      <if test="loanId != null" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="adviceState != null" >
+        ADVICE_STATE = #{adviceState,jdbcType=VARCHAR},
+      </if>
+      <if test="serialno != null" >
+        SERIALNO = #{serialno,jdbcType=VARCHAR},
+      </if>
+      <if test="payover != null" >
+        PAYOVER = #{payover,jdbcType=DECIMAL},
+      </if>
+      <if test="repaytotal != null" >
+        REPAYTOTAL = #{repaytotal,jdbcType=DECIMAL},
+      </if>
+      <if test="repayamt != null" >
+        REPAYAMT = #{repayamt,jdbcType=DECIMAL},
+      </if>
+      <if test="repayinte != null" >
+        REPAYINTE = #{repayinte,jdbcType=DECIMAL},
+      </if>
+      <if test="repayover != null" >
+        REPAYOVER = #{repayover,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTerm != null" >
+        LAST_TERM = #{lastTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="startTerm != null" >
+        START_TERM = #{startTerm,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <insert id = "insertBatch" parameterType="java.util.ArrayList" useGeneratedKeys="true">
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+      select seq_abs_one_time_settlement.nextval from dual
+    </selectKey>
+    insert into ABS_ONE_TIME_SETTLEMENT_ADVICE (ID, LOAN_ID,
+    ADVICE_STATE, SERIALNO, PAYOVER, REPAYTOTAL,
+    REPAYAMT, REPAYINTE, REPAYOVER,
+    CREATE_TIME, UPDATE_TIME, CREATOR,
+    UPDATOR, REMARK, LAST_TERM, START_TERM)
+    select seq_abs_one_time_settlement.nextval ,t.* from (
+    <foreach collection="list" item="item" index="index" separator="UNION">
+      select  #{item.loanId,jdbcType=DECIMAL}  , #{item.adviceState,jdbcType=VARCHAR}  , #{item.serialno,jdbcType=VARCHAR} , #{item.payover,jdbcType=DECIMAL} ,
+      #{item.repaytotal,jdbcType=DECIMAL} , #{item.repayamt,jdbcType=DECIMAL} , #{item.repayinte,jdbcType=DECIMAL}, #{item.repayover,jdbcType=DECIMAL},
+      #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.creator,jdbcType=VARCHAR}, #{item.updator,jdbcType=VARCHAR}
+      , #{item.remark,jdbcType=VARCHAR}, #{item.lastTerm,jdbcType=DECIMAL},#{item.startTerm,jdbcType=DECIMAL}
+      from dual
+    </foreach>
+    ) t
+  </insert>
+
+  <sql id = "findListByMapSelective">
+    select
+    <include refid="Base_Column_List"/>
+    from abs_one_time_settlement_advice
+  </sql>
+
+  <sql id = "findListByMapConditions">
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="adviceState != null and adviceState != ''">
+       and advice_state = #{adviceState}
+      </if>
+      <if test="adviceStates != null">
+        and advice_state in
+        <foreach item="adviceState" index="index" collection="adviceStates"
+        open="(" separator="," close=")">
+        #{adviceState}
+      </foreach>
+      </if>
+    </trim>
+  </sql>
+
+  <sql id = "findListByMapOrderBy">
+  <if test = "sort != null and  sort != ''">
+    ORDER BY ${sort}
+  </if>
+  </sql>
+
+  <select id = "findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <include refid = "findListByMapSelective"/>
+    <include refid = "findListByMapConditions"/>
+    <include refid = "findListByMapOrderBy"/>
+  </select>
+</mapper>

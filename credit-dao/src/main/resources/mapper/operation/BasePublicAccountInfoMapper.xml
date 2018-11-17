@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.operation.domain.BasePublicAccountInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="COMMENTS" property="comments" jdbcType="VARCHAR" />
+    <result column="FIRST_ACCOUNT" property="firstAccount" jdbcType="VARCHAR" />
+    <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+    <result column="OPERATOR_ID" property="operatorId" jdbcType="DECIMAL" />
+    <result column="PURPOSE" property="purpose" jdbcType="VARCHAR" />
+    <result column="REC_OPERATOR_ID" property="recOperatorId" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="REPAY_DATE" property="repayDate" jdbcType="TIMESTAMP" />
+    <result column="SECOND_ACCOUNT" property="secondAccount" jdbcType="VARCHAR" />
+    <result column="SECOND_BANK" property="secondBank" jdbcType="VARCHAR" />
+    <result column="SECOND_COMPANY" property="secondCompany" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="VOUCHER_NO" property="voucherNo" jdbcType="VARCHAR" />
+    <result column="REC_TIME" property="recTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="REPAY_NO" property="repayNo" jdbcType="VARCHAR" />
+    <result column="LOCK_STATUS" property="lockStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,
+    AMOUNT,
+    COMMENTS,
+    FIRST_ACCOUNT,
+    LOAN_ID,
+    OPERATOR_ID,
+    PURPOSE,
+    REC_OPERATOR_ID,
+    REMARK,
+    REPAY_DATE,
+    SECOND_ACCOUNT,
+    SECOND_BANK,
+    SECOND_COMPANY,
+    STATUS,
+    TIME,
+    TYPE,
+    VOUCHER_NO,
+    REC_TIME,
+    CREATE_TIME,
+    UPDATE_TIME,
+    REPAY_NO,
+    LOCK_STATUS
+  </sql>
+  
+  <!-- 查询主体 -->
+  <sql id="basePublicAccountInfoSelective">
+    SELECT 
+        <include refid = "com.zdmoney.credit.operation.domain.BasePublicAccountInfoMapper.Base_Column_List"/>
+      FROM BASE_PUBLIC_ACCOUNT_INFO
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="basePublicAccountInfoConditions">
+     <trim prefix="where" prefixOverrides="and">
+         <if test="loanId != null and loanId !=''">
+             AND LOAN_ID= #{loanId}
+         </if>
+         <if test="repayDate != null">
+             AND REPAY_DATE = #{repayDate}
+         </if>
+         <if test="repayDateStart != null">
+             AND REPAY_DATE >= #{repayDateStart}
+         </if>
+         <if test="repayDateEnd != null">
+             AND REPAY_DATE &lt; #{repayDateEnd} + 1
+         </if>
+         <if test="recTimeStart != null">
+             AND REC_TIME >= #{recTimeStart}
+         </if>
+         <if test="recTimeEnd != null">
+             AND REC_TIME &lt; #{recTimeEnd} + 1
+         </if>
+         <if test="recOperatorId != null and recOperatorId != ''">
+             AND REC_OPERATOR_ID = #{recOperatorId}
+         </if>
+         <if test="recUsercode != null and recUsercode != ''">
+             AND REC_OPERATOR_ID = (SELECT E.ID FROM COM_EMPLOYEE E WHERE E.USERCODE = #{recUsercode} AND ROWNUM = 1)
+         </if>
+         <if test="secondCompany != null and secondCompany  != ''">
+             AND SECOND_COMPANY = #{secondCompany}
+         </if>
+         <if test="amount != null and amount  != ''">
+             AND AMOUNT = #{amount}
+         </if>
+         <if test="status != null and status  != ''">
+             AND STATUS = #{status}
+         </if>
+         <if test="time != null and time  != ''">
+             AND TIME = #{time}
+         </if>
+         <if test="lockStatus != null and lockStatus  != ''">
+             AND LOCK_STATUS = #{lockStatus}
+         </if>
+     </trim>
+  </sql>
+  
+  <!-- 排序条件 -->
+  <sql id="orderConditions">
+    ORDER BY REPAY_DATE DESC,TIME DESC
+  </sql>
+  
+  <!-- 按查询条件查询表中多条记录的公用SQL -->
+  <sql id="findListByConditions">
+    <include refid="basePublicAccountInfoSelective" />
+    <include refid="basePublicAccountInfoConditions" />
+    <include refid="orderConditions" />
+  </sql>
+  
+  <!-- 按主键查询表中一条记录 -->
+  <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT 
+        <include refid = "Base_Column_List"/>
+      FROM BASE_PUBLIC_ACCOUNT_INFO
+     WHERE ID = #{id}
+  </select>
+  
+  <!-- 按查询条件查询表中多条记录 -->
+  <select id="findListByVO" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" resultMap="BaseResultMap">
+    <include refid="findListByConditions" />
+  </select>
+  
+  <!-- 按查询条件查询表中多条记录 -->
+  <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <include refid="findListByConditions" />
+  </select>
+  
+  <!-- 按主键删除表中一条记录 -->
+  <delete id="delete" parameterType="java.math.BigDecimal" >
+    DELETE FROM BASE_PUBLIC_ACCOUNT_INFO WHERE ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <!-- 往表中一条记录 -->
+  <insert id="insert" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" >
+    INSERT INTO BASE_PUBLIC_ACCOUNT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="comments != null" >
+        COMMENTS,
+      </if>
+      <if test="firstAccount != null" >
+        FIRST_ACCOUNT,
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID,
+      </if>
+      <if test="operatorId != null" >
+        OPERATOR_ID,
+      </if>
+      <if test="purpose != null" >
+        PURPOSE,
+      </if>
+      <if test="recOperatorId != null" >
+        REC_OPERATOR_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="repayDate != null" >
+        REPAY_DATE,
+      </if>
+      <if test="secondAccount != null" >
+        SECOND_ACCOUNT,
+      </if>
+      <if test="secondBank != null" >
+        SECOND_BANK,
+      </if>
+      <if test="secondCompany != null" >
+        SECOND_COMPANY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="time != null" >
+        TIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="voucherNo != null" >
+        VOUCHER_NO,
+      </if>
+      <if test="recTime != null" >
+        REC_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="repayNo != null" >
+        REPAY_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="firstAccount != null" >
+        #{firstAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=DECIMAL},
+      </if>
+      <if test="purpose != null" >
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="recOperatorId != null" >
+        #{recOperatorId,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="repayDate != null" >
+        #{repayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="secondAccount != null" >
+        #{secondAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="secondBank != null" >
+        #{secondBank,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCompany != null" >
+        #{secondCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="voucherNo != null" >
+        #{voucherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="recTime != null" >
+        #{recTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayNo != null" >
+        #{repayNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 按条件更新表中一条记录 -->
+  <update id="update" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" >
+    UPDATE BASE_PUBLIC_ACCOUNT_INFO
+    <set >
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="comments != null" >
+        COMMENTS = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="firstAccount != null" >
+        FIRST_ACCOUNT = #{firstAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="loanId != null" >
+        LOAN_ID = #{loanId,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorId != null" >
+        OPERATOR_ID = #{operatorId,jdbcType=DECIMAL},
+      </if>
+      <if test="purpose != null" >
+        PURPOSE = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="recOperatorId != null" >
+        REC_OPERATOR_ID = #{recOperatorId,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="repayDate != null" >
+        REPAY_DATE = #{repayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="secondAccount != null" >
+        SECOND_ACCOUNT = #{secondAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="secondBank != null" >
+        SECOND_BANK = #{secondBank,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCompany != null" >
+        SECOND_COMPANY = #{secondCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        TIME = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="voucherNo != null" >
+        VOUCHER_NO = #{voucherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="recTime != null" >
+        REC_TIME = #{recTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayNo != null" >
+        REPAY_NO = #{repayNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    WHERE ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- 分页查询 -->
+  <select id="findWithPG" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" resultMap="BaseResultMap">
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+      <include refid="findListByConditions" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+  <!-- 查询总件数 -->
+  <select id="count" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (<include refid="findListByConditions" />)
+  </select>
+  
+  <!-- 按查询条件查询表中多条记录-->
+  <select id="findQueryResultList" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" resultMap="BaseResultMap">
+    SELECT * FROM (<include refid="findListByConditions" />) 
+    <where>
+        <if test="max != null and max != ''">
+            AND ROWNUM &lt;= #{max}
+        </if>
+    </where>
+  </select>
+
+  <!-- 按查询条件查询表中多条记录-->
+  <select id="findQueryResultMapList" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" resultType="java.util.Map">
+      select t1.repay_date as "repayDate",
+      t1.first_account as "firstAccount",
+      t1.second_account as "secondAccount",
+      t1.time as "time",
+      t1.type as "type",
+      t1.amount as "amount",
+      t1.voucher_no as "voucherNo",
+      t1.second_company as "secondCompany",
+      t1.second_bank as "secondBank",
+      t1.purpose as "purpose",
+      t1.remark as "remark",
+      t1.comments as "comments",
+      t1.status as "status",
+      t3.name as "name",
+      t3.idnum as "idNum",
+      t2.CONTRACT_NUM as "contractNum",
+      TO_CHAR(T2.STARTRDATE, 'yyyy-MM-dd') as "firstRepayDate",
+      T4.Name as "orgName",
+      TO_CHAR(T2.GRANT_MONEY_DATE, 'yyyy-MM-dd')  as "grantMoneyDate"
+      FROM
+      (<include refid="findListByConditions" />) T1
+      left join V_LOAN_INFO T2
+      on T1.LOAN_ID = T2.ID
+      left join PERSON_INFO T3
+      on T2.BORROWER_ID = T3.ID
+      left join com_organization T4
+      on T2.SALES_DEPARTMENT_ID = T4.ID
+      <where>
+          <if test="max != null and max != ''">
+              AND ROWNUM &lt;= #{max}
+          </if>
+      </where>
+
+  </select>
+  <!-- 分页查询 -->
+  <select id="findWithPGByMap" parameterType="java.util.Map" resultMap="com.zdmoney.credit.operation.domain.BasePublicAccountInfoExtendMapper.RecLoanResultMap">
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+      <include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoExtendMapper.findRecLoanListByConditions" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+  <!-- 查询总件数 -->
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (<include refid="com.zdmoney.credit.operation.domain.BasePublicAccountInfoExtendMapper.findRecLoanListByConditions" />)
+  </select>
+  
+  <!-- 撤销认领 -->
+  <update id="updateAccountInfoForCancel" parameterType="com.zdmoney.credit.operation.domain.BasePublicAccountInfo" >
+    UPDATE BASE_PUBLIC_ACCOUNT_INFO T
+       SET T.STATUS          = #{status},
+           T.REC_OPERATOR_ID = null,
+           T.REC_TIME        = null,
+           T.LOAN_ID         = null,
+           T.UPDATE_TIME     = #{updateTime}
+     WHERE T.ID = #{id}
+  </update>
+  
+  <!-- 修改状态为已导出 -->
+  <update id="updateAccountInfoForExport" parameterType="java.util.Map">
+      UPDATE BASE_PUBLIC_ACCOUNT_INFO SET STATUS = #{status}, UPDATE_TIME = #{updateTime} WHERE ID IN 
+      <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+          #{id}
+      </foreach>
+  </update>
+  
+</mapper>

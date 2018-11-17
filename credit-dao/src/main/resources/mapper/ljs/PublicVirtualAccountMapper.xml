@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.ljs.domain.PublicVirtualAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.ljs.domain.PublicVirtualAccount" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_TYPE" property="accountType" jdbcType="VARCHAR" />
+    <result column="TOTAL_AMT" property="totalAmt" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ACCOUNT_TYPE, TOTAL_AMT
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from PUBLIC_VIRTUAL_ACCOUNT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="delete" parameterType="java.math.BigDecimal" >
+    delete from PUBLIC_VIRTUAL_ACCOUNT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.ljs.domain.PublicVirtualAccount" >
+    insert into PUBLIC_VIRTUAL_ACCOUNT (ID, ACCOUNT_TYPE, TOTAL_AMT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{accountType,jdbcType=VARCHAR}, #{totalAmt,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.credit.ljs.domain.PublicVirtualAccount" >
+    insert into PUBLIC_VIRTUAL_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="accountType != null" >
+        ACCOUNT_TYPE,
+      </if>
+      <if test="totalAmt != null" >
+        TOTAL_AMT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmt != null" >
+        #{totalAmt,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.ljs.domain.PublicVirtualAccount" >
+    update PUBLIC_VIRTUAL_ACCOUNT
+    <set >
+      <if test="accountType != null" >
+        ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmt != null" >
+        TOTAL_AMT = #{totalAmt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="update" parameterType="com.zdmoney.credit.ljs.domain.PublicVirtualAccount" >
+    update PUBLIC_VIRTUAL_ACCOUNT
+    set ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR},
+      TOTAL_AMT = #{totalAmt,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="addAmtByAccountType" parameterType="java.util.Map" >
+    update PUBLIC_VIRTUAL_ACCOUNT 
+    set TOTAL_AMT = (TOTAL_AMT+#{addAmt,jdbcType=DECIMAL})
+    where ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR}
+  </update>
+  <select id="findByAccountType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from PUBLIC_VIRTUAL_ACCOUNT
+    where ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR}
+  </select>
+  <update id="subAmtByAccountType" parameterType="java.util.Map" >
+    update PUBLIC_VIRTUAL_ACCOUNT 
+    set TOTAL_AMT = (TOTAL_AMT-#{addAmt,jdbcType=DECIMAL})
+    where ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.payment.domain.ThirdLineOfferMapper" >
+    <resultMap id="BaseResultMap" type="com.zdmoney.credit.payment.domain.ThirdLineOffer" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="TL_PAYMENT_NUMBER" property="tlPaymentNumber" jdbcType="VARCHAR" />
+        <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_NUMBER_TYPE" property="accountNumberType" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_NUMBER" property="accountNumber" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_NAME" property="accountName" jdbcType="VARCHAR" />
+        <result column="BANK_PROVINCE" property="bankProvince" jdbcType="VARCHAR" />
+        <result column="BANK_CITY" property="bankCity" jdbcType="VARCHAR" />
+        <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_TYPE" property="accountType" jdbcType="VARCHAR" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+        <result column="CURRENCY_TYPE" property="currencyType" jdbcType="VARCHAR" />
+        <result column="PROTOCOL_NUMBER" property="protocolNumber" jdbcType="VARCHAR" />
+        <result column="PROTOCOL_USER_NUMBER" property="protocolUserNumber" jdbcType="VARCHAR" />
+        <result column="CERTIFICATE_TYPE" property="certificateType" jdbcType="VARCHAR" />
+        <result column="LICENSE_NUMBER" property="licenseNumber" jdbcType="VARCHAR" />
+        <result column="TEL_NUMBER" property="telNumber" jdbcType="VARCHAR" />
+        <result column="CUSTOM_USER_NUMBER" property="customUserNumber" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="FINANCIAL_TYPE" property="financialType" jdbcType="VARCHAR" />
+        <result column="STATE" property="state" jdbcType="VARCHAR" />
+        <result column="OFFER_TIME" property="offerTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <resultMap id="ThirdLineOfferLoanInfoMap" type="com.zdmoney.credit.payment.domain.ThirdLineOfferLoanInfo" >
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="SEX" property="sex" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+        <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+        <result column="FUNDS_SOURCES" property="fundsSource" jdbcType="VARCHAR" />
+        <result column="PACT_MONEY" property="pactMoney" jdbcType="VARCHAR" />
+        <result column="BELONG_BANK_NAME" property="belongBankName" jdbcType="VARCHAR" />
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_NUMBER" property="accountNumber" jdbcType="VARCHAR" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    </resultMap>
+  
+    <sql id="Base_Column_List" >
+      ID, 
+      TL_PAYMENT_NUMBER, 
+      BANK_CODE, 
+      ACCOUNT_NUMBER_TYPE, 
+      ACCOUNT_NUMBER, 
+      ACCOUNT_NAME, 
+      BANK_PROVINCE, 
+      BANK_CITY, 
+      BANK_NAME, 
+      ACCOUNT_TYPE, 
+      AMOUNT, 
+      CURRENCY_TYPE, 
+      PROTOCOL_NUMBER, 
+      PROTOCOL_USER_NUMBER, 
+      CERTIFICATE_TYPE, 
+      LICENSE_NUMBER, 
+      TEL_NUMBER, 
+      CUSTOM_USER_NUMBER, 
+      REMARK, 
+      LOAN_ID, 
+      FINANCIAL_TYPE, 
+      STATE, 
+      OFFER_TIME
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="thirdLineOfferConditions">
+        <if test="loanId != null">
+            AND T1.LOAN_ID = #{loanId}
+        </if>
+        <if test="fundsSource != null and fundsSource !=''">
+            AND T1.FUNDS_SOURCES = #{fundsSource}
+        </if>
+        <if test="name != null and name !=''">
+            AND T3.NAME LIKE  #{name} || '%'
+        </if>
+        <if test="idnum != null and idnum !=''">
+            AND T3.IDNUM =  #{idnum}
+        </if>
+        <if test="financialType != null and financialType != ''">
+            AND T2.FINANCIAL_TYPE = #{financialType}
+        </if>
+        <if test="state != null and state != ''">
+            AND T2.STATE = #{state}
+        </if>
+        <if test="states != null">
+            AND T2.STATE IN 
+            <foreach collection="states" item="state" index="index" open="(" close=")" separator=",">
+                #{state}
+            </foreach>
+        </if>
+        <if test="offerTimeStart != null and offerTimeStart != ''">
+            AND T2.OFFER_TIME >= TO_DATE(#{offerTimeStart},'yyyy-MM-dd')
+        </if>
+        <if test="offerTimeEnd != null  and offerTimeEnd != ''">
+            AND T2.OFFER_TIME &lt; TO_DATE(#{offerTimeEnd},'yyyy-MM-dd') + 1
+        </if>
+        <if test="fundsSources!=null and fundsSources!= ''">
+            AND t1.FUNDS_SOURCES=#{fundsSources}
+        </if>
+        <if test="loanFlowState!=null and loanFlowState!=''">
+           AND T1.LOAN_FLOW_STATE=#{loanFlowState}
+        </if>
+        <if test="batchNum != null and batchNum !=''">
+           AND T1.BATCH_NUM = #{batchNum}
+        </if>
+    </sql>
+    
+    <sql id="thirdOffLineOfferConditions">
+        <if test="loanId != null">
+            AND T1.LOAN_ID = #{loanId}
+        </if>
+        <if test="fundsSource != null and fundsSource !=''">
+            AND T1.FUNDS_SOURCES = #{fundsSource}
+        </if>
+        <if test="name != null and name !=''">
+            AND T3.NAME LIKE  #{name} || '%'
+        </if>
+        <if test="idnum != null and idnum !=''">
+            AND T3.IDNUM =  #{idnum}
+        </if>
+        <if test="financialType != null and financialType != ''">
+            AND T2.FINANCIAL_TYPE = #{financialType}
+        </if>
+        <if test="state != null and state != ''">
+            AND T2.STATE = #{state}
+        </if>
+        <if test="states != null">
+            AND T2.STATE IN 
+            <foreach collection="states" item="state" index="index" open="(" close=")" separator=",">
+                #{state}
+            </foreach>
+        </if>
+        <if test="offerTimeStart != null and offerTimeStart != ''">
+            AND T2.OFFER_TIME >= TO_DATE(#{offerTimeStart},'yyyy-MM-dd')
+        </if>
+        <if test="offerTimeEnd != null  and offerTimeEnd != ''">
+            AND T2.OFFER_TIME &lt; TO_DATE(#{offerTimeEnd},'yyyy-MM-dd') + 1
+        </if>
+        
+        <if test="fundsSources!=null and fundsSources.size() > 0">
+            AND t1.FUNDS_SOURCES IN
+            <foreach item="item" index="index" collection="fundsSources" open="(" separator="," close=")">  
+                 #{item}
+            </foreach> 
+<!--             AND t1.FUNDS_SOURCES=#{fundsSources} -->
+        </if>
+        <if test="loanFlowState!=null and loanFlowState!=''">
+           AND T1.LOAN_FLOW_STATE=#{loanFlowState}
+        </if>
+        
+    </sql>
+    
+    <!-- 排序条件 -->
+    <sql id="orderConditions">
+      ORDER BY T2.LOAN_ID DESC, T2.FINANCIAL_TYPE ASC
+    </sql>
+    
+    <!-- 查询放款流水信息 -->
+    <sql id="thirdLineOfferSelective">
+        SELECT T2.*
+          FROM V_LOAN_INFO T1, THIRD_LINE_OFFER T2, PERSON_INFO T3
+         WHERE T1.ID = T2.LOAN_ID
+           AND T1.BORROWER_ID = T3.ID
+           <include refid="thirdLineOfferConditions"/>
+    </sql>
+    
+    <!-- 查询债权和放款流水信息  -->
+    <sql id="searchOfferInfoList">
+        SELECT T3.NAME,
+               T3.SEX,
+               T3.IDNUM,
+               T1.LOAN_TYPE,
+               T1.FUNDS_SOURCES,
+               T1.PACT_MONEY,
+               (SELECT B.NAME
+                  FROM OFFER_BANK_DIC B
+                 WHERE B.CODE = T2.BANK_CODE
+                   AND ROWNUM = 1) AS BELONG_BANK_NAME,
+               T2.ID,
+               T2.LOAN_ID,
+               T2.BANK_NAME,
+               T2.ACCOUNT_NUMBER,
+               T2.AMOUNT
+          FROM V_LOAN_INFO T1, THIRD_LINE_OFFER T2, PERSON_INFO T3
+         WHERE T1.ID = T2.LOAN_ID
+           AND T1.BORROWER_ID = T3.ID
+           <include refid="thirdLineOfferConditions"/>
+           <include refid="orderConditions"/>
+    </sql>
+  
+    <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+      select <include refid="Base_Column_List" /> from THIRD_LINE_OFFER where ID = #{id,jdbcType=DECIMAL}
+    </select>
+  
+    <delete id="delete" parameterType="java.lang.Long" >
+      delete from THIRD_LINE_OFFER where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+  
+    <insert id="insert" parameterType="com.zdmoney.credit.payment.domain.ThirdLineOffer" >
+      insert into THIRD_LINE_OFFER
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          ID,
+        </if>
+        <if test="tlPaymentNumber != null" >
+          TL_PAYMENT_NUMBER,
+        </if>
+        <if test="bankCode != null" >
+          BANK_CODE,
+        </if>
+        <if test="accountNumberType != null" >
+          ACCOUNT_NUMBER_TYPE,
+        </if>
+        <if test="accountNumber != null" >
+          ACCOUNT_NUMBER,
+        </if>
+        <if test="accountName != null" >
+          ACCOUNT_NAME,
+        </if>
+        <if test="bankProvince != null" >
+          BANK_PROVINCE,
+        </if>
+        <if test="bankCity != null" >
+          BANK_CITY,
+        </if>
+        <if test="bankName != null" >
+          BANK_NAME,
+        </if>
+        <if test="accountType != null" >
+          ACCOUNT_TYPE,
+        </if>
+        <if test="amount != null" >
+          AMOUNT,
+        </if>
+        <if test="currencyType != null" >
+          CURRENCY_TYPE,
+        </if>
+        <if test="protocolNumber != null" >
+          PROTOCOL_NUMBER,
+        </if>
+        <if test="protocolUserNumber != null" >
+          PROTOCOL_USER_NUMBER,
+        </if>
+        <if test="certificateType != null" >
+          CERTIFICATE_TYPE,
+        </if>
+        <if test="licenseNumber != null" >
+          LICENSE_NUMBER,
+        </if>
+        <if test="telNumber != null" >
+          TEL_NUMBER,
+        </if>
+        <if test="customUserNumber != null" >
+          CUSTOM_USER_NUMBER,
+        </if>
+        <if test="remark != null" >
+          REMARK,
+        </if>
+        <if test="loanId != null" >
+          LOAN_ID,
+        </if>
+        <if test="financialType != null" >
+          FINANCIAL_TYPE,
+        </if>
+        <if test="state != null" >
+          STATE,
+        </if>
+        <if test="offerTime != null" >
+          OFFER_TIME,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+          #{id,jdbcType=DECIMAL},
+        </if>
+        <if test="tlPaymentNumber != null" >
+          #{tlPaymentNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="bankCode != null" >
+          #{bankCode,jdbcType=VARCHAR},
+        </if>
+        <if test="accountNumberType != null" >
+          #{accountNumberType,jdbcType=VARCHAR},
+        </if>
+        <if test="accountNumber != null" >
+          #{accountNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="accountName != null" >
+          #{accountName,jdbcType=VARCHAR},
+        </if>
+        <if test="bankProvince != null" >
+          #{bankProvince,jdbcType=VARCHAR},
+        </if>
+        <if test="bankCity != null" >
+          #{bankCity,jdbcType=VARCHAR},
+        </if>
+        <if test="bankName != null" >
+          #{bankName,jdbcType=VARCHAR},
+        </if>
+        <if test="accountType != null" >
+          #{accountType,jdbcType=VARCHAR},
+        </if>
+        <if test="amount != null" >
+          #{amount,jdbcType=DECIMAL},
+        </if>
+        <if test="currencyType != null" >
+          #{currencyType,jdbcType=VARCHAR},
+        </if>
+        <if test="protocolNumber != null" >
+          #{protocolNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="protocolUserNumber != null" >
+          #{protocolUserNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="certificateType != null" >
+          #{certificateType,jdbcType=VARCHAR},
+        </if>
+        <if test="licenseNumber != null" >
+          #{licenseNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="telNumber != null" >
+          #{telNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="customUserNumber != null" >
+          #{customUserNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null" >
+          #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="loanId != null" >
+          #{loanId,jdbcType=DECIMAL},
+        </if>
+        <if test="financialType != null" >
+          #{financialType,jdbcType=VARCHAR},
+        </if>
+        <if test="state != null" >
+          #{state,jdbcType=VARCHAR},
+        </if>
+        <if test="offerTime != null" >
+          #{offerTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </insert>
+  
+    <update id="update" parameterType="com.zdmoney.credit.payment.domain.ThirdLineOffer" >
+      update THIRD_LINE_OFFER
+      <set >
+        <if test="tlPaymentNumber != null" >
+          TL_PAYMENT_NUMBER = #{tlPaymentNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="bankCode != null" >
+          BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+        </if>
+        <if test="accountNumberType != null" >
+          ACCOUNT_NUMBER_TYPE = #{accountNumberType,jdbcType=VARCHAR},
+        </if>
+        <if test="accountNumber != null" >
+          ACCOUNT_NUMBER = #{accountNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="accountName != null" >
+          ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
+        </if>
+        <if test="bankProvince != null" >
+          BANK_PROVINCE = #{bankProvince,jdbcType=VARCHAR},
+        </if>
+        <if test="bankCity != null" >
+          BANK_CITY = #{bankCity,jdbcType=VARCHAR},
+        </if>
+        <if test="bankName != null" >
+          BANK_NAME = #{bankName,jdbcType=VARCHAR},
+        </if>
+        <if test="accountType != null" >
+          ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR},
+        </if>
+        <if test="amount != null" >
+          AMOUNT = #{amount,jdbcType=DECIMAL},
+        </if>
+        <if test="currencyType != null" >
+          CURRENCY_TYPE = #{currencyType,jdbcType=VARCHAR},
+        </if>
+        <if test="protocolNumber != null" >
+          PROTOCOL_NUMBER = #{protocolNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="protocolUserNumber != null" >
+          PROTOCOL_USER_NUMBER = #{protocolUserNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="certificateType != null" >
+          CERTIFICATE_TYPE = #{certificateType,jdbcType=VARCHAR},
+        </if>
+        <if test="licenseNumber != null" >
+          LICENSE_NUMBER = #{licenseNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="telNumber != null" >
+          TEL_NUMBER = #{telNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="customUserNumber != null" >
+          CUSTOM_USER_NUMBER = #{customUserNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null" >
+          REMARK = #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="loanId != null" >
+          LOAN_ID = #{loanId,jdbcType=DECIMAL},
+        </if>
+        <if test="financialType != null" >
+          FINANCIAL_TYPE = #{financialType,jdbcType=VARCHAR},
+        </if>
+        <if test="state != null" >
+          STATE = #{state,jdbcType=VARCHAR},
+        </if>
+        <if test="offerTime != null" >
+          OFFER_TIME = #{offerTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where ID = #{id,jdbcType=DECIMAL}
+    </update>
+  
+    <!-- 根据指定条件查询报盘信息-->
+    <select id="findOfferInfoList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM THIRD_LINE_OFFER WHERE STATE IN ('未报盘','扣款失败')
+    </select>
+    
+    <select id="findHaTwoOfferByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from third_line_offer
+        <where>
+            <if test="loanId != null and loanId != ''">
+                AND L.LOAN_ID = #{loanId}
+            </if>
+            <if test="financialType != null and financialType != ''">
+                and l.FINANCIAL_TYPE = #{financialType}
+            </if>
+        </where>
+    </select>
+    
+    <select id="findHaTwoOfferByFinancialType">
+        select * from third_line_offer
+        <where>
+            <if test="financialType != null and financialType != ''">
+                and l.FINANCIAL_TYPE = #{financialType}
+            </if>
+        </where>
+    </select>
+    
+    <!-- 查询条件-->
+    <sql id="queryConditions">
+        <where>
+            <if test="loanId != null and loanId != ''">
+                AND LOAN_ID = #{loanId}
+            </if>
+            <if test="financialType != null and financialType != ''">
+                AND FINANCIAL_TYPE = #{financialType}
+            </if>
+            <if test="state != null and state != ''">
+                AND STATE = #{state}
+            </if>
+            <if test="states != null">
+                AND STATE IN 
+                <foreach collection="states" item="state" index="index" open="(" close=")" separator=",">
+                    #{state}
+                </foreach>
+            </if>
+            <if test="offerTimeStart != null and offerTimeStart != ''">
+                AND OFFER_TIME >= TO_DATE(#{offerTimeStart},'yyyy-MM-dd')
+            </if>
+            <if test="offerTimeEnd != null  and offerTimeEnd != ''">
+                AND OFFER_TIME &lt; TO_DATE(#{offerTimeEnd},'yyyy-MM-dd') + 1
+            </if>
+            <if test="fundsSource != null and fundsSource != ''">
+                AND EXISTS (SELECT 1 FROM LOAN_BASE L WHERE L.ID = LOAN_ID AND L.FUNDS_SOURCES = #{fundsSource})
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 根据指定条件查询报盘信息-->
+    <select id="findListByVO" parameterType="com.zdmoney.credit.payment.domain.ThirdLineOffer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> 
+            FROM THIRD_LINE_OFFER
+        <include refid="queryConditions"/>
+    </select>
+    
+    <!-- 根据指定条件查询报盘信息-->
+    <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> 
+            FROM THIRD_LINE_OFFER
+        <include refid="queryConditions"/>
+    </select>
+    
+    <select id="searchOfferInfoCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (<include refid="searchOfferInfoList" />)
+    </select>
+    
+    <select id="searchOfferInfoListResult" parameterType="java.util.Map" resultMap="ThirdLineOfferLoanInfoMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="searchOfferInfoList" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+    
+    <resultMap id="thirdOffLineLoanInfoMap" type="com.zdmoney.credit.payment.domain.ThirdLineOfferLoanInfo" >
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="SEX" property="sex" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+        <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+        <result column="FUNDS_SOURCES" property="fundsSource" jdbcType="VARCHAR" />
+        <result column="PACT_MONEY" property="pactMoney" jdbcType="VARCHAR" />
+        <result column="Full_Name" property="belongBankName" jdbcType="VARCHAR" />
+        <result column="ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+        <result column="ACCOUNT" property="accountNumber" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="searchOffLineLoanInfo">
+    <![CDATA[ 
+        SELECT T3.NAME,
+               T3.SEX,
+               T3.IDNUM,
+               T1.LOAN_TYPE,
+               T1.FUNDS_SOURCES,
+               T1.PACT_MONEY,
+               T1.LOAN_FLOW_STATE,
+               T1.ID,
+               T2.Full_Name,
+               T2.BANK_NAME,
+               T2.ACCOUNT
+          FROM V_LOAN_INFO T1, loan_bank T2, PERSON_INFO T3
+         WHERE T1.GRANT_BANK_ID=T2.id
+           AND T1.BORROWER_ID = T3.ID
+       ]]>
+       <include refid="thirdOffLineOfferConditions"/>
+       ORDER BY T1.ID DESC
+       
+    </sql>
+    <select id="searchOffLineLoanInfoCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (<include refid="searchOffLineLoanInfo" />)
+    </select>
+    <!-- 查询第三方线下放款页面需要展示的信息 -->
+    <select id="searchOffLineLoanInfoResult" parameterType="java.util.Map" resultMap="thirdOffLineLoanInfoMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="searchOffLineLoanInfo" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <select id="findOfferLineOfferByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select a.* from third_line_offer a,v_loan_info b
+        <where>
+            a.loan_id = b.id
+            <if test="bacthNum != null and bacthNum !=''">
+                and b.batch_num = #{bacthNum}
+            </if>
+        </where>
+    </select>
+</mapper>

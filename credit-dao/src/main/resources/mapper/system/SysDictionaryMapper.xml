@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.system.domain.SysDictionaryMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.system.domain.SysDictionary">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CODE_NAME" property="codeName" jdbcType="VARCHAR" />
+		<result column="CODE_TITLE" property="codeTitle" jdbcType="VARCHAR" />
+		<result column="CODE_TYPE" property="codeType" jdbcType="VARCHAR" />
+		<result column="CODE_TYPE_TITLE" property="codeTypeTitle"
+			jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+		<result column="SEQENCE" property="seqence" jdbcType="DECIMAL" />
+		<result column="CODE_VALUE" property="codeValue" jdbcType="VARCHAR" />
+		<result column="TAG" property="tag" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, CODE_NAME, CODE_TITLE, CODE_TYPE, CODE_TYPE_TITLE, MEMO, PARENT_ID,
+		SEQENCE,
+		CODE_VALUE, TAG, CREATE_TIME, UPDATE_TIME, OPERATOR
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from SYS_DICTIONARY
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from SYS_DICTIONARY
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from SYS_DICTIONARY
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.system.domain.SysDictionary">
+		insert into SYS_DICTIONARY (ID, CODE_NAME, CODE_TITLE,
+		CODE_TYPE, CODE_TYPE_TITLE, MEMO,
+		PARENT_ID, SEQENCE, CODE_VALUE,
+		TAG, CREATE_TIME, UPDATE_TIME,
+		OPERATOR)
+		values (#{id,jdbcType=DECIMAL}, #{codeName,jdbcType=VARCHAR},
+		#{codeTitle,jdbcType=VARCHAR},
+		#{codeType,jdbcType=VARCHAR}, #{codeTypeTitle,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR},
+		#{parentId,jdbcType=DECIMAL}, #{seqence,jdbcType=DECIMAL},
+		#{codeValue,jdbcType=VARCHAR},
+		#{tag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{operator,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.system.domain.SysDictionary">
+		insert into SYS_DICTIONARY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="codeName != null">
+				CODE_NAME,
+			</if>
+			<if test="codeTitle != null">
+				CODE_TITLE,
+			</if>
+			<if test="codeType != null">
+				CODE_TYPE,
+			</if>
+			<if test="codeTypeTitle != null">
+				CODE_TYPE_TITLE,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="parentId != null">
+				PARENT_ID,
+			</if>
+			<if test="seqence != null">
+				SEQENCE,
+			</if>
+			<if test="codeValue != null">
+				CODE_VALUE,
+			</if>
+			<if test="tag != null">
+				TAG,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="codeName != null">
+				#{codeName,jdbcType=VARCHAR},
+			</if>
+			<if test="codeTitle != null">
+				#{codeTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="codeType != null">
+				#{codeType,jdbcType=VARCHAR},
+			</if>
+			<if test="codeTypeTitle != null">
+				#{codeTypeTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=DECIMAL},
+			</if>
+			<if test="seqence != null">
+				#{seqence,jdbcType=DECIMAL},
+			</if>
+			<if test="codeValue != null">
+				#{codeValue,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				#{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.system.domain.SysDictionary">
+		update SYS_DICTIONARY
+		<set>
+			<if test="codeName != null">
+				CODE_NAME = #{codeName,jdbcType=VARCHAR},
+			</if>
+			<if test="codeTitle != null">
+				CODE_TITLE = #{codeTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="codeType != null">
+				CODE_TYPE = #{codeType,jdbcType=VARCHAR},
+			</if>
+			<if test="codeTypeTitle != null">
+				CODE_TYPE_TITLE = #{codeTypeTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId,jdbcType=DECIMAL},
+			</if>
+			<if test="seqence != null">
+				SEQENCE = #{seqence,jdbcType=DECIMAL},
+			</if>
+			<if test="codeValue != null">
+				CODE_VALUE = #{codeValue,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				TAG = #{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.system.domain.SysDictionary">
+		update SYS_DICTIONARY
+		set CODE_NAME = #{codeName,jdbcType=VARCHAR},
+		CODE_TITLE = #{codeTitle,jdbcType=VARCHAR},
+		CODE_TYPE = #{codeType,jdbcType=VARCHAR},
+		CODE_TYPE_TITLE = #{codeTypeTitle,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		PARENT_ID = #{parentId,jdbcType=DECIMAL},
+		SEQENCE = #{seqence,jdbcType=DECIMAL},
+		CODE_VALUE = #{codeValue,jdbcType=VARCHAR},
+		TAG = #{tag,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+		OPERATOR = #{operator,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<sql id="Base_Column_List_page">
+		CODE_TYPE_TITLE ,ID, CODE_NAME, CODE_TITLE,CODE_TYPE,MEMO,
+		PARENT_ID,SEQENCE,CODE_VALUE,TAG,CREATE_TIME,UPDATE_TIME,OPERATOR
+	</sql>
+
+	<sql id="sysDictionarySelective">
+		select <include refid="Base_Column_List" />
+		 from sys_dictionary d 
+	</sql>
+
+<sql id="sysDictionarySelectiveParent">
+		select d.code_type,
+d.code_type_title,d.code_title,d.code_name,d.id,d.CODE_VALUE,d.SEQENCE
+ from sys_dictionary d 
+	</sql>
+
+	<sql id="sysDictionaryConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND d.ID= #{id}
+			</if>
+			<if test="codeName != null and codeName  != ''">
+				AND d.CODE_NAME like '%' || #{codeName} ||
+				'%'
+			</if>
+			<if test="codeTitle != null and codeTitle  != ''">
+				AND d.CODE_TITLE like '%' || #{codeTitle}
+			</if>
+			<if test="codeType != null and codeType != ''">
+				AND d.CODE_TYPE = #{codeType}
+			</if>
+			<if test="codeTypeTitle != null and codeTypeTitle != ''">
+				AND d.CODE_TYPE_TITLE = #{codeTypeTitle}
+			</if>
+			and parent_id is  null 
+		</trim>
+	</sql>
+	<sql id="sysDictionaryConditionsParent">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND d.ID= #{id}
+			</if>
+			<if test="codeName != null and codeName  != ''">
+				AND d.CODE_NAME like '%' || #{codeName} ||
+				'%'
+			</if>
+			<if test="codeTitle != null and codeTitle  != ''">
+				AND d.CODE_TITLE like '%' || #{codeTitle}
+			</if>
+			<if test="codeType != null and codeType != ''">
+				AND d.CODE_TYPE = #{codeType}
+			</if>
+			<if test="parentId != null and parentId != ''">
+				AND d.PARENT_ID = #{parentId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findWithPG" parameterType="com.zdmoney.credit.system.domain.SysDictionary"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+				<include refid="sysDictionarySelective" />
+					<include refid="sysDictionaryConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+	<select id="findWithPGParent" parameterType="com.zdmoney.credit.system.domain.SysDictionary"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+				<include refid="sysDictionarySelectiveParent" />
+					<include refid="sysDictionaryConditionsParent" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+		<select id="count" parameterType="com.zdmoney.credit.system.domain.SysDictionary"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="sysDictionarySelective" />
+		<include refid="sysDictionaryConditions" />
+		)
+		</select>
+	<select id="countParent" parameterType="com.zdmoney.credit.system.domain.SysDictionary"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="sysDictionarySelectiveParent" />
+		<include refid="sysDictionaryConditionsParent" />
+		)
+	</select>
+	<select id="findAllList" parameterType="com.zdmoney.credit.system.domain.SysDictionary"
+		resultMap="BaseResultMap">
+select d.code_name,d.code_title from sys_dictionary d  
+where d.code_type='Department' and d.parent_id is not null
+	</select>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from SYS_DICTIONARY
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<select id="getIsThere" resultMap="BaseResultMap"
+		parameterType="com.zdmoney.credit.system.domain.SysDictionary">
+		select
+		<include refid="Base_Column_List" />
+		from SYS_DICTIONARY d
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null and id  != ''">
+				AND nvl(ID,#{id}) &lt;&gt; #{id}
+			</if>
+			<if test="codeType != null and codeType  != ''">
+				AND code_type = #{codeType}
+			</if>
+            <if test="codeName != null and codeName  != ''">
+				AND code_name = #{codeName}
+			</if>
+			<if test="parentId != null">
+				AND parent_Id = #{parentId}
+			</if>
+		</trim>
+	</select>
+
+	<sql id="sysDictionaryistesConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="codeName != null and codeName  != ''">
+				AND d.CODE_NAME = #{codeName}
+			</if>
+			<if test="codeTitle != null and codeTitle  != ''">
+				AND d.CODE_TITLE = #{codeTitle}
+			</if>
+			<if test="codeType != null and codeType != ''">
+				AND d.CODE_TYPE = #{codeType}
+			</if>
+			<if test="parentId != null and parentId != ''">
+				AND d.PARENT_ID = #{parentId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.system.domain.SysDictionary"
+		resultMap="BaseResultMap">
+		<include refid="sysDictionarySelective" />
+		<include refid="sysDictionaryConditions" />
+	</select>
+
+	<select id="findSysDictionaryAllList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_DICTIONARY
+	</select>
+
+	<select id="findListByMap" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		<include refid="sysDictionarySelective" />
+		<include refid="sysDictionaryistesConditions" />
+	</select>
+	
+	<select id="findByCodeTypeAndCodeName" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_DICTIONARY
+		<trim prefix="where" prefixOverrides="and">
+			<if test="codeType != null and codeType  != ''">
+				AND CODE_TYPE = #{codeType}
+			</if>
+            <if test="codeName != null and codeName  != ''">
+				AND CODE_NAME = #{codeName}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="findDictionaryListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+			CODE_TYPE_TITLE ,
+			ID, 
+			CODE_NAME, 
+			CODE_TITLE,
+			CODE_TYPE,
+			MEMO,
+			PARENT_ID,
+			SEQENCE,
+			CODE_VALUE,
+			TAG,
+			CREATE_TIME,
+			UPDATE_TIME,
+			OPERATOR
+		FROM SYS_DICTIONARY 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="codeName != null and codeName  != ''">
+				AND CODE_NAME = #{codeName}
+			</if>
+			<if test="codeTitle != null and codeTitle  != ''">
+				AND CODE_TITLE = #{codeTitle}
+			</if>
+			<if test="codeType != null and codeType != ''">
+				AND CODE_TYPE = #{codeType}
+			</if>
+			<if test="parentId != null and parentId != ''">
+				AND PARENT_ID = #{parentId}
+			</if>
+		</trim>
+	</select>
+	
+    <!-- 根据指定条件查询字典数据 -->
+    <select id="findDictionaryListByVo" parameterType="com.zdmoney.credit.system.domain.SysDictionary" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM SYS_DICTIONARY 
+        <trim prefix="where" prefixOverrides="and">
+            <if test="codeName != null and codeName != ''">
+                AND CODE_NAME = #{codeName}
+            </if>
+            <if test="codeTitle != null and codeTitle != ''">
+                AND CODE_TITLE = #{codeTitle}
+            </if>
+            <if test="codeType != null and codeType != ''">
+                AND CODE_TYPE = #{codeType}
+            </if>
+            <if test="codeTypeTitle != null and codeTypeTitle != ''">
+                AND CODE_TYPE_TITLE = #{codeTypeTitle}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                AND PARENT_ID = #{parentId}
+            </if>
+        </trim>
+    </select>
+    
+</mapper>

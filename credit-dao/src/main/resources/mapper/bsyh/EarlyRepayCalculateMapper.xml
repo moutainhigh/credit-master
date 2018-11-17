@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zdmoney.credit.bsyh.domain.EarlyRepayCalculateMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.bsyh.domain.EarlyRepayCalculate">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+		<result column="RESPCD" property="respcd" jdbcType="VARCHAR" />
+		<result column="RESPTX" property="resptx"
+			jdbcType="VARCHAR" />
+		<result column="INSTALL_TOTAL_AMT" property="installTotalAmt"
+			jdbcType="DECIMAL" />
+		<result column="REPAY_BASE_AMT" property="repayBaseAmt" jdbcType="DECIMAL" />
+		<result column="REPYAM" property="repyam" jdbcType="DECIMAL" />		
+		<result column="INSTALL_TOTAL_INTEREST" property="installTotalInterest" jdbcType="DECIMAL" />
+		<result column="DIS_COUNT_INTEREST" property="disCountInterest" jdbcType="DECIMAL" />
+		<result column="REPAY_PERIOD" property="repayPeriod" jdbcType="DECIMAL" />
+		<result column="REMAIN_REPAY_TIMES" property="remainRepayTimes" jdbcType="DECIMAL" />
+		<result column="LIQDA_RATIO" property="liqdaRatio" jdbcType="DECIMAL" />
+		<result column="LIQDA_AMOUNT" property="liqdaAmount" jdbcType="DECIMAL" />
+		<result column="EARLY_REPAYMENT_AMT" property="earlyRepaymentAmt" jdbcType="DECIMAL" />					
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, ORDER_NO, RESPCD, RESPTX,
+		INSTALL_TOTAL_AMT,REPAY_BASE_AMT,REPYAM,INSTALL_TOTAL_INTEREST,DIS_COUNT_INTEREST,REPAY_PERIOD,REMAIN_REPAY_TIMES,LIQDA_RATIO,LIQDA_AMOUNT,EARLY_REPAYMENT_AMT
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from EARLY_REPAY_CALCULATE
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		delete from EARLY_REPAY_CALCULATE
+		where ID
+		= #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.bsyh.domain.EarlyRepayCalculate">
+		insert into EARLY_REPAY_CALCULATE (ID, ORDER_NO, RESPCD, RESPTX,
+		INSTALL_TOTAL_AMT,REPAY_BASE_AMT,REPYAM,INSTALL_TOTAL_INTEREST,DIS_COUNT_INTEREST,REPAY_PERIOD,REMAIN_REPAY_TIMES,LIQDA_RATIO,LIQDA_AMOUNT,EARLY_REPAYMENT_AMT)
+		values
+		(#{id,jdbcType=DECIMAL}, #{orderNo,jdbcType=VARCHAR},
+		#{respcd,jdbcType=VARCHAR},
+		#{resptx,jdbcType=VARCHAR},
+		#{installTotalAmt,jdbcType=DECIMAL}, #{repayBaseAmt,jdbcType=DECIMAL},
+		#{repyam,jdbcType=DECIMAL},#{installTotalInterest,jdbcType=DECIMAL},#{disCountInterest,jdbcType=DECIMAL},
+		#{repayPeriod,jdbcType=DECIMAL},#{remainRepayTimes,jdbcType=DECIMAL},#{liqdaRatio,jdbcType=DECIMAL},
+		#{liqdaAmount,jdbcType=DECIMAL},#{earlyRepaymentAmt,jdbcType=DECIMAL})
+	</insert>	
+
+</mapper>

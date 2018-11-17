@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.person.domain.PersonTelInfoMapper">
+	<resultMap id="personTelInfoResultMap"
+		type="com.zdmoney.credit.person.domain.PersonTelInfo">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+		<result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+		<result column="TEL_TYPE" property="telType" jdbcType="VARCHAR" />
+		<result column="VALID" property="valid" jdbcType="CHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="vloanPersonOrgResultMap" 	type="com.zdmoney.credit.loan.vo.VloanPersonOrg">
+		<id column="BORROWER_ID" property="borrowerId" jdbcType="DECIMAL" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="org_name" property="salesDep" jdbcType="VARCHAR" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="DECIMAL" />
+		<result column="LOAN_STATE" property="loanState" jdbcType="VARCHAR" />
+		<result column="TIME" property="time" jdbcType="DECIMAL" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />		
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID, CLASS_NAME, CONTENT, MEMO,
+		OBJECT_ID, PRIORITY, TEL_TYPE, VALID, CREATE_TIME,
+		UPDATE_TIME, CREATOR, UPDATOR
+	</sql>
+	<select id="get" resultMap="personTelInfoResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from PERSON_TEL_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<sql id="personTelInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PERSON_TEL_INFO
+	</sql>
+
+	<sql id="personTelInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND PERSON_TEL_INFO.ID= #{id}
+			</if>
+			<if test="objectId != null">
+				AND PERSON_TEL_INFO.OBJECT_ID= #{objectId}
+			</if>
+			<if test="telType != null and telType != ''">
+				AND PERSON_TEL_INFO.TEL_TYPE= #{telType}
+			</if>
+			<if test="content != null and content != ''">
+				AND PERSON_TEL_INFO.CONTENT = #{content}
+			</if>
+			<if test="className != null and className != ''">
+				AND PERSON_TEL_INFO.CLASS_NAME = #{className}
+			</if>
+			<if test="valid != null and valid != ''">
+				AND PERSON_TEL_INFO.VALID = #{valid}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="personTelInfoCount">
+		SELECT COUNT(ID) FROM PERSON_TEL_INFO
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.person.domain.PersonTelInfo"
+		resultMap="personTelInfoResultMap">
+		<include refid="personTelInfoSelective" />
+		<include refid="personTelInfoConditions" />
+	</select>
+
+	<select id="exists" parameterType="java.util.Map" resultType="java.lang.Integer">
+		<include refid="personTelInfoCount" />
+		<include refid="personTelInfoConditions" />
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+		delete from PERSON_TEL_INFO
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.person.domain.PersonTelInfo">
+		insert into PERSON_TEL_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="className != null">
+				CLASS_NAME,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="objectId != null">
+				OBJECT_ID,
+			</if>
+			<if test="priority != null">
+				PRIORITY,
+			</if>
+			<if test="telType != null">
+				TEL_TYPE,
+			</if>
+			<if test="valid != null">
+				VALID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="creator != null">
+				CREATOR,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="className != null">
+				#{className,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null">
+				#{objectId,jdbcType=DECIMAL},
+			</if>
+			<if test="priority != null">
+				#{priority,jdbcType=VARCHAR},
+			</if>
+			<if test="telType != null">
+				#{telType,jdbcType=VARCHAR},
+			</if>
+			<if test="valid != null">
+				#{valid,jdbcType=CHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.person.domain.PersonTelInfo">
+		update PERSON_TEL_INFO
+		<set>
+			<if test="className != null">
+				CLASS_NAME = #{className,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="objectId != null">
+				OBJECT_ID = #{objectId,jdbcType=DECIMAL},
+			</if>
+			<if test="priority != null">
+				PRIORITY = #{priority,jdbcType=VARCHAR},
+			</if>
+			<if test="telType != null">
+				TEL_TYPE = #{telType,jdbcType=VARCHAR},
+			</if>
+			<if test="valid != null">
+				VALID = #{valid,jdbcType=CHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updator != null">
+				UPDATOR = #{updator,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="findWithPG" parameterType="com.zdmoney.credit.person.domain.PersonTelInfo"
+		resultMap="personTelInfoResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="personTelInfoSelective" />
+		<include refid="personTelInfoConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<select id="count" parameterType="com.zdmoney.credit.person.domain.PersonTelInfo"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="personTelInfoSelective" />
+		<include refid="personTelInfoConditions" />
+		)
+	</select>
+	
+	<select id="findByPhone" parameterType="java.lang.String"	
+		resultMap="personTelInfoResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from PERSON_TEL_INFO
+		where 1=1 and
+		REPLACE(CONTENT,'-','') = #{phone,jdbcType=VARCHAR}
+		order by class_name, id desc
+	</select>
+	
+	<select id="findByPersonId" parameterType="java.lang.Long"		resultMap="vloanPersonOrgResultMap">
+		select t.NAME,t.LOAN_STATE,t.TIME,t.MONEY,t.IDNUM,t.LOAN_TYPE,t.org_name,t.BORROWER_ID  from v_loan_person_org t
+		where t.BORROWER_ID=#{borrowerId,jdbcType=DECIMAL}	order by t.REQUEST_DATE desc
+	</select>
+
+</mapper>

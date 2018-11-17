@@ -1,0 +1,326 @@
+@CHARSET "UTF-8";
+
+body { 
+	margin:0px; 
+	padding:0px; 
+	font-family:verdana,arial,sans-serif; 
+	font-size:12px; 
+}
+
+.contentBox{
+	position:relative;
+	width: 770px;
+	height: 100%;
+	margin: auto;
+	padding: 0;
+}
+
+.contentBox .title{
+ 	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	font-size:22pt;
+	font-weight:bold;
+	font-family:宋体;
+	text-align: center;
+	margin-bottom: 15px; 
+}
+
+.contentBox .loanFilesInfoNum {
+		margin-bottom: 15px; 
+}
+
+
+.contentBox .loanFilesInfoNum .label{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.contentBox .loanFilesInfoNum .value{
+	display:inline-block;
+	width:320px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+}
+
+.contentBox .organization {
+		margin-bottom: 15px; 
+}
+
+
+.contentBox .organization .label{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.contentBox .organization .value{
+	display:inline-block;
+	width:320px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+}
+
+.contentBox .customer {
+		margin-bottom: 15px; 
+}
+
+
+.contentBox .customer .name-label{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.contentBox .customer .name-value{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+    margin-right: 30px;
+}
+
+.contentBox .customer .product-label{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.contentBox .customer .product-value{
+	display:inline-block;
+	width:100px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+    margin-right: 30px;
+}
+
+
+.contentBox .customer .product-label{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.contentBox .customer .product-value{
+	display:inline-block;
+	width:100px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+    margin-right: 20px;
+}
+
+.date-label{
+	display:inline-block;
+	width:auto;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.year-value{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+}
+
+.year-label{
+	display:inline-block;
+	width:20px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+}
+
+
+
+.month-value{
+	display:inline-block;
+	width:60px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+}
+
+.month-label{
+	display:inline-block;
+	width:20px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+}
+
+.day-value{
+	display:inline-block;
+	width:60px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+}
+
+.day-label{
+	display:inline-block;
+	width:20px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+}
+
+
+
+.contentBox .loanFilesInfoInput {
+		margin-bottom: 15px; 
+		text-align: center;
+}
+
+
+.contentBox .loanFilesInfoInput .name-label{
+	display:inline-block;
+	width:auto;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.contentBox .loanFilesInfoInput .name-value{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+    margin-right: 30px;
+}
+
+.contentBox .loanFilesInfoManager {
+		text-align: center;
+}
+
+
+
+.contentBox .loanFilesInfoManager .name-label{
+	display:inline-block;
+	width:auto;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+}
+
+.contentBox .loanFilesInfoManager .name-value{
+	display:inline-block;
+	width:80px;
+	height: 16px;
+	line-height:16px;
+	font-size:12pt;
+    font-family:宋体;
+    text-align: center;
+    border-bottom: 1px solid  black;
+    margin-right: 30px;
+}
+
+.loanFilesInfoTable{
+	width: 100%;
+	height: auto;
+	margin-bottom: 15px;
+	border-collapse:collapse;
+	border-width: 1px;
+	border-color: black;
+	border-style: solid;
+	table-layout:fixed;
+}
+
+.loanFilesInfoTable caption{
+	width:100%;
+	height: 30px;
+	font-size:12pt;
+    font-family:宋体;
+    font-weight: bold;
+
+}
+
+.loanFilesInfoTable td{
+	border-width: 1px;
+	border-color: black;
+	border-style: solid;
+	padding-left: 8px;
+	padding-right: 8px;
+	text-align: left;
+	font-size:11pt;
+    font-family:宋体;
+    height:30px;
+}
+
+.loanFilesInfoTable td.header{
+	text-align: center;
+	padding: 0;
+}
+
+td:first-child,td:last-child{
+	text-align: center;
+	padding: 0;
+}
+
+.loanFilesInfoTable tr:last-child td:last-child{
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+
+

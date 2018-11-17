@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.fee.domain.vo.LoanFeeInputMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.credit.fee.domain.vo.LoanFeeInput">
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+        <result column="RECEIVE_AMOUNT" property="receiveAmount" jdbcType="DECIMAL" />
+        <result column="UNPAID_AMOUNT" property="unpaidAmount" jdbcType="DECIMAL" />
+        <result column="STATE" property="state" jdbcType="VARCHAR" />
+        <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+        <result column="SALES_DEPARTMENT_NAME" property="salesDepartmentName" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+        <result column="PACT_MONEY" property="pactMoney" jdbcType="DECIMAL" />
+        <result column="TIME" property="time" jdbcType="DECIMAL" />
+        <result column="GRANT_MONEY_DATE" property="grantMoneyDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <resultMap id="feeListMap" type="com.zdmoney.credit.fee.domain.vo.LoanFeeInput">
+    	<result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="FUNDS_SOURCES" property="fundsSources" jdbcType="VARCHAR" />
+        <result column="GRANT_MONEY_DATE" property="grantMoneyDate" jdbcType="TIMESTAMP" />
+        <result column="SALES_DEPARTMENT_NAME" property="salesDepartmentName" jdbcType="VARCHAR" />
+        <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+        <result column="RECEIVE_AMOUNT" property="receiveAmount" jdbcType="DECIMAL" />
+        <result column="UNPAID_AMOUNT" property="unpaidAmount" jdbcType="DECIMAL" />
+        <result column="STATE" property="state" jdbcType="VARCHAR" />
+        
+     </resultMap>
+    <!-- 查询主体 -->
+    <sql id="loanFeeInputSelective">
+        SELECT T3.ID,
+               T3.LOAN_ID,
+               T3.AMOUNT,
+               T3.RECEIVE_AMOUNT,
+               T3.UNPAID_AMOUNT,
+               T3.STATE,
+               T3.MEMO,
+               T4.NAME AS SALES_DEPARTMENT_NAME,
+               T2.NAME,
+               T2.IDNUM,
+               T1.CONTRACT_NUM,
+               T1.LOAN_TYPE,
+               T1.PACT_MONEY,
+               T1.TIME,
+               T1.GRANT_MONEY_DATE
+          FROM V_LOAN_INFO      T1,
+               PERSON_INFO      T2,
+               LOAN_FEE_INFO    T3,
+               COM_ORGANIZATION T4
+         WHERE T1.BORROWER_ID = T2.ID
+           AND T1.ID = T3.LOAN_ID
+           AND T1.SALES_DEPARTMENT_ID = T4.ID
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="loanFeeInputConditions">
+        <if test="loanId != null">
+            AND T1.ID= #{loanId, jdbcType=DECIMAL}
+        </if>
+        <if test="name != null and name != ''">
+            AND T2.NAME LIKE #{name, jdbcType=VARCHAR} || '%'
+        </if>
+        <if test="idNum != null and idNum != ''">
+            AND T2.IDNUM= #{idNum, jdbcType=VARCHAR}
+        </if>
+        <if test="contractNum != null and contractNum != ''">
+            AND T1.CONTRACT_NUM= #{contractNum, jdbcType=VARCHAR}
+        </if>
+        <if test="state != null and state != ''">
+            AND T3.STATE= #{state, jdbcType=VARCHAR}
+        </if>
+        <if test="grantMoneyDateStart != null and grantMoneyDateStart != ''">
+            AND T1.GRANT_MONEY_DATE >= TO_DATE(#{grantMoneyDateStart, jdbcType=VARCHAR},'yyyy-MM-dd')
+        </if>
+        <if test="grantMoneyDateEnd != null and grantMoneyDateEnd != ''">
+            AND T1.GRANT_MONEY_DATE &lt; TO_DATE(#{grantMoneyDateEnd, jdbcType=VARCHAR},'yyyy-MM-dd') + 1
+        </if>
+        <if test="fundsSources != null and fundsSources != ''">
+            AND T1.FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    
+    <!-- 排序条件 -->
+    <sql id="orderConditions">
+        ORDER BY T1.GRANT_MONEY_DATE DESC
+    </sql>
+    
+    <!-- 查询通用SQL -->
+    <sql id="findListByConditions">
+        <include refid="loanFeeInputSelective" />
+        <include refid="loanFeeInputConditions" />
+    </sql>
+    
+    <sql id="findListFeeByConditions">
+     SELECT T2.Name,
+            T2.IDNUM,
+            T1.CONTRACT_NUM, 
+            T1.FUNDS_SOURCES,  
+            T1.GRANT_MONEY_DATE,
+            T4.NAME AS SALES_DEPARTMENT_NAME,
+            T1.LOAN_TYPE,
+            T3.Amount,
+            T3.Receive_Amount,
+            T3.Unpaid_Amount,
+            T3.STATE,
+            T3.ID
+          FROM V_LOAN_INFO      T1,
+               PERSON_INFO      T2,
+               LOAN_FEE_INFO    T3,
+               COM_ORGANIZATION T4
+         WHERE T1.BORROWER_ID = T2.ID
+           AND T1.ID = T3.LOAN_ID
+           AND T1.SALES_DEPARTMENT_ID = T4.ID AND T4.ORG_CODE LIKE #{orgCode,jdbcType=VARCHAR} || '%' 
+        <if test="name != null and name != ''">
+            AND T2.NAME LIKE  #{name, jdbcType=VARCHAR} || '%' 
+        </if>
+        <if test="idNum != null and idNum != ''">
+            AND T2.IDNUM= #{idNum, jdbcType=VARCHAR}
+        </if>
+        <if test="contractNum != null and contractNum != ''">
+            AND T1.CONTRACT_NUM= #{contractNum, jdbcType=VARCHAR}
+        </if>
+        <if test="state != null and state != ''">
+            AND T3.STATE= #{state, jdbcType=VARCHAR}
+        </if>
+         <if test="fundsSources != null and fundsSources != ''">
+            AND T1.FUNDS_SOURCES= #{fundsSources, jdbcType=VARCHAR}
+        </if>
+        <if test="grantMoneyDate != null and grantMoneyDate != ''">
+            AND T1.GRANT_MONEY_DATE >= TO_DATE(#{grantMoneyDate, jdbcType=VARCHAR},'yyyy-MM-dd')
+            AND T1.GRANT_MONEY_DATE &lt; TO_DATE(#{grantMoneyDate, jdbcType=VARCHAR},'yyyy-MM-dd') + 1
+        </if>
+    </sql>
+
+    <!-- 按条件查询收费录入信息 -->
+    <select id="findListByVO" parameterType="com.zdmoney.credit.fee.domain.vo.LoanFeeInput" resultMap="BaseResultMap">
+        <include refid="findListByConditions" />
+    </select>
+
+    <!-- 分页查询（收费录入信息） -->
+    <select id="findWithPG" parameterType="java.util.Map" resultMap="BaseResultMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="findListByConditions" />
+        <include refid="orderConditions"/>
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <!-- 查询总件数（收费录入信息） -->
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (<include refid="findListByConditions" />)
+    </select>
+    
+    <!-- 分页查询（收费信息） -->
+    <select id="searchVLoanInfoFeeResult" parameterType="java.util.Map" resultMap="feeListMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="findListFeeByConditions" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <!-- 查询总件数（收费信息） -->
+    <select id="searchVLoanInfoFeeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (<include refid="findListFeeByConditions" />)
+    </select>
+</mapper>

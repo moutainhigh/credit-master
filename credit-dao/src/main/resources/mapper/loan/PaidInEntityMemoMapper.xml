@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.PaidInEntityMemoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.framework.vo.abs.entity.PaidInEntity" >
+    <id column="CONTRACT_NUM" property="pactNo" jdbcType="VARCHAR" />
+    <result column="cURRENT_TERM" property="cnt" jdbcType="DECIMAL" />
+    <result column="TRADE_DATE" property="payDate" jdbcType="DATE" />
+    <result column="PAYAMY" property="payAmt" jdbcType="DECIMAL" />
+    <result column="PAYINTE" property="payInte" jdbcType="DECIMAL" />
+    <result column="PAYOVER" property="payOver" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <select id="queryPaidEntityList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	  SELECT T1.CONTRACT_NUM,
+	       T4.CURRENT_TERM,
+	       TO_CHAR(T2.TRADE_DATE,'yyyy-mm-dd') AS TRADE_DATE,
+	       NVL(T4.PAYAMT, 0) AS PAYAMT,
+	       NVL(T4.PAYINTE, 0) AS PAYINTE,
+	       NVL(T4.PAYOVER, 0) AS PAYOVER,
+	       (PAYAMT + PAYINTE + PAYOVER) AS PAYTOTAL
+	  FROM V_LOAN_INFO T1
+	  JOIN BASE_PUBLIC_ACCOUNT_INFO_WM T2
+	    ON T1.ID = T2.LOAN_ID
+	  JOIN OFFER_REPAY_INFO T3
+	    ON T2.LOAN_ID = T3.LOAN_ID
+	   AND T2.TRADE_DATE = T3.TRADE_DATE
+	  JOIN (SELECT *
+	          FROM (SELECT T.ACCT_TITLE,
+	                       T.TRADE_AMOUNT,
+	                       T.TRADE_NO,
+	                       T.CURRENT_TERM
+	                  FROM TRUST_OFFER_FLOW T)
+	        PIVOT(SUM(TRADE_AMOUNT)
+	           FOR ACCT_TITLE IN('211' PAYAMT, '451' PAYINTE, '452' PAYOVER))) T4
+	    ON T3.TRADE_NO = T4.TRADE_NO
+	 WHERE T1.LOAN_BELONG = '外贸2'
+	   AND T2.TRADE_DATE &gt;= TRUNC(SYSDATE - 1)
+	   AND T2.TRADE_DATE &lt; TRUNC(SYSDATE)
+	   AND T2.STATUS = '已导出'
+<!-- 		  SELECT T1.CONTRACT_NUM, -->
+<!-- 		       T4.CURRENT_TERM, -->
+<!-- 		       TO_CHAR(T4.TRADE_DATE,'yyyy-mm-dd') AS TRADE_DATE, -->
+<!-- 		       NVL(T4.PAYAMT, 0) AS PAYAMT, -->
+<!-- 		       NVL(T4.PAYINTE, 0) AS PAYINTE, -->
+<!-- 		       NVL(T4.PAYOVER, 0) AS PAYOVER, -->
+<!-- 		       (NVL(T4.PAYAMT, 0) + NVL(T4.PAYINTE, 0) + NVL(T4.PAYOVER, 0)) AS PAYTOTAL -->
+<!-- 		  FROM V_LOAN_INFO T1 -->
+<!-- 		  JOIN OFFER_REPAY_INFO T3 -->
+<!-- 		    ON T1.ID = T3.LOAN_ID -->
+<!-- 		  JOIN (SELECT * -->
+<!-- 		          FROM (SELECT T.ACCT_TITLE, -->
+<!-- 		                       T.TRADE_AMOUNT, -->
+<!-- 		                       T.TRADE_NO, -->
+<!-- 		                       T.CURRENT_TERM, -->
+<!-- 		                       T.TRADE_DATE -->
+<!-- 		                  FROM TRUST_OFFER_FLOW T) -->
+<!-- 		        PIVOT(SUM(TRADE_AMOUNT) -->
+<!-- 		           FOR ACCT_TITLE IN('211' PAYAMT, '451' PAYINTE, '452' PAYOVER))) T4 -->
+<!-- 		    ON 1 = 1 -->
+<!-- 		 WHERE T1.LOAN_BELONG = '外贸2' -->
+<!-- 		   AND ROWNUM &lt;= 20 -->
+  </select>
+  
+  <select id="selectLoanId" resultType="java.lang.String" parameterType="java.lang.String" >
+		  SELECT T.ID FROM V_LOAN_INFO T WHERE T.CONTRACT_NUM = #{pactNo,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.PaidInEntityMemo">
+  	  <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">
+		select
+		SEQ_SET_PAIDENTITY_REQUEST.NEXTVAL
+		from
+		dual
+	  </selectKey>
+  		INSERT INTO PAID_REQUEST_PARAM (
+  		ID,
+  		BAT_NO,
+  		LOAN_ID,
+  		PACT_NO,
+  		CNT, 
+		PAY_DATE,
+		PAY_TOTAL,
+		PAY_AMT,
+		PAY_INTE,
+		PAY_OVER,
+		FEE_TOTAL,
+		CREATE_TIME,
+		CREATOR,
+  		UPDATE_TIME,
+  		UPDATOR
+		)
+		values (
+		#{id,jdbcType=VARCHAR},
+		#{batNo,jdbcType=VARCHAR},
+		#{loanId,jdbcType=VARCHAR},
+		#{pactNo,jdbcType=VARCHAR},
+		#{cnt,jdbcType=INTEGER},
+		#{payDate,jdbcType=VARCHAR}, 
+		#{payTotal,jdbcType=DECIMAL},
+		#{payAmt,jdbcType=DECIMAL},
+		#{payInte,jdbcType=DECIMAL},
+		#{payOver,jdbcType=DECIMAL},
+		#{feeTotal,jdbcType=DECIMAL},
+		#{createTime,jdbcType=DATE},
+		#{creator,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=DATE},
+		#{updator,jdbcType=VARCHAR}
+		)
+  </insert>
+  
+</mapper>

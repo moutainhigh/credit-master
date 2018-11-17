@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.SpecialRepaymentRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.SpecialRepaymentRelation" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="APPLY_ID" property="applyId" jdbcType="DECIMAL" />
+    <result column="EFFECTIVE_ID" property="effectiveId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, APPLY_ID, EFFECTIVE_ID, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <delete id="delete" parameterType="java.math.BigDecimal" >
+    delete from SPECIAL_REPAYMENT_RELATION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.SpecialRepaymentRelation" >
+    insert into SPECIAL_REPAYMENT_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+      <if test="effectiveId != null" >
+        EFFECTIVE_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=DECIMAL},
+      </if>
+      <if test="effectiveId != null" >
+        #{effectiveId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.loan.domain.SpecialRepaymentRelation" >
+    update SPECIAL_REPAYMENT_RELATION
+    <set >
+      <if test="applyId != null" >
+        APPLY_ID = #{applyId,jdbcType=DECIMAL},
+      </if>
+      <if test="effectiveId != null" >
+        EFFECTIVE_ID = #{effectiveId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <select id="querySpecialRepaymentRelation" parameterType="java.util.Map" resultMap="BaseResultMap">
+   select b.*
+  from special_repayment_apply a, special_repayment_relation b
+ where a.id = b.apply_id
+ <if test="loanId != null">
+   and a.loan_id = #{loanId}
+    </if>
+    <if test="applicationStatus != null and applicationStatus != ''">
+   and a.application_status = #{applicationStatus}
+    </if>
+  </select>
+  <delete id="deleteByEffectiveId" parameterType="java.lang.Long" >
+    delete from SPECIAL_REPAYMENT_RELATION
+    where EFFECTIVE_ID = #{effectiveId,jdbcType=DECIMAL}
+  </delete>
+</mapper>

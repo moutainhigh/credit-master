@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.repay.vo.VCustomerAccountManagerMapper">
+	<select id="findCustomerAccountInfoList" parameterType="map" resultType="map">
+		select
+			a.customer_id                                                       "customerId",
+			a.customer_name                                                     "customerName",
+			a.customer_id_num                                                   "customerIdNum",
+			a.loan_type                                                         "loanType",      
+			a.loan_state                                                        "loanState",                                         
+			a.time                                                              "loanTrem",
+			to_char(a.grant_money_date,'yyyy-mm-dd')                            "grantMoneyDate",
+			to_char(a.startrdate,'yyyy-mm-dd')                                  "firstRepaymentDate",
+			to_char(a.account_id)                                               "accountId",
+			case when b.amount is null then 0.0 else b.amount end               "accountBalance",
+			zhuxuedaiOrg "zhuxuedaiOrg",
+			a.contract_num "contractNum"
+		from (
+			
+			select * from (
+				select a.*,rownum row_num from (
+					select
+						a.id customer_id,
+						'0' zhuxuedaiOrg,
+						a.name customer_name,
+						a.idnum customer_id_num,
+						c.loan_type,
+						b.loan_state,
+						d.time,
+						c.grant_money_date,
+						d.startrdate,
+						b.id account_id,
+                        b.contract_num contract_num
+					from
+					person_info a
+					join 
+					loan_base b
+					on (a.id = b.borrower_id)
+					join loan_initial_info c
+					on (b.id = c.loan_id)
+					join loan_product d
+					on (b.id = d.loan_id)
+					where b.loan_state in ('正常', '逾期', '结清', '坏账','预结清')
+					<if test="customerIdNum != null">
+						and a.idnum = #{customerIdNum}
+					</if>
+					<if test="customerName != null">
+						and a.name like #{customerName}||'%'
+					</if>
+			        union all
+			        select 
+			        	id   customer_id, 
+			        	'1' zhuxuedaiOrg,
+			        	name customer_name ,
+			        	code  customer_id_num ,
+			        	null  loan_type,
+			        	null  loan_state,
+			        	null  time,
+			        	null  grant_money_date,
+			        	null  startrdate,
+			        	id    account_id ,
+			        	''    contract_num
+			        from zhuxue_organization
+			        where 1=1
+			        <if test="customerIdNum != null">
+						and code = #{customerIdNum}
+					</if>
+					<if test="customerName != null">
+						and name like #{customerName}||'%'
+					</if>
+				)a	
+					<if test="contractNum != null and contractNum!=''">
+						where a.contract_num = #{contractNum}
+					</if>
+			)
+			where row_num between #{startRow} and #{endRow}
+		) a
+		left join
+		loan_ledger b
+		on (to_char(a.account_id) = b.account)
+	</select>
+    
+	<select id="findCustomerAccountInfoCount" parameterType="map" resultType="int">
+			select count(1) from (
+				select
+					a.id customer_id,
+					a.name customer_name,
+					a.idnum customer_id_num,
+					c.loan_type,
+					d.time,
+					c.grant_money_date,
+					d.startrdate,
+					b.id account_id
+				from
+				person_info a
+				join 
+				loan_base b
+				on (a.id = b.borrower_id)
+				join loan_initial_info c
+				on (b.id = c.loan_id)
+				join loan_product d
+				on (b.id = d.loan_id)
+				where b.loan_state in ('正常', '逾期', '结清', '坏账')
+				<if test="customerIdNum != null">
+					and a.idnum = #{customerIdNum}
+				</if>
+				<if test="customerName != null">
+					and a.name like #{customerName}||'%'
+				</if>
+		        union all
+		        select 
+		        	id account_id, 
+		        	name customer_name ,
+		        	code  customer_id_num ,
+		        	null  loan_type,
+		        	null  time,
+		        	null  grant_money_date,
+		        	null  startrdate,
+		        	null  account_id 
+		        from zhuxue_organization 	
+		        where 1=1
+		        <if test="customerIdNum != null">
+					and code = #{customerIdNum}
+				</if>
+				<if test="customerName != null">
+					and name like #{customerName}||'%'
+				</if>		
+			)
+	</select>
+
+	<select id="findCustomerAccountInfo" parameterType="map" resultType="map">
+		select
+			zhuxuedaiOrg         "zhuxuedaiOrg",
+			customer_id           "customerId",
+			customer_name         "customerName",
+			customer_id_num       "customerIdNum",
+			loan_type             "loanType",
+			time                  "loanTrem",
+			grant_money_date      "grantMoneyDate",
+			startrdate            "startrdate",
+			account_id            "accountId",
+			loan_state            "loanState",
+			organization_name     "organizationName",
+			contract_num      "contractNum"
+		from (
+			select
+				'0' zhuxuedaiOrg,
+				a.id customer_id,
+				a.name customer_name,
+				a.idnum customer_id_num,
+				c.loan_type,
+				d.time,
+				c.grant_money_date,
+				d.startrdate,
+				b.id account_id,
+				b.loan_state loan_state,
+				f.name  organization_name,
+				b.contract_num contract_num
+			from
+			person_info a
+			join 
+			loan_base b
+			on (a.id = b.borrower_id)
+			join loan_initial_info c
+			on (b.id = c.loan_id)
+			join loan_product d
+			on (b.id = d.loan_id)
+			left join
+			zhuxue_product_plan e
+			on(b.plan_id = e.id)
+			left join
+			zhuxue_organization f
+			on(e.organization_id = f.id)
+			where b.loan_state in ('正常', '逾期', '结清', '坏账','预结清')
+			<if test="customerId != null">
+				and a.id = #{customerId}
+			</if>
+			<if test="accountId != null">
+				and b.id = #{accountId}
+			</if>
+			<if test="contractNum != null and contractNum!=''">
+				and b.contract_num = #{contractNum}
+			</if>
+	        union all
+	        select
+				'1' zhuxuedaiOrg,
+	        	id    customer_id, 
+	        	name  customer_name ,
+	        	code  customer_id_num ,
+	        	null  loan_type,
+	        	null  time,
+	        	null  grant_money_date,
+	        	null  startrdate,
+	        	id    account_id,
+	        	null  loan_state,
+	        	name  organization_name,
+	        	'' contract_num
+	        from zhuxue_organization
+	        where 1=1
+			<if test="customerId != null">
+				and id = #{customerId}
+			</if>
+		)
+	</select>
+</mapper>

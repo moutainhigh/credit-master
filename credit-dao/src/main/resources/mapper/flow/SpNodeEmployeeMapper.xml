@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.flow.domain.SpNodeEmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.flow.domain.SpNodeEmployee" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NODE_ID" property="nodeId" jdbcType="DECIMAL" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NODE_ID, EMPLOYEE_ID, STATUS, CREATE_TIME, UPDATE_TIME, CREATOR, UPDATOR
+  </sql>
+
+  <delete id="delete" parameterType="java.math.BigDecimal" >
+    delete from SP_NODE_EMPLOYEE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.credit.flow.domain.SpNodeEmployee" >
+    insert into SP_NODE_EMPLOYEE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="nodeId != null" >
+        NODE_ID,
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="updator != null" >
+        UPDATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="nodeId != null" >
+        #{nodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zdmoney.credit.flow.domain.SpNodeEmployee" >
+    update SP_NODE_EMPLOYEE
+    <set >
+      <if test="nodeId != null" >
+        NODE_ID = #{nodeId,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <sql id="findListByMapConditions">
+    <trim prefix="where" prefixOverrides="and">
+      <if test="nodeId != null">
+        and node_id = #{nodeId}
+      </if>
+      <if test="employeeId != null">
+        and employee_id = #{employeeId}
+      </if>
+      <if test="status != null and status != ''">
+        and status = #{status}
+      </if>
+    </trim>
+  </sql>
+  <sql id="findListByMapOrderBy">
+    ORDER BY ID ASC
+  </sql>
+  <select id="findListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM sp_node_employee
+    <include refid="findListByMapConditions"/>
+    <include refid="findListByMapOrderBy"/>
+  </select>
+  <sql id="queryNodeEmployeeInfoConditions">
+    <trim prefix="where" prefixOverrides="and | or">
+      t1.employee_id = t2.id
+      and t1.node_id = t3.id
+      <if test="name != null and name != ''">
+        and t2.name = #{name}
+      </if>
+      <if test="userCode != null and userCode != ''">
+        and t2.usercode = #{userCode}
+      </if>
+      <if test="status != null and status != ''">
+        and t1.status = #{status}
+      </if>
+    </trim>
+  </sql>
+  <sql id="queryNodeEmployeeInfos">
+      select
+        t1.id,
+        t1.node_id     as nodeId,
+        t1.employee_id as employeeId,
+        t1.status      as status,
+        t1.create_time as createTime,
+        t2.name as name,
+        t2.usercode    as userCode,
+        t3.node_name   as nodeName
+        from sp_node_employee t1, com_employee t2, sp_node_info t3
+        <include refid="queryNodeEmployeeInfoConditions"/>
+  </sql>
+  <select id="queryNodeEmployeeInfosDetail" parameterType="java.util.Map" resultType="com.zdmoney.credit.flow.vo.SpNodeEmployeeVo">
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+    <include refid="queryNodeEmployeeInfos"/>
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+    <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  <select id="queryNodeEmployeeInfosCount" parameterType="java.util.Map"
+          resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM (
+    <include refid="queryNodeEmployeeInfos"/>
+    )
+  </select>
+
+  <select id="queryApplySpNodeEmployeeByEmployeeId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select t.*
+    from sp_node_employee t, sp_node_info t1
+    where t.node_id = t1.id
+    and t1.node_type = '02'
+    and t1.status = '0'
+    and t.status = '0'
+    and t.employee_id = #{queryApplySpNodeEmployeeByEmployeeId}
+  </select>
+
+  <select id = "queryEmployeeRoleInfos" resultType="com.zdmoney.credit.flow.vo.EmployeeRoleVo">
+    select t1.employee_id as employeeId, t1.role_id as roleId, t2.role_name as roleName
+     from com_employee_role t1, com_role t2
+     where t1.role_id = t2.id
+     and t2.role_name in
+         ('信贷-营业部-副理', '信贷-营业部-经理')
+  </select>
+
+  <delete id="batchDeleteEmployeeRole">
+  delete from  sp_node_employee t
+   where exists (select 1
+          from sp_node_info t1
+         where t1.id = t.node_id
+           and t1.node_name in ('网点副理申请',
+                                '网点经理申请'))
+  </delete>
+</mapper>

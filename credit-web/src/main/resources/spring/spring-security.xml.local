@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 系统内部登陆配置（非单点登陆） -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	<!-- 开启Security 注解 -->
+	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
+	<security:http pattern="/resources/**" security="none" />
+	<security:http pattern="/views/login.jsp" security="none" />
+	<security:http pattern="/views/error/*" security="none" />
+	<security:http pattern="/frameWork/sessionTimeOut" security="none" />
+	<security:http pattern="/core/**" security="none" />
+	<security:http pattern="/offer/tppback/realtimeDeductBack" security="none" />
+	<security:http pattern="/system/user/forgetPwd" security="none" />
+	<security:http pattern="/system/user/resetPwd" security="none" />
+	<security:http pattern="/system/user/loginOut" security="none" />
+	<security:http pattern="/businessAccount/updateBusinessAccountStatus" security="none" />
+	
+	<!-- entry-point-ref="casEntryPoint" -->
+	<security:http  auto-config="false" use-expressions="true"   >
+		<security:intercept-url pattern="/**"   access="isAuthenticated()"/>
+		<security:custom-filter  before="FORM_LOGIN_FILTER" ref="myLoginFilter"  />
+		
+		<security:custom-filter  before="FILTER_SECURITY_INTERCEPTOR" ref="securityFilter"  />
+		
+		<security:form-login
+				login-page="/views/login.jsp" 
+				authentication-failure-url="" 
+				default-target-url=""/>
+		
+		<security:access-denied-handler ref="accessDeniedHandlerImpl" />
+	</security:http>
+	 
+	 <bean id="myLoginFilter" class="com.zdmoney.credit.login.core.SelfLoginAuthenticationFilter">  
+        <property name="authenticationManager" ref="authenticationManager"/>  
+        <property name="authenticationSuccessHandler" ref="loginAuthenticationSuccessHandler"/>
+		<property name="authenticationFailureHandler" ref="loginAuthenticationFailureHandler"/>
+    </bean>
+    
+	<bean id="accessDeniedHandlerImpl"  
+    			class="com.zdmoney.credit.login.core.AccessDeniedHandlerImpl">
+    	<property name="deniedUrl" value="/views/error/403.jsp"/>
+    </bean>
+	
+	<!-- 单点认证成功回调 -->
+	<bean id="loginAuthenticationSuccessHandler"  
+    			class="com.zdmoney.credit.login.core.LoginAuthenticationSuccessHandler"/>
+    <!-- 单点认证失败回调 -->
+    <bean id="loginAuthenticationFailureHandler"  
+    			class="com.zdmoney.credit.login.core.LoginAuthenticationFailureHandler"/>
+    
+	
+    <bean id="securityFilter"  
+    		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+    	<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager"  
+				ref="affirmativeBasedAccessDecisionManager" />
+		<property name="securityMetadataSource" ref="customSecurityMetadataSource"/>  
+	</bean>  
+	
+	<bean id="affirmativeBasedAccessDecisionManager"  
+        class="org.springframework.security.access.vote.AffirmativeBased">
+        <!--   
+        <property name="decisionVoters" ref="roleDecisionVoter" />
+         -->
+         <property name="decisionVoters">
+         	<list>
+         		<bean class="com.zdmoney.credit.login.core.RoleVoterImpl"/>
+         		<bean class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
+         	</list>
+         </property>
+    </bean>
+    
+    <bean id="sysInvocationSecurityMetadataSource" class="com.zdmoney.credit.login.core.SysInvocationSecurityMetadataSource"/>
+
+	<bean id="customSecurityMetadataSource"  
+        class="org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource">
+        <constructor-arg type="java.util.LinkedHashMap" ref="sysInvocationSecurityMetadataSource" />
+	</bean>  
+	
+	<security:authentication-manager alias="authenticationManager">
+	        <security:authentication-provider user-service-ref="loginAuthentication" >
+	        	<security:password-encoder hash="md5"/>
+	        </security:authentication-provider>
+	</security:authentication-manager>
+	
+</beans>

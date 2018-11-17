@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.offer.domain.FuiouOfferJobEntryMapper">
+	<resultMap id="fuiouOfferJobEntryResultMap"
+		type="com.zdmoney.credit.offer.domain.FuiouOfferJobEntry">
+		<id column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+		<result column="IDTYPE" property="idType" jdbcType="VARCHAR" />
+		<result column="MPHONE" property="mphone" jdbcType="VARCHAR" />
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+		<result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getFuiouOffer22" resultMap="fuiouOfferJobEntryResultMap"
+		parameterType="java.util.Map">
+		SELECT P.NAME,
+		P.idnum,
+		(CASE P.idtype
+		WHEN '身份证' THEN
+		'0'
+		WHEN '护照' THEN
+		'1'
+		WHEN '军官证' THEN
+		'2'
+		WHEN '士兵证' THEN
+		'3'
+		WHEN '户口本' THEN
+		'5'
+		ELSE
+		'其他'
+		END) AS idtype,
+		P.mphone,
+		b.account,
+		b.bank_code
+		FROM loan_process_history ll, person_info P, loan_base l, loan_bank b
+		WHERE ll.loan_flow_state = '财务放款'
+		AND ll.loan_id = l.ID
+		AND b.ID = l.grant_bank_id
+		AND l.borrower_id = P.ID
+		and b.bank_code = '102'
+		and to_char(ll.create_time, 'YYYY-MM-DD') = #{dateStr, jdbcType=VARCHAR}
+	</select>
+
+	<select id="getFuiouOffer" resultMap="fuiouOfferJobEntryResultMap"
+		parameterType="java.util.Map">
+		select OFF.bank_code,
+		OFF.idnum as idnum,
+		OFF.name as name,
+		OFF.bank_acct as account,
+		OFF.tel as mphone,
+		'0' as idtype
+		from offer_info off, offer_transaction tc
+		where off.id = tc.OFFER_ID
+		and (tc.RTN_INFO like '未签约' or tc.RTN_INFO like '持卡人手机号码有误')
+		and OFF.bank_code = '102'
+		and (to_char(OFF.CREATE_TIME, 'YYYY-MM-DD hh24-mi-ss') <![CDATA[>]]>
+		#{dateStr, jdbcType = VARCHAR} ||
+		case #{hour, jdbcType = DECIMAL}
+		when 10 then
+		' 00-00-00'
+		when 13 then
+		' 09-00-00'
+		when 16 then
+		' 12-00-00'
+		when 20 then
+		' 15-00-00'
+		end)
+		and to_char(OFF.offer_date, 'yyyy-mm-dd') = #{dateStr, jdbcType =
+		VARCHAR}
+	</select>
+
+
+
+</mapper>

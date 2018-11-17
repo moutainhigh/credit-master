@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.chexiao.domain.UndoManageMapper" >
+  <resultMap id="UndoResultMap" type="com.zdmoney.credit.chexiao.vo.UndoManageVo" >
+    <id column="LOAN_ID" property="id" jdbcType="BIGINT" />
+    <result column="TRADE_NO" property="tradeno" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+     <result column="LOAN_STATE" property="loanstate" jdbcType="VARCHAR" />
+     <result column="TRADE_DATE" property="tradedate" jdbcType="DATE" />
+      <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+      <result column="TRADE_TYPE" property="trade_type" jdbcType="VARCHAR" />
+       <result column="PROMISE_RETURN_DATE" property="promise_return_date" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- 查询字段 -->
+   <sql id="undoManageSelective">
+    SELECT t1.LOAN_ID, t1.TRADE_NO, t3.NAME, t2.LOAN_STATE, t1.TRADE_DATE, t1.AMOUNT,t1.TRADE_TYPE,t2.PROMISE_RETURN_DATE
+    FROM  OFFER_REPAY_INFO t1,V_LOAN_INFO t2,PERSON_INFO t3
+  </sql>
+  <!-- 查询条件 -->
+  <sql id="undoManageConditions">
+    <trim prefix="where" prefixOverrides="and">
+		    and t1.loan_id = t2.id 
+			and t2.borrower_id = t3.id 
+			and loan_id in (
+			  	  select id from loan_base
+				  where  loan_state in ('逾期', '正常', '预结清')
+				  <if test="contract_num != null and contract_num != ''">
+		        and contract_num = #{contract_num}
+		      </if>
+				)
+    </trim>
+  </sql>
+  
+    <!-- 根据Map分页查询 -->
+  <select id="findWithPGByMap" parameterType="java.util.Map" resultMap="UndoResultMap">
+  		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="undoManageSelective" />
+    	<include refid="undoManageConditions" />
+    	<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+    	<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+    <!-- 查询总件数 -->
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM (
+        <include refid="undoManageSelective" />
+    	<include refid="undoManageConditions" />
+    )
+  </select>
+  <!-- 撤销操作 -->
+  <select id="undo" statementType="CALLABLE" parameterType="com.zdmoney.credit.chexiao.domain.Undo" >  
+	{#{msg,mode=OUT,jdbcType=VARCHAR} = call 
+		FUN_CANCEL_REPAY(#{tradeno,mode=IN,jdbcType=VARCHAR})}
+</select>
+  <delete id="delete_orr" parameterType="com.zdmoney.credit.chexiao.domain.Undo">
+  		delete from offline_repay_relation  where trade_no =  #{tradeno}
+  </delete>
+  <!-- 更新还款状态 -->
+  <update id="updateState"  parameterType="com.zdmoney.credit.chexiao.domain.LoanStateVo" >
+	update loan_base set loan_state = #{updateLoanState} where id = #{loanid}
+  </update>
+  <delete id="delete" parameterType="com.zdmoney.credit.chexiao.domain.LoanStateVo">
+  		delete from loan_pre_settle  where loan_id =  #{loanid}
+  </delete>
+  
+  
+</mapper>

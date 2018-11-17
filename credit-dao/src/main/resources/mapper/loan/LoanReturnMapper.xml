@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanReturnMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanReturn">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="CURRENT_TERM" property="currentTerm" jdbcType="DECIMAL" />
+		<result column="IMPORT_REASON" property="importReason"
+			jdbcType="VARCHAR" />
+		<result column="BATCH_NUM" property="batchNum" jdbcType="VARCHAR" />
+		<result column="FUNDS_SOURCES" property="fundsSources"
+			jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+
+	<sql id="Base_Column_List">
+		ID, LOAN_ID, CURRENT_TERM, IMPORT_REASON, BATCH_NUM, FUNDS_SOURCES,
+		AMOUNT, CREATE_TIME,
+		UPDATE_TIME
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_RETURN
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		delete from LOAN_RETURN
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanReturn">
+		insert into LOAN_RETURN (ID, LOAN_ID, CURRENT_TERM,
+		IMPORT_REASON, BATCH_NUM, FUNDS_SOURCES,
+		AMOUNT, CREATE_TIME, UPDATE_TIME
+		)
+		values (#{id,jdbcType=DECIMAL}, #{loanId,jdbcType=DECIMAL},
+		#{currentTerm,jdbcType=DECIMAL},
+		#{importReason,jdbcType=VARCHAR}, #{batchNum,jdbcType=VARCHAR}, #{fundsSources,jdbcType=VARCHAR},
+		#{amount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanReturn">
+		insert into LOAN_RETURN
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="currentTerm != null">
+				CURRENT_TERM,
+			</if>
+			<if test="importReason != null">
+				IMPORT_REASON,
+			</if>
+			<if test="batchNum != null">
+				BATCH_NUM,
+			</if>
+			<if test="fundsSources != null">
+				FUNDS_SOURCES,
+			</if>
+			<if test="amount != null">
+				AMOUNT,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="currentTerm != null">
+				#{currentTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="importReason != null">
+				#{importReason,jdbcType=VARCHAR},
+			</if>
+			<if test="batchNum != null">
+				#{batchNum,jdbcType=VARCHAR},
+			</if>
+			<if test="fundsSources != null">
+				#{fundsSources,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanReturn">
+		update LOAN_RETURN
+		<set>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="currentTerm != null">
+				CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+			</if>
+			<if test="importReason != null">
+				IMPORT_REASON = #{importReason,jdbcType=VARCHAR},
+			</if>
+			<if test="batchNum != null">
+				BATCH_NUM = #{batchNum,jdbcType=VARCHAR},
+			</if>
+			<if test="fundsSources != null">
+				FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				AMOUNT = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanReturn">
+		update LOAN_RETURN
+		set LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		CURRENT_TERM = #{currentTerm,jdbcType=DECIMAL},
+		IMPORT_REASON = #{importReason,jdbcType=VARCHAR},
+		BATCH_NUM = #{batchNum,jdbcType=VARCHAR},
+		FUNDS_SOURCES = #{fundsSources,jdbcType=VARCHAR},
+		AMOUNT = #{amount,jdbcType=DECIMAL},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<select id="countLoanReturn" parameterType="com.zdmoney.credit.loan.domain.LoanReturn"
+		resultType="java.lang.Integer">		
+	select count(1) from loan_return t where t.loan_id=#{loanId,jdbcType=DECIMAL}
+	</select>
+
+</mapper>

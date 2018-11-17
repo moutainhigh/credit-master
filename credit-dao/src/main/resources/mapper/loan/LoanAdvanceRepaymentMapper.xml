@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanAdvanceRepaymentMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zdmoney.credit.loan.domain.LoanAdvanceRepayment">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="FACT_RETURN_DATE" property="factReturnDate"
+			jdbcType="TIMESTAMP" />
+		<result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+		<result column="PERSON_ID" property="personId" jdbcType="DECIMAL" />
+		<result column="REPAYMENT_ALL_AMOUT" property="repaymentAllAmout"
+			jdbcType="DECIMAL" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, CREATE_TIME, FACT_RETURN_DATE, LOAN_ID, PERSON_ID,
+		REPAYMENT_ALL_AMOUT, TYPE,
+		MEMO
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from LOAN_ADVANCE_REPAYMENT
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from LOAN_ADVANCE_REPAYMENT
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanAdvanceRepayment">
+		insert into LOAN_ADVANCE_REPAYMENT (ID, CREATE_TIME, FACT_RETURN_DATE,
+		LOAN_ID, PERSON_ID, REPAYMENT_ALL_AMOUT,
+		TYPE, MEMO)
+		values (#{id,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+		#{factReturnDate,jdbcType=TIMESTAMP},
+		#{loanId,jdbcType=DECIMAL}, #{personId,jdbcType=DECIMAL}, #{repaymentAllAmout,jdbcType=DECIMAL},
+		#{type,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.loan.domain.LoanAdvanceRepayment">
+		insert into LOAN_ADVANCE_REPAYMENT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="factReturnDate != null">
+				FACT_RETURN_DATE,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="personId != null">
+				PERSON_ID,
+			</if>
+			<if test="repaymentAllAmout != null">
+				REPAYMENT_ALL_AMOUT,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="factReturnDate != null">
+				#{factReturnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="personId != null">
+				#{personId,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentAllAmout != null">
+				#{repaymentAllAmout,jdbcType=DECIMAL},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.loan.domain.LoanAdvanceRepayment">
+		update LOAN_ADVANCE_REPAYMENT
+		<set>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="factReturnDate != null">
+				FACT_RETURN_DATE = #{factReturnDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loanId != null">
+				LOAN_ID = #{loanId,jdbcType=DECIMAL},
+			</if>
+			<if test="personId != null">
+				PERSON_ID = #{personId,jdbcType=DECIMAL},
+			</if>
+			<if test="repaymentAllAmout != null">
+				REPAYMENT_ALL_AMOUT = #{repaymentAllAmout,jdbcType=DECIMAL},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.loan.domain.LoanAdvanceRepayment">
+		update LOAN_ADVANCE_REPAYMENT
+		set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		FACT_RETURN_DATE = #{factReturnDate,jdbcType=TIMESTAMP},
+		LOAN_ID = #{loanId,jdbcType=DECIMAL},
+		PERSON_ID = #{personId,jdbcType=DECIMAL},
+		REPAYMENT_ALL_AMOUT = #{repaymentAllAmout,jdbcType=DECIMAL},
+		TYPE = #{type,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+
+	<insert id="insertAdvanceRepaymentJob">
+		insert into loan_advance_repayment
+		(id,
+		fact_return_date,
+		loan_id,
+		person_id,
+		repayment_all_amount,
+		create_time)
+		select SEQ_LOAN_ADVANCE_REPAYMENT.nextval,
+		trade_date,
+		loan_id,
+		pid,
+		repayment_all,
+		sysdate
+		from v_advance_repayment v
+		where not exists
+		(select 1 from loan_advance_repayment where loan_id = v.loan_id)
+		and current_term <![CDATA[<]]>
+		time
+	</insert>
+</mapper>

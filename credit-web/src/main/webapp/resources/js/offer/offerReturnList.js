@@ -1,0 +1,323 @@
+$(function() {
+    $.offerReturnList = {
+        /** 表格数据源地址 **/
+        dataGridUrl : global.contextPath + '/offer/offerReturn/search',
+        /** 导出委托代扣回盘信息url **/
+        exportUrl : global.contextPath + '/offer/offerReturn/exportReturnFile',
+        /** 客户信息表格 **/
+        dataGrid : $('#dataGrid'),
+        /** 分页控件 **/
+        pager : undefined,
+        /** 查询条件数据项表单实例 **/
+        searchForm : $('#searchForm'),
+        /** 每页显示的记录条数，默认为10 **/
+        pageSize : 10,
+        /** 设置每页记录条数的列表 **/
+        pageSizeList : [ 10, 20, 30, 40, 50 ],
+        /** 加载表格数据 **/
+        reloadDataGrid : function() {
+            /** 获取查询表单数据转换成JSON对象 **/
+            var searchMsg = $.offerReturnList.searchForm.serialize();
+            /** 对参数进行解码(显示中文) **/
+            searchMsg = decodeURIComponent(searchMsg);
+            /** 字符串转换为对象 **/
+            var queryParam = $.serializeToJsonObject(searchMsg);
+            /** 追加url参数 **/
+            queryParam.url = $.offerReturnList.dataGridUrl;
+            /** 查询处理 **/
+            $.offerReturnList.dataGrid.datagrid('reloadData', queryParam);
+        }
+    };
+
+    /** 分页参数（page:当前第N页，rows:一页N行） **/
+    $.offerReturnList.pg = {
+        'page' : 1,
+        'rows' : $.offerReturnList.pageSize
+    };
+
+    /** 网格数据对象初始化 **/
+    $.offerReturnList.dataGrid.datagrid({
+        pg : $.offerReturnList.pg,
+        /** 提交方式 * */
+        method : 'get',
+        /** 是否显示行号 * */
+        rownumbers : true,
+        /** 是否单选 * */
+        singleSelect : true,
+        /** 是否可折叠的 * */
+        collapsible : false,
+        /** 自适应列宽 * */
+        fitColumns : true,
+        /** 数据长度超出，自动换行 **/
+        nowrap : false,
+        fit : true,
+        /** 是否开启分页 * */
+        pagination : true,
+        /** 加载数据提示 * */
+        loadMsg : '数据加载中,请稍等...',
+        columns : [ [
+            /** 列定义 * */
+            {
+                field : 'id',
+                title : 'id',
+                hidden : true
+            },{
+                field : 'loanId',
+                title : 'loanId',
+                hidden : true
+            }, {
+                field : 'contractNum',
+                title : '合同编号',
+                width : '8%'
+            }, {
+                field : 'fundsSources',
+                title : '合同来源',
+                width : '6%'
+            }, {
+                field : 'name',
+                title : '借款人',
+                width : '6%'
+            },{
+                field : 'idNum',
+                title : '身份证号',
+                width : '9%'
+            },{
+                field : 'bankName',
+                title : '银行',
+                width : '9%'
+            },{
+                field : 'bankAcct',
+                title : '账号',
+                width : '9%'
+            },{
+                field : 'reqTime',
+                title : '报盘日期',
+                width : '6%',
+                formatter:function(value,row,index){
+                    if(value){
+                        return $.DateUtil.dateFormatToStr(value);
+                    }
+                }
+            }, {
+                field : 'payAmount',
+                title : '报盘金额',
+                width : '5%',
+                vType : 'rmb'
+            },{
+                field : 'actualAmount',
+                title : '回盘金额',
+                width : '5%',
+                vType : 'rmb'
+            },{
+                field : 'rspReceiveTime',
+                title : '回盘日期',
+                width : '6%',
+                formatter:function(value,row,index){
+                    if(value){
+                        return $.DateUtil.dateFormatToStr(value);
+                    }
+                }
+            },{
+                field : 'type',
+                title : '划扣方式',
+                width : '5%',
+                formatter:function(value,row,index){
+                    if(value){
+                        if($.isEmpty(value)){
+                            return "自动划扣";
+                        }
+                        return value;
+                    }
+                }
+            },{
+                field : 'paySysNo',
+                title : '划扣通道',
+                width : '7%'
+            },{
+                field : 'merId',
+                title : '划扣商户',
+                width : '7%'
+            },{
+                field : 'rtnCode',
+                title : '划扣状态',
+                width : '8%'
+            },{
+                field : 'memo',
+                title : '备注',
+                width : '5%'
+            },{
+                field : 'orgMemo',
+                title : '营业部备注',
+                width : '5%'
+            },{
+                field : 'transferBatch',
+                title : '转让批次',
+                width : '5%'
+            }
+        ]],
+            
+        /** 每页显示的记录条数，默认为10 **/
+        pageSize : $.offerReturnList.pageSize,
+        /** 可以设置每页记录条数的列表 **/
+        pageList : $.offerReturnList.pageSizeList,
+        /** 工具栏 **/
+        toolbar : '#tb',
+        /** 自定义行样式 **/
+        rowStyler : function(index, row) {
+            if (index % 2 == 0) {
+            }
+        },
+        /** 加载数据完成后的回调方法 **/
+        onLoadSuccess : function(data) {
+            $.offerReturnList.dataGrid.datagrid('resize');
+        }
+    });
+
+    /** 分页处理 **/
+    $.offerReturnList.pager = $.offerReturnList.dataGrid.datagrid('getPager');
+    $.offerReturnList.pager.pagination({
+        onSelectPage : function(pageNumber, pageSize) {
+            $.offerReturnList.pg.page = pageNumber;
+            $.offerReturnList.pg.rows = pageSize;
+            if(searchCheck()){
+                $.offerReturnList.reloadDataGrid();
+            }
+        }
+    });
+    
+    /** 查询处理 **/
+    $('#searchBtn').click(function() {
+        $.offerReturnList.pg.page = 1;
+        if(searchCheck()){
+            $.offerReturnList.reloadDataGrid();//自动加载
+        }
+    });
+    
+    /** 查询校验 **/
+    function searchCheck(){
+        if(!$.offerReturnList.searchForm.form("validate")){
+            return false;
+        }
+        // 姓名
+        var name = $.trim($("#name").val());
+        // 证件号码
+        var idNum = $.trim($("#idNum").val());
+        // 报盘日期（开始日期）
+        var startOfferDate = $("#startOfferDate").datebox("getValue");
+        // 报盘日期（截止日期）
+        var endOfferDate = $("#endOfferDate").datebox("getValue");
+        // 回盘日期（开始日期）
+        var startReceiveDate = $("#startReceiveDate").datebox("getValue");
+        // 回盘日期（截止日期）
+        var endReceiveDate = $("#endReceiveDate").datebox("getValue");
+        // 是否成功
+        var returnCode = $("#returnCode").combobox("getValue");
+        // 合同来源
+        var fundsSource = $("#fundsSource").combobox("getValue");
+        // 查询条件必须输入其中一个
+        if ($.isEmpty(name) 
+            && $.isEmpty(idNum)
+            && $.isEmpty(startOfferDate) 
+            && $.isEmpty(endOfferDate)
+            && $.isEmpty(startReceiveDate)
+            && $.isEmpty(endReceiveDate)
+            && $.isEmpty(returnCode) 
+            && $.isEmpty(fundsSource)) {
+            $.messager.alert('警告', '请至少输入一个查询条件!', 'warning');
+            return false;
+        }
+        var beginDate = new Date(startOfferDate.replace(/\-/g, "\/"));
+        var endDate = new Date(endOfferDate.replace(/\-/g, "\/"));
+        if(!$.isEmpty(startOfferDate) && !$.isEmpty(endOfferDate) && beginDate > endDate){
+            $.messager.alert('警告','报盘日期（开始时间）不能大于报盘日期（截止时间）！','warning');
+            return false;
+        }
+        var beginResDate = new Date(startReceiveDate.replace(/\-/g, "\/"));
+        var endResDate = new Date(endReceiveDate.replace(/\-/g, "\/"));
+        if(!$.isEmpty(startReceiveDate) && !$.isEmpty(endReceiveDate) && beginResDate > endResDate){
+            $.messager.alert('警告','回盘日期（开始时间）不能大于回盘日期（截止时间）！','warning');
+            return false;
+        }
+        // 防止输入空白查询
+        $("#name").val(name);
+        $("#idNum").val(idNum);
+        return true;
+    }
+
+    /** 重置处理 **/
+    $("#clearBtn").click(function() {
+        if (!$(this).linkbutton("options").disabled) {
+            $("#searchForm").form("reset");
+        }
+    });
+    
+    /** 委托代扣回盘导出处理 **/
+    $("#exportBtn").click(function(){
+        if(!searchCheck()){
+            return;
+        }
+        $.messager.confirm("提示","最大可导出50000条记录，请确认要导出Excel文件吗？",function(r){
+            if(r){
+                $.downloadFile({
+                    url:$.offerReturnList.exportUrl,
+                    isDownloadBigFile:true,
+                    params:$.offerReturnList.searchForm.serializeObject(),
+                    successFunc:function(data){
+                        if(data== null){
+                            $.messager.alert('提示','下载成功！','info');
+                        }else{
+                            if(data.resMsg!= null){
+                                $.messager.alert('警告',data.resMsg,'warning');
+                            }else{
+                                $.messager.alert('异常','下载失败！','error');
+                            }
+                        }
+                    },
+                    failFunc:function(data){
+                        $.messager.alert('异常','下载失败！','error');
+                    }
+                });
+            }
+        });
+    });
+    
+    /**===================开户银行=========================**/
+    /** 从服务端获取银行数据,将数据填充到前端下拉框 **/
+    /** 开户银行下拉框参数定义 **/
+	$('#bankCode').combobox({
+		valueField : 'id',
+		textField : 'text',
+		//panelHeight : 'auto',
+		filter : function(q,row) {
+			var opts=$(this).combobox("options");
+			return row[opts.textField].indexOf(q)>-1;
+		},
+		formatter : function(row) {
+			var opts=$(this).combobox("options");
+			return row[opts.textField];
+		}
+	})
+	function initBankInfoData() {
+		$.ajaxPackage({
+			type : 'post', 
+			url : global.contextPath + '/offer/offerBankDic/getBankInfo',
+			isShowLoadMask : false,
+			dataType : "json",
+			success : function (data) { 
+				/** data 服务端返回数据 **/
+				data.unshift({"id":"0","text":"全部"});
+				$('#bankCode').combobox('loadDataExt',data);
+				$('#bankCode').combobox('defaultOneItem');
+			},
+			error : function (XMLHttpRequest, textStatus, errorThrown,d) {
+				$.messager.alert('异常信息',textStatus + '  :  ' + errorThrown + '!','error');
+			},
+			complete : function() {
+				
+			}
+		});
+	}
+	initBankInfoData();
+    /**===================开户银行=========================**/
+    
+});

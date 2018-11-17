@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.repay.vo.VRepaymentDetailMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.repay.vo.VRepaymentDetail">
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="FX" property="fx" jdbcType="DECIMAL" />
+		<result column="JMFX" property="jmfx" jdbcType="DECIMAL" />
+		<result column="FXJ" property="fxj" jdbcType="DECIMAL" />
+		<result column="LX" property="lx" jdbcType="DECIMAL" />
+		<result column="BJ" property="bj" jdbcType="DECIMAL" />
+		<result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+		<result column="SALES_DEPARTMENT_ID" property="salesDepartmentId"
+			jdbcType="DECIMAL" />
+		<result column="LOAN_STATE" property="loanState" jdbcType="VARCHAR" />
+		<result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+		<result column="TRADE_CODE" property="tradeCode" jdbcType="VARCHAR" />
+		<result column="LOANID" property="loanId" jdbcType="DECIMAL" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		V.NAME,
+		V.IDNUM,
+		V.AMOUNT,
+		V.FX,
+		V.JMFX,
+		V.FXJ,
+		V.LX,
+		V.BJ,
+		V.TRADE_DATE,
+		V.SALES_DEPARTMENT_ID,
+		V.LOAN_STATE,
+		V.LOAN_TYPE,
+		V.TRADE_CODE,
+		V.LOANID,
+		L.CONTRACT_NUM
+	</sql>
+
+	<!-- 查询主体 -->
+	<sql id="vRepaymentDetailSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM V_REPAYMENT_DETAIL V,LOAN_BASE L
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="vRepaymentDetailConditions">
+		<trim prefix="where" prefixOverrides="and">
+		       AND V.LOANID = L.ID
+			<if test="name != null and name !=''">
+				AND V.NAME LIKE #{name} || '%'
+			</if>
+			<if test="idnum != null and idnum !=''">
+				AND V.IDNUM LIKE #{idnum} || '%'
+			</if>
+			<if test="salesDepartmentId != null and salesDepartmentId !=''">
+				AND V.SALES_DEPARTMENT_ID= #{salesDepartmentId}
+			</if>
+			<if test="tradeDate != null">
+				AND V.TRADE_DATE = #{tradeDate}
+			</if>
+			<if test="loanState != null and loanState != ''">
+				AND V.LOAN_STATE = #{loanState}
+			</if>
+			<if test="loanType != null and loanType  != ''">
+				AND V.LOAN_TYPE = #{loanType}
+			</if>
+			<if test="tradeCode != null">
+				AND V.TRADE_CODE = #{tradeCode}
+			</if>
+			<if test="loanId != null">
+				AND V.LOAN_ID= #{loanId}
+			</if>
+			<if test="contractNum != null and contractNum !=''">
+				AND L.CONTRACT_NUM= #{contractNum}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 排序条件 -->
+	<sql id="orderConditions">
+		ORDER BY TRADE_DATE DESC
+	</sql>
+
+	<!-- 按查询条件查询表中多条记录的公用SQL -->
+	<sql id="findListByConditions">
+		<include refid="vRepaymentDetailSelective" />
+		<include refid="vRepaymentDetailConditions" />
+		<include refid="orderConditions" />
+	</sql>
+
+	<!-- 查询线上还款明细信息，最大件数不超过max -->
+	<select id="queryRepaymentDetailList" parameterType="com.zdmoney.credit.repay.vo.VRepaymentDetail"
+		resultMap="BaseResultMap">
+		SELECT * FROM (
+		<include refid="findListByConditions" />)
+		WHERE ROWNUM &lt;=#{max}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="findWithPG" parameterType="com.zdmoney.credit.repay.vo.VRepaymentDetail"
+		resultMap="BaseResultMap">
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+		<include refid="findListByConditions" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+		<include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+	</select>
+
+	<!-- 查询总件数 -->
+	<select id="count" parameterType="com.zdmoney.credit.repay.vo.VRepaymentDetail"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM (
+		<include refid="findListByConditions" />
+		)
+	</select>
+</mapper>

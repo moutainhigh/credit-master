@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.loan.domain.LoanBankExtMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.credit.loan.domain.LoanBankExt" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOAN_BANK_ID" property="loanBankId" jdbcType="DECIMAL" />
+    <result column="OFFER_BANK_ID" property="offerBankId" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, 
+    LOAN_BANK_ID, 
+    OFFER_BANK_ID, 
+    MEMO, 
+    CREATE_TIME, 
+    CREATOR, 
+    UPDATE_TIME, 
+    UPDATOR
+  </sql>
+  
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from LOAN_BANK_EXT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from LOAN_BANK_EXT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zdmoney.credit.loan.domain.LoanBankExt" >
+    insert into LOAN_BANK_EXT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loanBankId != null" >
+        LOAN_BANK_ID,
+      </if>
+      <if test="offerBankId != null" >
+        OFFER_BANK_ID,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updator != null" >
+        UPDATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loanBankId != null" >
+        #{loanBankId,jdbcType=DECIMAL},
+      </if>
+      <if test="offerBankId != null" >
+        #{offerBankId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.zdmoney.credit.loan.domain.LoanBankExt" >
+    update LOAN_BANK_EXT
+    <set >
+      <if test="loanBankId != null" >
+        LOAN_BANK_ID = #{loanBankId,jdbcType=DECIMAL},
+      </if>
+      <if test="offerBankId != null" >
+        OFFER_BANK_ID = #{offerBankId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+    <sql id="loanBankExtSelective">
+          select <include refid="Base_Column_List" /> from LOAN_BANK_EXT
+    </sql>
+      
+    <sql id="loanBankExtConditions">
+        <trim prefix="where" prefixOverrides="and">
+          <if test="id != null">
+              AND ID= #{id}
+          </if>
+          <if test="loanBankId != null and loanBankId != ''">
+              AND LOAN_BANK_ID = #{loanBankId}
+          </if>
+          <if test="offerBankId != null and offerBankId != ''">
+              AND OFFER_BANK_ID = #{offerBankId}
+          </if>
+      </trim>
+    </sql>
+      
+    <select id="findListByVO" parameterType="com.zdmoney.credit.loan.domain.LoanBankExt" resultMap="BaseResultMap">
+        <include refid="loanBankExtSelective" />
+        <include refid="loanBankExtConditions" />
+    </select>
+
+    <resultMap id="OffLineLoanInfoMap" type="java.util.Map" >
+        <result column="LOAN_ID" property="loanId" jdbcType="DECIMAL" />
+        <result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+        <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+        <result column="FUNDS_SOURCES" property="fundsSources" jdbcType="VARCHAR" />
+        <result column="LOAN_BANK_ID" property="loanBankId" jdbcType="DECIMAL" />
+        <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+        <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+        <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="IDNUM" property="idNum" jdbcType="VARCHAR" />
+        <result column="OFFER_BANK_ID" property="offerBankId" jdbcType="DECIMAL" />
+        <result column="BANK_TYPE" property="bankType" jdbcType="VARCHAR" />
+        <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+    </resultMap>
+  
+    <sql id="queryOffLineLoanInfo">
+        SELECT T1.ID            AS LOAN_ID,
+               T1.CONTRACT_NUM,
+               T1.LOAN_TYPE,
+               T1.FUNDS_SOURCES,
+               T2.ID            AS LOAN_BANK_ID,
+               T2.ACCOUNT,
+               T2.BANK_NAME,
+               T2.FULL_NAME,
+               T3.NAME,
+               T3.IDNUM,
+               T5.ID            AS OFFER_BANK_ID,
+               T5.BANK_TYPE,
+               T5.BANK_NO
+          FROM V_LOAN_INFO T1
+         INNER JOIN LOAN_BANK T2
+            ON T1.GIVE_BACK_BANK_ID = T2.ID
+         INNER JOIN PERSON_INFO T3
+            ON T1.BORROWER_ID = T3.ID
+          LEFT JOIN LOAN_BANK_EXT T4
+            ON T2.ID = T4.LOAN_BANK_ID
+          LEFT JOIN OFF_LINE_OFFER_BANK_DIC T5
+            ON T4.OFFER_BANK_ID = T5.ID
+         <where>
+             <if test="contractNum != null and contractNum != ''">
+                 AND T1.CONTRACT_NUM = #{contractNum}
+             </if>
+             <if test="fundsSource != null and fundsSource != ''">
+                 AND T1.FUNDS_SOURCES = #{fundsSource}
+             </if>
+             <if test="fundsSourcesList != null">
+                 AND T1.FUNDS_SOURCES IN
+                <foreach item="fundsSource" index="index" collection="fundsSourcesList" open="(" separator="," close=")">
+                    #{fundsSource}
+                </foreach>
+             </if>
+             <if test="loanType != null and loanType != ''">
+                 AND T1.LOAN_TYPE = #{loanType}
+             </if>
+             <if test="account != null and account != ''">
+                 AND T2.ACCOUNT = #{account}
+             </if>
+             <if test="name != null and name != ''">
+                 AND T3.NAME LIKE #{name} || '%'
+             </if>
+             <if test="idNum != null and idNum != ''">
+                 AND T3.IDNUM = #{idNum}
+             </if>
+             <if test="regionType != null and regionType != ''">
+                 AND T5.REGION_TYPE = #{regionType}
+             </if>
+         </where>
+    </sql>
+    
+    <select id="queryOffLineLoanInfoDetail" parameterType="java.util.Map" resultMap="OffLineLoanInfoMap">
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+        <include refid="queryOffLineLoanInfo"/>
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+        <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+    </select>
+
+    <select id="queryOffLineLoanInfoCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+            <include refid="queryOffLineLoanInfo"/>
+        )
+    </select>
+  
+</mapper>

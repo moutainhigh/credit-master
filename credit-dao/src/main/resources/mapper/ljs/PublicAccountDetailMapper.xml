@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zdmoney.credit.ljs.domain.PublicAccountDetailMapper">
+	<resultMap id="BaseResultMap" type="com.zdmoney.credit.ljs.domain.PublicAccountDetail">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ACCOUNT_ID" property="accountId" jdbcType="DECIMAL" />
+		<result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP" />
+		<result column="TRADE_TIME" property="tradeTime" jdbcType="VARCHAR" />
+		<result column="CONTRACT_NUM" property="contractNum" jdbcType="VARCHAR" />
+		<result column="PAY" property="pay" jdbcType="DECIMAL" />
+		<result column="IN_COME" property="inCome" jdbcType="DECIMAL" />		
+		<result column="INITIAL_BALANCE" property="initialBalance" jdbcType="DECIMAL" />
+		<result column="CLOSING_BALANCE" property="closingBalance" jdbcType="DECIMAL" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />	
+		<result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="ERROR_MSG" property="errorMsg" jdbcType="VARCHAR" />
+		<result column="REQ_MONEY" property="reqMoney" jdbcType="DECIMAL" />	
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, ACCOUNT_ID, TRADE_DATE, TRADE_TIME,
+		CONTRACT_NUM,PAY,IN_COME,INITIAL_BALANCE,CLOSING_BALANCE,MEMO,TRADE_TYPE,STATE,BATCH_NO,CREATE_TIME,UPDATE_TIME,ERROR_MSG,REQ_MONEY
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from PUBLIC_ACCOUNT_DETAIL
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="delete" parameterType="java.math.BigDecimal">
+		delete from PUBLIC_ACCOUNT_DETAIL
+		where ID
+		= #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.zdmoney.credit.bsyh.domain.EarlyRepayCalculate">
+		insert into PUBLIC_ACCOUNT_DETAIL (ID, ACCOUNT_ID, TRADE_DATE, TRADE_TIME,
+		CONTRACT_NUM,PAY,IN_COME,INITIAL_BALANCE,CLOSING_BALANCE,MEMO,TRADE_TYPE,STATE,BATCH_NO,CREATE_TIME,UPDATE_TIME,ERROR_MSG,REQ_MONEY)
+		values
+		(#{id,jdbcType=DECIMAL}, #{accountId,jdbcType=DECIMAL},
+		#{tradeDate,jdbcType=TIMESTAMP},
+		#{tradeTime,jdbcType=VARCHAR},
+		#{contractNum,jdbcType=VARCHAR}, #{pay,jdbcType=DECIMAL},
+		#{inCome,jdbcType=DECIMAL},#{initialBalance,jdbcType=DECIMAL},#{closingBalance,jdbcType=DECIMAL},
+		#{memo,jdbcType=VARCHAR},#{tradeType,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{batchNo,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},#{errorMsg,jdbcType=VARCHAR},#{reqMoney,jdbcType=DECIMAL})
+	</insert>	
+
+	<!-- 分页查询（查询对公账户明细信息） -->
+  <select id="findWithPGByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerStart" />
+      <include refid="findAccountDetailListByConditions" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.OrderBy" />
+      <include refid="com.ezendai.credit2.mapper.BaseMapper.pagerEnd" />
+  </select>
+  
+  <!-- 查询总件数（查询对公账户明细信息） -->
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM (<include refid="findAccountDetailListByConditions" />)
+  </select>
+  
+  <!-- 查询对公账户明细信息-->
+  <sql id="findAccountDetailListByConditions">
+    	SELECT 
+    		<include refid="Base_Column_List" />
+    	FROM PUBLIC_ACCOUNT_DETAIL 
+    	 <trim prefix="where" prefixOverrides="and">
+            <if test="accountTradeType != null and accountTradeType !=''">
+                AND TRADE_TYPE= #{accountTradeType,jdbcType=VARCHAR}
+            </if>
+            <if test="startDate != null and startDate !=''">
+                AND TO_CHAR(TRADE_DATE,'yyyy-MM-dd') >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate !=''">
+                AND TO_CHAR(TRADE_DATE,'yyyy-MM-dd') &lt;= #{endDate}
+            </if>
+            <if test="state != null and state !='' ">
+                AND STATE = #{state,jdbcType=VARCHAR}
+            </if>
+        </trim>
+  </sql>
+  <select id="getLastAccountDetail" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List" />
+		  from (select pad.*
+		          from public_virtual_account pva, public_account_detail pad
+		         where pva.account_type = #{accountType,jdbcType=VARCHAR}
+		           and pva.id = pad.account_id
+		         order by pad.create_time desc)
+		 where rownum = 1;
+	</select>
+  
+   <select id="findByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT 
+    		<include refid="Base_Column_List" />
+    	FROM PUBLIC_ACCOUNT_DETAIL 
+    	 <trim prefix="where" prefixOverrides="and">
+            <if test="accountTradeType != null and accountTradeType !=''">
+                AND TRADE_TYPE= #{accountTradeType,jdbcType=VARCHAR}
+            </if>
+            <if test="startDate != null and startDate !=''">
+                AND TO_CHAR(TRADE_DATE,'yyyy-MM-dd') >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate !=''">
+                AND TO_CHAR(TRADE_DATE,'yyyy-MM-dd') &lt;= #{endDate}
+            </if>
+            <if test="state != null and state !='' ">
+                AND STATE = #{state,jdbcType=VARCHAR}
+            </if>
+        </trim>
+	</select>
+	
+ 	<update id="updateAccDetailByBatchNo" parameterType="com.zdmoney.credit.ljs.domain.PublicAccountDetail" >
+	    update PUBLIC_ACCOUNT_DETAIL
+	   	<set >
+	      <if test="accountId != null" >
+	        ACCOUNT_ID = #{accountId,jdbcType=DECIMAL},
+	      </if>
+	      <if test="tradeDate != null" >
+	        TRADE_DATE = #{tradeDate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="tradeTime != null" >
+	        TRADE_TIME = #{tradeTime,jdbcType=VARCHAR},
+	      </if>
+	      <if test="contractNum != null" >
+	        CONTRACT_NUM = #{contractNum,jdbcType=VARCHAR},
+	      </if>
+	      <if test="pay != null" >
+	        PAY = #{pay,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inCome != null" >
+	        IN_COME = #{inCome,jdbcType=DECIMAL},
+	      </if>
+	      <if test="initialBalance != null" >
+	        INITIAL_BALANCE = #{initialBalance,jdbcType=DECIMAL},
+	      </if>
+	      <if test="closingBalance != null" >
+	        CLOSING_BALANCE = #{closingBalance,jdbcType=DECIMAL},
+	      </if>
+	      <if test="memo != null" >
+	        MEMO = #{memo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="tradeType != null" >
+	        TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="state != null" >
+	        STATE = #{state,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createTime != null" >
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="updateTime != null" >
+	        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="errorMsg != null" >
+	        ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+	      </if>
+	      <if test="reqMoney != null" >
+	        REQ_MONEY = #{reqMoney,jdbcType=VARCHAR},
+	      </if>
+    	</set>
+	    	where BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<select id="findByBatchNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT 
+    		<include refid="Base_Column_List" />
+    	FROM PUBLIC_ACCOUNT_DETAIL 
+    	where BATCH_NO = #{batchNo,jdbcType=VARCHAR} 
+	</select>
+</mapper>

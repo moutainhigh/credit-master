@@ -1,0 +1,98 @@
+package com.zdmoney.credit.person.domain;
+
+import com.zdmoney.credit.framework.domain.BaseDomain;
+
+/**
+ * 借款人号码变更记录实体
+ * @author Ivan
+ *
+ */
+public class PersonTelInfo extends BaseDomain {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8874714281865581159L;
+	/** 主键ID **/
+    private Long id;
+    /** 对象名 **/
+    private String className;
+    /** 电话号码 **/
+    private String content;
+    /** 备注 **/
+    private String memo;
+    /** 对象ID **/
+    private Long objectId;
+    /** 优先级 **/
+    private String priority;
+    /** 电话类型 **/
+    private String telType;
+    /** 是否有效 **/
+    private String valid;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public Long getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(Long objectId) {
+		this.objectId = objectId;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
+	public String getTelType() {
+		return telType;
+	}
+
+	public void setTelType(String telType) {
+		this.telType = telType;
+	}
+
+	public String getValid() {
+		return valid;
+	}
+
+	public void setValid(String valid) {
+		this.valid = valid;
+	}
+
+    
+}

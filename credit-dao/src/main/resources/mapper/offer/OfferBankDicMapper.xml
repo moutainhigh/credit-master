@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.credit.offer.domain.OfferBankDicMapper">
+	<resultMap id="offerBankDicInfoResultMap" type="com.zdmoney.credit.offer.domain.OfferBankDic">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="TPP_BANK_CODE" property="tppBankCode" jdbcType="VARCHAR" />
+		<result column="TPP_TYPE" property="tppType" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="PAY_SYS_NO" property="paySysNo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, CODE, NAME, TPP_BANK_CODE, TPP_TYPE, CREATE_TIME,PAY_SYS_NO
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="offerBankDicInfoResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_BANK_DIC
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<select id="findAllList" resultMap="offerBankDicInfoResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_BANK_DIC
+	</select>
+
+	<select id="findByCode" resultMap="offerBankDicInfoResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from OFFER_BANK_DIC
+		where CODE = #{code,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from OFFER_BANK_DIC
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+
+	<sql id="offerBankDicInfoSelective">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM OFFER_BANK_DIC
+	</sql>
+
+	<sql id="offerBankDicInfoConditions">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null">
+				AND OFFER_BANK_DIC.ID= #{id}
+			</if>
+			<if test="name != null">
+				AND OFFER_BANK_DIC.NAME= #{name}
+			</if>
+			<if test="code != null">
+				AND OFFER_BANK_DIC.CODE= #{code}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findListByVO" parameterType="com.zdmoney.credit.offer.domain.OfferBankDic"
+		resultMap="offerBankDicInfoResultMap">
+		<include refid="offerBankDicInfoSelective" />
+		<include refid="offerBankDicInfoConditions" />
+		ORDER BY OFFER_BANK_DIC.ID
+	</select>
+
+	<insert id="insert" parameterType="com.zdmoney.credit.offer.domain.OfferBankDic">
+		insert into OFFER_BANK_DIC (ID, CODE, NAME,
+		TPP_BANK_CODE, TPP_TYPE, CREATE_TIME,PAY_SYS_NO
+		)
+		values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{tppBankCode,jdbcType=VARCHAR}, #{tppType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+		,#{paySysNo,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zdmoney.credit.offer.domain.OfferBankDic">
+		insert into OFFER_BANK_DIC
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="tppBankCode != null">
+				TPP_BANK_CODE,
+			</if>
+			<if test="tppType != null">
+				TPP_TYPE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="paySysNo != null">
+				PAY_SYS_NO,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="tppBankCode != null">
+				#{tppBankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="tppType != null">
+				#{tppType,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="paySysNo != null">
+				#{paySysNo,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.credit.offer.domain.OfferBankDic">
+		update OFFER_BANK_DIC
+		<set>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="tppBankCode != null">
+				TPP_BANK_CODE = #{tppBankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="tppType != null">
+				TPP_TYPE = #{tppType,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			
+			<if test="paySysNo != null">
+				PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zdmoney.credit.offer.domain.OfferBankDic">
+		update OFFER_BANK_DIC
+		set CODE = #{code,jdbcType=VARCHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		TPP_BANK_CODE = #{tppBankCode,jdbcType=VARCHAR},
+		TPP_TYPE = #{tppType,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		PAY_SYS_NO = #{paySysNo,jdbcType=VARCHAR},
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>
